@@ -1,5 +1,6 @@
 import './featuredInfo.css';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const FeaturedInfo=()=>{
 
@@ -28,7 +29,7 @@ const FeaturedInfo=()=>{
         
             <div className="featuredMoneyContainer">
                 <span className="featuredMoney">$3.450</span>
-                <span className="featuredMoneyRate">-14.4 <ArrowDownwardIcon className='featuredIcon positive'/></span>
+                <span className="featuredMoneyRate">-14.4 <ArrowUpwardIcon className='featuredIcon'/></span>
             </div>
             <span className="featuredSub">Compared to last month</span>
             </div>

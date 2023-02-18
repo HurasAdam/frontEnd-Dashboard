@@ -3,4 +3,58 @@
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     padding: 20px;
+
+ 
+}
+
+.widgetSmallTitle{
+    font-size: 24px;
+    font-weight: 600;
+
+
+display: block;
+margin-bottom: 20px;
+
+}
+
+.widgetSmallImg{
+    height: 40px;
+    width:40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.widgetSmallList{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.widgetSmallItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.widgetSmallUser{
+    display: flex;
+    flex-direction: column;
+}
+.userSmallUsername{
+    font-weight: 600;
+}
+.userSmallJobTitle{
+    font-weight: 300;
+}
+.widgetSmallButton{
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    padding: 7px 10px;
+    background: #eeeef7;
+    color:#555;
+    cursor: pointer;
+}
+.widgetSmallIcon{
+    font-size: 16px;
+    margin-right:5px;
 }

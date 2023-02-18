@@ -19,7 +19,7 @@ const Button=({type})=>{
         <th className="widgetLargeTh">Amount</th>
         <th className="widgetLargeTh">Status</th>
     </tr>
-    <tr className="widgetLargeTable">
+    <tr className="widgetLargeTr">
         <td className="widgetLargeUser">
             <img src="public/img/person2.jpg" alt="" className="widgetLargeImg" />
             <span className="widgetLargeName">Susan Carol</span>
@@ -27,12 +27,7 @@ const Button=({type})=>{
         <td className="widgetLargeDate">2 Jan 2023</td>
         <td className="widgetLargeAmount">$150</td>
         <td className="widgetLargeStatus"><Button type='Approved'/></td>
-    </tr> <tr className="widgetLargeTr">
-        <th className="widgetLargeTh">Customer</th>
-        <th className="widgetLargeTh">Date</th>
-        <th className="widgetLargeTh">Amount</th>
-        <th className="widgetLargeTh">Status</th>
-    </tr>
+ </tr>
     <tr className="widgetLargeTable">
         <td className="widgetLargeUser">
             <img src="public/img/person2.jpg" alt="" className="widgetLargeImg" />
@@ -41,11 +36,6 @@ const Button=({type})=>{
         <td className="widgetLargeDate">2 Jan 2023</td>
         <td className="widgetLargeAmount">$150</td>
         <td className="widgetLargeStatus"><Button type='Decline'/></td>
-    </tr> <tr className="widgetLargeTr">
-        <th className="widgetLargeTh">Customer</th>
-        <th className="widgetLargeTh">Date</th>
-        <th className="widgetLargeTh">Amount</th>
-        <th className="widgetLargeTh">Status</th>
     </tr>
     <tr className="widgetLargeTable">
         <td className="widgetLargeUser">
@@ -55,12 +45,7 @@ const Button=({type})=>{
         <td className="widgetLargeDate">2 Jan 2023</td>
         <td className="widgetLargeAmount">$150</td>
         <td className="widgetLargeStatus"><Button type='Pending'/></td>
-    </tr> <tr className="widgetLargeTr">
-        <th className="widgetLargeTh">Customer</th>
-        <th className="widgetLargeTh">Date</th>
-        <th className="widgetLargeTh">Amount</th>
-        <th className="widgetLargeTh">Status</th>
-    </tr>
+    </tr> 
     <tr className="widgetLargeTable">
         <td className="widgetLargeUser">
             <img src="public/img/person2.jpg" alt="" className="widgetLargeImg" />

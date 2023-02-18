@@ -73,4 +73,29 @@ const userData = [
     }
   ];
 
+  
+  export const userRows = [
+    { id: 1, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 2, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 3, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 4, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 5, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 6, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 7, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 8, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 9, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 10, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 11, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 12, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 13, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 14, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 15, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 16, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 17, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 18, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 19, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+    { id: 20, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',transaction:'$160'},
+ 
+  ];
+
   export default userData;

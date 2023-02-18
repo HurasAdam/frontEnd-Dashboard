@@ -4,12 +4,16 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CallIcon from "@mui/icons-material/Call";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PublishIcon from '@mui/icons-material/Publish';
+import { Link } from "react-router-dom";
 export const User = () => {
   return (
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
+        <Link to='/newUser'>
         <button className="userAddButton">Create</button>
+        </Link>
       </div>
       <div className="userContainer">
         <div className="userShow">
@@ -50,7 +54,43 @@ export const User = () => {
             </div>
           </div>
         </div>
-        <div className="userUpdate"></div>
+        <div className="userUpdate">
+            <span className="userUpdateTitle">Edit</span>
+            <form action="" className="userUpdateForm">
+                <div className="userUpdateLeft">
+                    <div className="userUpdateItem">
+                        <label htmlFor="">Username</label>
+                        <input type="text" placeholder='Jan Kowalski' className='userUpdateInput' />
+                    </div>
+                    <div className="userUpdateItem">
+                        <label htmlFor="">Full Name</label>
+                        <input type="text" placeholder='Jan Kowalski' className='userUpdateInput' />
+                    </div>
+                    <div className="userUpdateItem">
+                        <label htmlFor="">Email</label>
+                        <input type="text" placeholder='Kowalski@gmail.com' className='userUpdateInput' />
+                    </div>
+                    <div className="userUpdateItem">
+                        <label htmlFor="">Phone</label>
+                        <input type="text" placeholder='+111 434 432 243' className='userUpdateInput' />
+                    </div>
+                    <div className="userUpdateItem">
+                        <label htmlFor="">Adress</label>
+                        <input type="text" placeholder='London | GB' className='userUpdateInput' />
+                    </div>
+                </div>
+                <div className="userUpdateRight">
+                    <div className="userUpdateUpload">
+                        <img src="../public/img/person3.jpg" alt="" className='userUpdateImg' />
+                        <label htmlFor="file">
+                            <PublishIcon className="userUpdateIcon"/>
+                        </label>
+                        <input type="file" id='file'/>
+                    </div>
+                    <button className="userUpdateButton">Update</button>
+                </div>
+            </form>
+        </div>
       </div>
     </div>
   );

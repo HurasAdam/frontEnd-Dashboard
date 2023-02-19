@@ -6,9 +6,14 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PublishIcon from '@mui/icons-material/Publish';
 import { Link } from "react-router-dom";
-export const User = () => {
+import { useState } from "react";
+export const User = ({userData}) => {
+
+  
+  
   return (
     <div className="user">
+     {console.log(userData)}
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
         <Link to='/newUser'>
@@ -19,12 +24,12 @@ export const User = () => {
         <div className="userShow">
           <div className="userShowTop">
             <img
-              src="../public/img/person3.jpg"
+              src={`../${userData.avatar}`}
               alt=""
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Jan Kowalski</span>
+              <span className="userShowUsername">{userData.userName}</span>
               <span className="userShowJobTitle">Software Engineer</span>
             </div>
           </div>
@@ -38,7 +43,7 @@ export const User = () => {
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <CalendarMonthIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">12.05.1992</span>
+              <span className="userShowInfoTitle">{userData.birthday}</span>
             </div>
             <div className="userShowInfo">
               <CallIcon className="userShowIcon" />
@@ -60,7 +65,7 @@ export const User = () => {
                 <div className="userUpdateLeft">
                     <div className="userUpdateItem">
                         <label htmlFor="">Username</label>
-                        <input type="text" placeholder='Jan Kowalski' className='userUpdateInput' />
+                        <input type="text" placeholder={userData.userName} className='userUpdateInput' />
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Full Name</label>

@@ -8,11 +8,11 @@ import UserList from './pages/userList/UserList'
 import { User } from './pages/user/User'
 import { NewUser } from './pages/newUserPage/NewUser'
 function App() {
-  const [count, setCount] = useState(0)
-
+  
+const [userData ,setUserData]=useState()
   return (
     <Router>
-<Topbar></Topbar>
+<Topbar/>
 <div className="container">
   <Sidebar/>
 <Switch>
@@ -20,10 +20,10 @@ function App() {
  <Home/>
  </Route>
  <Route path='/users'>
-<UserList/>
+<UserList setUserData={setUserData}/>
  </Route>
  <Route path='/user/:userId'>
-<User/>
+<User userData={userData}/>
  </Route>
  <Route path='/newUser'>
 <NewUser/>

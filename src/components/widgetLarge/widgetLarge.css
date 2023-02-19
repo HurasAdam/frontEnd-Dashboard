@@ -36,15 +36,15 @@
   border: none;
   border-radius: 10px;
 }
-.widgetLargeButon.Approved {
+.widgetLargeButon.Low {
   background-color:#e5faf2;
   color:#3bb077;
 }
-.widgetLargeButon.Decline {
+.widgetLargeButon.High {
   background-color:#fff0f1;
   color:#d95087;
 }
-.widgetLargeButon.Pending {
+.widgetLargeButon.Medium {
   background-color:#ebf1fe;
   color:#2a7ade;
 }

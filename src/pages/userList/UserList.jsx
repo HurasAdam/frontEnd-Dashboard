@@ -6,9 +6,15 @@ import { Link } from 'react-router-dom';
 import {useState} from 'react';
 
 
-const UserList=()=>{
+const UserList=({setUserData})=>{
 
     const [data,setData]=useState(userRows);
+    
+const handleEditUser=(id)=>{
+    const targetedUser=data.filter((user)=>user.id===id)
+    const [user]=targetedUser
+    setUserData(user)
+}
 
     const handleDelete =(id)=>{
 setData(data.filter((item)=>item.id!==id))
@@ -16,7 +22,7 @@ setData(data.filter((item)=>item.id!==id))
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'userName', headerName: ' Username', width: 150, renderCell:(params)=>{
+        { field: 'userName', headerName: ' Username', width: 250, renderCell:(params)=>{
             return(
                 <div className='userListUser'>
                     <img className='userListUserImg' src={params.row.avatar} alt="" />
@@ -32,8 +38,8 @@ setData(data.filter((item)=>item.id!==id))
           width: 120,
         },
         {
-            field:'transaction',
-            headerName:'Transaction Vol',
+            field:'role',
+            headerName:'Role',
             width:150,
         },
         {
@@ -43,8 +49,11 @@ setData(data.filter((item)=>item.id!==id))
             renderCell:(params)=>{
                 return(
                     <>
-               <Link to={`/users/${params.row.id}`}>
-                    <button className="userListEdit">Edit</button>
+               <Link to={{
+                pathname:`/user/${params.row.id}`,
+                state: {id: 1, name: 'sabaoon', shirt: 'green'}
+               }}>
+                    <button onClick={()=>handleEditUser(params.row.id)} className="userListEdit">Edit</button>
                     </Link>
                     <DeleteOutlineIcon className="userListDelete " onClick={()=>handleDelete(params.row.id)}/>
                     </>

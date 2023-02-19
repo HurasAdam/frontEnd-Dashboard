@@ -1,37 +1,38 @@
 import './featuredInfo.css';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
+import AutorenewOutlinedIcon from '@mui/icons-material/AutorenewOutlined';
+import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
 
 const FeaturedInfo=()=>{
 
     return(
         <div className="featuredInfo">
             <div className="featuredItem">
-                <span className="featuredTitle">Revanue</span>
+                <span className="featuredTitle">Total reports</span>
         
             <div className="featuredMoneyContainer">
-                <span className="featuredMoney">$3.450</span>
-                <span className="featuredMoneyRate">-14.4 <ArrowDownwardIcon className='featuredIcon negative'/></span>
+                <span className="featuredMoney">230</span>
+                <span className="featuredMoneyRate"><FlagOutlinedIcon className='featuredIcon negative'/></span>
             </div>
-            <span className="featuredSub">Compared to last month</span>
+            <span className="featuredSub">This month</span>
             </div>
             <div className="featuredItem">
-                <span className="featuredTitle">Revanue</span>
+                <span className="featuredTitle">Pending...</span>
         
             <div className="featuredMoneyContainer">
-                <span className="featuredMoney">$3.450</span>
-                <span className="featuredMoneyRate">-14.4 <ArrowDownwardIcon className='featuredIcon negative'/></span>
+                <span className="featuredMoney">150</span>
+                <span className="featuredMoneyRate"><AutorenewOutlinedIcon className='featuredIcon negative'/></span>
             </div>
-            <span className="featuredSub">Compared to last month</span>
+            <span className="featuredSub">This month</span>
             </div>
             <div className="featuredItem">
-                <span className="featuredTitle">Revanue</span>
+                <span className="featuredTitle">Fixed</span>
         
             <div className="featuredMoneyContainer">
-                <span className="featuredMoney">$3.450</span>
-                <span className="featuredMoneyRate">-14.4 <ArrowUpwardIcon className='featuredIcon'/></span>
+                <span className="featuredMoney">80</span>
+                <span className="featuredMoneyRate"><DoneOutlineOutlinedIcon className='featuredIcon'/></span>
             </div>
-            <span className="featuredSub">Compared to last month</span>
+            <span className="featuredSub">This month</span>
             </div>
         </div>
         

@@ -3,3 +3,7 @@
    margin-top: 10px;
  
 }
+.sidebarLink{
+    text-decoration: none;
+    color: inherit;
+}

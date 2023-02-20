@@ -7,11 +7,18 @@ import { BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import UserList from './pages/userList/UserList'
 import { User } from './pages/user/User'
 import { NewUser } from './pages/newUserPage/NewUser'
+import { LoginPage } from './pages/LoginPage/LoginPage'
+import { TicketsList } from './pages/TicketsList/TicketsList'
+import { TicketDetails } from './pages/TicketDetails/TicketDetails'
+import { NewTicket } from './pages/newTicket/NewTicket'
+
 function App() {
   
+  const [EditTicketData,setEditTicketData]=useState()
 const [userData ,setUserData]=useState()
   return (
     <Router>
+    
 <Topbar/>
 <div className="container">
   <Sidebar/>
@@ -27,6 +34,15 @@ const [userData ,setUserData]=useState()
  </Route>
  <Route path='/newUser'>
 <NewUser/>
+ </Route>
+ <Route exact path='/tickets'>
+<TicketsList setEditTicketData={setEditTicketData} />
+ </Route>
+ <Route path='/tickets/:ticketId'>
+{EditTicketData?<TicketDetails EditTicketData={EditTicketData} />:null}
+ </Route>
+ <Route exact path='/Newticket'>
+<NewTicket/>
  </Route>
  </Switch>
 </div>

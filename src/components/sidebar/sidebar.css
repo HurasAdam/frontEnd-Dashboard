@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     border-radius: 15px;
+    
 }
 
 .sidebar-list-item:hover,.sidebar-list-item.active{
@@ -34,4 +35,6 @@
 .sidebarIcon{
     margin-right: 6px;
     font-size: 26px !important;
+
+
 }

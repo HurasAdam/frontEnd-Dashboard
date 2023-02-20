@@ -16,21 +16,22 @@ const Sidebar = () => {
         <div className="sidebar-menu">
           <h3 className="sidebar-title">Dashboard</h3>
           <ul className="sidebar-list">
-            <Link to='/'>
+            <Link to='/'className="sidebarLink" >
             <li className="sidebar-list-item active">
               <AppsIcon className="sidebarIcon"/>
               Home
             </li>
-            </Link>
+            </Link >
             <li className="sidebar-list-item">
               <TimelineIcon className="sidebarIcon" />
               Projects
             </li>
+            <Link to='/tickets' className="sidebarLink">
             <li className="sidebar-list-item">
               <StyleOutlinedIcon className="sidebarIcon"/>
               Tickets
             </li>
-           
+            </Link>
             <li className="sidebar-list-item ">
               <ReceiptLongOutlinedIcon className="sidebarIcon"/>
               My tickets

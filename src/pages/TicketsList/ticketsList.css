@@ -1,0 +1,25 @@
+.ticketsList {
+  flex: 5;
+}
+
+.ticketListHeaderTitle {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.actionWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 10px;
+}
+.actionWrapper button {
+  padding: 7px 10px;
+  border: none;
+  background-color: blueviolet;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.dataGrid {
+}

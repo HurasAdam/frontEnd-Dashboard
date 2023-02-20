@@ -7,9 +7,11 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PublishIcon from '@mui/icons-material/Publish';
 import { Link } from "react-router-dom";
 import { useState } from "react";
+
+
+
 export const User = ({userData}) => {
 
-  
   
   return (
     <div className="user">

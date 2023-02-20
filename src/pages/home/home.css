@@ -1,6 +1,7 @@
 .home{
     flex:5;
     padding: 0px 2px;
+    
 }
 .homeWidgets{
     display: flex;

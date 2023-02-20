@@ -40,6 +40,10 @@ margin-left: 20px;
 .featuredIcon.negative{
 color:red
 }
+
+.featuredIcon.total{
+color: rgb(215, 127, 194);
+}
 .featuredSub{
     font-size: 15px;
     color: grey;

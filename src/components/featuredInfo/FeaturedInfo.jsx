@@ -12,7 +12,7 @@ const FeaturedInfo=()=>{
         
             <div className="featuredMoneyContainer">
                 <span className="featuredMoney">230</span>
-                <span className="featuredMoneyRate"><FlagOutlinedIcon className='featuredIcon negative'/></span>
+                <span className="featuredMoneyRate"><FlagOutlinedIcon className='featuredIcon total'/></span>
             </div>
             <span className="featuredSub">This month</span>
             </div>

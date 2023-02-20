@@ -13,7 +13,7 @@ export const User = ({userData}) => {
   
   return (
     <div className="user">
-     {console.log(userData)}
+ {console.log(userData)}
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
         <Link to='/newUser'>
@@ -47,15 +47,15 @@ export const User = ({userData}) => {
             </div>
             <div className="userShowInfo">
               <CallIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">+11 123 456 489</span>
+              <span className="userShowInfoTitle">{userData.phone}</span>
             </div>
             <div className="userShowInfo">
               <MailOutlineIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">Kowalski@gmail.com</span>
+              <span className="userShowInfoTitle">{userData.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationOnIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">London | GB</span>
+              <span className="userShowInfoTitle">{userData.adress}</span>
             </div>
           </div>
         </div>
@@ -69,24 +69,24 @@ export const User = ({userData}) => {
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Full Name</label>
-                        <input type="text" placeholder='Jan Kowalski' className='userUpdateInput' />
+                        <input type="text" placeholder={userData.userName} className='userUpdateInput' />
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Email</label>
-                        <input type="text" placeholder='Kowalski@gmail.com' className='userUpdateInput' />
+                        <input type="text" placeholder={userData.email} className='userUpdateInput' />
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Phone</label>
-                        <input type="text" placeholder='+111 434 432 243' className='userUpdateInput' />
+                        <input type="text" placeholder={userData.phone} className='userUpdateInput' />
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Adress</label>
-                        <input type="text" placeholder='London | GB' className='userUpdateInput' />
+                        <input type="text" placeholder={userData.adress} className='userUpdateInput' />
                     </div>
                 </div>
                 <div className="userUpdateRight">
                     <div className="userUpdateUpload">
-                        <img src="../public/img/person3.jpg" alt="" className='userUpdateImg' />
+                        <img src={`../${userData.avatar}`} alt="" className='userUpdateImg' />
                         <label htmlFor="file">
                             <PublishIcon className="userUpdateIcon"/>
                         </label>

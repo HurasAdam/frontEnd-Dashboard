@@ -8,6 +8,7 @@ const Note= mongoose.model('Note',{
     priority:String,
     author:String,
     description:String,
+    type:String,
     
 });
 

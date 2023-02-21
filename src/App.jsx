@@ -14,6 +14,10 @@ import { NewTicket } from './pages/newTicket/NewTicket'
 
 function App() {
   
+
+
+
+
   const [EditTicketData,setEditTicketData]=useState()
 const [userData ,setUserData]=useState()
   return (
@@ -36,10 +40,10 @@ const [userData ,setUserData]=useState()
 <NewUser/>
  </Route>
  <Route exact path='/tickets'>
-<TicketsList setEditTicketData={setEditTicketData} />
+<TicketsList setEditTicketData={setEditTicketData}/>
  </Route>
  <Route path='/tickets/:ticketId'>
-{EditTicketData?<TicketDetails EditTicketData={EditTicketData} />:null}
+<TicketDetails EditTicketData={EditTicketData} />
  </Route>
  <Route exact path='/Newticket'>
 <NewTicket/>

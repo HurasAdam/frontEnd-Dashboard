@@ -10,6 +10,7 @@ module.exports={
        const priority=req.body.priority;
        const author=req.body.author;
        const description= req.body.description;
+       const type=req.body.type
         const newNote= new Note({
             title:title,
            status:status,
@@ -17,6 +18,7 @@ module.exports={
            priority:priority,
            author:author,
            description:description,
+           type:type,
     
         })
         console.log(req.body.priority);

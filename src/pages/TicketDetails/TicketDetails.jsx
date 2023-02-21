@@ -10,7 +10,7 @@ export const TicketDetails=({EditTicketData})=>{
           <span className='ticketHeaderIcon'><BugReportOutlinedIcon className='headerIcon'/></span>
 
             <h3 className='ticketHeaderTitle'>Edit Ticket</h3>
-         
+       
           </div>
           <div className="ticketDataContainer">
             <div className="ticketDataContainerLeft">

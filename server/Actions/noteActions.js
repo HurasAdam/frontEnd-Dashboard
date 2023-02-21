@@ -5,7 +5,7 @@ module.exports={
     //Zapisywanie notatki
    async saveNote(req,res){
        const title=req.body.title;
-       const status=req.body.status;
+       const status='Open'
        const date= req.body.date;
        const priority=req.body.priority;
        const author=req.body.author;

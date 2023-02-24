@@ -40,7 +40,7 @@ const [userData ,setUserData]=useState()
 <NewUser/>
  </Route>
  <Route exact path='/tickets'>
-<TicketsList setEditTicketData={setEditTicketData}/>
+<TicketsList/>
  </Route>
  <Route path='/tickets/:ticketId'>
 <TicketDetails EditTicketData={EditTicketData} />

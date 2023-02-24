@@ -7,45 +7,12 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 
 import { userRows, ticketRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-export const TicketsList = ({ setEditTicketData }) => {
-  const [data, setData] = useState(null);
-const [search,setSearch]=useState('')
+import { useFetch } from "../../hooks/useFetch";
 
 
-const handleItemFilter=()=>{
+export const TicketsList = () => {
 
-if(search){
-  setData(search)
-}
-else{
-
-}
-}
-
-  useEffect(() => {
-    getTicket();
-  }, []);
-
-  const getTicket = () => {
-    fetch("http://127.0.0.1:3000/api/notes/")
-      .then((res) => res.json())
-      .then((res) => setData(res));
-  };
-
-
-  const handleEditUser = (id) => {
-    const targetedUser = data.filter((user) => user.id === id);
-    const [user] = targetedUser;
-    setEditTicketData(user);
-    console.log(user);
-  };
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-
+  const [data,isLoading,error]=useFetch()
   const columns = [
     { field: 'id', headerName: 'ID', width: 200,flex:0.9 },
     { field: 'title', headerName: 'Title', width: 200,flex:0.9 },
@@ -75,6 +42,8 @@ else{
           <button onClick={()=>handleEditUser()}>New ticket</button>
         </Link>
       </div>
+      {error&&<div>{error}</div>}
+      {isLoading&& <div>Loading...</div>}
       {data&&<DataGrid autoHeight={false}
       rowHeight={40}
       

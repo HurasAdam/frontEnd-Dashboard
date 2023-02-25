@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-export const useFetch = () => {
+export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getData();
-  }, []);
+    getData(url);
+  }, [url]);
 
-  const getData = () => {
-    fetch("http://127.0.0.1:3000/api/notes")
+  const getData = (url) => {
+    fetch(url)
       .then((res) => {
         if (!res.ok) throw Error("Could not fetch data for that resource");
         return res.json();

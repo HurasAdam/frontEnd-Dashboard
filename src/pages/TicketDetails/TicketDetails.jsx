@@ -2,16 +2,39 @@ import "./ticketDetails.css";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-import { useParams,useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { useFetch } from "../../hooks/useFetch";
+import { useState } from "react";
 export const TicketDetails = () => {
-
   const { ticketId } = useParams();
-const history=useHistory();
+  const [data, isLoading, error] = useFetch(
+    `http://localhost:3000/api/notes/${ticketId}`
+  );
+const [isUpdated,setIsUpdated]=useState(false); 
+
+  const history = useHistory();
   const handleDelete = () => {
     fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "DELETE",
-    }).then(() => history.push('/tickets')
-    );
+    }).then(() => history.push("/tickets"));
+  };
+
+const handleInputChange=(e,prop)=>{
+const target=e.target
+const value=target.value;
+data[prop]=value
+setIsUpdated(true);
+
+}
+ 
+  const handleDataUpdate = () => {
+
+    isUpdated?
+    fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),})
+      .then(()=>history.push('/tickets')) :console.log('Edit data before update')
   };
 
   return (
@@ -32,23 +55,30 @@ const history=useHistory();
             <form action="">
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Title</label>
-                <input type="text" />
+                {data && (
+                  <input
+                    type="text"
+                    required
+                    placeholder={data.title}
+                    onChange={(e) => handleInputChange(e, "title") }
+                  />
+                )}
               </div>
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Status</label>
-                <input type="text" />
+                {data && <input type="text" onChange={(e)=>handleInputChange(e,'status')} placeholder={data.status}  />}
               </div>
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Priority</label>
-                <input type="text" />
+                {data && <input type="text" onChange={(e)=>handleInputChange(e,'priority')} placeholder={data.priority} />}
               </div>
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Date</label>
-                <input type="text" />
+                {data && <input type="text" onChange={(e)=>handleInputChange(e,'date')} placeholder={data.date} />}
               </div>
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Description</label>
-                <textarea></textarea>
+                {data && <textarea onChange={(e)=>handleInputChange(e,'description')} placeholder={data.description}></textarea>}
               </div>
             </form>
           </div>
@@ -80,6 +110,7 @@ const history=useHistory();
           </div>
           <div className="ticketInfoButtonWrapper">
             <button onClick={handleDelete}>Delete</button>
+            <button onClick={handleDataUpdate}>Update</button>
           </div>
         </div>
       </div>

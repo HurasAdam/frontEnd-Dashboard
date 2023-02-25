@@ -46,7 +46,7 @@ const [userData ,setUserData]=useState()
 <TicketDetails />
  </Route>
  <Route exact path='/Newticket'>
-<NewTicket/>
+<NewTicket />
  </Route>
  </Switch>
 </div>

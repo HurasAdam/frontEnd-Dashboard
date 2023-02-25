@@ -2,10 +2,6 @@ import "./ticketsList.css";
 import { DataGrid } from '@mui/x-data-grid';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-
-
-
-import { userRows, ticketRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 
@@ -13,12 +9,9 @@ import { useFetch } from "../../hooks/useFetch";
 export const TicketsList = () => {
 
 
-const handleClick=()=>{
 
 
-}
-
-  const [data,isLoading,error]=useFetch()
+  const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/notes/')
   const columns = [
     { field: 'id', headerName: 'ID', width: 200,flex:0.9 },
     { field: 'title', headerName: 'Title', width: 200,flex:0.9 },
@@ -45,7 +38,7 @@ const handleClick=()=>{
       <div className="actionWrapper">
         <span className="ticketListHeaderTitle">Current Tickets</span>
         <Link to="/Newticket">
-          <button onClick={()=>handleEditUser()}>New ticket</button>
+          <button >New ticket</button>
         </Link>
       </div>
       {error&&<div>{error}</div>}

@@ -53,11 +53,18 @@ res.status(200).json(note);
     async updateNote(req,res){
     const id=req.params.id;
     const title=req.body.title;
+    const status=req.body.status;
+    const priority=req.body.priority;
+    const date=req.body.date;
+    const description=req.body.description;
     const body=req.body.body;
 console.log(req.body);
     const note= await Note.findOne({_id:id});
     note.title=title;
-    note.body=body;
+    note.status=status;
+    note.priority=priority;
+    note.date=date;
+    note.description=description
     await note.save();
 res.status(201).json(note);
     },

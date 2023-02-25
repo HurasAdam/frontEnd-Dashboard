@@ -1,16 +1,17 @@
 import "./newTicket.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 export const NewTicket = () => {
-  const [newTicket, setNewTicket] = useState({
-
-  });
-
-  const handleNewTicket = (e, prop) => {
+  const [newTicket, setNewTicket] = useState({});
+const history= useHistory()
+ 
+const handleNewTicket = (e, prop) => {
     const value = e.target.value;
     newTicket[prop] = value;
     console.log(newTicket);
   };
+  
 
 
 const handleAddTicket=()=>{
@@ -22,6 +23,7 @@ const handleAddTicket=()=>{
         },
         body: JSON.stringify(newTicket),
       })   
+      .then(()=>history.push('/tickets'))
 }
 
 

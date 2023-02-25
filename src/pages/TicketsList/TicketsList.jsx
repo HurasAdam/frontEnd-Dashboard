@@ -12,6 +12,12 @@ import { useFetch } from "../../hooks/useFetch";
 
 export const TicketsList = () => {
 
+
+const handleClick=()=>{
+
+
+}
+
   const [data,isLoading,error]=useFetch()
   const columns = [
     { field: 'id', headerName: 'ID', width: 200,flex:0.9 },
@@ -24,7 +30,7 @@ export const TicketsList = () => {
       return(
 <>
 <Link to={`tickets/${params.row.id}/`}>
-<VisibilityOutlinedIcon className="TicketListActionIcon" onClick={()=>handleEditUser(params.row.id)}/>
+<VisibilityOutlinedIcon className="TicketListActionIcon"/>
 </Link>
 <DeleteOutlineOutlinedIcon className="TicketListActionIcon delete"/>
 </>

@@ -3,6 +3,7 @@ const app = express();
 const {port}=require('./config/config');
 const bodyParser= require('body-parser');
 const cors= require('cors')
+
 //db connection
 require('./db/mongoose');
 
@@ -13,8 +14,9 @@ app.use(bodyParser.json());
 app.use(cors());
 //routes
 const apiRouter= require('./routes/api');
-app.use('/api/',apiRouter);
-
+const userRoutes = require('./routes/user')
+app.use('/api/notes',apiRouter);
+app.use('/api/user', userRoutes)
 
 
 

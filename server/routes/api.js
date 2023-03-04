@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-noteActions= require('../Actions/noteActions')
+noteActions= require('../controllers/noteActions')
 
 
 //patches
 //pobieranie notatek
-router.get('/notes',noteActions.getAllNotes);
+router.get('/',noteActions.getAllNotes);
 //pobieranie notatki
-router.get('/notes/:id',noteActions.getNote);
+router.get('/:id',noteActions.getNote);
 //zapisywanie notatek
-router.post('/notes',noteActions.saveNote);
+router.post('/',noteActions.saveNote);
 //edytowanie notatki
-router.put('/notes/:id',noteActions.updateNote);
+router.put('/:id',noteActions.updateNote);
 //usuwanie notatek
-router.delete('/notes/:id',noteActions.deleteNote);
+router.delete('/:id',noteActions.deleteNote);
 
 module.exports=router;

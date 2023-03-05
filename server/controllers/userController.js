@@ -24,7 +24,7 @@ const loginUser = async (req, res) => {
     }
     catch(Error){
         console.log(Error)
-        res.status(400).json(Error)
+        res.status(400).json(Error.message)
     }
  
 }
@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
 // signup a user
 const signupUser = async (req, res) => {
 const {email,password}=req.body
-
+console.log(email)
 try{
 
 if(!email||!password){

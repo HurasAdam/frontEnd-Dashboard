@@ -23,7 +23,10 @@ const [userData ,setUserData]=useState()
   return (
     <Router>
     
+
+
 <Topbar/>
+
 <div className="container">
   <Sidebar/>
 <Switch>
@@ -48,6 +51,9 @@ const [userData ,setUserData]=useState()
  <Route exact path='/Newticket'>
 <NewTicket />
  </Route>
+<Route path='/'>
+  <LoginPage/>
+</Route>
  </Switch>
 </div>
    </Router>

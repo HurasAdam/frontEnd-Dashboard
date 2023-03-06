@@ -9,10 +9,15 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 const Sidebar = () => {
+
+const {user}=useContext(AuthContext)
+  
   return (
     <div className="sidebar">
-      <div className="sidebar-wrapper">
+     {user? <div className="sidebar-wrapper">
         <div className="sidebar-menu">
           <h3 className="sidebar-title">Dashboard</h3>
           <ul className="sidebar-list">
@@ -60,7 +65,7 @@ const Sidebar = () => {
           </ul>
         </div>
    
-      </div>
+      </div>:null}
     </div>
   );
 };

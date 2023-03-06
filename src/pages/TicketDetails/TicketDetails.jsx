@@ -2,7 +2,7 @@ import "./ticketDetails.css";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useState } from "react";
 export const TicketDetails = () => {
@@ -12,7 +12,6 @@ export const TicketDetails = () => {
   );
 const [isUpdated,setIsUpdated]=useState(false); 
 
-  const history = useHistory();
   const handleDelete = () => {
     fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "DELETE",

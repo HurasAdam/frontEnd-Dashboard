@@ -1,6 +1,6 @@
-.loginPage{
+.signupPage{
   
-    width: 100vw;
+   flex:100%;
 
 display: flex;
 justify-content: center;
@@ -9,7 +9,7 @@ height: calc(100vh - 60px);
   
 }
 
-.loginPage-form{
+.signupPage-form{
    
     display: flex;
     flex-direction: column;
@@ -21,16 +21,16 @@ background-color:rgba(255, 255, 255, 0.274);
    
 
 }
-.loginPage-form label{
+.signupPage-form label{
 font-size: 14px;
 }
-.loginPage-form input{
+.signupPage-form input{
 width: 100%;
 height: 32px;
 margin-bottom: 30px;
 }
 
-.loginPage-form button{
+.signupPage-form button{
 height: 35px;
 width: max-content;
 padding: 0 25px;

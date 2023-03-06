@@ -10,10 +10,18 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext, AuthContextProvider } from "../../contexts/AuthContext";
 const Sidebar = () => {
+  const {user,dispatch}=useContext(AuthContext)
 
-const {user}=useContext(AuthContext)
+const handleClick=()=>{
+
+  localStorage.removeItem('user')
+  dispatch({type:"LOGOUT",payload:null})
+
+}
+
+
   
   return (
     <div className="sidebar">
@@ -58,7 +66,7 @@ const {user}=useContext(AuthContext)
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings
             </li>
-            <li className="sidebar-list-item">
+            <li className="sidebar-list-item" onClick={handleClick}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout
             </li>

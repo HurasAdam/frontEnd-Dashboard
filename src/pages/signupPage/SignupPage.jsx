@@ -1,6 +1,7 @@
 
 import { useContext, useState,use, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import "./signupPage.css";
 
 export const SignupPage=()=>{
 const {dispatch,user}=useContext(AuthContext)

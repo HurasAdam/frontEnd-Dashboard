@@ -49,3 +49,23 @@
 .topAvatar-container{
     cursor: pointer;
 }
+.topbar-login{
+margin-right: 20px;
+display: flex;
+gap:14px
+}
+.topbar-login span{
+cursor: pointer;
+font-size: 16px;
+font-weight: 600;
+display: block;
+
+}
+.topbar-login span:hover{
+color: rgb(143, 38, 242);
+
+}
+.loginLink{
+    
+    text-decoration: none;
+}

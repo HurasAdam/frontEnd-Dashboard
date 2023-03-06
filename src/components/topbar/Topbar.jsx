@@ -5,6 +5,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 const Topbar = () => {
 const {user}=useContext(AuthContext)
 
@@ -29,9 +30,9 @@ const {user}=useContext(AuthContext)
           <div className="topAvatar-container">
             <AccountCircleIcon fontSize="large" />
           </div>
-        </div>:<div>
-          <span>Login</span>
-          <span>Signup</span>
+        </div>:<div className="topbar-login">
+          <Link className="loginLink" to='/login'><span>Login</span></Link>
+          <Link className="loginLink" to='/signup'><span>Signup</span></Link>
           </div>}
       </div>
     </div>

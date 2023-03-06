@@ -1,5 +1,16 @@
 const User = require("../db/models/user")
 const mongoose= require('mongoose')
+const bcrypt = require('bcrypt')
+const jwt = require("jsonwebtoken");
+const validator=require("validator")
+
+const createToken= (id)=>{
+
+const token =  jwt.sign({id},process.env.SECRET,{expiresIn:"1h"});
+return token
+
+}
+
 // login a user
 const loginUser = async (req, res) => {
 
@@ -13,12 +24,13 @@ const loginUser = async (req, res) => {
         if(!user){
             throw Error('Inncorect Email')
         }
-
-        if(password!==user.password){
+const matchPassword= await bcrypt.compare(password,user.password)
+        if(!matchPassword){
             throw Error('Inncorect Password')
         }
         else{
-            res.status(200).json(user)
+            const token=createToken(user._id)
+            res.status(200).json({email,token})
         }
        
     }
@@ -32,12 +44,22 @@ const loginUser = async (req, res) => {
 // signup a user
 const signupUser = async (req, res) => {
 const {email,password}=req.body
-console.log(email)
+
 try{
 
 if(!email||!password){
     throw Error('All fields have to be filled')
 }
+
+if(!validator.isEmail(email)){
+    throw Error('Email is not valid')
+}
+
+if(!validator.isStrongPassword(password)){
+    throw Error('Password not strong enough')
+}
+
+
 
     const exists = await User.findOne({email})
   if(exists){
@@ -46,14 +68,19 @@ if(!email||!password){
 
   if(!exists){
 
-    const user= await User.create({email,password})
-res.status(200).json(user)
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password,salt);
+ 
+    const user= await User.create({email,password:hashPassword})
+    const token = createToken(user._id)
+console.log(token)
+res.status(200).json({email,token})
 }
 
 
 }
 catch(Error){
-    console.log(Error.message)
+    console.log(Error)
     res.status(400).json(Error.message)
 }
 

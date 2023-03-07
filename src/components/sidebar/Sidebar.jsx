@@ -35,10 +35,10 @@ const handleClick=()=>{
               Home
             </li>
             </Link >
-            <li className="sidebar-list-item">
+           <Link className="sidebarLink" to='/projects'> <li className="sidebar-list-item">
               <TimelineIcon className="sidebarIcon" />
               Projects
-            </li>
+            </li></Link>
             <Link to='/tickets' className="sidebarLink">
             <li className="sidebar-list-item">
               <StyleOutlinedIcon className="sidebarIcon"/>

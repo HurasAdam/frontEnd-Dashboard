@@ -36,3 +36,6 @@ transform: scale(1.2);
 .TicketListActionIcon.delete{
 color:rgb(226, 87, 87) !important;
 }
+.dataGrid{
+  max-height: 800px;
+}

@@ -1,0 +1,153 @@
+.projectDetails{
+    flex: 5;
+    padding: 20px;
+}
+.projectHeaderContainer{
+    display: flex;
+   margin-left: 20px;
+   margin-top: 10px;
+   font-size: 22px;
+   font-weight: 600;
+   margin-bottom: 10px;
+}
+.headerIcon{
+    font-size: 32px !important;
+    color: blue !important;
+}
+.projectId{
+    font-size: 14px;
+    font-weight: 400;
+    color:rgb(92, 105, 106)
+}
+.projectDataContainer{
+    display: flex;
+}
+.projectDataContainerLeft{
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    flex:3;
+    padding: 5px 30px;
+}
+
+.projectDataContainerTop{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.projectDataContainerTop button{
+    width: 24px;
+    height: 24px;
+    border: none;
+    font-size: 20px;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.projectDataContainerTop button:hover{
+background-color: rgb(249, 188, 249);
+}
+
+
+
+
+.ticektDataBottom{
+   height: max-content;
+    flex-direction: column;
+  
+}
+.projectDataBottomItem{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+   
+}
+.projectDataBottomItem>input{
+height: 30px;
+border: none;
+border-bottom: 1px solid grey;
+font-size: 15px;
+
+}
+.projectDataBottomItem textarea{
+    resize: none;
+}
+.projectDataBottomItem>label{
+margin-bottom: 5px;
+font-size: 14px;
+color: grey;
+}
+.projectDataContainerRight{
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    flex: 1;
+    margin-left: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+  
+}
+.projectInfoTop{
+   
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 50px;
+}
+.projectInfoTopImg{
+    width: 100px;
+    height: 140px;
+    border-radius: 5px;
+    object-fit: cover;
+ 
+}
+.projectInfoTopAuthor{
+   
+
+}
+.projectInfoItemsContainer{
+    display: flex;
+    flex-direction: column;
+    
+ 
+    align-items: center;
+   justify-content: space-evenly;
+}
+.projectAuthorDataWrapper{
+    display: flex;
+    flex-direction: column;
+}
+.projectInfoAuthorName{
+    font-size: 20px;
+    font-weight: 600;
+}
+.projectInfoAuthorJobTitle{
+    font-weight: 300;
+    text-align: center;
+}
+.projectInfoBottom{
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
+.projectInfoBottomItem{
+    display: flex;
+   
+    width: 100%;
+    margin-bottom: 20px;
+}
+.projectInfoBottomItem>span{
+    margin-left: 40px;
+}
+
+
+
+
+
+
+::placeholder{
+    color:black;
+    font-weight: 400;
+}

@@ -42,7 +42,7 @@ export const TicketsList = () => {
       </div>
       {error&&<div>{error}</div>}
       {isLoading&& <div>Loading...</div>}
-      {data&&<DataGrid autoHeight={false}
+      {data&&<DataGrid className="dataGrid"   autoHeight={true}
       rowHeight={40}
       
         rows={data}

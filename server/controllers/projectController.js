@@ -9,6 +9,7 @@ const createProject = async (req, res) => {
     }
 
     const project = await Project.create({ title, status });
+    console.log(project)
     res.status(201).json(project);
   } catch (Error) {
     console.log(Error.message);
@@ -23,22 +24,18 @@ const getProjectList = async (req, res) => {
   res.status(200).json(projects);
 };
 
-
-
-
 //Get Sinle Project
 
-const getSingleProject=async(req,res)=>{
+const getSingleProject = async (req, res) => {
+  const { id } = req.params;
 
-    const{id}=req.body;
-
-    const project = await Project.findOne({id})
-
-
-}
-
+  const project = await Project.findOne({ _id:id} );
+console.log(project)
+  res.status(200).json(project);
+};
 
 module.exports = {
   createProject,
   getProjectList,
+  getSingleProject,
 };

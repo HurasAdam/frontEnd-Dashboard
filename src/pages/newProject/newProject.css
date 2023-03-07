@@ -1,0 +1,92 @@
+.newProject{
+    flex:5;
+    width: 100%;
+   padding: 20px 30px;
+}
+.newProjectConent{
+
+padding: 5px  20px;
+
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
+}
+.newProjectTop{
+
+    display: flex;
+    justify-content: space-between;
+   
+}
+.newProjectTop span{
+font-size: 24px;
+font-weight: 600;
+}
+.newProjectTop button{
+    width: 24px;
+    height: 24px;
+    border: none;
+    font-size: 20px;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.newProjectTop button:hover{
+background-color: rgb(249, 188, 249);
+}
+
+.newProjectBottom{
+
+    height: 500px;
+
+
+}
+
+.newProjectItem{
+padding: 0px 30px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;   
+}
+.newProjectItemLabel{
+    font-size: 14px;
+    color:grey;
+    margin-bottom: 5px;
+}
+.newProjectItem input{
+height: 35px;
+border: none;
+border-bottom: 1px solid grey;
+
+}
+.newProjectItemDescripion{
+    padding: 20px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+}
+.newProjectItemDescripion textarea{
+ resize: none;
+}
+
+.newProjectAction{
+    display: flex;
+    justify-content: flex-end;
+}
+.newProjectAction button{
+    margin-left: 30px;
+    width: 100px;
+    padding: 4px 10px;
+    border: none;
+    font-weight: 600;
+    color:white;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.newProjectSave{
+    background-color: rgb(72, 140, 96);
+}
+.newProjectCancel{
+background-color: red;
+
+}

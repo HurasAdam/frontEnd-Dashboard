@@ -8,10 +8,10 @@ import { useFetch } from "../../hooks/useFetch";
 export const ProjectsList = () => {
     const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/projects')
   const columns = [
-    { field: "id", headerName: "ID", width: 200, flex: 0.9 },
-    { field: "title", headerName: "Title", width: 200, flex: 0.9 },
-    { field: "status", headerName: "Status", width: 90, flex: 0.9 },
-    { field: "createdAt", headerName: "Date", width: 160, flex: 0.9 },
+    { field: "id", headerName: "ID", width: 200, flex: 0.7 },
+    { field: "title", headerName: "Title", width: 300, flex: 0.9 },
+    { field: "status", headerName: "Status", width: 50, flex: 0.5 },
+    { field: "createdAt", headerName: "Date", width: 140, flex: 0.7 },
     {
       field: "action",
       headerName: "Action",
@@ -19,7 +19,7 @@ export const ProjectsList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/project/${params.row.id}/`}>
+            <Link to={`/projects/${params.row.id}/`}>
               <VisibilityOutlinedIcon className="TicketListActionIcon" />
             </Link>
           </>
@@ -31,8 +31,8 @@ export const ProjectsList = () => {
   return (
     <div className="projectList">
       <div className="actionWrapper">
-        <span className="projectListHeaderTitle">Current Tickets</span>
-        <Link to="/Newticket">
+        <span className="projectListHeaderTitle">Current Projects</span>
+        <Link to="/NewProject">
           <button>New project</button>
         </Link>
       </div>
@@ -40,7 +40,8 @@ export const ProjectsList = () => {
       {isLoading && <div>Loading...</div>}
       {data && (
         <DataGrid
-          autoHeight={false}
+
+          autoHeight={true}
           rowHeight={40}
           rows={data}
           columns={columns}

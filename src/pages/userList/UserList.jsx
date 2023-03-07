@@ -67,6 +67,7 @@ setData(data.filter((item)=>item.id!==id))
           
        
                 <DataGrid  className='dataGrid'
+                autoHeight={true}
         rows={data}
         columns={columns}
         pageSize={10}

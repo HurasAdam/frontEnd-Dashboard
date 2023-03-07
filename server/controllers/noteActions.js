@@ -52,6 +52,7 @@ res.status(200).json(doc);
     async getNote(req,res){
      const id=req.params.id;
      const note=await Note.findOne({_id:id});
+     console.log(note)
 res.status(200).json(note);
     },
 

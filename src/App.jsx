@@ -14,7 +14,9 @@ import { NewTicket } from "./pages/newTicket/NewTicket";
 import { SignupPage } from "./pages/signupPage/SignupPage";
 import { AuthContext } from "./contexts/AuthContext";
 import { ProjectsList } from "./pages/projectList/ProjectList";
-
+import { ProjectDetails } from "./pages/projectDetails/ProjectDetails";
+import { Contributors } from "./components/contributorsLayout/Contributors";
+import { NewProject } from "./pages/newProject/NewProject";
 function App() {
   const {user}=useContext(AuthContext)
   const [EditTicketData, setEditTicketData] = useState();
@@ -32,10 +34,16 @@ function App() {
           <Route path="/newUser" element={<NewUser />}></Route>
           <Route exact path="/tickets" element={<TicketsList />}></Route>
           <Route exact path="/projects" element={<ProjectsList />}></Route>
+          <Route exact path="/NewProject" element={<NewProject/>}></Route>
+          <Route path="/projects/:projectId" element={<ProjectDetails />}>
+
+<Route path="contributors" element={<Contributors/>}></Route>
+          </Route>
           <Route path="/tickets/:ticketId" element={<TicketDetails />}></Route>
           <Route exact path="/Newticket" element={<NewTicket />}></Route>
           <Route path="/login" element={!user?<LoginPage/>:<Navigate to='/'/>}></Route>
           <Route path="/signup" element={!user?<SignupPage/>:<Navigate to='/'/>}></Route>
+          
         </Routes>
       </div>
     </BrowserRouter>

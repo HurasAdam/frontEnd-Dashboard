@@ -1,18 +1,34 @@
-const mongoose= require('mongoose')
+const mongoose = require("mongoose");
 
-const Note= mongoose.model('Note',{
-    id:String,
-    title:String,
-    status:String,
-    date:String,
-    priority:String,
-    author:String,
-    description:String,
-    type:String,
-    
-});
+const Schema = mongoose.Schema;
+const TicketSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    priority: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports= Note;
-
-const name = 'Adam';
-console.log(name)
+module.exports = mongoose.model("Tickets", TicketSchema);

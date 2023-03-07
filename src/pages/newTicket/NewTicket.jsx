@@ -1,11 +1,13 @@
 import "./newTicket.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import {AuthContext} from '../../contexts/AuthContext'
+import { useContext } from "react";
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
-
- 
+const navigate=useNavigate()
+ const {user}=useContext(AuthContext)
 const handleNewTicket = (e, prop) => {
     const value = e.target.value;
     newTicket[prop] = value;
@@ -14,16 +16,19 @@ const handleNewTicket = (e, prop) => {
   
 
 
-const handleAddTicket=()=>{
+const handleAddTicket=async()=>{
 
-    fetch('http://127.0.0.1:3000/api/notes', {
+    const response= await fetch('http://127.0.0.1:3000/api/notes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newTicket),
+        body: JSON.stringify({...newTicket,author:user.email}),
       })   
-      .then(()=>history.push('/tickets'))
+     
+      if(response.ok){
+        navigate('/tickets')
+      }
 }
 
 
@@ -72,7 +77,7 @@ const handleAddTicket=()=>{
         </div>
         <div className="newTicketAction">
           <button className="newTicketSave" onClick={handleAddTicket}>Save</button>
-          <button className="newTicketCancel">Cancel</button>
+          <button className="newTicketCancel" onClick={()=>navigate('/tickets')}>Cancel</button>
         </div>
       </div>
     </div>

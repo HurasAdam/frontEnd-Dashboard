@@ -5,35 +5,45 @@ import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import { useParams} from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export const TicketDetails = () => {
   const { ticketId } = useParams();
+  const [updateError,setUpdateError]=useState(null)
+  const navigate= useNavigate()
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
   );
-const [isUpdated,setIsUpdated]=useState(false); 
 
-  const handleDelete = () => {
-    fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
+
+
+  const handleDelete = async() => {
+    const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "DELETE",
-    }).then(() => history.push("/tickets"));
+    })
+    if(respone.ok){
+     navigate('/tickets')
+    }
   };
 
 const handleInputChange=(e,prop)=>{
 const target=e.target
 const value=target.value;
 data[prop]=value
-setIsUpdated(true);
+
 
 }
  
-  const handleDataUpdate = () => {
+  const handleDataUpdate = async() => {
 
-    isUpdated?
-    fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
+   
+    const response=await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),})
-      .then(()=>history.push('/tickets')) :console.log('Edit data before update')
+if(response.ok){
+navigate('/tickets')
+}
+
   };
 
   return (

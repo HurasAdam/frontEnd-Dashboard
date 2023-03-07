@@ -18,14 +18,13 @@ export const TicketsList = () => {
     { field: 'type', headerName: 'Type', width: 100,flex:0.9 },
     {field: 'status',headerName: 'Status',width: 90,flex:0.9},
     {field: 'priority',headerName: 'Priority',width: 90,flex:0.9},
-    {field:'date',headerName:'Date',width: 160,flex:0.9},
-    {field:'action',headerName:'Action',width:'150', renderCell:(params)=>{
+    {field:'createdAt',headerName:'Date',width: 160,flex:0.9},
+    {field:'action',headerName:'Action',width:'100', renderCell:(params)=>{
       return(
 <>
-<Link to={`tickets/${params.row.id}/`}>
+<Link to={`/tickets/${params.row.id}/`}>
 <VisibilityOutlinedIcon className="TicketListActionIcon"/>
 </Link>
-<DeleteOutlineOutlinedIcon className="TicketListActionIcon delete"/>
 </>
       ) }
     }

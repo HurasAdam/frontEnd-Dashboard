@@ -14,6 +14,7 @@ module.exports={
        const type=req.body.type
 
        const ticketAuthor= await User.findOne({author})
+       const {id}=ticketAuthor
 
        console.log(ticketAuthor.email)
         const newNote= new Note({
@@ -21,7 +22,7 @@ module.exports={
            status:status,
            date:date,
            priority:priority,
-           author:ticketAuthor,
+           author:id,
            description:description,
            type:type,
     

@@ -86,4 +86,18 @@ catch(Error){
 
 }
 
-module.exports = { signupUser, loginUser }
+
+
+
+
+const getUserList=async(req,res)=>{
+
+const userList= await User.find({}).select('email')
+
+console.log(userList)
+res.status(200).json(userList)
+
+}
+
+
+module.exports = { signupUser, loginUser,getUserList }

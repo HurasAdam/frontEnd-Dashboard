@@ -7,10 +7,14 @@ const projectSchema = new Schema({
     required: true,
     unique:true,
   },
-  status: {
+  description: {
     type: String,
     required: true,
   },
+  contributors:{
+    type:Array,
+    required:true
+  }
 
 }, { timestamps: true });
 

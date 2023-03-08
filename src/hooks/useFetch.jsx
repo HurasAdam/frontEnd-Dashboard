@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+const {user}=useContext(AuthContext)
+console.log(user)
   useEffect(() => {
-    getData(url);
-  }, [url]);
+    if(user){
+    getData(url)
+    }
+  }, [url,user]);
 
+  
   const getData = (url) => {
-    fetch(url)
+    fetch(url,{
+      headers:{'Authorization': `Bearer ${user.token}`},
+    })
       .then((res) => {
         if (!res.ok) throw Error("Could not fetch data for that resource");
         return res.json();

@@ -46,7 +46,14 @@ padding: 0px 30px;
     height: 100px;
     display: flex;
     flex-direction: column;   
+    
 }
+
+.multiselect{
+   width: 20px;
+}
+
+
 .newProjectItemLabel{
     font-size: 14px;
     color:grey;
@@ -89,4 +96,8 @@ border-bottom: 1px solid grey;
 .newProjectCancel{
 background-color: red;
 
+}
+
+.multiselect{
+    width: 30%;
 }

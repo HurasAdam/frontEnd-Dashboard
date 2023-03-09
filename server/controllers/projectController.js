@@ -2,14 +2,14 @@ const Project = require("../db/models/project");
 const User = require("../db/models/user");
 //Create Projet
 const createProject = async (req, res) => {
-  const { title, description, contributors } = req.body;
+  const { title, description, contributors,createdBy } = req.body;
   try {
-    if (!title || !description||!contributors) {
+    if (!title || !description||!contributors||!createdBy) {
       throw Error("All fields have to be filled");
     }
 
     
-    const project = await Project.create({ title, description,contributors });
+    const project = await Project.create({ title, description,contributors,createdBy });
     console.log(project)
     res.status(201).json(project);
   } catch (Error) {

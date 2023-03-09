@@ -1,16 +1,17 @@
 import "./newProject.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 import { useFetch } from "../../hooks/useFetch";
-import Multiselect from "multiselect-react-dropdown";
+import Select from "react-select";
 
 export const NewProject = () => {
-  const [data, isLoading, error] = useFetch("http://127.0.0.1:3000/api/user/");
+ 
   const [newProject, setNewProject] = useState({});
-  const [selectValue, setSelectvalue] = useState(null);
+  const [userList, setUserList] = useState([]);
+  const [selecedtUsers,setSelecedtUsers]=useState([])
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
@@ -18,6 +19,22 @@ export const NewProject = () => {
     const value = e.target.value;
     newProject[prop] = value;
     console.log(newProject);
+  };
+
+  useEffect(() => {
+    getUserList();
+  }, []);
+
+  const getUserList = async () => {
+    const response = await fetch("http://127.0.0.1:3000/api/user/");
+
+    const json = await response.json();
+
+   const arr= json.map((user)=>{
+    return {value:user.id,label:user.email}
+   })
+
+   setUserList(arr);
   };
 
   const handleAddProject = async () => {
@@ -28,15 +45,15 @@ export const NewProject = () => {
       },
       body: JSON.stringify({
         ...newProject,
-        author: user.email,
-        contributors: selectValue.map((user) => data.find(user2.id)),
+        createdBy: user.email,
+        contributors:selecedtUsers,
       }),
     });
     if (response.ok) {
       navigate("/projects");
     }
   };
-  console.log(data);
+ 
 
   const handleSelect = (e) => {};
 
@@ -72,14 +89,13 @@ export const NewProject = () => {
             <label className="newProjectItemLabel" htmlFor="">
               Asign Members
             </label>
-
-            {data && (
-              <select name="select" multiple className="multiselect">
-                {data.map((option) => (
-                  <option key={option.id}>{option.email}</option>
-                ))}
-              </select>
-            )}
+            <Select
+             options={userList} 
+             isMulti
+             isSearchable
+             onChange={setSelecedtUsers}
+             
+             ></Select>
           </div>
         </div>
         <div className="newProjectAction">

@@ -14,6 +14,10 @@ const projectSchema = new Schema({
   contributors:{
     type:Array,
     required:true
+  },
+  createdBy:{
+    type:String,
+    required:true
   }
 
 }, { timestamps: true });

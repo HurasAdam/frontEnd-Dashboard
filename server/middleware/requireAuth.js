@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
-const User = require('../models/userModel')
+const User= require("../db/models/user")
 
 const requireAuth = async (req, res, next) => {
   // verify user is authenticated
   const { authorization } = req.headers
-
+console.log('Middleware')
   if (!authorization) {
     return res.status(401).json({error: 'Authorization token required'})
   }

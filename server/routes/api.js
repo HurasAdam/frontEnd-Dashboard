@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-
+const requireAuth= require("../middleware/requireAuth")
 noteActions= require('../controllers/noteActions')
 
 
+router.use(requireAuth)
 //patches
 //pobieranie notatek
 router.get('/',noteActions.getAllNotes);

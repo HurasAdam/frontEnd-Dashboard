@@ -19,10 +19,14 @@ console.log(user)
       headers:{'Authorization': `Bearer ${user.token}`},
     })
       .then((res) => {
-        if (!res.ok) {
+        if (res.status===401) {
           dispatch({type:"LOGOUT",payload:null})
-          throw Error("Could not fetch data for that resource");
           
+          localStorage.removeItem('user')
+          throw Error("Unauthorized, You have to be sign in!"); 
+        }
+        if(res.status===403){
+          throw Error("You dont have permission for that resource");
         }
         return res.json();
       })

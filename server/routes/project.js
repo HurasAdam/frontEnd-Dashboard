@@ -14,7 +14,7 @@ const {
 
 
 router.post("/",requireAuth,createProject);
-router.get("/",requireAuth,authRole, getProjectList);
+router.get("/",requireAuth,authRole('user'), getProjectList);
 router.get("/:id",requireAuth, getSingleProject);
 
 

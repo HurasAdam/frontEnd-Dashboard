@@ -5,7 +5,7 @@ noteActions= require('../controllers/noteActions')
 
 
 router.use(requireAuth)
-router.use(authRole)
+
 // router.use(requireMembership)
 //patches
 //pobieranie notatek

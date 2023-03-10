@@ -29,13 +29,13 @@ function App() {
         <Sidebar />
         <Routes>
           <Route exact path="/" element={user?<Home />:<Navigate to='/login'/>}></Route>
-          <Route path="/users"element={<UserList setUserData={setUserData} />}></Route>
-          <Route path="/user/:userId" element={<User userData={userData} />}></Route>
-          <Route path="/newUser" element={<NewUser />}></Route>
-          <Route exact path="/tickets" element={<TicketsList />}></Route>
-          <Route exact path="/projects" element={<ProjectsList />}></Route>
-          <Route exact path="/NewProject" element={<NewProject/>}></Route>
-          <Route path="/projects/:projectId" element={<ProjectDetails />}>
+          <Route path="/users"element={user?<UserList setUserData={setUserData} />:<Navigate to='/login'/>}></Route>
+          <Route path="/user/:userId" element={user?<User userData={userData} />:<Navigate to='/login'/>}></Route>
+          <Route path="/newUser" element={user?<NewUser />:<Navigate to='/login'/>}></Route>
+          <Route exact path="/tickets" element={user?<TicketsList />:<Navigate to='/login'/>}></Route>
+          <Route exact path="/projects" element={user?<ProjectsList />:<Navigate to='/login'/>}></Route>
+          <Route exact path="/NewProject" element={user?<NewProject/>:<Navigate to='/login'/>}></Route>
+          <Route path="/projects/:projectId" element={user?<ProjectDetails />:<Navigate to='/login'/>}>
 
 <Route path="contributors" element={<Contributors/>}></Route>
           </Route>

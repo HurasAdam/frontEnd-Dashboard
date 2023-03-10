@@ -2,18 +2,18 @@ import "./newProject.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import Select from "react-select";
 
 export const NewProject = () => {
- 
   const [newProject, setNewProject] = useState({});
   const [userList, setUserList] = useState([]);
-  const [selecedtUsers,setSelecedtUsers]=useState([])
+  const [selecedtUsers, setSelecedtUsers] = useState([]);
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
 
   const handleNewProject = (e, prop) => {
     const value = e.target.value;
@@ -30,11 +30,11 @@ export const NewProject = () => {
 
     const json = await response.json();
 
-   const arr= json.map((user)=>{
-    return {value:user.id,label:user.email}
-   })
+    const arr = json.map((user) => {
+      return { value: user.id, label: user.email };
+    });
 
-   setUserList(arr);
+    setUserList(arr);
   };
 
   const handleAddProject = async () => {
@@ -46,14 +46,13 @@ export const NewProject = () => {
       body: JSON.stringify({
         ...newProject,
         createdBy: user.email,
-        contributors:selecedtUsers,
+        contributors: selecedtUsers,
       }),
     });
     if (response.ok) {
       navigate("/projects");
     }
   };
- 
 
   const handleSelect = (e) => {};
 
@@ -90,12 +89,11 @@ export const NewProject = () => {
               Asign Members
             </label>
             <Select
-             options={userList} 
-             isMulti
-             isSearchable
-             onChange={setSelecedtUsers}
-             
-             ></Select>
+              options={userList}
+              isMulti
+              isSearchable
+              onChange={setSelecedtUsers}
+            ></Select>
           </div>
         </div>
         <div className="newProjectAction">

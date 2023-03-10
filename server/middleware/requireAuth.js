@@ -6,6 +6,7 @@ const requireAuth = async (req, res, next) => {
   const { authorization } = req.headers
 console.log('Middleware')
   if (!authorization) {
+    
     return res.status(401).json({error: 'Authorization token required'})
   }
 

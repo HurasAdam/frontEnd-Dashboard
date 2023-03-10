@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const [requireAuth,authRole]=require("../middleware/requireAuth")
+const [requireAuth,authRole,authMembership]=require("../middleware/requireAuth")
 
 
 // controller functions
@@ -13,9 +13,9 @@ const {
 // get projects
 
 
-router.post("/",requireAuth,createProject);
-router.get("/",requireAuth,authRole('user'), getProjectList);
-router.get("/:id",requireAuth, getSingleProject);
+router.post("/",requireAuth,authRole('admin'),createProject);
+router.get("/",requireAuth,authRole('admin'), getProjectList);
+router.get("/:id",requireAuth,authRole('admin'),authMembership ,getSingleProject);
 
 
 module.exports = router;

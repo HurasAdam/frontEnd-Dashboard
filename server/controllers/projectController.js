@@ -10,7 +10,7 @@ const createProject = async (req, res) => {
 
     
     const project = await Project.create({ title, description,contributors,createdBy });
-    console.log(project)
+  
     res.status(201).json(project);
   } catch (Error) {
     console.log(Error.message);

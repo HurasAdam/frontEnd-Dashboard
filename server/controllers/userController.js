@@ -43,11 +43,11 @@ const matchPassword= await bcrypt.compare(password,user.password)
 
 // signup a user
 const signupUser = async (req, res) => {
-const {email,password}=req.body
+const {email,password,role}=req.body
 
 try{
 
-if(!email||!password){
+if(!email||!password||!role){
     throw Error('All fields have to be filled')
 }
 
@@ -71,10 +71,10 @@ if(!validator.isStrongPassword(password)){
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password,salt);
  
-    const user= await User.create({email,password:hashPassword})
+    const user= await User.create({email,password:hashPassword,role})
     const token = createToken(user._id)
 console.log(token)
-res.status(200).json({email,token})
+res.status(200).json({email,token,role})
 }
 
 

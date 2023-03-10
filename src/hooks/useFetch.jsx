@@ -5,7 +5,7 @@ export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-const {user}=useContext(AuthContext)
+const {user,dispatch}=useContext(AuthContext)
 console.log(user)
   useEffect(() => {
     if(user){
@@ -19,7 +19,11 @@ console.log(user)
       headers:{'Authorization': `Bearer ${user.token}`},
     })
       .then((res) => {
-        if (!res.ok) throw Error("Could not fetch data for that resource");
+        if (!res.ok) {
+          dispatch({type:"LOGOUT",payload:null})
+          throw Error("Could not fetch data for that resource");
+          
+        }
         return res.json();
       })
       .then((data) => {setData(data); setIsLoading(false)})

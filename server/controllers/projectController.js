@@ -31,7 +31,7 @@ const getSingleProject = async (req, res) => {
   const { id } = req.params;
 
   const project = await Project.findOne({ _id:id} );
-console.log(project)
+
   res.status(200).json(project);
 };
 

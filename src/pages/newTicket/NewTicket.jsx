@@ -5,10 +5,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {AuthContext} from '../../contexts/AuthContext'
 import { useContext } from "react";
+import {useFetch} from "../../hooks/useFetch"
 
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
 const navigate=useNavigate()
+const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/projects?projects=user')
+console.log(data)
+
  const {user}=useContext(AuthContext)
 
 
@@ -18,6 +22,7 @@ const handleNewTicket = (e, prop) => {
     console.log(newTicket);
   };
   
+
 
   
 

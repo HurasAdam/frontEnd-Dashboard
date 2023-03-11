@@ -5,6 +5,7 @@ const [requireAuth,authRole,authMembership]=require("../middleware/requireAuth")
 
 // controller functions
 const {
+ 
   getSingleProject,
   createProject,
   getProjectList,
@@ -16,6 +17,5 @@ const {
 router.post("/",requireAuth,authRole('admin'),createProject);
 router.get("/",requireAuth,authRole('admin'), getProjectList);
 router.get("/:id",requireAuth,authRole('admin'),authMembership ,getSingleProject);
-
 
 module.exports = router;

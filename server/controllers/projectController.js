@@ -20,10 +20,24 @@ const createProject = async (req, res) => {
 
 //Get All Projects
 const getProjectList = async (req, res) => {
+
+  const {projects:userProjects}=req.query
+  console.log(userProjects)
+
+if(userProjects){
+
+  const projects = await Project.find({}).select("contributors");
+  console.log(projects)
+}
+
+
   const projects = await Project.find({});
 
   res.status(200).json(projects);
 };
+
+
+
 
 //Get Sinle Project
 
@@ -39,4 +53,5 @@ module.exports = {
   createProject,
   getProjectList,
   getSingleProject,
+ 
 };

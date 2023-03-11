@@ -36,7 +36,8 @@ await newNote.save();
 
 //podbieranie noatek
    async getAllNotes(req,res){
-    console.log(req.user)
+
+    console.log(req.query)
     let doc;
     try{   
      doc= await Note.find({});

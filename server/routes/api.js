@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const [requireAuth,authRole]=require('../middleware/requireAuth')
+const [requireAuth]=require('../middleware/requireAuth')
 noteActions= require('../controllers/noteActions')
 
 

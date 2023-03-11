@@ -1,13 +1,17 @@
 import "./newTicket.css";
+import Select from "react-select";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {AuthContext} from '../../contexts/AuthContext'
 import { useContext } from "react";
+
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
 const navigate=useNavigate()
  const {user}=useContext(AuthContext)
+
+
 const handleNewTicket = (e, prop) => {
     const value = e.target.value;
     newTicket[prop] = value;
@@ -15,6 +19,7 @@ const handleNewTicket = (e, prop) => {
   };
   
 
+  
 
 const handleAddTicket=async()=>{
 
@@ -22,6 +27,7 @@ const handleAddTicket=async()=>{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({...newTicket,author:user.email}),
       })   
@@ -42,6 +48,9 @@ const handleAddTicket=async()=>{
           </Link>
         </div>
         <div className="newTicketBottom">
+        <div className="newTicketItem">
+           <Select ></Select>
+          </div>
           <div className="newTicketItem">
             <label className="newTicketItemLabel" htmlFor="">
               Title

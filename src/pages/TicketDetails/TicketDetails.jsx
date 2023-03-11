@@ -4,11 +4,13 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import { useParams} from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 export const TicketDetails = () => {
   const { ticketId } = useParams();
   const [updateError,setUpdateError]=useState(null)
+  const {user}=useContext(AuthContext)
   const navigate= useNavigate()
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
@@ -19,6 +21,10 @@ export const TicketDetails = () => {
   const handleDelete = async() => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`,
+      },
     })
     if(respone.ok){
      navigate('/tickets')
@@ -38,8 +44,11 @@ data[prop]=value
    
     const response=await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),})
+      headers: { "Content-Type": "application/json" ,
+      'Authorization': `Bearer ${user.token}`,
+    },
+      body: JSON.stringify(data)
+    })
 if(response.ok){
 navigate('/tickets')
 }

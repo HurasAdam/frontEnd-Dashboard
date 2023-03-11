@@ -2,29 +2,35 @@ import "./newProject.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
-import { useFetch } from "../../hooks/useFetch";
 import Select from "react-select";
 
 export const NewProject = () => {
   const [newProject, setNewProject] = useState({});
   const [userList, setUserList] = useState([]);
+  
+  //select state
   const [selecedtUsers, setSelecedtUsers] = useState([]);
   const navigate = useNavigate();
   const { user, dispatch } = useContext(AuthContext);
 
+  //handle new project inputs
   const handleNewProject = (e, prop) => {
     const value = e.target.value;
     newProject[prop] = value;
     console.log(newProject);
   };
 
+
+const result = selecedtUsers.map(({value})=>(value))
+console.log(result)
+
   useEffect(() => {
     getUserList();
   }, []);
 
+  //get list of users 
   const getUserList = async () => {
     const response = await fetch("http://127.0.0.1:3000/api/user/");
 
@@ -37,6 +43,7 @@ export const NewProject = () => {
     setUserList(arr);
   };
 
+  //Add new project 
   const handleAddProject = async () => {
     const response = await fetch("http://127.0.0.1:3000/api/projects", {
       method: "POST",
@@ -47,7 +54,7 @@ export const NewProject = () => {
       body: JSON.stringify({
         ...newProject,
         createdBy: user.email,
-        contributors: selecedtUsers,
+        contributors: selecedtUsers.map(({value})=>value),
       }),
     });
     if (response.ok) {
@@ -55,7 +62,7 @@ export const NewProject = () => {
     }
   };
 
-  const handleSelect = (e) => {};
+
 
   return (
     <div className="newProject">

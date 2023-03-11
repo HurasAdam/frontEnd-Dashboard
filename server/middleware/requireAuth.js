@@ -39,12 +39,13 @@ const authMembership = async (req, res, next) => {
   const { id } = req.params;
   const { id: userId } = req.user;
 
+  //find project in DB
   const proj = await Project.findOne({ _id: id });
-  // console.log(proj)
-  console.log(userId);
-  console.log(proj.contributors[0].value);
 
-  if (userId !== proj.contributors[0].value) {
+  //check if user is a member of project
+  const isContributor = proj.contributors.some((item) => item === userId);
+
+  if (!isContributor) {
     res.status(403);
     return res.send("You dont have permissions");
   }

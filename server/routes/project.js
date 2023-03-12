@@ -15,7 +15,7 @@ const {
 
 
 router.post("/",requireAuth,authRole('admin'),createProject);
-router.get("/",requireAuth,authRole('admin'), getProjectList);
-router.get("/:id",requireAuth,authRole('admin'),authMembership ,getSingleProject);
+router.get("/",requireAuth,authRole('user','admin'), getProjectList);
+router.get("/:id",requireAuth,authRole('user','admin'),authMembership ,getSingleProject);
 
 module.exports = router;

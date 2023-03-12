@@ -20,18 +20,22 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
-const authRole = (role) => {
-  const userRole = role;
+const authRole = (...roles) => {
+  const rolesArray = [...roles];
 
   return async (req, res, next) => {
     const { role } = req.role;
 
-    if (role !== userRole) {
+    const isRoleAuth = rolesArray.some((r) => r.includes(role));
+
+    if (!isRoleAuth) {
       res.status(403);
-      return res.send("Not allowed");
+      return res.send("Not Allowed");
     }
 
-    next();
+    if (isRoleAuth) {
+      next();
+    }
   };
 };
 

@@ -20,20 +20,24 @@ const createProject = async (req, res) => {
 
 //Get All Projects
 const getProjectList = async (req, res) => {
-
-  const {projects:userProjects}=req.query
-  console.log(userProjects)
-
-if(userProjects){
-
-  const projects = await Project.find({}).select("contributors");
-  console.log(projects)
-}
-
-
+  const {id}=req.user
   const projects = await Project.find({});
 
+  const {projects:check}=req.query
+  
+
+
+if(check){
+  
+  const result = projects.filter((obj)=>{
+    return obj.contributors.some((object)=>object===id)
+  })
+  res.status(200).json(result)
+}
+if(!check){
   res.status(200).json(projects);
+}
+  
 };
 
 

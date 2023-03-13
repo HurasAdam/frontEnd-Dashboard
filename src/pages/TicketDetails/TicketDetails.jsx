@@ -66,11 +66,11 @@ navigate('/tickets')
       </div>
       <div className="ticketDataContainer">
         <div className="ticketDataContainerLeft">
-          <div className="ticketDataContainerTop">
+          {data&&<div className="ticketDataContainerTop">
             <p>Project name: {data.project.title}</p>
             <p>Project Leader: {data.project.createdBy}</p>
             <p className="ticketId">Ticket ID:{ticketId}</p>
-          </div>
+          </div>}
           <div className="ticektDataBottom">
             <form action="">
               <div className="ticketDataBottomItem">

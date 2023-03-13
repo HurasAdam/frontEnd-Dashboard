@@ -47,7 +47,8 @@ const authMembership = async (req, res, next) => {
   const proj = await Project.findOne({ _id: id });
 
   //check if user is a member of project
-  const isContributor = proj.contributors.some((item) => item === userId);
+  const isContributor = proj.contributors.some((member) => member._id.toString()===userId);
+
 
   if (!isContributor) {
     res.status(403);

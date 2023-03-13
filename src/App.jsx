@@ -37,7 +37,7 @@ function App() {
           <Route exact path="/NewProject" element={user?<NewProject/>:<Navigate to='/login'/>}></Route>
           <Route path="/projects/:projectId" element={user?<ProjectDetails />:<Navigate to='/login'/>}>
 
-<Route path="contributors" element={<Contributors/>}></Route>
+{/* <Route path="contributors" element={<Contributors/>}></Route> */}
           </Route>
           <Route path="/tickets/:ticketId" element={<TicketDetails />}></Route>
           <Route exact path="/Newticket" element={<NewTicket />}></Route>

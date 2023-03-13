@@ -9,6 +9,7 @@ import { useFetch } from "../../hooks/useFetch";
 
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
+  const [choseProject,setChoseProject]=useState()
   const navigate = useNavigate();
   const [data, isLoading, error] = useFetch(
     "http://127.0.0.1:3000/api/projects?projects=user"
@@ -30,7 +31,7 @@ export const NewTicket = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
       },
-      body: JSON.stringify({ ...newTicket, author: user.email }),
+      body: JSON.stringify({ ...newTicket, author: user.email,project:choseProject.value }),
     });
 
     if (response.ok) {
@@ -49,11 +50,15 @@ export const NewTicket = () => {
         </div>
         <div className="newTicketBottom">
           <div className="newTicketItem">
-            {data&&<Select
-              options={data.map((ob) => {
-                return { value: ob.id, label: ob.title };
-              })}
-            ></Select>}
+            <label htmlFor="">Choose project</label>
+            {data && (
+              <Select
+              onChange={setChoseProject}
+                options={data.map((ob) => {
+                  return { value: ob.id, label: ob.title };
+                })}
+              ></Select>
+            )}
           </div>
           <div className="newTicketItem">
             <label className="newTicketItemLabel" htmlFor="">

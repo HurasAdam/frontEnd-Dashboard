@@ -16,7 +16,7 @@ export const TicketDetails = () => {
     `http://localhost:3000/api/notes/${ticketId}`
   );
 
-
+console.log(data)
 
   const handleDelete = async() => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
@@ -67,7 +67,9 @@ navigate('/tickets')
       <div className="ticketDataContainer">
         <div className="ticketDataContainerLeft">
           <div className="ticketDataContainerTop">
-            <h4 className="ticketId">Ticket ID:{ticketId}</h4>
+            <p>Project name: {data.project.title}</p>
+            <p>Project Leader: {data.project.createdBy}</p>
+            <p className="ticketId">Ticket ID:{ticketId}</p>
           </div>
           <div className="ticektDataBottom">
             <form action="">

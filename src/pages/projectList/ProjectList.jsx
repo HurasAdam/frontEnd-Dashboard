@@ -47,7 +47,7 @@ export const ProjectsList = () => {
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
-          checkboxSelection
+          checkboxSelection={false}
           disableSelectionOnClick
         />
       )}

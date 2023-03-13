@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const TicketSchema = new Schema(
   {
+    project: {
+      type: Object,
+      required: true,
+    },
+
     title: {
       type: String,
       required: true,

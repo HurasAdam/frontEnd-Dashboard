@@ -1,23 +1,31 @@
 const Note= require('../db/models/note');
 const User = require("../db/models/user")
+const Project =require('../db/models/project')
 module.exports={
 
     //Zapisywanie notatki
    async saveNote(req,res){
+   
        const title=req.body.title;
-       
+       const project = req.body.project;
        const status='Open'
        const date= req.body.date;
        const priority=req.body.priority;
        const author=req.body.author;
        const description= req.body.description;
        const type=req.body.type
-
        const ticketAuthor= await User.findOne({author})
        const {id}=ticketAuthor
+  
+       const check = await Project.find({_id:project}).select("_id title createdBy")
+      
+      const result = check.reduce ((obj,item)=>({...obj,[item.key]:item.value}))
+      console.log(result)
+
 
        console.log(ticketAuthor.email)
         const newNote= new Note({
+            project:result,
             title:title,
            status:status,
            date:date,
@@ -27,7 +35,7 @@ module.exports={
            type:type,
     
         })
-        console.log(req.body.priority);
+      
        
 await newNote.save();
         res.status(201).json(newNote.body);
@@ -54,7 +62,7 @@ res.status(200).json(doc);
     async getNote(req,res){
      const id=req.params.id;
      const note=await Note.findOne({_id:id});
-     
+
 res.status(200).json(note);
     },
 

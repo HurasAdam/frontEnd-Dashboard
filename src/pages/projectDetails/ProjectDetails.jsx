@@ -4,6 +4,7 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
+import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -19,7 +20,6 @@ export const ProjectDetails = () => {
     `http://localhost:3000/api/projects/${projectId}`
   );
 
-  console.log(data);
   const handleDelete = async () => {
     const respone = await fetch(
       `http://127.0.0.1:3000/api/notes/${projectId}`,
@@ -38,6 +38,7 @@ export const ProjectDetails = () => {
     data[prop] = value;
   };
 
+  console.log(data);
   const handleDataUpdate = async () => {
     const response = await fetch(
       `http://127.0.0.1:3000/api/notes/${projectId}`,
@@ -52,6 +53,13 @@ export const ProjectDetails = () => {
     }
   };
 
+  const columns = [
+    { field: "name", headerName: "Name", width: 200, flex: 0.7 },
+    { field: "surname", headerName: "Surname", width: 200, flex: 0.7 },
+    { field: "email", headerName: "Email", width: 200, flex: 0.7 },
+    { field: "role", headerName: "Role", width: 300, flex: 0.9 },
+  ];
+
   return (
     <div className="projectDetails">
       <div className="projectHeaderContainer">
@@ -64,9 +72,7 @@ export const ProjectDetails = () => {
 
       <div className="projectDataContainer">
         <div className="projectDataContainerLeft">
-          <div className="projectDataContainerTop">
-   
-          </div>
+          <div className="projectDataContainerTop"></div>
           <div className="projecttDataBottom">
             <form action="">
               <div className="projectDataBottomItem">
@@ -128,18 +134,22 @@ export const ProjectDetails = () => {
                   ></textarea>
                 )}
               </div>
-             {data&& <div className="contributorsList" >
-                {data.contributors.map((obj)=>{
-                  return(
-                   <div className="contributorItem" key={obj._id}>
-                    <span>{obj.email}</span>
-                    <span>{obj._id}</span>
-                    <span>{obj.role}</span>
-                    <button>Remove</button>
-                   </div>
-                  )
-                })}
-              </div>}
+
+              <div className="projectDataBottomItem">
+                {data && (
+                  <DataGrid
+                    autoHeight={true}
+                    getRowId={(row) => row._id}
+                    rowHeight={40}
+                    rows={data.contributors}
+                    columns={columns}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
+                    checkboxSelection={false}
+                    disableSelectionOnClick
+                  />
+                )}
+              </div>
             </form>
           </div>
           <div>

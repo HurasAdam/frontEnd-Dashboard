@@ -12,6 +12,7 @@ export const TicketsList = () => {
 
 
   const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/notes/')
+  console.log(data)
   const columns = [
     { field: 'id', headerName: 'ID', width: 200,flex:0.9 },
     { field: 'title', headerName: 'Title', width: 200,flex:0.9 },

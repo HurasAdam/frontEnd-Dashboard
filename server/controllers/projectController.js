@@ -11,10 +11,11 @@ const createProject = async (req, res) => {
 
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
-// console.log(projectContributor)
+console.log(projectContributor)
+
 
 const result = projectContributor.map((user)=>{
-  return{_id:user._id,email:user.email,role:user.role}})
+  return{_id:user._id,name:user.name,surname:user.surname,email:user.email,role:user.role}})
 
 console.log(result)
 

@@ -16,7 +16,7 @@ export const TicketDetails = () => {
     `http://localhost:3000/api/notes/${ticketId}`
   );
 
-console.log(data)
+console.log(error)
 
   const handleDelete = async() => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
@@ -49,6 +49,7 @@ data[prop]=value
     },
       body: JSON.stringify(data)
     })
+
 if(response.ok){
 navigate('/tickets')
 }

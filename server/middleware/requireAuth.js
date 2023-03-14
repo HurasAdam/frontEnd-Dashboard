@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
+const Note = require('../db/models/note')
 const requireAuth = async (req, res, next) => {
   // verify user is authenticated
   const { authorization } = req.headers;
@@ -39,23 +40,43 @@ const authRole = (...roles) => {
   };
 };
 
-const authMembership = async (req, res, next) => {
-  const { id } = req.params;
-  const { id: userId } = req.user;
+const authMembership = async(req,res,next) => {
 
-  //find project in DB
-  const proj = await Project.findOne({ _id: id });
+  //user ID
+  const {id:userId}=req.user
+  //ticket ID
+  const {id} = req.params
+  //find ticket in db and insert project property
+  const ticket = await Note.find({_id:id}).select("project")
 
-  //check if user is a member of project
-  const isContributor = proj.contributors.some((member) => member._id.toString()===userId);
+//check project ID which ticket belongs to 
+const projectId=ticket.map((object)=>{
+  return object.project._id.toString()
+})
+
+//find in DB project which ticket belongs to 
+const project = await Project.find({_id:projectId})
 
 
-  if (!isContributor) {
-    res.status(403);
-    return res.send("You dont have permissions");
-  }
+//check if user is part of project which ticket belongs
+const isAContributor = project.some((p) => {
+  return p.contributors.some((user)=>user._id.toString()===userId)
+});
 
-  next();
+if(!isAContributor){
+  return res.status(403).json({error:'To edit this ticket you have to be part of project'})
+}
+
+if(isAContributor){
+
+  next()
+}
+
+
+
+
+
 };
 
 module.exports = [requireAuth, authRole, authMembership];
+

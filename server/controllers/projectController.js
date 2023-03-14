@@ -1,4 +1,4 @@
-const { find } = require("../db/models/project");
+
 const Project = require("../db/models/project");
 const User = require("../db/models/user");
 //Create Projet
@@ -9,18 +9,16 @@ const createProject = async (req, res) => {
       throw Error("All fields have to be filled");
     }
 
-//Find contributors in DB 
-const projectContributor = await User.find({_id:{$in:contributors}})
+    //Find contributors in DB
+    const projectContributor = await User.find({ _id: { $in: contributors } });
 
-
-
-// const result=  projectContributor.reduce((ob,item)=>({...ob,[item.key]:item.value}))
-// console.log(projectContributor)
+    // const result=  projectContributor.reduce((ob,item)=>({...ob,[item.key]:item.value}))
+    // console.log(projectContributor)
 
     const project = await Project.create({
       title,
       description,
-      contributors:projectContributor,
+      contributors: projectContributor,
       createdBy,
     });
 
@@ -33,21 +31,39 @@ const projectContributor = await User.find({_id:{$in:contributors}})
 
 //Get All Projects
 const getProjectList = async (req, res) => {
-  const { id } = req.user;
+  const { id: userId } = req.user;
+
   const projects = await Project.find({});
 
   const { projects: check } = req.query;
 
-  //conditional return : ProjectList or filtered userProjectList
-  if (check) {
-    const userProjects = projects.filter((obj) => {
-      return obj.contributors.some((object) => object === id);
-    });
-    res.status(200).json(userProjects);
-  }
+  const exist = (list, id) => {
+    const check = list.filter((user) => user._id.toString() === id);
+    console.log(list, id);
+    return check.length > 0;
+  };
+
+  const userProjects = projects.filter((project) => {
+    return exist(project.contributors, userId);
+  });
+
   if (!check) {
     res.status(200).json(projects);
+  } else if (check) {
+    res.status(200).json(userProjects);
   }
+
+  // //conditional return : ProjectList or filtered userProjectList
+  // if (check) {
+  //   const userProjects = projects.filter((obj) => {
+  //     return obj.contributors.some((object) => object === id);
+  //   });
+  //   console.log(userProjects)
+  //   res.status(200).json(userProjects);
+  // }
+  // if (!check) {
+  //   res.status(200).json(projects);
+  // }
 };
 
 //Get Sinle Project

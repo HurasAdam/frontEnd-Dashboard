@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const [requireAuth]=require('../middleware/requireAuth')
+const [requireAuth,authRole,authMembership]=require('../middleware/requireAuth')
 noteActions= require('../controllers/noteActions')
 
 
@@ -15,8 +15,8 @@ router.get('/:id',noteActions.getNote);
 //zapisywanie notatek
 router.post('/',noteActions.saveNote);
 //edytowanie notatki
-router.put('/:id',noteActions.updateNote);
+router.put('/:id',authMembership,noteActions.updateNote);
 //usuwanie notatek
-router.delete('/:id',noteActions.deleteNote);
+router.delete('/:id',authRole("admin"),noteActions.deleteNote);
 
 module.exports=router;

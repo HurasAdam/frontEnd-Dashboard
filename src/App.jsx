@@ -35,12 +35,12 @@ function App() {
           <Route exact path="/tickets" element={user?<TicketsList />:<Navigate to='/login'/>}></Route>
           <Route exact path="/projects" element={user?<ProjectsList />:<Navigate to='/login'/>}></Route>
           <Route exact path="/NewProject" element={user?<NewProject/>:<Navigate to='/login'/>}></Route>
-          <Route path="/projects/:projectId" element={user?<ProjectDetails />:<Navigate to='/login'/>}>
+          <Route path="/projects/:projectId" element={user?<ProjectDetails />:<Navigate to='/login'/>}> </Route>
 
-{/* <Route path="contributors" element={<Contributors/>}></Route> */}
-          </Route>
-          <Route path="/tickets/:ticketId" element={<TicketDetails />}></Route>
-          <Route exact path="/Newticket" element={<NewTicket />}></Route>
+
+  
+          <Route path="/tickets/:ticketId" element={user?<TicketDetails/>:<Navigate to='/login'/>}></Route>
+          <Route exact path="/Newticket" element={user?<NewTicket />:<Navigate to='/login'/>}></Route>
           <Route path="/login" element={!user?<LoginPage/>:<Navigate to='/'/>}></Route>
           <Route path="/signup" element={!user?<SignupPage/>:<Navigate to='/'/>}></Route>
           

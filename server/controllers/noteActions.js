@@ -59,11 +59,11 @@ res.status(200).json(doc);
     },
 
        //podbieranie noatki
-    async getNote(req,res){
-     const id=req.params.id;
-     const note=await Note.findOne({_id:id});
-
-res.status(200).json(note);
+       async getNote(req,res){
+        const id=req.params.id;
+        const note = await Note.findOne({_id:id})
+       
+   res.status(200).json(note);
     },
 
     //aktualizowanie notatki

@@ -9,16 +9,31 @@ import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 export const ProjectDetails = () => {
   const { projectId } = useParams();
   const [viewContributors, setViwewContributors] = useState(false);
   const [updateError, setUpdateError] = useState(null);
+  const {user}=useContext(AuthContext)
   const navigate = useNavigate();
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/projects/${projectId}`
   );
+
+  useEffect(()=>{
+    ll()
+  },[data])
+ const[contributorsList,setContributorsList]=useState()
+
+const ll= (e)=>{
+if(data){
+  setContributorsList(data.contributors)
+}
+}
+
+
 
   const handleDelete = async () => {
     const respone = await fetch(
@@ -38,14 +53,16 @@ export const ProjectDetails = () => {
     data[prop] = value;
   };
 
-  console.log(data);
+ 
   const handleDataUpdate = async () => {
     const response = await fetch(
       `http://127.0.0.1:3000/api/notes/${projectId}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json",
+        'Authorization': `Bearer ${user.token}`, },
+
+        body: JSON.stringify({contributors:contributorsList}),
       }
     );
     if (response.ok) {
@@ -58,6 +75,14 @@ export const ProjectDetails = () => {
     { field: "surname", headerName: "Surname", width: 200, flex: 0.7 },
     { field: "email", headerName: "Email", width: 200, flex: 0.7 },
     { field: "role", headerName: "Role", width: 300, flex: 0.9 },
+    {field:'action',headerName:'Action',width:'100', renderCell:(params)=>{
+      return(
+        <>
+      
+        <button onClick={(e)=>setContributorsList(contributorsList.filter((user)=>user._id!==params.id))}>Remove</button>
+       
+        </>
+    )}}
   ];
 
   return (
@@ -134,14 +159,15 @@ export const ProjectDetails = () => {
                   ></textarea>
                 )}
               </div>
+              
 
               <div className="projectDataBottomItem">
-                {data && (
+                {contributorsList && (
                   <DataGrid
                     autoHeight={true}
                     getRowId={(row) => row._id}
                     rowHeight={40}
-                    rows={data.contributors}
+                    rows={contributorsList}
                     columns={columns}
                     pageSize={10}
                     rowsPerPageOptions={[10]}
@@ -155,8 +181,11 @@ export const ProjectDetails = () => {
           <div>
             <Outlet />
           </div>
+          <button onClick={handleDataUpdate}>Save</button>
         </div>
+      
       </div>
+   
     </div>
   );
 };

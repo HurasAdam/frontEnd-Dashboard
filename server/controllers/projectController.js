@@ -80,8 +80,17 @@ const getSingleProject = async (req, res) => {
   res.status(200).json(project);
 };
 
+
+ const updateProject=async(req,res)=>{
+const {id}=req.params
+
+const project= await Project.findOne({_id:id});
+console.log(project)
+ }
+
 module.exports = {
   createProject,
   getProjectList,
   getSingleProject,
+  updateProject
 };

@@ -5,7 +5,7 @@ const [requireAuth,authRole]=require("../middleware/requireAuth")
 
 // controller functions
 const {
- 
+  updateProject,
   getSingleProject,
   createProject,
   getProjectList,
@@ -13,7 +13,7 @@ const {
 
 // get projects
 
-
+router.put("/",requireAuth,authRole('admin'),updateProject)
 router.post("/",requireAuth,authRole('admin'),createProject);
 router.get("/",requireAuth,authRole('user','admin'), getProjectList);
 router.get("/:id",requireAuth,authRole('user','admin') ,getSingleProject);

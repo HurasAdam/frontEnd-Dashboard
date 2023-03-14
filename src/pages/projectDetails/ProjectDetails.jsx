@@ -128,10 +128,15 @@ export const ProjectDetails = () => {
                   ></textarea>
                 )}
               </div>
-             {data&& <div>
+             {data&& <div className="contributorsList" >
                 {data.contributors.map((obj)=>{
                   return(
-                   <div key={obj._id}>{obj.email}</div>
+                   <div className="contributorItem" key={obj._id}>
+                    <span>{obj.email}</span>
+                    <span>{obj._id}</span>
+                    <span>{obj.role}</span>
+                    <button>Remove</button>
+                   </div>
                   )
                 })}
               </div>}

@@ -142,7 +142,16 @@ color: grey;
     margin-left: 40px;
 }
 
-
+.contributorsList{
+    border: 2px solid rgb(174, 0, 255);
+   padding: 5px;
+}
+.contributorItem{
+    background-color: olive;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-around;
+}
 
 
 

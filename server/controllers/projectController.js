@@ -11,14 +11,17 @@ const createProject = async (req, res) => {
 
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
+// console.log(projectContributor)
 
-    // const result=  projectContributor.reduce((ob,item)=>({...ob,[item.key]:item.value}))
-    // console.log(projectContributor)
+const result = projectContributor.map((user)=>{
+  return{_id:user._id,email:user.email,role:user.role}})
+
+console.log(result)
 
     const project = await Project.create({
       title,
       description,
-      contributors: projectContributor,
+      contributors: result,
       createdBy,
     });
 
@@ -39,7 +42,7 @@ const getProjectList = async (req, res) => {
 
   const exist = (list, id) => {
     const check = list.filter((user) => user._id.toString() === id);
-    console.log(list, id);
+   
     return check.length > 0;
   };
 

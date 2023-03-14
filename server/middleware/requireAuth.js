@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
-const Note = require('../db/models/note')
+const Note = require("../db/models/note");
 const requireAuth = async (req, res, next) => {
   // verify user is authenticated
   const { authorization } = req.headers;
@@ -26,7 +26,7 @@ const authRole = (...roles) => {
 
   return async (req, res, next) => {
     const { role } = req.role;
-
+   
     const isRoleAuth = rolesArray.some((r) => r.includes(role));
 
     if (!isRoleAuth) {
@@ -40,43 +40,44 @@ const authRole = (...roles) => {
   };
 };
 
-const authMembership = async(req,res,next) => {
+const authMembership = async (req, res, next) => {
+  const { role } = req.role;
 
-  //user ID
-  const {id:userId}=req.user
-  //ticket ID
-  const {id} = req.params
-  //find ticket in db and insert project property
-  const ticket = await Note.find({_id:id}).select("project")
+  //check if is admin, if yes skipp authmembership if no run auth membership 
+  if (role === "user") {
+    //user ID
+    const { id: userId } = req.user;
+    //ticket ID
+    const { id } = req.params;
+    //find ticket in db and insert project property
+    const ticket = await Note.find({ _id: id }).select("project");
 
-//check project ID which ticket belongs to 
-const projectId=ticket.map((object)=>{
-  return object.project._id.toString()
-})
+    //check project ID which ticket belongs to
+    const projectId = ticket.map((object) => {
+      return object.project._id.toString();
+    });
 
-//find in DB project which ticket belongs to 
-const project = await Project.find({_id:projectId})
+    //find in DB project which ticket belongs to
+    const project = await Project.find({ _id: projectId });
 
+    //check if user is part of project which ticket belongs
+    const isAContributor = project.some((p) => {
+      return p.contributors.some((user) => user._id.toString() === userId);
+    });
 
-//check if user is part of project which ticket belongs
-const isAContributor = project.some((p) => {
-  return p.contributors.some((user)=>user._id.toString()===userId)
-});
+    if (!isAContributor) {
+      return res
+        .status(403)
+        .json({ error: "To edit this ticket you have to be part of project" });
+    }
 
-if(!isAContributor){
-  return res.status(403).json({error:'To edit this ticket you have to be part of project'})
-}
-
-if(isAContributor){
-
-  next()
-}
-
-
-
-
-
+    if (isAContributor) {
+      next();
+    }
+  } else if (role === "admin") {
+  
+    next();
+  }
 };
 
 module.exports = [requireAuth, authRole, authMembership];
-

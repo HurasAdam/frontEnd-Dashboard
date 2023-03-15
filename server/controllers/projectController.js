@@ -1,4 +1,3 @@
-
 const Project = require("../db/models/project");
 const User = require("../db/models/user");
 //Create Projet
@@ -11,13 +10,19 @@ const createProject = async (req, res) => {
 
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
-console.log(projectContributor)
+    console.log(projectContributor);
 
+    const result = projectContributor.map((user) => {
+      return {
+        _id: user._id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        role: user.role,
+      };
+    });
 
-const result = projectContributor.map((user)=>{
-  return{_id:user._id,name:user.name,surname:user.surname,email:user.email,role:user.role}})
-
-console.log(result)
+    console.log(result);
 
     const project = await Project.create({
       title,
@@ -43,7 +48,7 @@ const getProjectList = async (req, res) => {
 
   const exist = (list, id) => {
     const check = list.filter((user) => user._id.toString() === id);
-   
+
     return check.length > 0;
   };
 
@@ -80,17 +85,23 @@ const getSingleProject = async (req, res) => {
   res.status(200).json(project);
 };
 
+const updateProject = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, createdBy, contributors } = req.body;
+  const project = await Project.findOneAndUpdate({ id },{...req.body})
+ 
+// project.title=title
+// project.description=description
+// project.createdBy=createdBy
+// project.contributors=contributors
 
- const updateProject=async(req,res)=>{
-const {id}=req.params
 
-const project= await Project.findOne({_id:id});
-console.log(project)
- }
+  res.status(200).json(project);
+};
 
 module.exports = {
   createProject,
   getProjectList,
   getSingleProject,
-  updateProject
+  updateProject,
 };

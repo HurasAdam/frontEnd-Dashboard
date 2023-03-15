@@ -14,30 +14,37 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 export const ProjectDetails = () => {
   const { projectId } = useParams();
-  const [viewContributors, setViwewContributors] = useState(false);
+
   const [updateError, setUpdateError] = useState(null);
-  const {user}=useContext(AuthContext)
+  const { user } = useContext(AuthContext);
+  const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
+  const [projectTitle, setProjectTitle] = useState();
+  const [projectLeader, setProjectLeader] = useState();
+  const [projectDescription, setProjectDescription] = useState();
   const [data, isLoading, error] = useFetch(
-    `http://localhost:3000/api/projects/${projectId}`
+    `http://localhost:3000/api/projects/${projectId}/`
   );
 
-  useEffect(()=>{
-    ll()
-  },[data])
- const[contributorsList,setContributorsList]=useState()
+  useEffect(() => {
+    displayContributors();
+  }, [data]);
+  const [contributorsList, setContributorsList] = useState();
 
-const ll= (e)=>{
-if(data){
-  setContributorsList(data.contributors)
-}
-}
+  const displayContributors = () => {
+    if (data) {
+      setContributorsList(data.contributors);
+      setProjectTitle(data.title);
+      setProjectLeader(data.createdBy);
+      setProjectDescription(data.createdAt);
+    }
+  };
 
-
+  console.log(data);
 
   const handleDelete = async () => {
     const respone = await fetch(
-      `http://127.0.0.1:3000/api/notes/${projectId}`,
+      `http://127.0.0.1:3000/api/projects/${projectId}`,
       {
         method: "DELETE",
       }
@@ -53,16 +60,22 @@ if(data){
     data[prop] = value;
   };
 
- 
-  const handleDataUpdate = async () => {
+  const handleDataUpdate = async (e) => {
     const response = await fetch(
-      `http://127.0.0.1:3000/api/notes/${projectId}`,
+      `http://127.0.0.1:3000/api/projects/${projectId}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json",
-        'Authorization': `Bearer ${user.token}`, },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
 
-        body: JSON.stringify({contributors:contributorsList}),
+        body: JSON.stringify({
+          title: projectTitle,
+          createdBy: projectLeader,
+          description: projectDescription,
+          contributors: contributorsList,
+        }),
       }
     );
     if (response.ok) {
@@ -75,14 +88,26 @@ if(data){
     { field: "surname", headerName: "Surname", width: 200, flex: 0.7 },
     { field: "email", headerName: "Email", width: 200, flex: 0.7 },
     { field: "role", headerName: "Role", width: 300, flex: 0.9 },
-    {field:'action',headerName:'Action',width:'100', renderCell:(params)=>{
-      return(
-        <>
-      
-        <button onClick={(e)=>setContributorsList(contributorsList.filter((user)=>user._id!==params.id))}>Remove</button>
-       
-        </>
-    )}}
+    {
+      field: "action",
+      headerName: "Action",
+      width: "100",
+      renderCell: (params) => {
+        return (
+          <>
+            <button
+              onClick={(e) =>
+                setContributorsList(
+                  contributorsList.filter((user) => user._id !== params.id)
+                )
+              }
+            >
+              Remove
+            </button>
+          </>
+        );
+      },
+    },
   ];
 
   return (
@@ -107,20 +132,11 @@ if(data){
                     type="text"
                     required
                     placeholder={data.title}
-                    onChange={(e) => handleInputChange(e, "title")}
+                    onChange={(e) => setProjectTitle(e.target.value)}
                   />
                 )}
               </div>
-              <div className="projectDataBottomItem">
-                <label htmlFor="">Status</label>
-                {data && (
-                  <input
-                    type="text"
-                    onChange={(e) => handleInputChange(e, "status")}
-                    placeholder={data.status}
-                  />
-                )}
-              </div>
+
               <div className="projectDataBottomItem">
                 <label htmlFor="">Created At :</label>
                 {data && (
@@ -136,7 +152,7 @@ if(data){
                 {data && (
                   <input
                     type="text"
-                    onChange={(e) => handleInputChange(e, "status")}
+                    onChange={(e) => setProjectLeader(e.target.value)}
                     placeholder={data.createdBy}
                   />
                 )}
@@ -155,11 +171,11 @@ if(data){
                 <label htmlFor="">Project Description</label>
                 {data && (
                   <textarea
-                    onChange={(e) => handleInputChange(e, "description")}
+                    placeholder={data.description}
+                    onChange={(e) => setProjectDescription(e.target.value)}
                   ></textarea>
                 )}
               </div>
-              
 
               <div className="projectDataBottomItem">
                 {contributorsList && (
@@ -176,16 +192,21 @@ if(data){
                   />
                 )}
               </div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleDataUpdate();
+                }}
+              >
+                Save
+              </button>
             </form>
           </div>
           <div>
             <Outlet />
           </div>
-          <button onClick={handleDataUpdate}>Save</button>
         </div>
-      
       </div>
-   
     </div>
   );
 };

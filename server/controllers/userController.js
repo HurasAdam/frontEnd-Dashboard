@@ -1,4 +1,5 @@
 const User = require("../db/models/user")
+const Project = require("../db/models/project")
 const mongoose= require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken");
@@ -101,6 +102,9 @@ catch(Error){
 
 const getUserList=async(req,res)=>{
 
+
+
+
 const userList= await User.find({}).select('email')
 
 
@@ -109,4 +113,29 @@ res.status(200).json(userList)
 }
 
 
-module.exports = { signupUser, loginUser,getUserList }
+const getAvalibleUserList=async(req,res)=>{
+    const {project} = req.query
+
+   
+//get currentProject
+const asignedToProject= await Project.find({_id:project})
+
+//get ID of users asigned to the project
+const xd =asignedToProject.map((o)=>o.contributors.map((u)=>u._id)).flat()
+
+//each ID asign to var
+const [user1,user2,user3,user4]=xd
+
+//get full list of Users
+const avalibleUserList= await User.find({})
+
+//filter user list and return only users whos are not assigned to current project
+const filteredAvalibleUserList= avalibleUserList.filter((user)=>user._id.toString()!==user1.toString())
+
+console.log(filteredAvalibleUserList)
+    res.status(200).json(avalibleUserList)
+}
+
+
+
+module.exports = { signupUser, loginUser,getUserList,getAvalibleUserList }

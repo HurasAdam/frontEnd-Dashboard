@@ -1,7 +1,7 @@
 const express = require('express')
 
 // controller functions
-const { loginUser, signupUser,getUserList } = require('../controllers/userController')
+const { loginUser, signupUser,getUserList,getAvalibleUserList } = require('../controllers/userController')
 
 const router = express.Router()
 
@@ -14,3 +14,6 @@ router.post('/signup', signupUser)
 module.exports = router
 
 router.get('/',getUserList)
+
+//filter list 
+router.get('/avalibleContributors',getAvalibleUserList)

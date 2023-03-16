@@ -1,5 +1,6 @@
 import "./projectDetails.css";
 import { NavLink } from "react-router-dom";
+import Select from "react-select";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
@@ -17,8 +18,10 @@ export const ProjectDetails = () => {
 
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
-  const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
+  const [contributorsList, setContributorsList] = useState();
+  const [userList, setUserList] = useState([]);
+  const [isDisabled,setIsDisabled]=useState(true)
   const [projectTitle, setProjectTitle] = useState();
   const [projectLeader, setProjectLeader] = useState();
   const [projectDescription, setProjectDescription] = useState();
@@ -27,20 +30,44 @@ export const ProjectDetails = () => {
   );
 
   useEffect(() => {
+    getUserList();
+  }, []);
+  //get list of users 
+  const getUserList = async () => {
+    const response = await fetch(`http://127.0.0.1:3000/api/user/avalibleContributors?project=${projectId}`);
+
+    const json = await response.json();
+
+    const arr = json.map((user) => {
+      return { value: user.id, label: user.email };
+    });
+
+    setUserList(arr);
+  };
+
+ 
+  
+  console.log(userList)
+
+  useEffect(() => {
     displayContributors();
   }, [data]);
-  const [contributorsList, setContributorsList] = useState();
+ 
 
   const displayContributors = () => {
     if (data) {
       setContributorsList(data.contributors);
       setProjectTitle(data.title);
       setProjectLeader(data.createdBy);
-      setProjectDescription(data.createdAt);
+      setProjectDescription(data.description);
     }
   };
 
-  console.log(data);
+ 
+
+
+
+
 
   const handleDelete = async () => {
     const respone = await fetch(
@@ -131,8 +158,9 @@ export const ProjectDetails = () => {
                   <input
                     type="text"
                     required
-                    placeholder={data.title}
+                    value={projectTitle}
                     onChange={(e) => setProjectTitle(e.target.value)}
+                    disabled={isDisabled}
                   />
                 )}
               </div>
@@ -143,7 +171,8 @@ export const ProjectDetails = () => {
                   <input
                     type="text"
                     onChange={(e) => handleInputChange(e, "priority")}
-                    placeholder={data.createdAt}
+                    value={data.createdAt}
+                    disabled={isDisabled}
                   />
                 )}
               </div>
@@ -153,25 +182,18 @@ export const ProjectDetails = () => {
                   <input
                     type="text"
                     onChange={(e) => setProjectLeader(e.target.value)}
-                    placeholder={data.createdBy}
+                    value={projectLeader}
+                    disabled={isDisabled}
                   />
                 )}
               </div>
-              <div className="projectDataBottomItem">
-                <label htmlFor=""></label>
-                {data && (
-                  <input
-                    type="text"
-                    onChange={(e) => handleInputChange(e, "date")}
-                    placeholder={data.updatedAt}
-                  />
-                )}
-              </div>
+          
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project Description</label>
                 {data && (
                   <textarea
-                    placeholder={data.description}
+                  value={projectDescription}
+                  disabled={isDisabled}
                     onChange={(e) => setProjectDescription(e.target.value)}
                   ></textarea>
                 )}
@@ -192,6 +214,17 @@ export const ProjectDetails = () => {
                   />
                 )}
               </div>
+              <Select
+              
+              options={userList}
+              isMulti
+              isSearchable
+              onChange={setContributorsList}
+              
+              
+              />
+           
+            
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -200,6 +233,7 @@ export const ProjectDetails = () => {
               >
                 Save
               </button>
+              <button onClick={(e)=>{e.preventDefault();setIsDisabled(false)}}>Edit</button>
             </form>
           </div>
           <div>

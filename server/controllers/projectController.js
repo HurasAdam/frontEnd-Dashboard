@@ -88,8 +88,9 @@ const getSingleProject = async (req, res) => {
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, createdBy, contributors } = req.body;
-  const project = await Project.findOneAndUpdate({ id },{...req.body})
+  const project = await Project.findOneAndUpdate({_id:id },{title:title,description:description,createdBy:createdBy,contributors:contributors})
  
+  console.log(id)
 // project.title=title
 // project.description=description
 // project.createdBy=createdBy

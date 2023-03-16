@@ -217,7 +217,7 @@ export const ProjectDetails = () => {
               <Select
               
               options={userList}
-              isMulti
+              
               isSearchable
               onChange={setContributorsList}
               

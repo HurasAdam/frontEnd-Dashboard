@@ -130,10 +130,10 @@ const [user1,user2,user3,user4]=xd
 const avalibleUserList= await User.find({})
 
 //filter user list and return only users whos are not assigned to current project
-const filteredAvalibleUserList= avalibleUserList.filter((user)=>user._id.toString()!==user1.toString())
+const filteredAvalibleUserList=  avalibleUserList.filter ((user)=>user._id.toString()!==user1&&user._id.toString()!==user2&&user._id.toString()!==user3&&user._id.toString()!==user4)
+console.log(user1)
 
-console.log(filteredAvalibleUserList)
-    res.status(200).json(avalibleUserList)
+    res.status(200).json(filteredAvalibleUserList)
 }
 
 

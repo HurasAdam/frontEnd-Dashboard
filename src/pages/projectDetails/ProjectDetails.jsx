@@ -19,7 +19,7 @@ export const ProjectDetails = () => {
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [contributorsList, setContributorsList] = useState();
+  const [contributorsList, setContributorsList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [isDisabled,setIsDisabled]=useState(true)
   const [projectTitle, setProjectTitle] = useState();
@@ -31,18 +31,18 @@ export const ProjectDetails = () => {
 
   useEffect(() => {
     getUserList();
-  }, []);
+  }, [userList]);
   //get list of users 
   const getUserList = async () => {
     const response = await fetch(`http://127.0.0.1:3000/api/user/avalibleContributors?project=${projectId}`);
 
     const json = await response.json();
 
-    const arr = json.map((user) => {
+    const usersArray = json.map((user) => {
       return { value: user.id, label: user.email };
     });
 
-    setUserList(arr);
+    setUserList(usersArray);
   };
 
  
@@ -202,6 +202,7 @@ export const ProjectDetails = () => {
               <div className="projectDataBottomItem">
                 {contributorsList && (
                   <DataGrid
+                  className="dataGrid"
                     autoHeight={true}
                     getRowId={(row) => row._id}
                     rowHeight={40}
@@ -214,7 +215,10 @@ export const ProjectDetails = () => {
                   />
                 )}
               </div>
+              <div className="projectDataBottomItem">
+              <label>Add member</label>
               <Select
+              className="selectList"
               
               options={userList}
               
@@ -223,8 +227,8 @@ export const ProjectDetails = () => {
               
               
               />
-           
-            
+           </div>
+           <div className="projectDataBottomItem-Btns">
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -234,6 +238,7 @@ export const ProjectDetails = () => {
                 Save
               </button>
               <button onClick={(e)=>{e.preventDefault();setIsDisabled(false)}}>Edit</button>
+              </div>
             </form>
           </div>
           <div>

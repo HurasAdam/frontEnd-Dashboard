@@ -142,6 +142,20 @@ color: grey;
     margin-left: 40px;
 }
 
+.projectDataBottomItem-Btns{
+margin-top: 20px;
+display: flex;
+gap:5px;
+}
+.projectDataBottomItem-Btns button{
+    padding: 4px;
+    width: 40px;
+    border: none;
+    color: white;
+    font-weight: 400;
+    background:rgb(144, 72, 144);
+    cursor: pointer;
+}
 .contributorsList{
     border: 2px solid rgb(174, 0, 255);
    padding: 5px;
@@ -152,7 +166,6 @@ color: grey;
     display: flex;
     justify-content: space-around;
 }
-
 
 
 

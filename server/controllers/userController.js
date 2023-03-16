@@ -121,10 +121,10 @@ const getAvalibleUserList=async(req,res)=>{
 const asignedToProject= await Project.find({_id:project})
 
 //get ID of users asigned to the project
-const xd =asignedToProject.map((o)=>o.contributors.map((u)=>u._id)).flat()
+const list =asignedToProject.map((o)=>o.contributors.map((u)=>u._id)).flat()
 
 //each ID asign to var
-const [user1,user2,user3,user4]=xd
+const [user1,user2,user3,user4]=list
 
 //get full list of Users
 const avalibleUserList= await User.find({})

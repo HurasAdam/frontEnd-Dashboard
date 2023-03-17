@@ -21,7 +21,7 @@ export const ProjectDetails = () => {
   const navigate = useNavigate();
   const [contributorsList, setContributorsList] = useState([]);
   const [userList, setUserList] = useState([]);
-  const [isDisabled,setIsDisabled]=useState(true)
+  const [isDisabled, setIsDisabled] = useState(true);
   const [projectTitle, setProjectTitle] = useState();
   const [projectLeader, setProjectLeader] = useState();
   const [projectDescription, setProjectDescription] = useState();
@@ -29,32 +29,34 @@ export const ProjectDetails = () => {
     `http://localhost:3000/api/projects/${projectId}/`
   );
 
+
+  const handleChange=(selectedOption)=>{
+setContributorsList([...contributorsList,selectedOption])
+
+
+  }
   useEffect(() => {
     getUserList();
-  }, [userList]);
-  //get list of users 
+  }, []);
+  //get list of users
   const getUserList = async () => {
-    const response = await fetch(`http://127.0.0.1:3000/api/user/avalibleContributors?project=${projectId}`);
+    const response = await fetch(
+      `http://127.0.0.1:3000/api/user/avalibleContributors?project=${projectId}`
+    );
 
     const json = await response.json();
+console.log(json)
 
-    const usersArray = json.map((user) => {
-      return { value: user.id, label: user.email };
-    });
-
-    setUserList(usersArray);
+    setUserList(json);
   };
 
- 
   
-  console.log(userList)
 
   useEffect(() => {
-    displayContributors();
+    displayProjectDetails();
   }, [data]);
- 
 
-  const displayContributors = () => {
+  const displayProjectDetails = () => {
     if (data) {
       setContributorsList(data.contributors);
       setProjectTitle(data.title);
@@ -62,12 +64,6 @@ export const ProjectDetails = () => {
       setProjectDescription(data.description);
     }
   };
-
- 
-
-
-
-
 
   const handleDelete = async () => {
     const respone = await fetch(
@@ -158,7 +154,7 @@ export const ProjectDetails = () => {
                   <input
                     type="text"
                     required
-                    value={projectTitle}
+                    defaultValue={projectTitle}
                     onChange={(e) => setProjectTitle(e.target.value)}
                     disabled={isDisabled}
                   />
@@ -171,7 +167,7 @@ export const ProjectDetails = () => {
                   <input
                     type="text"
                     onChange={(e) => handleInputChange(e, "priority")}
-                    value={data.createdAt}
+                    defaultValue={data.createdAt}
                     disabled={isDisabled}
                   />
                 )}
@@ -182,18 +178,18 @@ export const ProjectDetails = () => {
                   <input
                     type="text"
                     onChange={(e) => setProjectLeader(e.target.value)}
-                    value={projectLeader}
+                    defaultValue={projectLeader}
                     disabled={isDisabled}
                   />
                 )}
               </div>
-          
+
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project Description</label>
                 {data && (
                   <textarea
-                  value={projectDescription}
-                  disabled={isDisabled}
+                    defaultValue={projectDescription}
+                    disabled={isDisabled}
                     onChange={(e) => setProjectDescription(e.target.value)}
                   ></textarea>
                 )}
@@ -202,7 +198,7 @@ export const ProjectDetails = () => {
               <div className="projectDataBottomItem">
                 {contributorsList && (
                   <DataGrid
-                  className="dataGrid"
+                    className="dataGrid"
                     autoHeight={true}
                     getRowId={(row) => row._id}
                     rowHeight={40}
@@ -216,28 +212,34 @@ export const ProjectDetails = () => {
                 )}
               </div>
               <div className="projectDataBottomItem">
-              <label>Add member</label>
-              <Select
-              className="selectList"
-              
-              options={userList}
-              
-              isSearchable
-              onChange={setContributorsList}
-              
-              
-              />
-           </div>
-           <div className="projectDataBottomItem-Btns">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleDataUpdate();
-                }}
-              >
-                Save
-              </button>
-              <button onClick={(e)=>{e.preventDefault();setIsDisabled(false)}}>Edit</button>
+                <label>Add member</label>
+                <Select
+                
+                  className="selectList"
+                  options={userList}
+                  isSearchable
+                  getOptionLabel={option=>`${option.name} ${option.surname}`}
+                  getOptionValue={option=>option._id}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="projectDataBottomItem-Btns">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleDataUpdate();
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsDisabled(false);
+                  }}
+                >
+                  Edit
+                </button>
               </div>
             </form>
           </div>

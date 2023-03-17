@@ -22,7 +22,7 @@ const createProject = async (req, res) => {
       };
     });
 
-    console.log(result);
+  
 
     const project = await Project.create({
       title,
@@ -88,14 +88,20 @@ const getSingleProject = async (req, res) => {
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, createdBy, contributors } = req.body;
-  const project = await Project.findOneAndUpdate({_id:id },{title:title,description:description,createdBy:createdBy,contributors:contributors})
- 
-  console.log(id)
-// project.title=title
-// project.description=description
-// project.createdBy=createdBy
-// project.contributors=contributors
+  const project = await Project.findOneAndUpdate(
+    { _id: id },
+    {
+      title: title,
+      description: description,
+      createdBy: createdBy,
+      contributors: contributors,
+    }
+  );
 
+  // project.title=title
+  // project.description=description
+  // project.createdBy=createdBy
+  // project.contributors=contributors
 
   res.status(200).json(project);
 };

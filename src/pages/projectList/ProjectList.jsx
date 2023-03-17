@@ -9,7 +9,7 @@ import { useFetch } from "../../hooks/useFetch";
 export const ProjectsList = () => {
     const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/projects')
 
-    console.log(data)
+   
   const columns = [
     { field: "id", headerName: "ID", width: 200, flex: 0.7 },
     { field: "title", headerName: "Title", width: 300, flex: 0.9 },

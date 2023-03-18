@@ -62,10 +62,12 @@ const handleClick=()=>{
               Users
             </li>
             </Link >
+            <Link to='/settings'>
             <li className="sidebar-list-item">
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings
             </li>
+            </Link>
             <li className="sidebar-list-item" onClick={handleClick}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout

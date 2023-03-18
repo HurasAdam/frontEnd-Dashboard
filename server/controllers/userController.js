@@ -46,8 +46,6 @@ const signupUser = async (req, res) => {
     role = role;
   }
 
-
-
   try {
     if (!email || !password || !name || !surname) {
       throw Error("All fields have to be filled");
@@ -78,7 +76,7 @@ const signupUser = async (req, res) => {
         role,
       });
       const token = createToken(user._id);
-     
+
       res.status(200).json({ name, surname, email, token, role });
     }
   } catch (Error) {
@@ -88,9 +86,19 @@ const signupUser = async (req, res) => {
 };
 
 const getUserList = async (req, res) => {
-  const userList = await User.find({}).select("email");
+  const userList = await User.find({});
 
-  res.status(200).json(userList);
+  const result = userList.map((user) => {
+    return {
+      _id: user._id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      role: user.role,
+    };
+  });
+
+  res.status(200).json(result);
 };
 
 const getAvalibleUserList = async (req, res) => {

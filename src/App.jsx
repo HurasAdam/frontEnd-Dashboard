@@ -17,6 +17,7 @@ import { ProjectsList } from "./pages/projectList/ProjectList";
 import { ProjectDetails } from "./pages/projectDetails/ProjectDetails";
 import { Contributors } from "./components/contributorsLayout/Contributors";
 import { NewProject } from "./pages/newProject/NewProject";
+import { SettingsPage } from "./pages/settingsPage/SettingsPage";
 function App() {
   const {user}=useContext(AuthContext)
   const [EditTicketData, setEditTicketData] = useState();
@@ -36,7 +37,7 @@ function App() {
           <Route exact path="/projects" element={user?<ProjectsList />:<Navigate to='/login'/>}></Route>
           <Route exact path="/NewProject" element={user?<NewProject/>:<Navigate to='/login'/>}></Route>
           <Route path="/projects/:projectId" element={user?<ProjectDetails />:<Navigate to='/login'/>}> </Route>
-
+          <Route  path="/settings" element={<SettingsPage/>}> </Route>
 
   
           <Route path="/tickets/:ticketId" element={user?<TicketDetails/>:<Navigate to='/login'/>}></Route>

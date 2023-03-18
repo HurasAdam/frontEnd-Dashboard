@@ -1,0 +1,8 @@
+.settingsPage{
+    flex:5;
+    display: flex;
+    flex-direction: column;
+}
+.selectRole{
+    width: 18%;
+}

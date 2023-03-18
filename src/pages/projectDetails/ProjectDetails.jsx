@@ -118,6 +118,7 @@ console.log(json)
         return (
           <>
             <button
+            disabled={isDisabled}
               onClick={(e) =>
                 setContributorsList(
                   contributorsList.filter((user) => user._id !== params.id)
@@ -213,7 +214,7 @@ console.log(json)
               <div className="projectDataBottomItem">
                 <label>Add member</label>
                 <Select
-                
+                isDisabled={isDisabled}
                   className="selectList"
                   options={userList}
                   isSearchable
@@ -227,6 +228,7 @@ console.log(json)
                   onClick={(e) => {
                     e.preventDefault();
                     handleDataUpdate();
+                    setIsDisabled(!isDisabled)
                   }}
                 >
                   Save

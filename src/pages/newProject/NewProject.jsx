@@ -37,7 +37,7 @@ console.log(result)
     const json = await response.json();
 
     const arr = json.map((user) => {
-      return { value: user.id, label: user.email };
+      return { value: user._id, label: user.email };
     });
 
     setUserList(arr);

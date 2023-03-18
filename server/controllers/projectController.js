@@ -1,5 +1,6 @@
 const Project = require("../db/models/project");
 const User = require("../db/models/user");
+const {ObjectId } = require('mongodb');
 //Create Projet
 const createProject = async (req, res) => {
   const { title, description, contributors, createdBy } = req.body;
@@ -38,7 +39,8 @@ const createProject = async (req, res) => {
 //Get All Projects
 const getProjectList = async (req, res) => {
   const { id: userId } = req.user;
-
+  const { role } = req.role;
+  console.log(role);
   const projects = await Project.find({});
   const { projects: check } = req.query;
 
@@ -53,10 +55,14 @@ const getProjectList = async (req, res) => {
 
   if (!check) {
     res.status(200).json(projects);
-  } else if (check) {
-    res.status(200).json(result);
   }
 
+  if (check)
+    if (role === "admin") {
+      res.status(200).json(projects);
+    } else {
+      res.status(200).json(result);
+    }
 };
 
 //Get Sinle Project
@@ -72,20 +78,31 @@ const getSingleProject = async (req, res) => {
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, createdBy, contributors } = req.body;
-  const project = await Project.findOneAndUpdate(
-    { _id: id },
+
+  const projectContributor = await User.find({ _id: { $in: contributors } });
+
+
+  const result = projectContributor.map((user) => {
+    return {
+      _id: user._id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      role: user.role,
+    };
+  });
+
+
+
+
+  const project = await Project.findOneAndUpdate({ _id: id },
     {
       title: title,
       description: description,
       createdBy: createdBy,
-      contributors: contributors,
+      contributors: result,
     }
   );
-
-  // project.title=title
-  // project.description=description
-  // project.createdBy=createdBy
-  // project.contributors=contributors
 
   res.status(200).json(project);
 };

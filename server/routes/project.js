@@ -17,5 +17,5 @@ const {
 router.post("/",requireAuth,authRole('admin'),createProject);
 router.get("/",requireAuth,authRole('user','admin'), getProjectList);
 router.get("/:id",requireAuth,authRole('user','admin') ,getSingleProject);
-router.put("/:id",updateProject)
+router.put("/:id",requireAuth,authRole('admin'),updateProject)
 module.exports = router;

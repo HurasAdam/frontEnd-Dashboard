@@ -10,7 +10,6 @@ const createProject = async (req, res) => {
 
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
-    console.log(projectContributor);
 
     const result = projectContributor.map((user) => {
       return {
@@ -21,8 +20,6 @@ const createProject = async (req, res) => {
         role: user.role,
       };
     });
-
-  
 
     const project = await Project.create({
       title,
@@ -43,36 +40,23 @@ const getProjectList = async (req, res) => {
   const { id: userId } = req.user;
 
   const projects = await Project.find({});
-
   const { projects: check } = req.query;
 
-  const exist = (list, id) => {
+  const isMember = (list, id) => {
     const check = list.filter((user) => user._id.toString() === id);
-
     return check.length > 0;
   };
 
-  const userProjects = projects.filter((project) => {
-    return exist(project.contributors, userId);
+  const result = projects.filter((proj) => {
+    return isMember(proj.contributors, userId);
   });
 
   if (!check) {
     res.status(200).json(projects);
   } else if (check) {
-    res.status(200).json(userProjects);
+    res.status(200).json(result);
   }
 
-  // //conditional return : ProjectList or filtered userProjectList
-  // if (check) {
-  //   const userProjects = projects.filter((obj) => {
-  //     return obj.contributors.some((object) => object === id);
-  //   });
-  //   console.log(userProjects)
-  //   res.status(200).json(userProjects);
-  // }
-  // if (!check) {
-  //   res.status(200).json(projects);
-  // }
 };
 
 //Get Sinle Project

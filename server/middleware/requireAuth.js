@@ -60,7 +60,7 @@ const authMembership = async (req, res, next) => {
     //find in DB project which ticket belongs to
     const project = await Project.find({ _id: projectId });
 
-    //check if user is part of project which ticket belongs
+    //check if user is part of project which ticket belongs to
     const isAContributor = project.some((p) => {
       return p.contributors.some((user) => user._id.toString() === userId);
     });

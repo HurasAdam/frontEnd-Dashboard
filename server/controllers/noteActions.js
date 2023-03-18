@@ -20,10 +20,10 @@ module.exports={
        const check = await Project.find({_id:project}).select("_id title createdBy")
       
       const result = check.reduce ((obj,item)=>({...obj,[item.key]:item.value}))
-      console.log(result)
+      
 
 
-       console.log(ticketAuthor.email)
+       
         const newNote= new Note({
             project:result,
             title:title,
@@ -45,7 +45,7 @@ await newNote.save();
 //podbieranie noatek
    async getAllNotes(req,res){
 
-    console.log(req.query)
+   
     let doc;
     try{   
      doc= await Note.find({});

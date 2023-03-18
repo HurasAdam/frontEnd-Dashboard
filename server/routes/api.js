@@ -9,14 +9,14 @@ router.use(requireAuth)
 // router.use(requireMembership)
 //patches
 //pobieranie notatek
-router.get('/',noteActions.getAllNotes);
+router.get('/',requireAuth,noteActions.getAllNotes);
 //pobieranie notatki
-router.get('/:id',noteActions.getNote);
+router.get('/:id',requireAuth,noteActions.getNote);
 //zapisywanie notatek
-router.post('/',noteActions.saveNote);
+router.post('/',requireAuth,noteActions.saveNote);
 //edytowanie notatki
-router.put('/:id',authRole("admin","user"),authMembership,noteActions.updateNote);
+router.put('/:id',requireAuth,authRole("admin","user"),authMembership,noteActions.updateNote);
 //usuwanie notatek
-router.delete('/:id',authRole("admin"),noteActions.deleteNote);
+router.delete('/:id',requireAuth,authRole("admin"),noteActions.deleteNote);
 
 module.exports=router;

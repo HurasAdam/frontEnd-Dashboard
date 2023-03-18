@@ -32,8 +32,7 @@ export const ProjectDetails = () => {
 
   const handleChange=(selectedOption)=>{
 setContributorsList([...contributorsList,selectedOption])
-
-
+setUserList(userList.filter((user)=>user!==selectedOption))
   }
   useEffect(() => {
     getUserList();

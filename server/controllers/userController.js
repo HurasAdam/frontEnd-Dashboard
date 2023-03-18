@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 
 const createToken = (id) => {
-  const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "1h" });
+  const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
   return token;
 };
 
@@ -45,7 +45,8 @@ const signupUser = async (req, res) => {
   if (role) {
     role = role;
   }
-  console.log(role);
+
+
 
   try {
     if (!email || !password || !name || !surname) {
@@ -77,7 +78,7 @@ const signupUser = async (req, res) => {
         role,
       });
       const token = createToken(user._id);
-      console.log(token);
+     
       res.status(200).json({ name, surname, email, token, role });
     }
   } catch (Error) {

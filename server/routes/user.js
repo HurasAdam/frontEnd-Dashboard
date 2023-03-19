@@ -1,7 +1,7 @@
 const express = require('express')
 
 // controller functions
-const { loginUser, signupUser,getUserList,getAvalibleUserList } = require('../controllers/userController')
+const { loginUser, signupUser,getUserList,getAvalibleUserList,updateUserData } = require('../controllers/userController')
 
 const router = express.Router()
 
@@ -17,3 +17,6 @@ router.get('/',getUserList)
 
 //filter list 
 router.get('/avalibleContributors',getAvalibleUserList)
+
+
+router.put('/',updateUserData)

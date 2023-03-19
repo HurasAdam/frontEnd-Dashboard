@@ -132,4 +132,16 @@ const getAvalibleUserList = async (req, res) => {
   res.status(200).json(result);
 };
 
-module.exports = { signupUser, loginUser, getUserList, getAvalibleUserList };
+
+
+const updateUserData=async(req,res)=>{
+
+  const {id,role}=req.body
+  console.log(role,id)
+
+const findUser= await User.findOneAndUpdate( { _id:id} , { $set: { role : role  }})
+console.log(findUser)
+res.status(200).json('xd')
+}
+
+module.exports = { signupUser, loginUser, getUserList, getAvalibleUserList,updateUserData };

@@ -1,18 +1,43 @@
 import { DataGrid } from "@mui/x-data-grid"
 import { useFetch } from "../../hooks/useFetch";
+import { useContext, useState } from "react";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import { Link } from "react-router-dom";
 import "../settingsPage/settingsPage.css"
+import { AuthContext } from "../../contexts/AuthContext";
 
 
 export const SettingsPage=()=>{
 
 const [data,error,isLoading]=useFetch('http://127.0.0.1:3000/api/user')
+const [isDisabled,setIsDisabled]=useState(true)
+const [userRole,setUserRole]=useState('')
+const [selectedUser,setSelectedUser]=useState()
 
-console.log(data)
+const{user}=useContext(AuthContext)
 const roles=['user','admin']
+
+const handleRoleUpdate = async (e) => {
+    const response = await fetch(
+      `http://127.0.0.1:3000/api/user/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+
+        body: JSON.stringify({
+          id: selectedUser,
+          role: userRole,
+         
+        }),
+      }
+    );
+ 
+  };
+
     const columns = [
-       
         { field: "name", headerName: "Name", width: 150, flex: 0.4 },
         { field: "surname", headerName: "Surname", width: 50, flex: 0.5 },
         { field: "email", headerName: "Email", width: 80, flex: 0.4 },
@@ -24,14 +49,15 @@ const roles=['user','admin']
           renderCell: (params) => {
             return (
               <>
-              <select className="selectRole" name="" id="">
+              <select  className="selectRole" name="" id="" onChange={(e)=>{setUserRole(e.target.value);setSelectedUser(params.row._id)}}>
              {roles.map((user)=>{
                 return(
-                    <option value="">{user}</option>
+                    <option  value={user}>{user}</option>
                 )
              })}
               </select>
-              
+              <button onClick={handleRoleUpdate} >Edit</button>
+             
               </>
             );
           },

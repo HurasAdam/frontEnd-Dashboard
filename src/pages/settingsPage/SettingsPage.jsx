@@ -11,11 +11,11 @@ export const SettingsPage=()=>{
 
 const [data,error,isLoading]=useFetch('http://127.0.0.1:3000/api/user')
 const [isDisabled,setIsDisabled]=useState(true)
-const [userRole,setUserRole]=useState('')
+const [userRole,setUserRole]=useState()
 const [selectedUser,setSelectedUser]=useState()
 
 const{user}=useContext(AuthContext)
-const roles=['user','admin']
+
 
 const handleRoleUpdate = async (e) => {
     const response = await fetch(
@@ -49,12 +49,12 @@ const handleRoleUpdate = async (e) => {
           renderCell: (params) => {
             return (
               <>
-              <select  className="selectRole" name="" id="" onChange={(e)=>{setUserRole(e.target.value);setSelectedUser(params.row._id)}}>
-             {roles.map((user)=>{
-                return(
-                    <option  value={user}>{user}</option>
-                )
-             })}
+              <select  defaultValue={params.row.role} className="selectRole" name="" id="" onChange={(e)=>{setUserRole(e.target.value);setSelectedUser(params.row._id);console.log(params)}}>
+        
+  
+                    <option key='user' value='user'>user</option>
+                    <option key='admin' value='admin'>admin</option>
+
               </select>
               <button onClick={handleRoleUpdate} >Edit</button>
              

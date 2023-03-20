@@ -64,11 +64,16 @@ console.log(json)
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault()
     const respone = await fetch(
       `http://127.0.0.1:3000/api/projects/${projectId}`,
       {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        }
       }
     );
     if (respone.ok) {
@@ -223,8 +228,20 @@ console.log(json)
                   onChange={handleChange}
                 />
               </div>
+              
               <div className="projectDataBottomItem-Btns">
-                <button
+                
+                {isDisabled?
+                (<button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsDisabled(false);
+                  }}
+                >
+                  Edit
+                </button>):
+
+                (<button
                   onClick={(e) => {
                     e.preventDefault();
                     handleDataUpdate();
@@ -232,15 +249,8 @@ console.log(json)
                   }}
                 >
                   Save
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsDisabled(false);
-                  }}
-                >
-                  Edit
-                </button>
+                </button>)}
+<button onClick={handleDelete}>Delete</button>
               </div>
             </form>
           </div>

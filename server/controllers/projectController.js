@@ -92,9 +92,6 @@ const updateProject = async (req, res) => {
     };
   });
 
-
-
-
   const project = await Project.findOneAndUpdate({ _id: id },
     {
       title: title,
@@ -107,9 +104,20 @@ const updateProject = async (req, res) => {
   res.status(200).json(project);
 };
 
+
+const deleteProject=async(req,res)=>{
+const {id}=req.params
+
+
+const project = await Project.findOneAndRemove({_id:id})
+console.log(project)
+
+}
+
 module.exports = {
   createProject,
   getProjectList,
   getSingleProject,
   updateProject,
+  deleteProject
 };

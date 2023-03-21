@@ -62,7 +62,7 @@ const handleClick=()=>{
               Users
             </li>
             </Link >
-            <Link to='/settings'>
+            <Link to='/settings'className="sidebarLink">
             <li className="sidebar-list-item">
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings

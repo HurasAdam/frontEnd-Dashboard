@@ -1,5 +1,6 @@
 const Project = require("../db/models/project");
 const User = require("../db/models/user");
+const Note= require("../db/models/note")
 const {ObjectId } = require('mongodb');
 //Create Projet
 const createProject = async (req, res) => {
@@ -109,8 +110,23 @@ const deleteProject=async(req,res)=>{
 const {id}=req.params
 
 
-const project = await Project.findOneAndRemove({_id:id})
-console.log(project)
+
+const tickets =await Note.find({})
+
+const result = tickets.filter((ticket)=>ticket.project._id.toString()===id)
+
+try{
+
+  if(result.length>0){
+    throw Error('Istnieja tickety w ramach projektu ktory chcesz usunac')
+  }
+  const currentProject = await Project.findOneAndDelete({_id:id})
+  res.status(200).json()
+}
+catch(Error){
+  res.status(403).json(Error.message)
+}
+
 
 }
 

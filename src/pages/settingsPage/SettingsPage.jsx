@@ -56,7 +56,7 @@ const handleRoleUpdate = async (e) => {
                     <option key='admin' value='admin'>admin</option>
 
               </select>
-              <button onClick={handleRoleUpdate} >Edit</button>
+              <button className="changeRoleBtn" onClick={handleRoleUpdate} >Save</button>
              
               </>
             );

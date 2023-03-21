@@ -21,9 +21,11 @@ export const NewTicket = () => {
   const handleNewTicket = (e, prop) => {
     const value = e.target.value;
     newTicket[prop] = value;
-    console.log(newTicket);
+    console.log(newTicket)
+ 
   };
 
+  console.log(newTicket)
   const handleAddTicket = async () => {
     const response = await fetch("http://127.0.0.1:3000/api/notes", {
       method: "POST",
@@ -70,10 +72,13 @@ export const NewTicket = () => {
             <label className="newTicketItemLabel" htmlFor="">
               Priority
             </label>
-            <input
-              type="text"
-              onChange={(e) => handleNewTicket(e, "priority")}
-            />
+        
+          <select  onChange={(e)=>handleNewTicket(e,'priority')}>
+          <option value="" disabled selected>None</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
           </div>
           <div className="newTicketItem">
             <label className="newTicketItemLabel" htmlFor="">

@@ -124,7 +124,7 @@ try{
   res.status(200).json()
 }
 catch(Error){
-  res.status(409).json(Erorr.message)
+  res.status(409).json(Error.message)
 }
 
 

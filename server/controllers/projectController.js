@@ -118,13 +118,13 @@ const result = tickets.filter((ticket)=>ticket.project._id.toString()===id)
 try{
 
   if(result.length>0){
-    throw Error('Istnieja tickety w ramach projektu ktory chcesz usunac')
+    throw Error('Can not delete project due to other references.Check ticket list')
   }
   const currentProject = await Project.findOneAndDelete({_id:id})
   res.status(200).json()
 }
 catch(Error){
-  res.status(403).json(Error.message)
+  res.status(409).json(Error.message)
 }
 
 

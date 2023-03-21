@@ -25,6 +25,7 @@ export const ProjectDetails = () => {
   const [projectTitle, setProjectTitle] = useState();
   const [projectLeader, setProjectLeader] = useState();
   const [projectDescription, setProjectDescription] = useState();
+  const [fetchError,setFetchError]=useState('')
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/projects/${projectId}/`
   );
@@ -76,9 +77,18 @@ console.log(json)
         }
       }
     );
-    if (respone.ok) {
-      navigate("/projects");
+    try{
+    if (respone.status===409) {
+      throw Error("Can not delete project due to other references.Check ticket list ")
     }
+if(respone.ok){
+  setFetchError('')
+  navigate("/projects");
+}
+    }
+catch(Error){
+  setFetchError(Error.message)
+}
   };
 
   const handleInputChange = (e, prop) => {
@@ -251,6 +261,7 @@ console.log(json)
                   Save
                 </button>)}
 <button onClick={handleDelete}>Delete</button>
+{fetchError&&<span className="error">{fetchError}</span>}
               </div>
             </form>
           </div>

@@ -167,7 +167,9 @@ gap:5px;
     justify-content: space-around;
 }
 
-
+.error{
+    color:red
+}
 
 ::placeholder{
     color:black;

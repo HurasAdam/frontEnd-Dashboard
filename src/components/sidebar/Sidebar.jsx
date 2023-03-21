@@ -62,12 +62,13 @@ const handleClick=()=>{
               Users
             </li>
             </Link >
+            {user.role==="admin"?
             <Link to='/settings'className="sidebarLink">
             <li className="sidebar-list-item">
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings
             </li>
-            </Link>
+            </Link>:null}
             <li className="sidebar-list-item" onClick={handleClick}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout

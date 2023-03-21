@@ -32,7 +32,9 @@ console.log(result)
 
   //get list of users 
   const getUserList = async () => {
-    const response = await fetch("http://127.0.0.1:3000/api/user/");
+    const response = await fetch("http://127.0.0.1:3000/api/user/",{
+      headers:{'Authorization': `Bearer ${user.token}`},
+    });
 
     const json = await response.json();
 

@@ -4,11 +4,13 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import "./projectList.css";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 
 export const ProjectsList = () => {
     const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/projects')
-
+const {user}=useContext(AuthContext)
    
   const columns = [
     { field: "id", headerName: "ID", width: 200, flex: 0.7 },
@@ -35,9 +37,14 @@ export const ProjectsList = () => {
     <div className="projectList">
       <div className="actionWrapper">
         <span className="projectListHeaderTitle">Current Projects</span>
+        {user.role==='admin'?
         <Link to="/NewProject">
+         
+        
           <button>New project</button>
+
         </Link>
+:null}
       </div>
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}

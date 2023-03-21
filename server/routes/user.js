@@ -2,6 +2,7 @@ const express = require('express')
 
 // controller functions
 const { loginUser, signupUser,getUserList,getAvalibleUserList,updateUserData } = require('../controllers/userController')
+const [requireAuth,authRole]=require("../middleware/requireAuth")
 
 const router = express.Router()
 
@@ -13,10 +14,10 @@ router.post('/signup', signupUser)
 
 module.exports = router
 
-router.get('/',getUserList)
+router.get('/',requireAuth,getUserList)
 
 //filter list 
-router.get('/avalibleContributors',getAvalibleUserList)
+router.get('/avalibleContributors',requireAuth,getAvalibleUserList)
 
 
-router.put('/',updateUserData)
+router.put('/',requireAuth,authRole('admin'),updateUserData)

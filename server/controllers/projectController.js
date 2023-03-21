@@ -53,7 +53,7 @@ const getProjectList = async (req, res) => {
   const result = projects.filter((proj) => {
     return isMember(proj.contributors, userId);
   });
-
+console.log(role)
   if (!check) {
     res.status(200).json(projects);
   }
@@ -124,7 +124,7 @@ try{
   res.status(200).json()
 }
 catch(Error){
-  res.status(409).json(Error.message)
+  res.status(409).json(Erorr.message)
 }
 
 

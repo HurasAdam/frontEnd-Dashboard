@@ -40,9 +40,10 @@ setUserList(userList.filter((user)=>user!==selectedOption))
   }, []);
   //get list of users
   const getUserList = async () => {
-    const response = await fetch(
-      `http://127.0.0.1:3000/api/user/avalibleContributors?project=${projectId}`
-    );
+    const response = await fetch(`http://127.0.0.1:3000/api/user/avalibleContributors?project=${projectId}`,
+    {
+      headers:{'Authorization': `Bearer ${user.token}`},
+    });
 
     const json = await response.json();
 console.log(json)
@@ -67,7 +68,7 @@ console.log(json)
 
   const handleDelete = async (e) => {
     e.preventDefault()
-    const respone = await fetch(
+    const response = await fetch(
       `http://127.0.0.1:3000/api/projects/${projectId}`,
       {
         method: "DELETE",
@@ -78,10 +79,10 @@ console.log(json)
       }
     );
     try{
-    if (respone.status===409) {
+    if (response.status===409) {
       throw Error("Can not delete project due to other references.Check ticket list ")
     }
-if(respone.ok){
+if(response.ok){
   setFetchError('')
   navigate("/projects");
 }

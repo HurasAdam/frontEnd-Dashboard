@@ -2,7 +2,7 @@ import "./ticketDetails.css";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
@@ -17,7 +17,7 @@ export const TicketDetails = () => {
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
   );
-  console.log(data)
+  console.log(data);
 
   const handleDelete = async () => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
@@ -33,8 +33,7 @@ export const TicketDetails = () => {
   };
 
   const priorityOptions = ["Low", "Medium", "High"];
-
-
+  const statusOptions=["Open","Closed"]
 
   const handleInputChange = (e, prop) => {
     const target = e.target;
@@ -93,35 +92,43 @@ export const TicketDetails = () => {
                 )}
               </div>
               <div className="ticketDataBottomItem">
+              <div className="ticketDataBottomItemWrapper">
+                <div className="ticketDataBottomItemWrapper-select">
+                  <label htmlFor="">Priority</label>
+
+                  {data && (
+                    <select
+                      className="selectTicketPriority"
+                      onChange={(e) => handleInputChange(e, "priority")}
+                      defaultValue={data.priority}
+                    >
+                      <option disabled selected>
+                        {data.priority}
+                      </option>
+
+                      {data &&
+                        priorityOptions
+                          .filter((o) => o !== data.priority)
+                          .map((option) => {
+                            return <option key={option}>{option}</option>;
+                          })}
+                    </select>
+                  )}
+                </div>
+                <div className="ticketDataBottomItemWrapper-select">
                 <label htmlFor="">Status</label>
-                {data && (
-                  <input
-                    type="text"
-                    onChange={(e) => handleInputChange(e, "status")}
-                    placeholder={data.status}
-                  />
-                )}
-              </div>
-              <div className="ticketDataBottomItem">
-                <label htmlFor="">Priority</label>
+                {data&&<select onChange={(e) => handleInputChange(e, "status")} defaultValue={data.status}  className="selectTicketPriority">
+                <option disabled selected>{data.status}</option>
+                 {statusOptions.filter((o)=>o!==data.status).map((option)=>{
+                  return( 
+                    <option>{option}</option>
+                  )
+                 })}
 
-                {data && (
-                  <select
-                  className="selectTicketPriority"
-                    onChange={(e) => handleInputChange(e, "priority")}
-                    defaultValue={data.priority}
-                  >
-                    <option disabled selected>
-                      {data.priority}
-                    </option>
-
-                    {data &&priorityOptions.filter((o) => o !== data.priority).map((option) => {
-                          return <option key={option}>{option}</option>;
-                        })}
-                  </select>
-                )}
+                </select>}
               </div>
-   
+              </div>
+              </div>
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Description</label>
                 {data && (
@@ -148,22 +155,30 @@ export const TicketDetails = () => {
           </div>
           <div className="ticketInfoBottom">
             <div className="ticketInfoBottomItem">
-            
               <div className="ticketInfoBottomItem-span">
-                <span><ScheduleOutlinedIcon/>Created:</span>
-              {data&&<span>{data.createdAt}</span>}
+                <span>
+                  <ScheduleOutlinedIcon />
+                  Created:
+                </span>
+                {data && <span>{data.createdAt}</span>}
               </div>
-           
-      <div className="ticketInfoBottomItem-span">
-        <span><HistoryOutlinedIcon/>Updated:</span>
-      {data&&<span>{data.updatedAt}</span>}
-      </div>
-             
+
+              <div className="ticketInfoBottomItem-span">
+                <span>
+                  <HistoryOutlinedIcon />
+                  Updated:
+                </span>
+                {data && <span>{data.updatedAt}</span>}
+              </div>
             </div>
             <div className="ticketInfoBottomItem">
-            <div className="ticketInfoBottomItem-span">
-             <span> < FlagOutlinedIcon/>Type:</span>
-              {data&&<span>{data.type}</span>}
+              <div className="ticketInfoBottomItem-span">
+                <span>
+                  {" "}
+                  <FlagOutlinedIcon />
+                  Type:
+                </span>
+                {data && <span>{data.type}</span>}
               </div>
             </div>
             <div className="ticketInfoBottomItem">

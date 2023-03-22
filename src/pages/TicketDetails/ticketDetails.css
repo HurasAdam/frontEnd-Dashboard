@@ -1,149 +1,154 @@
-.ticketDetails{
-    flex: 5;
-    padding: 20px;
+.ticketDetails {
+  flex: 5;
+  padding: 20px;
 }
-.ticketHeaderContainer{
-    display: flex;
-   margin-left: 20px;
-   margin-top: 10px;
-   font-size: 22px;
-   font-weight: 600;
-   margin-bottom: 10px;
+.ticketHeaderContainer {
+  display: flex;
+  margin-left: 20px;
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
-.headerIcon{
-    font-size: 32px !important;
-    color: blue !important;
+.headerIcon {
+  font-size: 32px !important;
+  color: blue !important;
 }
-.ticketId{
-    font-size: 18px;
-    font-weight: 400;
+.ticketId {
+  font-size: 18px;
+  font-weight: 400;
 }
-.ticketDataContainer{
-    display: flex;
+.ticketDataContainer {
+  display: flex;
 }
-.ticketDataContainerLeft{
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+.ticketDataContainerLeft {
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    flex:3;
-    padding: 5px 30px;
+  flex: 3;
+  padding: 5px 30px;
 }
 
-.ticketDataContainerTop{
-    margin-top: 10px;
+.ticketDataContainerTop {
+  margin-top: 10px;
 }
-.ticektDataBottom{
-   height: max-content;
-    flex-direction: column;
-  
+.ticektDataBottom {
+  height: max-content;
+  flex-direction: column;
 }
-.ticketDataBottomItem{
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-   
-}
-.ticketDataBottomItem>input{
-height: 30px;
-border: none;
-border-bottom: 1px solid grey;
-font-size: 15px;
-
-}
-.ticketDataBottomItem textarea{
-    resize: none;
-}
-.ticketDataBottomItem>label{
-margin-bottom: 5px;
-font-size: 14px;
-color: grey;
-}
-.ticketDataContainerRight{
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    flex: 1;
-    margin-left: 20px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-  
-}
-.ticketInfoTop{
-   
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 50px;
-}
-.ticketInfoTopImg{
-    width: 100px;
-    height: 140px;
-    border-radius: 5px;
-    object-fit: cover;
- 
-}
-.ticketInfoTopAuthor{
-   
-
-}
-.ticketInfoItemsContainer{
-    display: flex;
-    flex-direction: column;
-    
- 
-    align-items: center;
-   justify-content: space-evenly;
-}
-.ticketAuthorDataWrapper{
-    display: flex;
-    flex-direction: column;
-}
-.ticketInfoAuthorName{
-    font-size: 20px;
-    font-weight: 600;
-}
-.ticketInfoAuthorJobTitle{
-    font-weight: 300;
-    text-align: center;
-}
-.ticketInfoBottom{
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-   
-}
-.ticketInfoBottomItem{
-    display: flex;
- 
-flex-direction: column;
-    width: 100%;
-    margin-bottom: 20px;
-}
-.ticketInfoBottomItem>span{
-    margin-left: 40px;
-}
-.ticketInfoBottomItem-span{
- 
-display: flex;
-flex-direction: column;
-
-    
-}
-.ticketInfoBottomItem-span span{
-   
-
-margin-bottom: 10px;
-    display: flex;
-  
-}
-.selectTicketPriority{
-  
-    width: 100%;
-    height: 30px;
+.ticketDataBottomItem {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 25px;
 }
 
+.ticketDataBottomItem-select {
+  margin-top: 20px;
+}
 
+.ticketDataBottomItemWrapper {
+  display: flex;
+  gap: 5px;
+}
 
-::placeholder{
-    color:black;
-    font-weight: 400;
+.ticketDataBottomItemWrapper-select {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ticketDataBottomItemWrapper-select label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: grey;
+}
+.ticketDataBottomItem > input {
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid grey;
+  font-size: 15px;
+}
+.ticketDataBottomItem textarea {
+  resize: none;
+}
+.ticketDataBottomItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: grey;
+}
+.ticketDataContainerRight {
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  flex: 1;
+  margin-left: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.ticketInfoTop {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 50px;
+}
+.ticketInfoTopImg {
+  width: 100px;
+  height: 140px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+.ticketInfoTopAuthor {
+}
+.ticketInfoItemsContainer {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: space-evenly;
+}
+.ticketAuthorDataWrapper {
+  display: flex;
+  flex-direction: column;
+}
+.ticketInfoAuthorName {
+  font-size: 20px;
+  font-weight: 600;
+}
+.ticketInfoAuthorJobTitle {
+  font-weight: 300;
+  text-align: center;
+}
+.ticketInfoBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ticketInfoBottomItem {
+  display: flex;
+
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.ticketInfoBottomItem > span {
+  margin-left: 40px;
+}
+.ticketInfoBottomItem-span {
+  display: flex;
+  flex-direction: column;
+}
+.ticketInfoBottomItem-span span {
+  margin-bottom: 10px;
+  display: flex;
+}
+.selectTicketPriority {
+  text-align: left;
+  padding: 5px;
+  width: 100%;
+  height: 30px;
+  font-weight: 600;
+}
+
+::placeholder {
+  color: black;
+  font-weight: 400;
 }

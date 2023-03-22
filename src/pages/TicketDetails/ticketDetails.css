@@ -113,16 +113,33 @@ color: grey;
 }
 .ticketInfoBottomItem{
     display: flex;
-   
+ 
+flex-direction: column;
     width: 100%;
     margin-bottom: 20px;
 }
 .ticketInfoBottomItem>span{
     margin-left: 40px;
 }
+.ticketInfoBottomItem-span{
+ 
+display: flex;
+flex-direction: column;
 
+    
+}
+.ticketInfoBottomItem-span span{
+   
 
-
+margin-bottom: 10px;
+    display: flex;
+  
+}
+.selectTicketPriority{
+  
+    width: 100%;
+    height: 30px;
+}
 
 
 

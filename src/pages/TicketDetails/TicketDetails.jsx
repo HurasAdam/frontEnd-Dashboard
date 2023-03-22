@@ -2,58 +2,63 @@ import "./ticketDetails.css";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-import { useParams} from "react-router-dom";
+import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 export const TicketDetails = () => {
   const { ticketId } = useParams();
-  const [updateError,setUpdateError]=useState(null)
-  const {user}=useContext(AuthContext)
-  const navigate= useNavigate()
+  const [updateError, setUpdateError] = useState(null);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
   );
+  console.log(data)
 
-console.log(error)
-
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
       },
-    })
-    if(respone.ok){
-     navigate('/tickets')
+    });
+    if (respone.ok) {
+      navigate("/tickets");
     }
   };
 
-const handleInputChange=(e,prop)=>{
-const target=e.target
-const value=target.value;
-data[prop]=value
+  const priorityOptions = ["Low", "Medium", "High"];
 
 
-}
- 
-  const handleDataUpdate = async() => {
 
-   
-    const response=await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" ,
-      'Authorization': `Bearer ${user.token}`,
-    },
-      body: JSON.stringify(data)
-    })
+  const handleInputChange = (e, prop) => {
+    const target = e.target;
+    const value = target.value;
+    data[prop] = value;
+    console.log(data);
+  };
 
-if(response.ok){
-navigate('/tickets')
-}
+  const handleDataUpdate = async () => {
+    const response = await fetch(
+      `http://127.0.0.1:3000/api/notes/${ticketId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
+    if (response.ok) {
+      navigate("/tickets");
+    }
   };
 
   return (
@@ -67,11 +72,13 @@ navigate('/tickets')
       </div>
       <div className="ticketDataContainer">
         <div className="ticketDataContainerLeft">
-          {data&&<div className="ticketDataContainerTop">
-            <p>Project name: {data.project.title}</p>
-            <p>Project Leader: {data.project.createdBy}</p>
-            <p className="ticketId">Ticket ID:{ticketId}</p>
-          </div>}
+          {data && (
+            <div className="ticketDataContainerTop">
+              <p>Project name: {data.project.title}</p>
+              <p>Project Leader: {data.project.createdBy}</p>
+              <p className="ticketId">Ticket ID:{ticketId}</p>
+            </div>
+          )}
           <div className="ticektDataBottom">
             <form action="">
               <div className="ticketDataBottomItem">
@@ -81,25 +88,48 @@ navigate('/tickets')
                     type="text"
                     required
                     placeholder={data.title}
-                    onChange={(e) => handleInputChange(e, "title") }
+                    onChange={(e) => handleInputChange(e, "title")}
                   />
                 )}
               </div>
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Status</label>
-                {data && <input type="text" onChange={(e)=>handleInputChange(e,'status')} placeholder={data.status}  />}
+                {data && (
+                  <input
+                    type="text"
+                    onChange={(e) => handleInputChange(e, "status")}
+                    placeholder={data.status}
+                  />
+                )}
               </div>
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Priority</label>
-                {data && <input type="text" onChange={(e)=>handleInputChange(e,'priority')} placeholder={data.priority} />}
+
+                {data && (
+                  <select
+                  className="selectTicketPriority"
+                    onChange={(e) => handleInputChange(e, "priority")}
+                    defaultValue={data.priority}
+                  >
+                    <option disabled selected>
+                      {data.priority}
+                    </option>
+
+                    {data &&priorityOptions.filter((o) => o !== data.priority).map((option) => {
+                          return <option key={option}>{option}</option>;
+                        })}
+                  </select>
+                )}
               </div>
-              <div className="ticketDataBottomItem">
-                <label htmlFor="">Date</label>
-                {data && <input type="text" onChange={(e)=>handleInputChange(e,'date')} placeholder={data.date} />}
-              </div>
+   
               <div className="ticketDataBottomItem">
                 <label htmlFor="">Description</label>
-                {data && <textarea onChange={(e)=>handleInputChange(e,'description')} placeholder={data.description}></textarea>}
+                {data && (
+                  <textarea
+                    onChange={(e) => handleInputChange(e, "description")}
+                    placeholder={data.description}
+                  ></textarea>
+                )}
               </div>
             </form>
           </div>
@@ -118,12 +148,23 @@ navigate('/tickets')
           </div>
           <div className="ticketInfoBottom">
             <div className="ticketInfoBottomItem">
-              <ScheduleOutlinedIcon />
-              <span></span>
+            
+              <div className="ticketInfoBottomItem-span">
+                <span><ScheduleOutlinedIcon/>Created:</span>
+              {data&&<span>{data.createdAt}</span>}
+              </div>
+           
+      <div className="ticketInfoBottomItem-span">
+        <span><HistoryOutlinedIcon/>Updated:</span>
+      {data&&<span>{data.updatedAt}</span>}
+      </div>
+             
             </div>
             <div className="ticketInfoBottomItem">
-              <FlagOutlinedIcon />
-              <span></span>
+            <div className="ticketInfoBottomItem-span">
+             <span> < FlagOutlinedIcon/>Type:</span>
+              {data&&<span>{data.type}</span>}
+              </div>
             </div>
             <div className="ticketInfoBottomItem">
               <span></span>

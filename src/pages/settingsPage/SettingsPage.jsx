@@ -49,7 +49,7 @@ const handleRoleUpdate = async (e) => {
           renderCell: (params) => {
             return (
               <>
-              <select  defaultValue={params.row.role} className="selectRole" name="" id="" onChange={(e)=>{setUserRole(e.target.value);setSelectedUser(params.row._id);console.log(params)}}>
+              <select  defaultValue={params.row.role} className="selectRole" name="" id="" onChange={(e)=>{setUserRole(e.target.value);setSelectedUser(params.row._id);console.log(params.row.role)}}>
         
   
                     <option key='user' value='user'>user</option>

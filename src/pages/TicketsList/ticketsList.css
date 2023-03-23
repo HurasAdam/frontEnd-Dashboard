@@ -39,5 +39,30 @@ color:rgb(226, 87, 87) !important;
 .dataGrid{
   max-height: 800px;
 
- 
+}
+.ticketsList button{
+  width: 45px;
+  border: none;
+  border-radius: 5px;
+  padding: 4px;
+}
+
+.ticketsList button.Closed{
+background-color: rgb(179, 229, 179);
+}
+.ticketsList button.Open{
+  background-color: rgb(0, 0, 0);
+  color:white
+}
+.ticketsList button.High{
+  background-color: red;
+  width: 50px;
+}
+.ticketsList button.Medium{
+  background-color: rgb(219, 228, 115);
+  width: 50px;
+}
+.ticketsList button.Low{
+  background-color: rgb(115, 196, 228);
+  width: 50px;
 }

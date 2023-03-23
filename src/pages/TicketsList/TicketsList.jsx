@@ -17,8 +17,16 @@ export const TicketsList = () => {
     { field: 'id', headerName: 'ID', width: 200,flex:0.9 },
     { field: 'title', headerName: 'Title', width: 200,flex:0.9 },
     { field: 'type', headerName: 'Type', width: 100,flex:0.9 },
-    {field: 'status',headerName: 'Status',width: 90,flex:0.9},
-    {field: 'priority',headerName: 'Priority',width: 90,flex:0.9},
+    {field: 'status',headerName: 'Status',width: 90,renderCell:(params)=>{
+      return(
+        <button className={params.row.status}>{params.row.status}</button>
+      )
+    }},
+    {field: 'priority',headerName: 'Priority',width: 90,renderCell:(params)=>{
+      return(
+        <button className={params.row.priority}>{params.row.priority}</button>
+      )
+    }},
     {field:'createdAt',headerName:'Date',width: 160,flex:0.9},
     {field:'action',headerName:'Action',width:'100', renderCell:(params)=>{
       return(

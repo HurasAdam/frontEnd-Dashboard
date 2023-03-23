@@ -148,8 +148,9 @@ display: flex;
 gap:5px;
 }
 .projectDataBottomItem-Btns button{
-    padding: 4px;
-    width: 40px;
+    padding: 6px;
+    width: 55px;
+    border-radius: 4px;
     border: none;
     color: white;
     font-weight: 400;

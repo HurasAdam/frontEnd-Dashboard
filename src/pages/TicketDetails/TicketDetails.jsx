@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 export const TicketDetails = () => {
   const { ticketId } = useParams();
+  const [isDisabled,setIsDisabled]=useState(true)
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const TicketDetails = () => {
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
   );
-  console.log(data);
+ 
 
   const handleDelete = async () => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
@@ -84,9 +85,10 @@ export const TicketDetails = () => {
                 <label htmlFor="">Title</label>
                 {data && (
                   <input
+                  disabled={isDisabled}
                     type="text"
                     required
-                    placeholder={data.title}
+                    defaultValue={data.title}
                     onChange={(e) => handleInputChange(e, "title")}
                   />
                 )}
@@ -98,6 +100,7 @@ export const TicketDetails = () => {
 
                   {data && (
                     <select
+                    disabled={isDisabled}
                       className="selectTicketPriority"
                       onChange={(e) => handleInputChange(e, "priority")}
                       defaultValue={data.priority}
@@ -117,7 +120,12 @@ export const TicketDetails = () => {
                 </div>
                 <div className="ticketDataBottomItemWrapper-select">
                 <label htmlFor="">Status</label>
-                {data&&<select onChange={(e) => handleInputChange(e, "status")} defaultValue={data.status}  className="selectTicketPriority">
+                {data&&<select 
+                onChange={(e) => handleInputChange(e, "status")} 
+                defaultValue={data.status}  
+                className="selectTicketPriority"
+                disabled={isDisabled}
+                >
                 <option disabled selected>{data.status}</option>
                  {statusOptions.filter((o)=>o!==data.status).map((option)=>{
                   return( 
@@ -134,7 +142,8 @@ export const TicketDetails = () => {
                 {data && (
                   <textarea
                     onChange={(e) => handleInputChange(e, "description")}
-                    placeholder={data.description}
+                    defaultValue={data.description}
+                    disabled={isDisabled}
                   ></textarea>
                 )}
               </div>
@@ -185,10 +194,10 @@ export const TicketDetails = () => {
               <span></span>
             </div>
           </div>
-          <div className="ticketInfoButtonWrapper">
+          {user.role==='admin'?<div className="ticketInfoButtonWrapper">
             <button onClick={handleDelete}>Delete</button>
-            <button onClick={handleDataUpdate}>Update</button>
-          </div>
+           {isDisabled?<button onClick={()=>setIsDisabled(false)}>Edit</button>:<button disabled={isDisabled} onClick={()=>{setIsDisabled(true);handleDataUpdate()}}>Update</button>}
+          </div>:null}
         </div>
       </div>
     </div>

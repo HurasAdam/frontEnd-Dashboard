@@ -75,17 +75,28 @@ res.status(200).json(doc);
     const priority=req.body.priority;
     const date=req.body.date;
     const description=req.body.description;
-    const body=req.body.body;
+    try{
+        if(!title||!status||!priority||!description){
+            throw Error("Empty")
+           }
+           const note= await Note.findOne({_id:id});
+    
 
-    const note= await Note.findOne({_id:id});
-   
-    note.title=title;
-    note.status=status;
-    note.priority=priority;
-    note.date=date;
-    note.description=description
-    await note.save();
-res.status(201).json(note);
+
+           note.title=title;
+           note.status=status;
+           note.priority=priority;
+           note.date=date;
+           note.description=description
+           await note.save();
+       res.status(201).json(note);
+    }
+       catch(Error){
+        res.status(400).json(Error.message)
+      
+    }
+
+
     },
 
       //usuwanie notatki

@@ -19,7 +19,7 @@ export const TicketDetails = () => {
     `http://localhost:3000/api/notes/${ticketId}`
   );
  
-
+console.log(data)
   const handleDelete = async () => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "DELETE",
@@ -153,7 +153,7 @@ export const TicketDetails = () => {
         <div className="ticketDataContainerRight">
           <div className="ticketInfoTop">
             <div className="ticketInfoItemsContainer">
-              <span>Created By:</span>
+              <span>Created By:{`${data.author.name} ${data.author.surname}`}</span>
 
               <div className="ticketAuthorDataWrapper">
                 <span className="ticketInfoAuthorName"></span>

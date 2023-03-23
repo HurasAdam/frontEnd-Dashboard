@@ -41,28 +41,44 @@ color:rgb(226, 87, 87) !important;
 
 }
 .ticketsList button{
-  width: 45px;
+
   border: none;
   border-radius: 5px;
-  padding: 4px;
+ 
 }
 
 .ticketsList button.Closed{
-background-color: rgb(179, 229, 179);
+background-color: rgba(141, 217, 141, 0.326);
+color: rgb(12, 105, 12);
+width: 50px;
+font-weight: 600;
+padding: 1px;
 }
 .ticketsList button.Open{
-  background-color: rgb(0, 0, 0);
-  color:white
+  background-color: rgba(68, 151, 210, 0.241);
+  color:rgb(6, 21, 99);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
 }
 .ticketsList button.High{
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.613);
+  color: rgba(84, 9, 9, 0.994);
+  font-weight: 600;
   width: 50px;
+  padding: 1px;
 }
 .ticketsList button.Medium{
-  background-color: rgb(219, 228, 115);
+  background-color: rgba(234, 162, 6, 0.537);
+  color: rgb(78, 53, 8);
+  font-weight: 600;
   width: 50px;
+  padding: 1px;
 }
 .ticketsList button.Low{
-  background-color: rgb(115, 196, 228);
+  background-color: rgba(20, 218, 50, 0.508);
+  font-weight: 600;
+  color: rgb(13, 59, 4);
   width: 50px;
+  padding: 1px;
 }

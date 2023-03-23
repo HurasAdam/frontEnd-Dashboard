@@ -14,23 +14,24 @@ module.exports={
        const author=req.body.author;
        const description= req.body.description;
        const type=req.body.type
-       const ticketAuthor= await User.findOne({author})
-       const {id}=ticketAuthor
+     
+      
   
        const check = await Project.find({_id:project}).select("_id title createdBy")
-      
-      const result = check.reduce ((obj,item)=>({...obj,[item.key]:item.value}))
-      
+      const findAuthor= await (await User.find({email:author}))
+
+      const projectObject = check.reduce ((obj,item)=>({...obj,[item.key]:item.value}))
+      const authorObject = findAuthor.reduce((obj,item)=>({...obj,[item.key]:item.value}))
 
 
        
         const newNote= new Note({
-            project:result,
+            project:projectObject,
             title:title,
            status:status,
            date:date,
            priority:priority,
-           author:id,
+           author:{name:authorObject.name,surname:authorObject.surname,email:authorObject.email},
            description:description,
            type:type,
     

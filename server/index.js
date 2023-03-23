@@ -17,10 +17,11 @@ app.use(cors());
 const apiRouter= require('./routes/api');
 const userRoutes = require('./routes/user')
 const projectRoutes=require('./routes/project')
+const statsRoutes=require('./routes/stats')
 app.use('/api/notes',apiRouter);
 app.use('/api/user', userRoutes)
 app.use('/api/projects',projectRoutes)
-
+app.use('/api/stats',statsRoutes)
 
 
 //server

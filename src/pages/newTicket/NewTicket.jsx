@@ -69,6 +69,8 @@ export const NewTicket = () => {
             <input type="text" onChange={(e) => handleNewTicket(e, "title")} />
           </div>
           <div className="newTicketItem">
+            <div className="newTicketItemWrapper">
+            <div className="newTicketItemSelectWrapper">
             <label className="newTicketItemLabel" htmlFor="">
               Priority
             </label>
@@ -80,12 +82,21 @@ export const NewTicket = () => {
             <option value="High">High</option>
           </select>
           </div>
-          <div className="newTicketItem">
-            <label className="newTicketItemLabel" htmlFor="">
+          <div className="newTicketItemSelectWrapper">
+          <label className="newTicketItemLabel" htmlFor="">
               Type
             </label>
-            <input type="text" onChange={(e) => handleNewTicket(e, "type")} />
+            <select 
+            onChange={(e)=>handleNewTicket(e,'type')}
+            >
+<option value="Bug">Bug</option>
+<option value="Enhancement">Enhancement</option>
+<option value="Qestion">Question</option>
+
+            </select>
+            </div>
           </div>
+  
           <div className="newTicketItemDescripion">
             <label className="newTicketItemLabel" htmlFor="">
               Description
@@ -96,6 +107,7 @@ export const NewTicket = () => {
               rows={25}
               onChange={(e) => handleNewTicket(e, "description")}
             ></textarea>
+          </div>
           </div>
         </div>
         <div className="newTicketAction">

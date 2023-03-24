@@ -153,7 +153,7 @@ console.log(data)
         <div className="ticketDataContainerRight">
           <div className="ticketInfoTop">
             <div className="ticketInfoItemsContainer">
-              <span>Created By:{`${data.author.name} ${data.author.surname}`}</span>
+              {data&&<span>Created By:{`${data.author.name} ${data.author.surname}`}</span>}
 
               <div className="ticketAuthorDataWrapper">
                 <span className="ticketInfoAuthorName"></span>

@@ -21,6 +21,8 @@ export const ProjectDetails = () => {
   const navigate = useNavigate();
   const [contributorsList, setContributorsList] = useState([]);
   const [userList, setUserList] = useState([]);
+  const [isDeleted,setIsDeleted]=useState(false)
+  const [confirmDelete,setConfirmDelete]=useState('')
   const [isDisabled, setIsDisabled] = useState(true);
   const [projectTitle, setProjectTitle] = useState();
   const [projectLeader, setProjectLeader] = useState();
@@ -65,9 +67,17 @@ console.log(json)
       setProjectDescription(data.description);
     }
   };
+const kekw=(confirm)=>{
 
-  const handleDelete = async (e) => {
-    e.preventDefault()
+  if(confirm==='delete'){
+  handleDelete()
+  }
+  else{
+    setFetchError('inncorect command')
+  }
+}
+  const handleDelete = async () => {
+   
     const response = await fetch(
       `http://127.0.0.1:3000/api/projects/${projectId}`,
       {
@@ -240,7 +250,14 @@ catch(Error){
                 />
               </div>
               
-              <div className="projectDataBottomItem-Btns">
+             {isDeleted? 
+             (<div><p>Are your sure you want to delete this project? Insert Delete to confirm</p>
+              <input onChange={(e)=>setConfirmDelete(e.target.value)} type="text"/>
+             <button onClick={(e)=>{e.preventDefault();kekw(confirmDelete)}}>Confirm</button>
+             <button onClick={(e)=>{e.preventDefault();setIsDeleted(false);setFetchError(false)}}>Cancel</button>
+             {fetchError&&<span className="error">{fetchError}</span>}
+             </div>):
+             (<div className="projectDataBottomItem-Btns">
                 
                 {isDisabled?
                 (<button
@@ -261,9 +278,12 @@ catch(Error){
                 >
                   Save
                 </button>)}
-<button onClick={handleDelete}>Delete</button>
-{fetchError&&<span className="error">{fetchError}</span>}
-              </div>
+<button onClick={(e)=>{e.preventDefault();setIsDeleted(true)}}>Delete</button>
+
+
+
+
+              </div>)}
             </form>
           </div>
           <div>

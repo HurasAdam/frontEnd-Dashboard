@@ -45,8 +45,28 @@ background-color: rgb(249, 188, 249);
 padding: 0px 30px;
     height: 100px;
     display: flex;
-    flex-direction: column;   
+    flex-direction: column;  
+
 }
+.newTicketItemWrapper{
+ 
+    display: flex;
+    gap:5px
+}
+
+.newTicketItemSelectWrapper{
+
+ width: 100%;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+
+}
+.newTicketItemSelectWrapper select{
+    width: 90%;
+    padding: 5px 0px;
+}
+
 .newTicketItemLabel{
     font-size: 14px;
     color:grey;
@@ -54,6 +74,7 @@ padding: 0px 30px;
 }
 .newTicketItem input{
 height: 35px;
+
 border: none;
 border-bottom: 1px solid grey;
 

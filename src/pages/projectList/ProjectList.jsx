@@ -9,31 +9,24 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 
 export const ProjectsList = () => {
-  const [pageState,setPageState]=useState({
-    isLoading:false,
-    data:[],
-    total:0,
-    page:1,
-    pageSize:0
-    
-  })
+  const [pageState,setPageState]=useState(0)
 
-    const [data,isLoading,error]=useFetch(`http://127.0.0.1:3000/api/projects?page${pageState.page}`)
+    const [data,isLoading,error]=useFetch(`http://127.0.0.1:3000/api/projects?page=${pageState}`)
 const {user}=useContext(AuthContext)
 
 
 
-useEffect(()=>{
+// useEffect(()=>{
 
-if(data){
-  setPageState((old)=>({...old,isLoading:false,data:data.projects,total:data.total,pageSize:data.itemPerPage}))
-}
+// if(data){
+//   setPageState((old)=>({...old,isLoading:false,data:data.projects,total:data.total,pageSize:data.itemPerPage}))
+// }
  
 
 
  
-},[data])
-data&&console.log(pageState)
+// },[data])
+
 
   const columns = [
   
@@ -73,19 +66,18 @@ data&&console.log(pageState)
       {isLoading && <div>Loading...</div>}
       {data && (
         <DataGrid
-
+pagination={true}
           autoHeight={true}
           rowHeight={40}
-          rowCount={pageState.total}
-          rows={pageState.data}
+          rowCount={data.total}
+          rows={data.projects}
           columns={columns}
           paginationMode="server"
-          page={pageState.page}
-          pageSize={pageState.pageSize}
-          rowsPerPageOptions={[10,30,50,70,100]}
+          page={pageState}
+          pageSize={data.itemPerPage}
           checkboxSelection={false}
           disableSelectionOnClick
-          onPageChange={(newPage)=>setPageState(old=>({...old,page:newPage+1}))}
+          onPageChange={()=>setPageState(pageState+1)}
          
           
         />

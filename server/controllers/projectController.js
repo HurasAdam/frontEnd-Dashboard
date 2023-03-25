@@ -60,7 +60,7 @@ console.log(typeof(page))
   });
   
   if(!check && typeof(page)==='number' ){
-    res.status(200).json({itemPerPage:projectPerPage,total:allProjects.length,page:page,projects:projects})
+    res.status(200).json({itemPerPage:projectPerPage,total:(allProjects.length)/projectPerPage,page:page,projects:projects})
   }
 
   if (check==='userProjects'&& role==='admin'){

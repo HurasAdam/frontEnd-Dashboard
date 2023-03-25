@@ -4,14 +4,36 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import "./projectList.css";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 
 export const ProjectsList = () => {
-    const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/projects')
+  const [pageState,setPageState]=useState({
+    isLoading:false,
+    data:[],
+    total:0,
+    page:1,
+    pageSize:0
+    
+  })
+  
+    const [data,isLoading,error]=useFetch(`http://127.0.0.1:3000/api/projects?page${pageState.page}`)
 const {user}=useContext(AuthContext)
-console.log(data)   
+
+
+
+useEffect(()=>{
+
+if(data){
+  setPageState((old)=>({...old,isLoading:false,data:data.projects,total:data.total,pageSize:data.itemPerPage}))
+}
+ 
+
+
+ 
+},[data])
+data&&console.log(pageState)
 
   const columns = [
   
@@ -54,12 +76,18 @@ console.log(data)
 
           autoHeight={true}
           rowHeight={40}
-          rows={data}
+          rowCount={pageState.total}
+          rows={data.projects}
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          paginationMode="server"
+          page={data.currentPage}
+          pageSize={data.itemsPerPage}
+          rowsPerPageOptions={[10,30,50,70,100]}
           checkboxSelection={false}
           disableSelectionOnClick
+          onPageChange={(newPage)=>setPageState(old=>({...old,page:newPage+1}))}
+         
+          
         />
       )}
     </div>

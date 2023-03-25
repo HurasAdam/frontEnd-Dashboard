@@ -39,14 +39,17 @@ const createProject = async (req, res) => {
 
 //Get All Projects
 const getProjectList = async (req, res) => {
-  const page = req.query.page||0
-  const projectPerPage=10;
+  // const page = req.query.page||0
+  const projectPerPage=2;
   const { id: userId } = req.user;
   const { role } = req.role;
-  console.log(page);
+const page =Number(req.query.page)||0
+console.log(typeof(page))
+  const allProjects= await Project.find({})
   const projects = await Project.find({}).skip(page*projectPerPage).limit(projectPerPage);
   const { projects: check } = req.query;
 
+  
   const isMember = (list, id) => {
     const check = list.filter((user) => user._id.toString() === id);
     return check.length > 0;
@@ -55,17 +58,19 @@ const getProjectList = async (req, res) => {
   const result = projects.filter((proj) => {
     return isMember(proj.contributors, userId);
   });
-  console.log(role);
-  if (!check) {
-    res.status(200).json(projects);
+  
+  if(!check && typeof(page)==='number' ){
+    res.status(200).json({itemPerPage:projectPerPage,total:allProjects.length,page:page,projects:projects})
   }
 
-  if (check)
-    if (role === "admin") {
-      res.status(200).json(projects);
-    } else {
-      res.status(200).json(result);
+  if (check==='userProjects'&& role==='admin'){
+    res.status(200).json(allProjects);
     }
+    else if(check==='userProjects'&& role!=='admin'){
+      res.status(200).json(result)
+    }
+
+   
 };
 
 //Get Sinle Project

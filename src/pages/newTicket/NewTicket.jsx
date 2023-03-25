@@ -12,7 +12,7 @@ export const NewTicket = () => {
   const [choseProject,setChoseProject]=useState()
   const navigate = useNavigate();
   const [data, isLoading, error] = useFetch(
-    "http://127.0.0.1:3000/api/projects?projects=user"
+    "http://127.0.0.1:3000/api/projects?projects=userProjects"
   );
   console.log(data);
 

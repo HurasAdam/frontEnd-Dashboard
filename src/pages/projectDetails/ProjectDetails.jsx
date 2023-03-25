@@ -112,7 +112,7 @@ catch(Error){
     const response = await fetch(
       `http://127.0.0.1:3000/api/projects/${projectId}`,
       {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,

@@ -15,7 +15,7 @@ router.get('/:id',requireAuth,noteActions.getNote);
 //zapisywanie notatek
 router.post('/',requireAuth,noteActions.saveNote);
 //edytowanie notatki
-router.put('/:id',requireAuth,authRole("admin","user"),authMembership,noteActions.updateNote);
+router.patch('/:id',requireAuth,authRole("admin","user"),authMembership,noteActions.updateNote);
 //usuwanie notatek
 router.delete('/:id',requireAuth,authRole("admin"),noteActions.deleteNote);
 

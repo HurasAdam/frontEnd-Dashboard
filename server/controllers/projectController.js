@@ -79,28 +79,21 @@ const getSingleProject = async (req, res) => {
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, createdBy, contributors } = req.body;
-
+const updates=req.body
   const projectContributor = await User.find({ _id: { $in: contributors } });
+console.log(contributors)
 
+  // const result = projectContributor.map((user) => {
+  //   return {
+  //     _id: user._id,
+  //     name: user.name,
+  //     surname: user.surname,
+  //     email: user.email,
+  //     role: user.role,
+  //   };
+  // });
 
-  const result = projectContributor.map((user) => {
-    return {
-      _id: user._id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      role: user.role,
-    };
-  });
-
-  const project = await Project.findOneAndUpdate({ _id: id },
-    {
-      title: title,
-      description: description,
-      createdBy: createdBy,
-      contributors: result,
-    }
-  );
+  const project = await Project.findOneAndUpdate({ _id: id },{$set:updates});
 
   res.status(200).json(project);
 };

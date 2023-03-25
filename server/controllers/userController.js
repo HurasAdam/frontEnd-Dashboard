@@ -127,6 +127,7 @@ const getAvalibleUserList = async (req, res) => {
       _id: user._id,
       name: user.name,
       surname: user.surname,
+      email:user.email,
       role: user.role,
     };
   });

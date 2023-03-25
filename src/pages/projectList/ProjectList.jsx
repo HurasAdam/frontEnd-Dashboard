@@ -14,10 +14,10 @@ const {user}=useContext(AuthContext)
 console.log(data)   
 
   const columns = [
-    { field: "id", headerName: "ID", width: 200, flex: 0.7 },
-    { field: "title", headerName: "Title", width: 300, flex: 0.9 },
-    { field: "status", headerName: "Status", width: 50, flex: 0.5 },
-    { field: "createdAt", headerName: "Date", width: 140, flex: 0.7 },
+  
+    { field: "title", headerName: "Title", width: 300, flex: 0.4 },
+    { field: "status", headerName: "Status", width: 50, flex: 0.2 },
+    { field: "createdAt", headerName: "Date", width: 140, flex: 0.5 },
     {
       field: "action",
       headerName: "Action",

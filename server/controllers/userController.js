@@ -88,7 +88,8 @@ const signupUser = async (req, res) => {
 };
 
 const getUserList = async (req, res) => {
-  const userList = await User.find({});
+
+  const userList = await User.find({})
 
   const result = userList.map((user) => {
     return {

@@ -1,7 +1,7 @@
 const Project = require("../db/models/project");
 const User = require("../db/models/user");
-const Note= require("../db/models/note")
-const {ObjectId } = require('mongodb');
+const Note = require("../db/models/note");
+const { ObjectId } = require("mongodb");
 //Create Projet
 const createProject = async (req, res) => {
   const { title, description, contributors, createdBy } = req.body;
@@ -39,10 +39,12 @@ const createProject = async (req, res) => {
 
 //Get All Projects
 const getProjectList = async (req, res) => {
+  const page = req.query.page||0
+  const projectPerPage=10;
   const { id: userId } = req.user;
   const { role } = req.role;
-  console.log(role);
-  const projects = await Project.find({});
+  console.log(page);
+  const projects = await Project.find({}).skip(page*projectPerPage).limit(projectPerPage);
   const { projects: check } = req.query;
 
   const isMember = (list, id) => {
@@ -53,7 +55,7 @@ const getProjectList = async (req, res) => {
   const result = projects.filter((proj) => {
     return isMember(proj.contributors, userId);
   });
-console.log(role)
+  console.log(role);
   if (!check) {
     res.status(200).json(projects);
   }
@@ -79,54 +81,44 @@ const getSingleProject = async (req, res) => {
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, createdBy, contributors } = req.body;
-const updates=req.body
+  const updates = req.body;
   const projectContributor = await User.find({ _id: { $in: contributors } });
-console.log(contributors)
+  
 
-  // const result = projectContributor.map((user) => {
-  //   return {
-  //     _id: user._id,
-  //     name: user.name,
-  //     surname: user.surname,
-  //     email: user.email,
-  //     role: user.role,
-  //   };
-  // });
-
-  const project = await Project.findOneAndUpdate({ _id: id },{$set:updates});
+  const project = await Project.findOneAndUpdate(
+    { _id: id },
+    { $set: updates }
+  );
 
   res.status(200).json(project);
 };
 
+const deleteProject = async (req, res) => {
+  const { id } = req.params;
 
-const deleteProject=async(req,res)=>{
-const {id}=req.params
+  const tickets = await Note.find({});
 
+  const result = tickets.filter(
+    (ticket) => ticket.project._id.toString() === id
+  );
 
-
-const tickets =await Note.find({})
-
-const result = tickets.filter((ticket)=>ticket.project._id.toString()===id)
-
-try{
-
-  if(result.length>0){
-    throw Error('Can not delete project due to other references.Check ticket list')
+  try {
+    if (result.length > 0) {
+      throw Error(
+        "Can not delete project due to other references.Check ticket list"
+      );
+    }
+    const currentProject = await Project.findOneAndDelete({ _id: id });
+    res.status(200).json();
+  } catch (Error) {
+    res.status(409).json(Error.message);
   }
-  const currentProject = await Project.findOneAndDelete({_id:id})
-  res.status(200).json()
-}
-catch(Error){
-  res.status(409).json(Error.message)
-}
-
-
-}
+};
 
 module.exports = {
   createProject,
   getProjectList,
   getSingleProject,
   updateProject,
-  deleteProject
+  deleteProject,
 };

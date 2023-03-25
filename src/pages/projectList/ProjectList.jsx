@@ -17,7 +17,7 @@ export const ProjectsList = () => {
     pageSize:0
     
   })
-  
+
     const [data,isLoading,error]=useFetch(`http://127.0.0.1:3000/api/projects?page${pageState.page}`)
 const {user}=useContext(AuthContext)
 
@@ -77,11 +77,11 @@ data&&console.log(pageState)
           autoHeight={true}
           rowHeight={40}
           rowCount={pageState.total}
-          rows={data.projects}
+          rows={pageState.data}
           columns={columns}
           paginationMode="server"
-          page={data.currentPage}
-          pageSize={data.itemsPerPage}
+          page={pageState.page}
+          pageSize={pageState.pageSize}
           rowsPerPageOptions={[10,30,50,70,100]}
           checkboxSelection={false}
           disableSelectionOnClick

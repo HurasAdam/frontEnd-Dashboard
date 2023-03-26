@@ -40,13 +40,17 @@ const createProject = async (req, res) => {
 //Get All Projects
 const getProjectList = async (req, res) => {
   // const page = req.query.page||0
-  const projectPerPage=2;
+  
   const { id: userId } = req.user;
   const { role } = req.role;
-const page =Number(req.query.page)||0
-console.log(typeof(page))
+  const page = Number(req.query.page)
+ 
+  console.log(page)
+  let size = 2
+const limit= parseInt(size);
+const skip= (page-1)*size
   const allProjects= await Project.find({})
-  const projects = await Project.find({}).skip(page*projectPerPage).limit(projectPerPage);
+  const projects = await Project.find({}).skip(skip).limit(limit)
   const { projects: check } = req.query;
 
   
@@ -60,7 +64,7 @@ console.log(typeof(page))
   });
   
   if(!check && typeof(page)==='number' ){
-    res.status(200).json({itemPerPage:projectPerPage,total:(allProjects.length)/projectPerPage,page:page,projects:projects})
+    res.status(200).json({pageSize:size,total:((allProjects.length)/size),page:page,projects:projects})
   }
 
   if (check==='userProjects'&& role==='admin'){

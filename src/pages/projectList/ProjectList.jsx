@@ -9,10 +9,12 @@ import { AuthContext } from "../../contexts/AuthContext";
 export const ProjectsList = () => {
   const [pageState, setPageState] = useState({
     page: 1,
-    prev:false,
-    next:false,
+    prev: false,
+    next: false,
+    total: 0,
+    pageSize: 10,
   });
-  const [isDisabled, setIsDisabled] = useState(false);
+
   const [data, isLoading, error] = useFetch(
     `http://127.0.0.1:3000/api/projects?page=${pageState.page}`
   );
@@ -21,23 +23,28 @@ export const ProjectsList = () => {
   const selectPage = (e, action) => {
     e.preventDefault();
     setPageState({ ...pageState, page: action });
-  
-   if(pageState.page===data.total){
-    setPageState({...pageState,next:true})
-   }
- 
   };
 
-  useEffect(()=>{
-    if(data){
-if(pageState.page===data.total){
-  setPageState({...pageState,next:true})
-}
-else{
-  setPageState({...pageState,next:false})
-}
+  useEffect(() => {
+    if (data) {
+      setPageState({
+        ...pageState,
+        total: data.total,
+        pageSize: data.pageSize,
+      });
     }
-  },[pageState.page])
+  }, [data]);
+
+  useEffect(() => {
+    if (pageState) {
+      if (pageState.page <= 1) {
+        setPageState({ ...pageState, prev: true, next: false });
+      }
+      if (pageState.page === pageState.total) {
+        setPageState({ ...pageState, next: true, prev: false });
+      }
+    }
+  }, [pageState.page]);
 
   const columns = [
     { field: "title", headerName: "Title", width: 300, flex: 0.4 },
@@ -79,15 +86,28 @@ else{
           columns={columns}
           checkboxSelection={false}
           disableSelectionOnClick
+          hideFooter={true}
         />
       )}
-      <button disabled={pageState.prev} onClick={(e) => selectPage(e, pageState.page - 1)}>Prev</button>
-      <button disabled={pageState.next} onClick={(e) => selectPage(e, pageState.page + 1)}>Next</button>
-      {data && (
-        <span>
-          Page:{pageState.page}of {data.total}
-        </span>
-      )}
+      <div className="navButtonsContainer">
+        <button className={`${pageState.next}`}
+          disabled={pageState.next}
+          onClick={(e) => selectPage(e, pageState.page + 1)}
+        >
+          Next
+        </button>
+        <button className={`${pageState.prev}`}
+          disabled={pageState.prev}
+          onClick={(e) => selectPage(e, pageState.page - 1)}
+        >
+          Prev
+        </button >
+        {data && (
+          <span>
+            Page:{pageState.page}of {pageState.total}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

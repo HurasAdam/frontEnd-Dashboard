@@ -46,7 +46,7 @@ const getProjectList = async (req, res) => {
   const page = Number(req.query.page)
  
   console.log(page)
-  let size = 2
+  let size = 10
 const limit= parseInt(size);
 const skip= (page-1)*size
   const allProjects= await Project.find({})
@@ -64,7 +64,7 @@ const skip= (page-1)*size
   });
   
   if(!check && typeof(page)==='number' ){
-    res.status(200).json({pageSize:size,total:((allProjects.length)/size),page:page,projects:projects})
+    res.status(200).json({pageSize:size,total:Math.ceil((allProjects.length)/size),page:page,projects:projects})
   }
 
   if (check==='userProjects'&& role==='admin'){

@@ -27,6 +27,7 @@ module.exports = {
       [item.key]: item.value,
     }));
 
+    console.log(authorObject)
     const newNote = new Note({
       project: projectObject,
       title: title,
@@ -37,6 +38,7 @@ module.exports = {
         name: authorObject.name,
         surname: authorObject.surname,
         email: authorObject.email,
+        userAvatar:authorObject.userAvatar
       },
       description: description,
       type: type,

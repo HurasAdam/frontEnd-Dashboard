@@ -79,10 +79,11 @@ const signupUser = async (req, res) => {
         email,
         password: hashPassword,
         role,
+        userAvatar:'link'
       });
       const token = createToken(user._id);
 
-      res.status(200).json({ name, surname, email, token, role });
+      res.status(200).json({ name, surname, email, token, role,userAvatar });
     }
   } catch (Error) {
     console.log(Error);
@@ -94,6 +95,7 @@ const getUserList = async (req, res) => {
 
   const userList = await User.find({})
 
+  console.log(userList)
   const result = userList.map((user) => {
     return {
       _id: user._id,
@@ -101,6 +103,7 @@ const getUserList = async (req, res) => {
       surname: user.surname,
       email: user.email,
       role: user.role,
+      userAvatar:user.userAvatar
     };
   });
 

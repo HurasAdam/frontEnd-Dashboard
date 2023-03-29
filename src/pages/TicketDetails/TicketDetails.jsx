@@ -160,7 +160,7 @@ console.log(data)
                 <span className="ticketInfoAuthorJobTitle"></span>
               </div>
             </div>
-            <img src="" className="ticketInfoTopImg" alt="" />
+            {data&&<img src={data.author.userAvatar} className="ticketInfoTopImg" alt="" />}
           </div>
           <div className="ticketInfoBottom">
             <div className="ticketInfoBottomItem">

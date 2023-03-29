@@ -4,12 +4,13 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { userRows } from '../../dummyData';
 import { Link } from 'react-router-dom';
 import {useState} from 'react';
-
+import { useFetch } from '../../hooks/useFetch';
 
 const UserList=({setUserData})=>{
 
-    const [data,setData]=useState(userRows);
-    
+    const [data, error, isLoading] = useFetch("http://127.0.0.1:3000/api/user");
+    const [xd,setData]=useState(userRows);
+    console.log(data)
 const handleEditUser=(id)=>{
     const targetedUser=data.filter((user)=>user.id===id)
     const [user]=targetedUser
@@ -22,12 +23,12 @@ setData(data.filter((item)=>item.id!==id))
     }
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70,flex: 1 },
-        { field: 'userName', headerName: ' Username', width: 250,flex: 1, renderCell:(params)=>{
+        { field: '_id', headerName: 'ID', width: 70,flex: 1 },
+        { field: `name`, headerName: ' Username', width: 250,flex: 1, renderCell:(params)=>{
             return(
                 <div className='userListUser'>
-                    <img className='userListUserImg' src={params.row.avatar} alt="" />
-                    {params.row.userName}
+                    <img className='userListUserImg' src={params.row.userAvatar} alt="" />
+                    {`${params.row.name} ${params.row.surname}`}
                 </div>
             )
         } },
@@ -61,15 +62,16 @@ setData(data.filter((item)=>item.id!==id))
         <div className="userList">
           
        
-                <DataGrid  className='dataGrid'
+               {data&& <DataGrid  className='dataGrid'
                 autoHeight={true}
+               getRowId={(row)=>row._id}
         rows={data}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
-      />
+      />}
             </div>
        
     )

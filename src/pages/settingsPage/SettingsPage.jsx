@@ -15,22 +15,6 @@ export const SettingsPage = () => {
 
   const { user } = useContext(AuthContext);
 
-  const uploadAvatar = async () => {
-    const file = new FormData();
-    file.append("file", selectedFile);
-    const response = await fetch("http://127.0.0.1:3000/api/user/upload", {
-      method: "POST",
-      body: file,
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    if (response.ok) {
-      const json = response.json();
-      console.log(json);
-    }
-  };
-
   const uploadUserAvatar = async () => {
     const file = new FormData();
     file.append("file", selectedFile);

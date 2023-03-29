@@ -8,6 +8,7 @@ import { useFetch } from '../../hooks/useFetch';
 
 const UserList=({setUserData})=>{
 
+    
     const [data, error, isLoading] = useFetch("http://127.0.0.1:3000/api/user");
     const [xd,setData]=useState(userRows);
     console.log(data)
@@ -15,7 +16,7 @@ const handleEditUser=(id)=>{
     const targetedUser=data.filter((user)=>user.id===id)
     const [user]=targetedUser
    
-    setUserData(user)
+    
 }
 
     const handleDelete =(id)=>{
@@ -47,7 +48,7 @@ setData(data.filter((item)=>item.id!==id))
                 return(
                     <>
                <Link to={{
-                pathname:`/user/${params.row.id}`,}}>
+                pathname:`/user/${params.row._id}`,}}>
                     <button onClick={()=>handleEditUser(params.row.id)} className="userListEdit">Edit</button>
                     </Link>
                     <DeleteOutlineIcon className="userListDelete " onClick={()=>handleDelete(params.row.id)}/>

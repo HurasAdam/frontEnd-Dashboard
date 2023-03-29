@@ -42,13 +42,23 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  let { name, surname, email, password, role } = req.body;
+  let { name, surname, email, password, role,userAvatar,phone,birthDay } = req.body;
 
   if (!role) {
     role = "user";
   }
   if (role) {
     role = role;
+  }
+
+  if(!userAvatar){
+    userAvatar=''
+  }
+  if(!phone){
+    phone=''
+  }
+  if(!birthDay){
+    birthDay=''
   }
 
   try {
@@ -73,17 +83,20 @@ const signupUser = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
 
+      
       const user = await User.create({
         name,
         surname,
         email,
         password: hashPassword,
         role,
-        userAvatar:'link'
+        userAvatar,
+        phone,
+        birthDay
       });
       const token = createToken(user._id);
 
-      res.status(200).json({ name, surname, email, token, role,userAvatar });
+      res.status(200).json({ name, surname, email, token, role,userAvatar,phone,birthDay });
     }
   } catch (Error) {
     console.log(Error);
@@ -91,11 +104,28 @@ const signupUser = async (req, res) => {
   }
 };
 
+const getUserData=async(req,res)=>{
+ const {id}=req.params
+
+ const user = await User.findOne({_id:id})
+
+const result = {
+  name:user.name,
+  surname:user.surname,
+  email:user.email,
+  role:user.role,
+  userAvatar:user.userAvatar
+}
+res.status(200).json(result)
+
+}
+
+
 const getUserList = async (req, res) => {
 
   const userList = await User.find({})
 
-  console.log(userList)
+  
   const result = userList.map((user) => {
     return {
       _id: user._id,
@@ -159,4 +189,4 @@ res.status(200).json()
 
 
 
-module.exports = { signupUser, loginUser, getUserList, getAvalibleUserList,updateUserData };
+module.exports = { signupUser, loginUser,getUserData, getUserList, getAvalibleUserList,updateUserData };

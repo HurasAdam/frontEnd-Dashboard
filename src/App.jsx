@@ -21,7 +21,7 @@ import { SettingsPage } from "./pages/settingsPage/SettingsPage";
 function App() {
   const {user}=useContext(AuthContext)
   const [EditTicketData, setEditTicketData] = useState();
-  const [userData, setUserData] = useState();
+  
   return (
     <BrowserRouter>
       <Topbar />
@@ -30,8 +30,8 @@ function App() {
         <Sidebar />
         <Routes>
           <Route exact path="/" element={user?<Home />:<Navigate to='/login'/>}></Route>
-          <Route path="/users"element={user?<UserList setUserData={setUserData} />:<Navigate to='/login'/>}></Route>
-          <Route path="/user/:userId" element={user?<User userData={userData} />:<Navigate to='/login'/>}></Route>
+          <Route path="/users"element={user?<UserList  />:<Navigate to='/login'/>}></Route>
+          <Route path="/user/:userId" element={user?<User />:<Navigate to='/login'/>}></Route>
           <Route path="/newUser" element={user?<NewUser />:<Navigate to='/login'/>}></Route>
           <Route exact path="/tickets" element={user?<TicketsList />:<Navigate to='/login'/>}></Route>
           <Route exact path="/projects" element={user?<ProjectsList />:<Navigate to='/login'/>}></Route>

@@ -26,7 +26,12 @@ const userSchema = new Schema({
   },
   userAvatar:{
     type:String,
-
+  },
+  phone:{
+    type:String,
+  },
+  birthDay:{
+    type:String
   }
 });
 

@@ -7,6 +7,7 @@ const {
   getUserList,
   getAvalibleUserList,
   updateUserData,
+  getUserData
  
 } = require("../controllers/userController");
 const {uploadAvatar,upload}=require("../middleware/multer")
@@ -24,6 +25,7 @@ router.post("/signup", signupUser);
 
 router.get("/", requireAuth, getUserList);
 
+router.get('/:id',getUserData)
 //filter list
 router.get("/avalibleContributors", requireAuth, getAvalibleUserList);
 

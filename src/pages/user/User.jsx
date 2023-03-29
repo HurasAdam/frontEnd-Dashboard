@@ -7,15 +7,19 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PublishIcon from '@mui/icons-material/Publish';
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useFetch } from "../../hooks/useFetch";
+import { useParams } from "react-router-dom";
 
+export const User = () => {
 
+  const { userId } = useParams();
+  const [data, error, isLoading] = useFetch(`http://127.0.0.1:3000/api/user/${userId}`);
 
-export const User = ({userData}) => {
-
+  console.log(data)
   
   return (
     <div className="user">
- {console.log(userData)}
+ 
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
         <Link to='/newUser'>
@@ -25,13 +29,13 @@ export const User = ({userData}) => {
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <img
-              src={`../${userData.avatar}`}
+           { data&&<img
+              src={data.userAvatar}
               alt=""
               className="userShowImg"
-            />
+            />}
             <div className="userShowTopTitle">
-              <span className="userShowUsername">{userData.userName}</span>
+              {data&&<span className="userShowUsername">{data.name}</span>}
               <span className="userShowJobTitle">Software Engineer</span>
             </div>
           </div>
@@ -45,19 +49,19 @@ export const User = ({userData}) => {
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <CalendarMonthIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">{userData.birthday}</span>
+              {data&&<span className="userShowInfoTitle">{data.email}</span>}
             </div>
             <div className="userShowInfo">
               <CallIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">{userData.phone}</span>
+              {data&&<span className="userShowInfoTitle">{data.email}</span>}
             </div>
             <div className="userShowInfo">
               <MailOutlineIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">{userData.email}</span>
+              {data&&<span className="userShowInfoTitle">{data.email}</span>}
             </div>
             <div className="userShowInfo">
               <LocationOnIcon className="userShowIcon" />
-              <span className="userShowInfoTitle">{userData.adress}</span>
+              {data&&<span className="userShowInfoTitle">{data.adress}</span>}
             </div>
           </div>
         </div>
@@ -67,28 +71,28 @@ export const User = ({userData}) => {
                 <div className="userUpdateLeft">
                     <div className="userUpdateItem">
                         <label htmlFor="">Username</label>
-                        <input type="text" placeholder={userData.userName} className='userUpdateInput' />
+                        {data&&<input type="text" placeholder={data.name} className='userUpdateInput' />}
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Full Name</label>
-                        <input type="text" placeholder={userData.userName} className='userUpdateInput' />
+                        {data&&<input type="text" placeholder={data.surname} className='userUpdateInput' />}
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Email</label>
-                        <input type="text" placeholder={userData.email} className='userUpdateInput' />
+                       {data&&<input type="text" placeholder={data.email} className='userUpdateInput' />}
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Phone</label>
-                        <input type="text" placeholder={userData.phone} className='userUpdateInput' />
+                        {data&&<input type="text" placeholder={data.email} className='userUpdateInput' />}
                     </div>
                     <div className="userUpdateItem">
                         <label htmlFor="">Adress</label>
-                        <input type="text" placeholder={userData.adress} className='userUpdateInput' />
+                       {data&& <input type="text" placeholder={data.email} className='userUpdateInput' />}
                     </div>
                 </div>
                 <div className="userUpdateRight">
                     <div className="userUpdateUpload">
-                        <img src={`../${userData.avatar}`} alt="" className='userUpdateImg' />
+                        {data&&<img src={data.userAvatar} alt="" className='userUpdateImg' />}
                         <label htmlFor="file">
                             <PublishIcon className="userUpdateIcon"/>
                         </label>

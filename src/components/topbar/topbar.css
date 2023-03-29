@@ -29,6 +29,14 @@
     margin-right: 10px;
     cursor: pointer;
     color:#555;
+   
+}
+.topicons-container img{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
 }
 .topicon-badge{
     position: absolute;
@@ -69,3 +77,5 @@ color: rgb(143, 38, 242);
     
     text-decoration: none;
 }
+
+

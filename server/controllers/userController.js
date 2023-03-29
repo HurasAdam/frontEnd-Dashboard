@@ -20,7 +20,10 @@ const loginUser = async (req, res) => {
       throw Error("All fielnds needs to be filled");
     }
     const user = await User.findOne({ email });
+
    const role =user.role
+   const userAvatar= user.userAvatar
+   
     if (!user) {
       throw Error("Inncorect Email");
     }
@@ -29,7 +32,7 @@ const loginUser = async (req, res) => {
       throw Error("Inncorect Password");
     } else {
       const token = createToken(user._id);
-      res.status(200).json({ email, token,role});
+      res.status(200).json({ email, token,role,userAvatar});
     }
   } catch (Error) {
     console.log(Error);
@@ -140,12 +143,17 @@ const getAvalibleUserList = async (req, res) => {
 
 const updateUserData=async(req,res)=>{
 
+  console.log(req.userAvatar)
   const {id,role}=req.body
-  
+ 
 
-const updateUserRole= await User.findOneAndUpdate( { _id:id} , { $set: { role : role  }})
-console.log(updateUserRole)
+const updateUserRole= await User.findOneAndUpdate( { _id:id} , { $set: { role : role}})
+
 res.status(200).json()
 }
+
+
+
+
 
 module.exports = { signupUser, loginUser, getUserList, getAvalibleUserList,updateUserData };

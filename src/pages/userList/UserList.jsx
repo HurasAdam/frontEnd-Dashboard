@@ -32,12 +32,7 @@ setData(data.filter((item)=>item.id!==id))
             )
         } },
         { field: 'email', headerName: 'Email', width: 180,flex: 1 },
-        {
-          field: 'status',
-          headerName: 'Status',
-         
-          width: 120,flex: 1
-        },
+        
         {
             field:'role',
             headerName:'Role',

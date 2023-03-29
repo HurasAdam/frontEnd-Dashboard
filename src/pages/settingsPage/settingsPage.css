@@ -2,6 +2,12 @@
     flex:5;
     display: flex;
     flex-direction: column;
+
+}
+
+.dataGrid{
+ 
+  height: max-content;
 }
 
 select{

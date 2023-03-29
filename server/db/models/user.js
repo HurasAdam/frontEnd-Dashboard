@@ -24,6 +24,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  userAvatar:{
+    type:String,
+
+  }
 });
 
 const model = mongoose.model("User", userSchema);

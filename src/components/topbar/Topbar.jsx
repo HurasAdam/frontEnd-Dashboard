@@ -27,8 +27,10 @@ const {user}=useContext(AuthContext)
           <div className="topicons-container">
             <SettingsIcon />
           </div>
-          <div className="topAvatar-container">
-            <AccountCircleIcon fontSize="large" />
+          <div className="topicons-container">
+            {user.userAvatar?<img  src={user.userAvatar}/>
+            :<AccountCircleIcon fontSize="large" />
+}
           </div>
         </div>:<div className="topbar-login">
           <Link className="loginLink" to='/login'><span>Login</span></Link>

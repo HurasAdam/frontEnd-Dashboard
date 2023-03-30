@@ -32,8 +32,11 @@ const TicketSchema = new Schema(
       type: String,
       required: true,
     },
+    createdAt:{
+      type:Object
+    }
   },
-  { timestamps: true }
+ 
 );
 
 module.exports = mongoose.model("Tickets", TicketSchema);

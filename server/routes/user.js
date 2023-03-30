@@ -5,7 +5,7 @@ const {
   loginUser,
   signupUser,
   getUserList,
-  getAvalibleUserList,
+ 
   updateUserData,
   getUserData
  
@@ -27,7 +27,7 @@ router.get("/", requireAuth, getUserList);
 
 router.get('/:id',requireAuth,getUserData)
 //filter list
-// router.get('/avalibleContributors', requireAuth, getAvalibleUserList);
+
 
 router.patch("/", requireAuth, authRole("admin"), updateUserData);
 

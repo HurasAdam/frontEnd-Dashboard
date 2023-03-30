@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const {convertDate}=require('../utils/dateConvert')
 
 const createToken = (id) => {
   const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
@@ -92,6 +93,10 @@ const signupUser = async (req, res) => {
         userAvatar,
         phone,
         birthDay,
+        createdAt:convertDate()
+          
+        
+        
       });
       const token = createToken(user._id);
 
@@ -106,6 +111,7 @@ const signupUser = async (req, res) => {
           userAvatar,
           phone,
           birthDay,
+
         });
     }
   } catch (Error) {
@@ -118,6 +124,14 @@ const getUserData = async (req, res) => {
   const { id } = req.params;
 
   const user = await User.findOne({ _id: id });
+ 
+
+// const date = new Date().getTime()
+// console.log(date)
+// const day= new Date(date).getDate()
+// const month = new Date(date).getMonth()
+// const year = new Date(date).getFullYear()
+// console.log(`data: ${day} ${month} ${year}`)
 
   const result = {
     name: user.name,
@@ -125,6 +139,9 @@ const getUserData = async (req, res) => {
     email: user.email,
     role: user.role,
     userAvatar: user.userAvatar,
+    createdAt:user.createdAt
+    
+    
   };
   res.status(200).json(result);
 };
@@ -183,37 +200,7 @@ const getUserList = async (req, res) => {
   }
 };
 
-const getAvalibleUserList = async (req, res) => {
-  const { project } = req.query;
 
-  //get currentProject
-  const asignedToProject = await Project.find({ _id: project });
-
-  //get ID of users asigned to the project
-  const contributorsList = asignedToProject.map((ob) => ob.contributors).flat();
-
-  //get full list of Users
-  const userList = await User.find({});
-
-  //filter userLis and return only those users whos are not asigned to the project
-  const notAsignedYet = userList.filter(
-    (user) =>
-      contributorsList.find(
-        (contributor) => user._id.toString() === contributor._id.toString()
-      ) === undefined
-  );
-  const result = notAsignedYet.map((user) => {
-    return {
-      _id: user._id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      role: user.role,
-    };
-  });
-
-  res.status(200).json(result);
-};
 
 const updateUserData = async (req, res) => {
   console.log(req.userAvatar);
@@ -232,6 +219,5 @@ module.exports = {
   loginUser,
   getUserData,
   getUserList,
-  getAvalibleUserList,
   updateUserData,
 };

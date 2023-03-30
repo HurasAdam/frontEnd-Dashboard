@@ -18,9 +18,12 @@ const projectSchema = new Schema({
   createdBy:{
     type:String,
     required:true
+  },
+  createdAt:{
+    type:Object
   }
 
-}, { timestamps: true });
+});
 
 const model = mongoose.model("Projects", projectSchema);
 

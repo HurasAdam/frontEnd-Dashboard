@@ -1,6 +1,7 @@
 const Note = require("../db/models/note");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
+const {convertDate}=require("../utils/dateConvert")
 module.exports = {
   //Zapisywanie notatki
   async saveNote(req, res) {
@@ -42,6 +43,8 @@ module.exports = {
       },
       description: description,
       type: type,
+      createdAt:convertDate()
+      
     });
 
     await newNote.save();

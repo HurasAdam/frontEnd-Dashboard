@@ -32,8 +32,11 @@ const userSchema = new Schema({
   },
   birthDay:{
     type:String
+  },
+  createdAt:{
+    type: Object
   }
-},{ timestamps: true });
+});
 
 const model = mongoose.model("User", userSchema);
 module.exports = model;

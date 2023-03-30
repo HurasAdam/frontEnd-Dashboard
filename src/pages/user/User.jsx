@@ -53,7 +53,7 @@ export const User = () => {
          
             <div className="userShowInfo">
               <CalendarMonthIcon className="userShowIcon" />
-              {data && <span className="userShowInfoTitle">{data.createdAt}</span>}
+              {data && <span className="userShowInfoTitle">{`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}</span>}
             </div>
             <div className="userShowInfo">
               <CallIcon className="userShowIcon" />

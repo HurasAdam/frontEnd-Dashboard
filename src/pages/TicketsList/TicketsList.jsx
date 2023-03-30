@@ -27,7 +27,7 @@ export const TicketsList = () => {
         <button className={params.row.priority}>{params.row.priority}</button>
       )
     }},
-    {field:'createdAt',headerName:'Date',width: 160,flex:0.9},
+    {field:'createdAt',headerName:'Date',width: 160,flex:0.9,valueFormatter: ({value} ) => `${value.Day}/${value.Month}/${value.Year}` },
     {field:'action',headerName:'Action',width:'100', renderCell:(params)=>{
       return(
 <>

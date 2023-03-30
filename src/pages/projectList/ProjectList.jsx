@@ -49,7 +49,7 @@ export const ProjectsList = () => {
   const columns = [
     { field: "title", headerName: "Title", width: 300, flex: 0.4 },
     { field: "status", headerName: "Status", width: 50, flex: 0.2 },
-    { field: "createdAt", headerName: "Date", width: 140, flex: 0.5 },
+    { field: 'createdAt', headerName: "Date", width: 140, flex: 0.5,valueFormatter: ({value} ) => `${value.Day}/${value.Month}/${value.Year}`  },
     {
       field: "action",
       headerName: "Action",

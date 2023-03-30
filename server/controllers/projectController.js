@@ -2,6 +2,7 @@ const Project = require("../db/models/project");
 const User = require("../db/models/user");
 const Note = require("../db/models/note");
 const { ObjectId } = require("mongodb");
+const {convertDate}=require('../utils/dateConvert')
 //Create Projet
 const createProject = async (req, res) => {
   const { title, description, contributors, createdBy } = req.body;
@@ -28,6 +29,7 @@ const createProject = async (req, res) => {
       description,
       contributors: result,
       createdBy,
+      createdAt:convertDate()
     });
 
     res.status(201).json(project);

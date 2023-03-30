@@ -169,7 +169,7 @@ console.log(data)
                   <ScheduleOutlinedIcon />
                   Created:
                 </span>
-                {data && <span>{data.createdAt}</span>}
+                {data && <span>{`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}</span>}
               </div>
 
               <div className="ticketInfoBottomItem-span">

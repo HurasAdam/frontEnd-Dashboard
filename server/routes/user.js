@@ -25,9 +25,9 @@ router.post("/signup", signupUser);
 
 router.get("/", requireAuth, getUserList);
 
-router.get('/:id',getUserData)
+router.get('/:id',requireAuth,getUserData)
 //filter list
-router.get("/avalibleContributors", requireAuth, getAvalibleUserList);
+// router.get('/avalibleContributors', requireAuth, getAvalibleUserList);
 
 router.patch("/", requireAuth, authRole("admin"), updateUserData);
 

@@ -68,21 +68,25 @@
 }
 .userUpdateForm{
     display: flex;
-    justify-content: space-between;
+
     margin-top: 20px;
+  
 }
 .userUpdateItem{
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    
+  padding: 0px 20px;
 }
 .userUpdateItem>label{
     margin-bottom: 5px;
     font-size: 14px;
+  
 }
 .userUpdateInput{
     border: none;
-    width: 250px;
+    width: 70%;
     border-bottom: 1px solid grey;
     height: 25px;
 }
@@ -107,6 +111,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex: 1;
+}
+.userUpdateLeft{
+flex: 3;
+}
+.uploadAvatar-icon{
+   scale: 2.0;
 }
 .userUpdateUpload{
     display: flex;

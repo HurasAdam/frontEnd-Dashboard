@@ -33,6 +33,7 @@ export const ProjectDetails = () => {
   );
 
 
+  
   const handleChange=(selectedOption)=>{
 setContributorsList([...contributorsList,selectedOption])
 setUserList(userList.filter((user)=>user!==selectedOption))
@@ -42,7 +43,7 @@ setUserList(userList.filter((user)=>user!==selectedOption))
   }, []);
   //get list of users
   const getUserList = async () => {
-    const response = await fetch(`http://127.0.0.1:3000/api/user/avalibleContributors?project=${projectId}`,
+    const response = await fetch(`http://127.0.0.1:3000/api/user?project=${projectId}`,
     {
       headers:{'Authorization': `Bearer ${user.token}`},
     });

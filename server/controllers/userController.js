@@ -14,16 +14,15 @@ const createToken = (id) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-
   try {
     if (!email || !password) {
       throw Error("All fielnds needs to be filled");
     }
     const user = await User.findOne({ email });
 
-   const role =user.role
-   const userAvatar= user.userAvatar
-   
+    const role = user.role;
+    const userAvatar = user.userAvatar;
+
     if (!user) {
       throw Error("Inncorect Email");
     }
@@ -32,7 +31,7 @@ const loginUser = async (req, res) => {
       throw Error("Inncorect Password");
     } else {
       const token = createToken(user._id);
-      res.status(200).json({ email, token,role,userAvatar});
+      res.status(200).json({ email, token, role, userAvatar });
     }
   } catch (Error) {
     console.log(Error);
@@ -42,7 +41,8 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  let { name, surname, email, password, role,userAvatar,phone,birthDay } = req.body;
+  let { name, surname, email, password, role, userAvatar, phone, birthDay } =
+    req.body;
 
   if (!role) {
     role = "user";
@@ -51,14 +51,14 @@ const signupUser = async (req, res) => {
     role = role;
   }
 
-  if(!userAvatar){
-    userAvatar=''
+  if (!userAvatar) {
+    userAvatar = "";
   }
-  if(!phone){
-    phone=''
+  if (!phone) {
+    phone = "";
   }
-  if(!birthDay){
-    birthDay=''
+  if (!birthDay) {
+    birthDay = "";
   }
 
   try {
@@ -83,7 +83,6 @@ const signupUser = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
 
-      
       const user = await User.create({
         name,
         surname,
@@ -92,11 +91,22 @@ const signupUser = async (req, res) => {
         role,
         userAvatar,
         phone,
-        birthDay
+        birthDay,
       });
       const token = createToken(user._id);
 
-      res.status(200).json({ name, surname, email, token, role,userAvatar,phone,birthDay });
+      res
+        .status(200)
+        .json({
+          name,
+          surname,
+          email,
+          token,
+          role,
+          userAvatar,
+          phone,
+          birthDay,
+        });
     }
   } catch (Error) {
     console.log(Error);
@@ -104,40 +114,73 @@ const signupUser = async (req, res) => {
   }
 };
 
-const getUserData=async(req,res)=>{
- const {id}=req.params
+const getUserData = async (req, res) => {
+  const { id } = req.params;
 
- const user = await User.findOne({_id:id})
+  const user = await User.findOne({ _id: id });
 
-const result = {
-  name:user.name,
-  surname:user.surname,
-  email:user.email,
-  role:user.role,
-  userAvatar:user.userAvatar
-}
-res.status(200).json(result)
-
-}
-
+  const result = {
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    role: user.role,
+    userAvatar: user.userAvatar,
+  };
+  res.status(200).json(result);
+};
 
 const getUserList = async (req, res) => {
+  const userList = await User.find({});
 
-  const userList = await User.find({})
+  const query = req.query.project;
+  console.log(query);
 
-  
-  const result = userList.map((user) => {
-    return {
-      _id: user._id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      role: user.role,
-      userAvatar:user.userAvatar
-    };
-  });
+  if (!query) {
+    const result = userList.map((user) => {
+      return {
+        _id: user._id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        role: user.role,
+        userAvatar: user.userAvatar,
+        createdAt: user.createdAt,
+      };
+    });
 
-  res.status(200).json(result);
+    res.status(200).json(result);
+  }
+
+  if (query) {
+    const asignedToProject = await Project.find({ _id: query });
+
+    //get ID of users asigned to the project
+    const contributorsList = asignedToProject
+      .map((ob) => ob.contributors)
+      .flat();
+
+    //get full list of Users
+    const userList = await User.find({});
+
+    //filter userLis and return only those users whos are not asigned to the project
+    const notAsignedYet = userList.filter(
+      (user) =>
+        contributorsList.find(
+          (contributor) => user._id.toString() === contributor._id.toString()
+        ) === undefined
+    );
+    const result = notAsignedYet.map((user) => {
+      return {
+        _id: user._id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        role: user.role,
+      };
+    });
+
+    res.status(200).json(result);
+  }
 };
 
 const getAvalibleUserList = async (req, res) => {
@@ -164,7 +207,7 @@ const getAvalibleUserList = async (req, res) => {
       _id: user._id,
       name: user.name,
       surname: user.surname,
-      email:user.email,
+      email: user.email,
       role: user.role,
     };
   });
@@ -172,21 +215,23 @@ const getAvalibleUserList = async (req, res) => {
   res.status(200).json(result);
 };
 
+const updateUserData = async (req, res) => {
+  console.log(req.userAvatar);
+  const { id, role } = req.body;
 
+  const updateUserRole = await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { role: role } }
+  );
 
-const updateUserData=async(req,res)=>{
+  res.status(200).json();
+};
 
-  console.log(req.userAvatar)
-  const {id,role}=req.body
- 
-
-const updateUserRole= await User.findOneAndUpdate( { _id:id} , { $set: { role : role}})
-
-res.status(200).json()
-}
-
-
-
-
-
-module.exports = { signupUser, loginUser,getUserData, getUserList, getAvalibleUserList,updateUserData };
+module.exports = {
+  signupUser,
+  loginUser,
+  getUserData,
+  getUserList,
+  getAvalibleUserList,
+  updateUserData,
+};

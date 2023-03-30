@@ -33,7 +33,7 @@ const userSchema = new Schema({
   birthDay:{
     type:String
   }
-});
+},{ timestamps: true });
 
 const model = mongoose.model("User", userSchema);
 module.exports = model;

@@ -8,6 +8,7 @@ export const SettingsPage=()=>{
 const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
 const [userSettings,setUserSettings]=useState({})
 const [selectedFile, setSelectedFile] = useState();
+const [isEdited,setIsEdited]=useState(false)
 const {user}=useContext(AuthContext)
 
 useEffect(()=>{
@@ -27,6 +28,9 @@ e.preventDefault()
           body: JSON.stringify(userSettings),
         
     })
+    if(response.ok){
+     setIsEdited(false)
+    }
 }
 
 const uploadUserAvatar = async (e) => {
@@ -55,24 +59,24 @@ const uploadUserAvatar = async (e) => {
           <form className="settingsPageForm">
             <div className="settingsPageItem">
               <label>Username</label>
-              <input type="text" defaultValue={userSettings.name}  onChange={(e)=>setUserSettings({...userSettings, name:e.target.value})}/>
+              <input disabled={!isEdited} type="text" defaultValue={userSettings.name}  onChange={(e)=>setUserSettings({...userSettings, name:e.target.value})}/>
             </div>
             <div className="settingsPageItem">
               <label>Surname</label>
-              <input type="text" defaultValue={userSettings.surname} onChange={(e)=>setUserSettings({...userSettings, surname:e.target.value})}/>
+              <input disabled={!isEdited} type="text" defaultValue={userSettings.surname} onChange={(e)=>setUserSettings({...userSettings, surname:e.target.value})}/>
             </div>
             <div className="settingsPageItem">
               <label>Email</label>
-              <input type="email" defaultValue={userSettings.email} onChange={(e)=>setUserSettings({...userSettings, email:e.target.value})} />
+              <input disabled={!isEdited} type="email" defaultValue={userSettings.email} onChange={(e)=>setUserSettings({...userSettings, email:e.target.value})} />
             </div>
         
             <div className="settingsPageItem">
               <label>Phone</label>
-              <input type="number" defaultValue={userSettings.phone} onChange={(e)=>setUserSettings({...userSettings, phone:e.target.value})}/>
+              <input disabled={!isEdited} type="number" defaultValue={userSettings.phone} onChange={(e)=>setUserSettings({...userSettings, phone:e.target.value})}/>
             </div>
             <div className="settingsPageItem">
               <label>Adress</label>
-              <input type="text" defaultValue={userSettings.adress} onChange={(e)=>setUserSettings({...userSettings, adress:e.target.value})} />
+              <input disabled={!isEdited} type="text" defaultValue={userSettings.adress} onChange={(e)=>setUserSettings({...userSettings, adress:e.target.value})} />
             </div>
             <div className="settingsPageItem">
               <label>Birthday</label>
@@ -105,7 +109,8 @@ const uploadUserAvatar = async (e) => {
           <button onClick={uploadUserAvatar}>Save</button>
             </div>
             <div className="settingsPageButtonContainer">
-            <button className="settingsPageButton" onClick={updateUserData}>Update</button>
+            {isEdited?(<button className="settingsPageButton" onClick={updateUserData}>Update</button>):
+            (<button onClick={(e)=>{e.preventDefault();setIsEdited(true)}} className="settingsPageButton">Edit</button>)}
             </div>
           </form>
         </div>

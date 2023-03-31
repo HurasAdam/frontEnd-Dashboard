@@ -63,19 +63,19 @@ const handleClick=()=>{
               Users
             </li>
             </Link >
-            {user.role==="admin"?
-            <Link to='/adminPanel'className="sidebarLink">
+            
+            {user.role==='admin'?(<Link to='/adminPanel'className="sidebarLink">
             <li className="sidebar-list-item">
               <AdminPanelSettingsOutlinedIcon className="sidebarIcon"/>
               Admin Panel
             </li>
-            </Link>:null}
-            {user.role==="user"?(<Link to='/settings' className="sidebarLink">
+            </Link>):null}
+            <Link to='/settings' className="sidebarLink">
             <li className="sidebar-list-item">
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings
             </li>
-            </Link>):null}
+            </Link>
             <li className="sidebar-list-item" onClick={handleClick}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout

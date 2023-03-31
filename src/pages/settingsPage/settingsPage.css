@@ -2,8 +2,14 @@
     flex:5;
     display: flex;
     flex-direction: column;
+    gap:20px
 }
+.settingsPageTitle{
 
+  padding: 5px 15px;
+  font-size: 24px;
+  color:rgb(50, 48, 48)
+}
   
 .settingsPageForm {
     display: flex;
@@ -12,7 +18,7 @@
   }
   
   .settingsPageItem {
-    width: 600px;
+    width: 610px;
     display: flex;
     flex-direction: column;
     margin-top: 10px;
@@ -32,6 +38,43 @@
     border: 1px solid gray;
     border-radius: 5px;
   }
+
+  .settingsPageItem-inputFile input[type=file]{
+    margin-right: 20px;
+    border: none;
+    background: #b2c4ed;
+  line-height: 45px;
+  padding: 0px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+  }
+
+
+
+  .settingsPageItem-inputFile{
+    width: 600px;
+    margin-top: 10px;
+    margin-right: 20px;
+   
+   display:flex;
+   flex-direction: column;
+   gap:15px;
+ 
+  }
+
+ .settingsPageItem-inputFile button{
+width: 85px;
+height: 25px;
+color: white;
+font-weight: 600;
+border-radius: 7px;
+border: none;
+background-color: rgb(191, 32, 191);
+cursor: pointer;
+ }
   
   .settingsPageGender > input {
     margin-top: 15px;

@@ -14,7 +14,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     require: true,
-    uniqure: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -23,6 +23,10 @@ const userSchema = new Schema({
   role: {
     type: String,
     required: true,
+  },
+  gender:{
+    type:String,
+    
   },
   userAvatar:{
     type:String,

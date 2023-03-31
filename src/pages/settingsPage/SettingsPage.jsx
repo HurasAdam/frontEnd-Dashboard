@@ -2,10 +2,12 @@ import "../settingsPage/settingsPage.css"
 import {useFetch} from "../../hooks/useFetch"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 export const SettingsPage=()=>{
 
 const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
 const [userSettings,setUserSettings]=useState({})
+const [selectedFile, setSelectedFile] = useState();
 const {user}=useContext(AuthContext)
 
 useEffect(()=>{
@@ -27,12 +29,29 @@ e.preventDefault()
     })
 }
 
+const uploadUserAvatar = async (e) => {
+    e.preventDefault()
+    const file = new FormData();
+    file.append("file", selectedFile);
+
+    const response = await fetch("http://127.0.0.1:3000/api/user/upload", {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+      body:
+        file
+        
+      
+    });
+  };
 
     return(
 
         <div className="settingsPage">
 
-<h1 className="settingsPageTitle">Account Settings</h1>
+<h1 className="settingsPageTitle"><PeopleAltOutlinedIcon/> Account Settings</h1>
+
           <form className="settingsPageForm">
             <div className="settingsPageItem">
               <label>Username</label>
@@ -71,20 +90,19 @@ e.preventDefault()
             <div className="settingsPageItem">
               <label>Gender</label>
               <div className="settingsPageGender">
-                <input type="radio" name="gender" id="male" value="male" />
+                <input disabled={true} type="radio" name="gender" id="male" value="male" checked={userSettings.gender==='male'} />
                 <label for="male">Male</label>
-                <input type="radio" name="gender" id="female" value="female" />
+                <input disabled={true} type="radio" name="gender" id="female" value="female" checked={userSettings.gender==='female'} />
                 <label for="female">Female</label>
-                <input type="radio" name="gender" id="other" value="other" />
-                <label for="other">Other</label>
+             
               </div>
             </div>
-            <div className="settingsPageItem">
-              <label>Active</label>
-              <select className="settingsPageSelect" name="active" id="active">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
+            <div className="settingsPageItem-inputFile">
+              <label>change photo</label>
+          <input type="file" 
+          onChange={(e) => setSelectedFile(e.target.files[0])}
+          />
+          <button onClick={uploadUserAvatar}>Save</button>
             </div>
             <div className="settingsPageButtonContainer">
             <button className="settingsPageButton" onClick={updateUserData}>Update</button>

@@ -42,9 +42,10 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  let { name, surname, email, password, role, userAvatar, phone, birthDay,adress } =
+  let { name, surname, email, password, role, userAvatar, phone, birthDay,adress,gender } =
     req.body;
 
+    
   if (!role) {
     role = "user";
   }
@@ -92,6 +93,7 @@ const signupUser = async (req, res) => {
         surname,
         email,
         password: hashPassword,
+        gender,
         role,
         userAvatar,
         phone,
@@ -137,7 +139,8 @@ const getUserData = async (req, res) => {
     role: user.role,
     userAvatar: user.userAvatar,
     createdAt:user.createdAt,
-    adress:user.adress
+    adress:user.adress,
+    gender:user.gender
     
   };
   res.status(200).json(result);
@@ -210,7 +213,8 @@ const getUserList = async (req, res) => {
     phone:req.user.phone,
     birthDay:req.user.birthDay,
     createdAt:req.user.createdAt,
-    adress:req.user.adress
+    adress:req.user.adress,
+    gender:req.user.gender
    })
   }
 

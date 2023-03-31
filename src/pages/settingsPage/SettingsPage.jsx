@@ -1,117 +1,95 @@
-import { DataGrid } from "@mui/x-data-grid";
-import { useFetch } from "../../hooks/useFetch";
-import { useContext, useState } from "react";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { Link } from "react-router-dom";
-import "../settingsPage/settingsPage.css";
-import { AuthContext } from "../../contexts/AuthContext";
+import "../settingsPage/settingsPage.css"
+import {useFetch} from "../../hooks/useFetch"
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "../../contexts/AuthContext"
+export const SettingsPage=()=>{
 
-export const SettingsPage = () => {
-  const [data, error, isLoading] = useFetch("http://127.0.0.1:3000/api/user");
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [userRole, setUserRole] = useState();
-  const [selectedUser, setSelectedUser] = useState();
-  const [selectedFile, setSelectedFile] = useState();
+const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
+const [userSettings,setUserSettings]=useState({})
+const {user}=useContext(AuthContext)
 
-  const { user } = useContext(AuthContext);
+useEffect(()=>{
+    if(data){
+        setUserSettings(data)
+    }
+},[data])
 
-  const uploadUserAvatar = async () => {
-    const file = new FormData();
-    file.append("file", selectedFile);
-
-    const response = await fetch("http://127.0.0.1:3000/api/user/upload", {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-      body:
-        file
+const updateUserData=async(e)=>{
+e.preventDefault()
+    const response = await fetch(`http://127.0.0.1:3000/api/user/`,{
+        method:"PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(userSettings),
         
-      
-    });
-  };
+    })
+}
 
-  const handleRoleUpdate = async (e) => {
-    const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
 
-      body: JSON.stringify({
-        id: selectedUser,
-        role: userRole,
-      }),
-    });
-  };
+    return(
 
-  const columns = [
-    { field: "name", headerName: "Name", width: 150, flex: 0.4 },
-    { field: "surname", headerName: "Surname", width: 50, flex: 0.5 },
-    { field: "email", headerName: "Email", width: 80, flex: 0.4 },
+        <div className="settingsPage">
 
-    {
-      field: "role",
-      headerName: "Action",
-      width: "400",
-      renderCell: (params) => {
-        return (
-          <>
-            <select
-              defaultValue={params.row.role}
-              className="selectRole"
-              name=""
-              id=""
-              onChange={(e) => {
-                setUserRole(e.target.value);
-                setSelectedUser(params.row._id);
-                console.log(params.row.role);
-              }}
-            >
-              <option key="user" value="user">
-                user
-              </option>
-              <option key="admin" value="admin">
-                admin
-              </option>
-            </select>
-            <button className="changeRoleBtn" onClick={handleRoleUpdate}>
-              Save
-            </button>
-          </>
-        );
-      },
-    },
-  ];
-
-  return (
-    <div className="settingsPage">
-      <div className="dataGrid">
-        {data && (
-          <DataGrid
-            autoHeight={true}
-            rowHeight={40}
-            getRowId={(row) => row._id}
-            rows={data}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10]}
-            checkboxSelection={false}
-            disableSelectionOnClick
-            hideFooter={true}
-          />
-        )}
-      </div>
-      <div className="dataUploadContainer">
-        <span>Upload image</span>
-        <input
-          type="file"
-          onChange={(e) => setSelectedFile(e.target.files[0])}
-        />
-        <button onClick={uploadUserAvatar}>Add</button>
-      </div>
-
-    </div>
-  );
-};
+<h1 className="settingsPageTitle">Account Settings</h1>
+          <form className="settingsPageForm">
+            <div className="settingsPageItem">
+              <label>Username</label>
+              <input type="text" defaultValue={userSettings.name}  onChange={(e)=>setUserSettings({...userSettings, name:e.target.value})}/>
+            </div>
+            <div className="settingsPageItem">
+              <label>Surname</label>
+              <input type="text" defaultValue={userSettings.surname} onChange={(e)=>setUserSettings({...userSettings, surname:e.target.value})}/>
+            </div>
+            <div className="settingsPageItem">
+              <label>Email</label>
+              <input type="email" defaultValue={userSettings.email} onChange={(e)=>setUserSettings({...userSettings, email:e.target.value})} />
+            </div>
+        
+            <div className="settingsPageItem">
+              <label>Phone</label>
+              <input type="number" defaultValue={userSettings.phone} onChange={(e)=>setUserSettings({...userSettings, phone:e.target.value})}/>
+            </div>
+            <div className="settingsPageItem">
+              <label>Adress</label>
+              <input type="text" defaultValue={userSettings.adress} onChange={(e)=>setUserSettings({...userSettings, adress:e.target.value})} />
+            </div>
+            <div className="settingsPageItem">
+              <label>Birthday</label>
+              <input disabled={true} type="text" defaultValue={userSettings.birthDay} />
+            </div>
+            <div className="settingsPageItem">
+              <label>Account created</label>
+              {userSettings.createdAt&&<input disabled={true} type="text" 
+              defaultValue={`${userSettings.createdAt.Day}/${userSettings.createdAt.Month}/${userSettings.createdAt.Year}`}/>}
+            </div>
+            <div className="settingsPageItem">
+              <label>Account role</label>
+              <input disabled={true} type="text" defaultValue={userSettings.role}  />
+            </div>
+            <div className="settingsPageItem">
+              <label>Gender</label>
+              <div className="settingsPageGender">
+                <input type="radio" name="gender" id="male" value="male" />
+                <label for="male">Male</label>
+                <input type="radio" name="gender" id="female" value="female" />
+                <label for="female">Female</label>
+                <input type="radio" name="gender" id="other" value="other" />
+                <label for="other">Other</label>
+              </div>
+            </div>
+            <div className="settingsPageItem">
+              <label>Active</label>
+              <select className="settingsPageSelect" name="active" id="active">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div className="settingsPageButtonContainer">
+            <button className="settingsPageButton" onClick={updateUserData}>Update</button>
+            </div>
+          </form>
+        </div>
+    )
+}

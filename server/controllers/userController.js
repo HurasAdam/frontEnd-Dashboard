@@ -42,7 +42,7 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  let { name, surname, email, password, role, userAvatar, phone, birthDay } =
+  let { name, surname, email, password, role, userAvatar, phone, birthDay,adress } =
     req.body;
 
   if (!role) {
@@ -60,6 +60,9 @@ const signupUser = async (req, res) => {
   }
   if (!birthDay) {
     birthDay = "";
+  }
+  if(!adress){
+    adress=""
   }
 
   try {
@@ -93,6 +96,7 @@ const signupUser = async (req, res) => {
         userAvatar,
         phone,
         birthDay,
+        adress,
         createdAt:convertDate()
           
         
@@ -123,24 +127,17 @@ const signupUser = async (req, res) => {
 const getUserData = async (req, res) => {
   const { id } = req.params;
 
+  
   const user = await User.findOne({ _id: id });
  
-
-// const date = new Date().getTime()
-// console.log(date)
-// const day= new Date(date).getDate()
-// const month = new Date(date).getMonth()
-// const year = new Date(date).getFullYear()
-// console.log(`data: ${day} ${month} ${year}`)
-
   const result = {
     name: user.name,
     surname: user.surname,
     email: user.email,
     role: user.role,
     userAvatar: user.userAvatar,
-    createdAt:user.createdAt
-    
+    createdAt:user.createdAt,
+    adress:user.adress
     
   };
   res.status(200).json(result);
@@ -149,10 +146,10 @@ const getUserData = async (req, res) => {
 const getUserList = async (req, res) => {
   const userList = await User.find({});
 
-  const query = req.query.project;
-  console.log(query);
+  // const query = req.query.project;
+  // console.log(query);
 
-  if (!query) {
+  if (!req.query.project&& !req.query.settings) {
     const result = userList.map((user) => {
       return {
         _id: user._id,
@@ -168,8 +165,8 @@ const getUserList = async (req, res) => {
     res.status(200).json(result);
   }
 
-  if (query) {
-    const asignedToProject = await Project.find({ _id: query });
+  if (req.query.project) {
+    const asignedToProject = await Project.find({ _id: req.query.project });
 
     //get ID of users asigned to the project
     const contributorsList = asignedToProject
@@ -198,19 +195,53 @@ const getUserList = async (req, res) => {
 
     res.status(200).json(result);
   }
+
+
+  if(req.query.settings){
+    
+   console.log(req.user)
+   res.status(200).json({
+    _id:req.user._id,
+    name:req.user.name,
+    surname:req.user.surname,
+    email:req.user.email,
+    role:req.user.role,
+    userAvatar:req.user.userAvatar,
+    phone:req.user.phone,
+    birthDay:req.user.birthDay,
+    createdAt:req.user.createdAt,
+    adress:req.user.adress
+   })
+  }
+
 };
 
 
 
 const updateUserData = async (req, res) => {
-  console.log(req.userAvatar);
-  const { id, role } = req.body;
+ 
+  let { id, role,name,surname,email,adress,phone } = req.body;
 
+  const {_id} = req.user
+
+  if(!id){
+    id=_id.toString()
+  }
+  console.log(id)
+  
   const updateUserRole = await User.findOneAndUpdate(
     { _id: id },
-    { $set: { role: role } }
+    { $set: { 
+      role: role,
+      name:name,
+      surname:surname,
+      email:email,
+      adress:adress,
+      phone:phone } }
   );
 
+
+// console.log(id, role,name,surname,email,createdAt )
   res.status(200).json();
 };
 

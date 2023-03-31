@@ -8,6 +8,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext, AuthContextProvider } from "../../contexts/AuthContext";
@@ -63,12 +64,18 @@ const handleClick=()=>{
             </li>
             </Link >
             {user.role==="admin"?
-            <Link to='/settings'className="sidebarLink">
+            <Link to='/adminPanel'className="sidebarLink">
+            <li className="sidebar-list-item">
+              <AdminPanelSettingsOutlinedIcon className="sidebarIcon"/>
+              Admin Panel
+            </li>
+            </Link>:null}
+            {user.role==="user"?(<Link to='/settings' className="sidebarLink">
             <li className="sidebar-list-item">
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings
             </li>
-            </Link>:null}
+            </Link>):null}
             <li className="sidebar-list-item" onClick={handleClick}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout

@@ -17,6 +17,7 @@ import { ProjectsList } from "./pages/projectList/ProjectList";
 import { ProjectDetails } from "./pages/projectDetails/ProjectDetails";
 import { Contributors } from "./components/contributorsLayout/Contributors";
 import { NewProject } from "./pages/newProject/NewProject";
+import { AdminPanel } from "../src/pages/adminPanel/AdminPanel"
 import { SettingsPage } from "./pages/settingsPage/SettingsPage";
 function App() {
   const {user}=useContext(AuthContext)
@@ -37,8 +38,8 @@ function App() {
           <Route exact path="/projects" element={user?<ProjectsList />:<Navigate to='/login'/>}></Route>
           <Route exact path="/NewProject" element={user?<NewProject/>:<Navigate to='/login'/>}></Route>
           <Route path="/projects/:projectId" element={user?<ProjectDetails />:<Navigate to='/login'/>}> </Route>
+          <Route  path="/adminPanel" element={user?<AdminPanel/>:<Navigate to='/login'/>}> </Route>
           <Route  path="/settings" element={user?<SettingsPage/>:<Navigate to='/login'/>}> </Route>
-
   
           <Route path="/tickets/:ticketId" element={user?<TicketDetails/>:<Navigate to='/login'/>}></Route>
           <Route exact path="/Newticket" element={user?<NewTicket />:<Navigate to='/login'/>}></Route>

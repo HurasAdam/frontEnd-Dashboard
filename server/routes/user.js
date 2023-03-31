@@ -29,7 +29,7 @@ router.get('/:id',requireAuth,getUserData)
 //filter list
 
 
-router.patch("/", requireAuth, authRole("admin"), updateUserData);
+router.patch("/", requireAuth, authRole("admin",'user'), updateUserData);
 
 
 router.patch('/upload',requireAuth,upload.single('file'),uploadAvatar)

@@ -194,7 +194,7 @@ catch(Error){
                   <input
                     type="text"
                     onChange={(e) => handleInputChange(e, "priority")}
-                    defaultValue={data.createdAt}
+                    defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
                     disabled={isDisabled}
                   />
                 )}

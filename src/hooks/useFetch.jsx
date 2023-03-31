@@ -6,7 +6,7 @@ export const useFetch = (url) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 const {user,dispatch}=useContext(AuthContext)
-console.log(user)
+
   useEffect(() => {
     if(user){
     getData(url)

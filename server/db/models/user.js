@@ -33,6 +33,9 @@ const userSchema = new Schema({
   birthDay:{
     type:String
   },
+  adress:{
+    type:String
+  },
   createdAt:{
     type: Object
   }

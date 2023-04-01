@@ -14,6 +14,8 @@ export const ProjectsList = () => {
     projects: 0,
   });
 
+
+ 
   const prev = pageState.page <= 1 || pageState.total <= 1;
   const next = pageState.total <= 1 || pageState.page === pageState.total;
 
@@ -51,6 +53,16 @@ export const ProjectsList = () => {
       valueFormatter: ({ value }) =>
         `${value.Day}/${value.Month}/${value.Year}`,
     },
+    {field:"createdBy",headerName:'PM',width:300,renderCell:(params)=>{
+      return(
+        <>
+        <div className='userListUser'>
+        <img className='userListUserImg' src={params.row.createdBy.userAvatar} alt="" />
+        {`${params.row.createdBy.name} ${params.row.createdBy.surname}`}
+        </div>
+        </>
+      )
+    }},
     {
       field: "action",
       headerName: "Action",

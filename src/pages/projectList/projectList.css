@@ -21,3 +21,10 @@ flex-direction: row-reverse;
 .navButtonsContainer button.true{
  opacity: 0.5;
 }
+.userListUserImg {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}

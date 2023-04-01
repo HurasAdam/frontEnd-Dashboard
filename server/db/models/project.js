@@ -16,7 +16,7 @@ const projectSchema = new Schema({
     required:true
   },
   createdBy:{
-    type:String,
+    type:Object,
     required:true
   },
   createdAt:{

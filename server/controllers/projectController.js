@@ -13,7 +13,8 @@ const createProject = async (req, res) => {
 
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
-
+const projectManager = await User.findOne({email:createdBy})
+console.log(projectManager)
     const result = projectContributor.map((user) => {
       return {
         _id: user._id,
@@ -28,7 +29,14 @@ const createProject = async (req, res) => {
       title,
       description,
       contributors: result,
-      createdBy,
+      createdBy:{
+        name:projectManager.name,
+        surname:projectManager.surname,
+        email:projectManager.email,
+        role:projectManager.role,
+        phone:projectManager.phone,
+        userAvatar:projectManager.userAvatar
+      },
       createdAt:convertDate()
     });
 
@@ -47,13 +55,13 @@ const getProjectList = async (req, res) => {
   const { role } = req.role;
   const page = Number(req.query.page)
  
-  console.log(page)
+  
   let size = 10
 const limit= parseInt(size);
 const skip= (page-1)*size
   const allProjects= await Project.find({})
   const projects = await Project.find({}).skip(skip).limit(limit)
-  const { projects: check } = req.query;
+  const { projects: queryString } = req.query;
 
   
   const isMember = (list, id) => {
@@ -61,19 +69,20 @@ const skip= (page-1)*size
     return check.length > 0;
   };
 
-  const result = projects.filter((proj) => {
+  const userProjects = projects.filter((proj) => {
     return isMember(proj.contributors, userId);
   });
   
-  if(!check && typeof(page)==='number' ){
+  if(!queryString && typeof(page)==='number' ){
     res.status(200).json({pageSize:size,total:Math.ceil((allProjects.length)/size),page:page,projects:projects})
   }
-
-  if (check==='userProjects'&& role==='admin'){
+//project list that user belongs to as select opions
+  if (queryString==='userProjects'&& role==='admin'){
     res.status(200).json(allProjects);
     }
-    else if(check==='userProjects'&& role!=='admin'){
-      res.status(200).json(result)
+    //all project as select options - only for admin role 
+    else if(queryString==='userProjects'&& role!=='admin'){
+      res.status(200).json(userProjects)
     }
 
    

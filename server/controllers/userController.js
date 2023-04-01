@@ -21,9 +21,6 @@ const loginUser = async (req, res) => {
     }
     const user = await User.findOne({ email });
 
-    const role = user.role;
-    const userAvatar = user.userAvatar;
-
     if (!user) {
       throw Error("Inncorect Email");
     }
@@ -32,7 +29,7 @@ const loginUser = async (req, res) => {
       throw Error("Inncorect Password");
     } else {
       const token = createToken(user._id);
-      res.status(200).json({ email, token, role, userAvatar });
+      res.status(200).json({ email, token,role:user.role,userAvatar:user.userAvatar });
     }
   } catch (Error) {
     console.log(Error);

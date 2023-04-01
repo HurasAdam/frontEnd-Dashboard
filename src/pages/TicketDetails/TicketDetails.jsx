@@ -74,8 +74,8 @@ console.log(data)
         <div className="ticketDataContainerLeft">
           {data && (
             <div className="ticketDataContainerTop">
-              <p>Project name: {data.project.title}</p>
-              <p>Project Leader: {data.project.createdBy}</p>
+              <p>Project: {data.project.title}</p>
+              <p>Project Leader: {`${data.project.createdBy.name} ${data.project.createdBy.surname}`}</p>
               <p className="ticketId">Ticket ID:{ticketId}</p>
             </div>
           )}

@@ -144,13 +144,19 @@ const getUserData = async (req, res) => {
 };
 
 const getUserList = async (req, res) => {
-  const userList = await User.find({});
+  const page = Number(req.query.page)
+  let size = 10
+  const limit= parseInt(size);
+  const skip= (page-1)*size
 
-  // const query = req.query.project;
-  // console.log(query);
+  const userList = await User.find({}).skip(skip).limit(limit);
 
-  if (!req.query.project&& !req.query.settings) {
-    const result = userList.map((user) => {
+
+
+  const allUserList= await User.find({})
+
+  if (typeof(page)==='number') {
+    const UserList = userList.map((user) => {
       return {
         _id: user._id,
         name: user.name,
@@ -162,7 +168,7 @@ const getUserList = async (req, res) => {
       };
     });
 
-    res.status(200).json(result);
+    res.status(200).json({ pageSize:size,page:page,total:Math.ceil((allUserList.length)/size),users:UserList});
   }
 
   if (req.query.project) {

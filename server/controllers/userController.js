@@ -147,6 +147,27 @@ const getUserData = async (req, res) => {
 };
 
 const getUserList = async (req, res) => {
+  const allUserList = await User.find({});
+
+  //return list of all users as select options for new project 
+if(!req.query.settings && !req.query.project&& !req.query.page){
+
+  const result = allUserList.map((user) => {
+    return {
+      _id: user._id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      role: user.role,
+      userAvatar: user.userAvatar,
+      createdAt: user.createdAt,
+    };
+   
+  })
+  return res.status(200).json(result)
+}
+
+//return paginated list of all users
   if (req.query.page) {
     const allUserList = await User.find({});
     const page = Number(req.query.page);
@@ -177,6 +198,7 @@ const getUserList = async (req, res) => {
       });
   }
 
+  //return list of users that are not asigned yet to the current project
   if (req.query.project) {
     const asignedToProject = await Project.find({ _id: req.query.project });
     //get ID of users asigned to the project
@@ -206,7 +228,8 @@ const getUserList = async (req, res) => {
 
     return res.status(200).json(result);
   }
-
+  
+//return user account data
   if (req.query.settings) {
     return res.status(200).json({
       _id: req.user._id,

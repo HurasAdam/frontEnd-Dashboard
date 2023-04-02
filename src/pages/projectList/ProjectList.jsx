@@ -44,7 +44,16 @@ export const ProjectsList = () => {
 
   const columns = [
     { field: "title", headerName: "Title", width: 300, flex: 0.4 },
-    { field: "status", headerName: "Status", width: 50, flex: 0.2 },
+    {field:"createdBy",headerName:'PM',width:300,renderCell:(params)=>{
+      return(
+        <>
+        <div className='userListUser'>
+        <img className='userListUserImg' src={params.row.createdBy.userAvatar} alt="" />
+       <span> {`${params.row.createdBy.name} ${params.row.createdBy.surname}`}</span>
+        </div>
+        </>
+      )
+    }},
     {
       field: "createdAt",
       headerName: "Date",
@@ -53,20 +62,11 @@ export const ProjectsList = () => {
       valueFormatter: ({ value }) =>
         `${value.Day}/${value.Month}/${value.Year}`,
     },
-    {field:"createdBy",headerName:'PM',width:300,renderCell:(params)=>{
-      return(
-        <>
-        <div className='userListUser'>
-        <img className='userListUserImg' src={params.row.createdBy.userAvatar} alt="" />
-        {`${params.row.createdBy.name} ${params.row.createdBy.surname}`}
-        </div>
-        </>
-      )
-    }},
+ 
     {
       field: "action",
       headerName: "Action",
-      width: "100",
+      width: "130",
       renderCell: (params) => {
         return (
           <>
@@ -94,7 +94,7 @@ export const ProjectsList = () => {
       {data && (
         <DataGrid
           autoHeight={true}
-          rowHeight={40}
+          rowHeight={45}
           rows={data.projects}
           columns={columns}
           checkboxSelection={false}

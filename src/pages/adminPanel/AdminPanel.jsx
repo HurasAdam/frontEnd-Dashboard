@@ -11,25 +11,9 @@ export const AdminPanel = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [userRole, setUserRole] = useState();
   const [selectedUser, setSelectedUser] = useState();
-  const [selectedFile, setSelectedFile] = useState();
 
   const { user } = useContext(AuthContext);
 
-  const uploadUserAvatar = async () => {
-    const file = new FormData();
-    file.append("file", selectedFile);
-
-    const response = await fetch("http://127.0.0.1:3000/api/user/upload", {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-      body:
-        file
-        
-      
-    });
-  };
 
   const handleRoleUpdate = async (e) => {
     const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
@@ -103,14 +87,7 @@ export const AdminPanel = () => {
           />
         )}
       </div>
-      <div className="dataUploadContainer">
-        <span>Upload image</span>
-        <input
-          type="file"
-          onChange={(e) => setSelectedFile(e.target.files[0])}
-        />
-        <button onClick={uploadUserAvatar}>Add</button>
-      </div>
+   
 
     </div>
   );

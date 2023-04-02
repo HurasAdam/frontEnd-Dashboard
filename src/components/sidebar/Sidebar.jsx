@@ -10,10 +10,11 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext, AuthContextProvider } from "../../contexts/AuthContext";
 const Sidebar = () => {
   const {user,dispatch}=useContext(AuthContext)
+const [isHidden,setIsHidden]=useState(true)
 
 const handleClick=()=>{
 
@@ -64,12 +65,32 @@ const handleClick=()=>{
             </li>
             </Link >
             
-            {user.role==='admin'?(<Link to='/adminPanel'className="sidebarLink">
-            <li className="sidebar-list-item">
-              <AdminPanelSettingsOutlinedIcon className="sidebarIcon"/>
-              Admin Panel
-            </li>
-            </Link>):null}
+            {user.role==='admin'?(
+      
+       <li className="sidebar-list-item-submenu" >
+           <div className="submenuItem" onClick={()=>setIsHidden(!isHidden)}>
+           <AdminPanelSettingsOutlinedIcon className="sidebarIcon"/>
+           Admin Panel
+           </div>
+       
+              <ul>   
+          
+             
+              <Link to='/manageRoles'className="sidebarLink">
+                <li hidden={isHidden}>
+                Manage Roles
+                </li>
+                </Link>
+                <Link to='/manageUsers' className="sidebarLink">
+                <li hidden={isHidden}>
+                Manage Users
+                </li>
+                </Link>
+              </ul>
+              </li>
+          
+           
+           ):null}
             <Link to='/settings' className="sidebarLink">
             <li className="sidebar-list-item">
               <SettingsOutlinedIcon className="sidebarIcon"/>

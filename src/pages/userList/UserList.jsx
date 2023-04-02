@@ -92,7 +92,7 @@ const UserList = ({ setUserData }) => {
                 onClick={() => handleEditUser(params.row.id)}
                 className="userListEdit"
               >
-                Edit
+                View
               </button>
             </Link>
             <DeleteOutlineIcon
@@ -120,8 +120,8 @@ const UserList = ({ setUserData }) => {
         />
       )}
       <div className="userListButtonsContainer">
-        <button onClick={(e) => selectPage(e, pageState.page + 1)}>Next</button>
-        <button onClick={(e) => selectPage(e, pageState.page - 1)}>Prev</button>
+        <button disabled={next} className={`${next}`} onClick={(e) => selectPage(e, pageState.page + 1)}>Next</button>
+        <button disabled={prev} className={`${prev}`} onClick={(e) => selectPage(e, pageState.page - 1)}>Prev</button>
       </div>
     </div>
   );

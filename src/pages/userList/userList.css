@@ -45,3 +45,10 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+.userListButtonsContainer button.true{
+  opacity: 0.5;
+}
+.userListButtonsContainer button.false{
+  box-shadow: 1,2,3;
+}

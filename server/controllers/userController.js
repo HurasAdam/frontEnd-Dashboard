@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-const {convertDate}=require('../utils/dateConvert')
+const { convertDate } = require("../utils/dateConvert");
 
 const createToken = (id) => {
   const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
@@ -29,7 +29,9 @@ const loginUser = async (req, res) => {
       throw Error("Inncorect Password");
     } else {
       const token = createToken(user._id);
-      res.status(200).json({ email, token,role:user.role,userAvatar:user.userAvatar });
+      res
+        .status(200)
+        .json({ email, token, role: user.role, userAvatar: user.userAvatar });
     }
   } catch (Error) {
     console.log(Error);
@@ -39,10 +41,19 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  let { name, surname, email, password, role, userAvatar, phone, birthDay,adress,gender } =
-    req.body;
+  let {
+    name,
+    surname,
+    email,
+    password,
+    role,
+    userAvatar,
+    phone,
+    birthDay,
+    adress,
+    gender,
+  } = req.body;
 
-    
   if (!role) {
     role = "user";
   }
@@ -59,8 +70,8 @@ const signupUser = async (req, res) => {
   if (!birthDay) {
     birthDay = "";
   }
-  if(!adress){
-    adress=""
+  if (!adress) {
+    adress = "";
   }
 
   try {
@@ -96,26 +107,20 @@ const signupUser = async (req, res) => {
         phone,
         birthDay,
         adress,
-        createdAt:convertDate()
-          
-        
-        
+        createdAt: convertDate(),
       });
       const token = createToken(user._id);
 
-      res
-        .status(200)
-        .json({
-          name,
-          surname,
-          email,
-          token,
-          role,
-          userAvatar,
-          phone,
-          birthDay,
-
-        });
+      res.status(200).json({
+        name,
+        surname,
+        email,
+        token,
+        role,
+        userAvatar,
+        phone,
+        birthDay,
+      });
     }
   } catch (Error) {
     console.log(Error);
@@ -126,36 +131,30 @@ const signupUser = async (req, res) => {
 const getUserData = async (req, res) => {
   const { id } = req.params;
 
-  
   const user = await User.findOne({ _id: id });
- 
+
   const result = {
     name: user.name,
     surname: user.surname,
     email: user.email,
     role: user.role,
     userAvatar: user.userAvatar,
-    createdAt:user.createdAt,
-    adress:user.adress,
-    gender:user.gender
-    
+    createdAt: user.createdAt,
+    adress: user.adress,
+    gender: user.gender,
   };
   res.status(200).json(result);
 };
 
 const getUserList = async (req, res) => {
-  const page = Number(req.query.page)
-  let size = 10
-  const limit= parseInt(size);
-  const skip= (page-1)*size
+  if (req.query.page) {
+    const allUserList = await User.find({});
+    const page = Number(req.query.page);
+    let size = 10;
+    const limit = parseInt(size);
+    const skip = (page - 1) * size;
 
-  const userList = await User.find({}).skip(skip).limit(limit);
-
-
-
-  const allUserList= await User.find({})
-
-  if (typeof(page)==='number') {
+    const userList = await User.find({}).skip(skip).limit(limit);
     const UserList = userList.map((user) => {
       return {
         _id: user._id,
@@ -168,12 +167,18 @@ const getUserList = async (req, res) => {
       };
     });
 
-    res.status(200).json({ pageSize:size,page:page,total:Math.ceil((allUserList.length)/size),users:UserList});
+    return res
+      .status(200)
+      .json({
+        pageSize: size,
+        page: page,
+        total: Math.ceil(allUserList.length / size),
+        users: UserList,
+      });
   }
 
   if (req.query.project) {
     const asignedToProject = await Project.find({ _id: req.query.project });
-
     //get ID of users asigned to the project
     const contributorsList = asignedToProject
       .map((ob) => ob.contributors)
@@ -199,56 +204,49 @@ const getUserList = async (req, res) => {
       };
     });
 
-    res.status(200).json(result);
+    return res.status(200).json(result);
   }
 
-
-  if(req.query.settings){
-    
-   console.log(req.user)
-   res.status(200).json({
-    _id:req.user._id,
-    name:req.user.name,
-    surname:req.user.surname,
-    email:req.user.email,
-    role:req.user.role,
-    userAvatar:req.user.userAvatar,
-    phone:req.user.phone,
-    birthDay:req.user.birthDay,
-    createdAt:req.user.createdAt,
-    adress:req.user.adress,
-    gender:req.user.gender
-   })
+  if (req.query.settings) {
+    return res.status(200).json({
+      _id: req.user._id,
+      name: req.user.name,
+      surname: req.user.surname,
+      email: req.user.email,
+      role: req.user.role,
+      userAvatar: req.user.userAvatar,
+      phone: req.user.phone,
+      birthDay: req.user.birthDay,
+      createdAt: req.user.createdAt,
+      adress: req.user.adress,
+      gender: req.user.gender,
+    });
   }
-
 };
 
-
-
 const updateUserData = async (req, res) => {
- 
-  let { id, role,name,surname,email,adress,phone } = req.body;
+  let { id, role, name, surname, email, adress, phone } = req.body;
 
-  const {_id} = req.user
+  const { _id } = req.user;
 
-  if(!id){
-    id=_id.toString()
+  if (!id) {
+    id = _id.toString();
   }
-  console.log(id)
-  
+
   const updateUserRole = await User.findOneAndUpdate(
     { _id: id },
-    { $set: { 
-      role: role,
-      name:name,
-      surname:surname,
-      email:email,
-      adress:adress,
-      phone:phone } }
+    {
+      $set: {
+        role: role,
+        name: name,
+        surname: surname,
+        email: email,
+        adress: adress,
+        phone: phone,
+      },
+    }
   );
 
-
-// console.log(id, role,name,surname,email,createdAt )
   res.status(200).json();
 };
 

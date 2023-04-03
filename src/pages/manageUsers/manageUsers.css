@@ -1,4 +1,54 @@
-.manageUsers{
-    flex:5
+.userList {
+  flex: 5;
+}
+.dataGrid {
+  width: 100%;
+  height: 1200px;
+}
+.userListUser {
+  display: flex;
+  justify-content: center;
+}
+.userListUserImg {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.userListEdit {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #3bb077;
+  color: white;
+  cursor: pointer;
+  margin-right: 15px;
+}
+.userListDelete {
+  color: rgb(239, 81, 81);
+  cursor: pointer;
+}
+.userListButtonsContainer{
+  display: flex;
+  flex-direction: row-reverse;
+    gap: 5px;
+    padding: 0 15px;
+    
+}
+.userListButtonsContainer button{
+  padding: 2px 5px;
+  border: none;
+  background-color: rgb(195, 0, 255);
+  color:white;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
+.userListButtonsContainer button.true{
+  opacity: 0.5;
+}
+.userListButtonsContainer button.false{
+  box-shadow: 1,2,3;
+}

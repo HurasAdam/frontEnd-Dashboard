@@ -12,16 +12,16 @@ import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export const User = () => {
+export const User = ({isEditLocked}) => {
   const { userId } = useParams();
   const {user}=useContext(AuthContext)
   const [data, error, isLoading] = useFetch(
     `http://127.0.0.1:3000/api/user/${userId}`
   );
 
-  
 
-  console.log(data)
+
+
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -126,14 +126,14 @@ export const User = () => {
             </div>
             {user.role==='admin'?
             (<div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <span> Update user photo</span>
+              {isEditLocked&&<div  className="userUpdateUpload">
+                <span> Update photo</span>
                 <label htmlFor="file">
                   <PublishIcon className="userUpdateIcon" />
                 </label>
-                <input type="file" id="file" />
-              </div>
-              <button className="userUpdateButton">Update</button>
+                <input   type="file" id="file" />
+              </div>}
+              <button hidden={!isEditLocked} className="userUpdateButton">Update</button>
             </div>):
             (<span>xd</span>)}
           </form>

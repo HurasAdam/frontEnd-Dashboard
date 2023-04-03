@@ -1,11 +1,11 @@
-import "./userList.css";
+import "../userList/userList.css";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 
-const UserList = ({ setUserData }) => {
+export const UserList = () => {
   const [pageState, setPageState] = useState({
     page: 1,
     total: 0,
@@ -26,10 +26,6 @@ const UserList = ({ setUserData }) => {
     `http://127.0.0.1:3000/api/user?page=${pageState.page}`
   );
 
-  const handleEditUser = (id) => {
-    const targetedUser = data.filter((user) => user.id === id);
-    const [user] = targetedUser;
-  };
 
   useEffect(() => {
     if (data) {
@@ -48,12 +44,12 @@ const UserList = ({ setUserData }) => {
 
   console.log(data);
   const columns = [
-    { field: "_id", headerName: "ID", width: 70, flex: 1 },
+  
     {
       field: `name`,
       headerName: " Username",
       width: 250,
-      flex: 1,
+      flex: 0.7,
       renderCell: (params) => {
         return (
           <div className="userListUser">
@@ -67,44 +63,39 @@ const UserList = ({ setUserData }) => {
         );
       },
     },
-    { field: "email", headerName: "Email", width: 180, flex: 1 },
+    { field: "email", headerName: "Email", width: 180, flex: 0.5 },
 
     {
       field: "role",
       headerName: "Role",
       width: 150,
-      flex: 1,
+      flex: 0.3,
     },
     {
       field: "action",
       headerName: "Action",
       width: 150,
-      flex: 1,
+      flex: 0.2,
       renderCell: (params) => {
         return (
           <>
             <Link
               to={{
-                pathname: `/user/${params.row._id}`,
+                pathname: `/userDetails/${params.row._id}`,
               }}
             >
               <button
-                onClick={() => handleEditUser(params.row.id)}
+                // onClick={() => handleEditUser(params.row.id)}
                 className="userListEdit"
               >
                 View
               </button>
             </Link>
-            <DeleteOutlineIcon
-              className="userListDelete "
-              onClick={() => handleDelete(params.row.id)}
-            />
           </>
         );
       },
     },
   ];
-
   return (
     <div className="userList">
       {data && (
@@ -114,17 +105,28 @@ const UserList = ({ setUserData }) => {
           getRowId={(row) => row._id}
           rows={data.users}
           columns={columns}
-          checkboxSelection
+         
           disableSelectionOnClick
           hideFooter={true}
+         
         />
       )}
       <div className="userListButtonsContainer">
-        <button disabled={next} className={`${next}`} onClick={(e) => selectPage(e, pageState.page + 1)}>Next</button>
-        <button disabled={prev} className={`${prev}`} onClick={(e) => selectPage(e, pageState.page - 1)}>Prev</button>
+        <button
+          disabled={next}
+          className={`${next}`}
+          onClick={(e) => selectPage(e, pageState.page + 1)}
+        >
+          Next
+        </button>
+        <button
+          disabled={prev}
+          className={`${prev}`}
+          onClick={(e) => selectPage(e, pageState.page - 1)}
+        >
+          Prev
+        </button>
       </div>
     </div>
   );
 };
-
-export default UserList;

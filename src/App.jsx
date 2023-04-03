@@ -4,7 +4,7 @@ import Topbar from "./components/topbar/Topbar";
 import "./app.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import UserList from "./pages/userList/UserList";
+import { UserList } from "./pages/userList/UserList";
 import { User } from "./pages/user/User";
 import { NewUser } from "./pages/newUserPage/NewUser";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
@@ -19,7 +19,9 @@ import { Contributors } from "./components/contributorsLayout/Contributors";
 import { NewProject } from "./pages/newProject/NewProject";
 import { AdminPanel } from "../src/pages/adminPanel/AdminPanel"
 import { SettingsPage } from "./pages/settingsPage/SettingsPage";
-import { ManageUsers } from "./pages/manageUsers/ManageUsers"
+import ManageUsers from"../src/pages/manageUsers/ManageUsers";
+import { UserCard } from "./components/userCard/UserCard";
+import { ManageUser } from "./pages/manageUser/ManageUser";
 function App() {
   const {user}=useContext(AuthContext)
   const [EditTicketData, setEditTicketData] = useState();
@@ -32,8 +34,9 @@ function App() {
         <Sidebar />
         <Routes>
           <Route exact path="/" element={user?<Home />:<Navigate to='/login'/>}></Route>
-          <Route path="/users"element={user?<UserList  />:<Navigate to='/login'/>}></Route>
-          <Route path="/user/:userId" element={user?<User />:<Navigate to='/login'/>}></Route>
+          <Route path="/users"element={user?<UserList/>:<Navigate to='/login'/>}></Route>
+          <Route path="/userDetails/:userId" element={user?<UserCard />:<Navigate to='/login'/>}></Route>
+          <Route path="/user/:userId" element={user?<ManageUser/>:<Navigate to='/login'/>}></Route>
           <Route path="/newUser" element={user?<NewUser />:<Navigate to='/login'/>}></Route>
           <Route exact path="/tickets" element={user?<TicketsList />:<Navigate to='/login'/>}></Route>
           <Route exact path="/projects" element={user?<ProjectsList />:<Navigate to='/login'/>}></Route>

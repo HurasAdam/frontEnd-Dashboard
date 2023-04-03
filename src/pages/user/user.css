@@ -114,14 +114,17 @@
     flex: 1;
 }
 .userUpdateLeft{
-flex: 3;
+flex: 5;
 }
 .uploadAvatar-icon{
    scale: 2.0;
 }
 .userUpdateUpload{
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap:10px;
+   
     
 }
 .userUpdateImg{
@@ -133,6 +136,10 @@ flex: 3;
 }
 .userUpdateIcon{
     cursor: pointer;
+   
+}
+.userUpdateIcon:hover{
+    transform: rotate(180deg);
 }
 .userUpdateUpload input{
 display: none;

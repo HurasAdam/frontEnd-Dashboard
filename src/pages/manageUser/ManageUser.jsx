@@ -4,7 +4,7 @@ export const ManageUser=()=>{
 
     return(
         <div className="manageUser">
-<User isEditLocked={true}></User>
+<User isEditLocked={true} link={`/manageUsers`}></User>
         </div>
     )
 }

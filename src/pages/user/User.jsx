@@ -11,17 +11,17 @@ import { useContext, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-
-export const User = ({isEditLocked}) => {
+import { useNavigate } from "react-router-dom";
+export const User = ({ isEditLocked }) => {
   const { userId } = useParams();
-  const {user}=useContext(AuthContext)
+  const { user } = useContext(AuthContext);
+  const [isEditable, setIsEditable] = useState(false);
   const [data, error, isLoading] = useFetch(
     `http://127.0.0.1:3000/api/user/${userId}`
   );
 
-
-
-
+  const navigate = useNavigate()
+  
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -44,16 +44,16 @@ export const User = ({isEditLocked}) => {
           <div className="userShowBottom">
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
-              
               <PermIdentityIcon className="userShowIcon" />
               <span>Role</span>
-              {data&&<span className="userShowInfoTitle">{data.role}</span>}
+              {data && <span className="userShowInfoTitle">{data.role}</span>}
             </div>
 
-         
             <div className="userShowInfo">
               <CalendarMonthIcon className="userShowIcon" />
-              {data && <span className="userShowInfoTitle">{`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}</span>}
+              {data && (
+                <span className="userShowInfoTitle">{`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}</span>
+              )}
             </div>
             <div className="userShowInfo">
               <CallIcon className="userShowIcon" />
@@ -70,7 +70,12 @@ export const User = ({isEditLocked}) => {
           </div>
         </div>
         <div className="userUpdate">
-          <span className="userUpdateTitle">Edit</span>
+          <div className="userUpdateTitle">
+          <span>Edit</span>
+       
+          <button onClick={()=>navigate(-1)}>X</button>
+       
+          </div>
           <form action="" className="userUpdateForm">
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
@@ -80,6 +85,7 @@ export const User = ({isEditLocked}) => {
                     type="text"
                     placeholder={data.name}
                     className="userUpdateInput"
+                    disabled={!isEditable}
                   />
                 )}
               </div>
@@ -90,6 +96,7 @@ export const User = ({isEditLocked}) => {
                     type="text"
                     placeholder={data.surname}
                     className="userUpdateInput"
+                    disabled={!isEditable}
                   />
                 )}
               </div>
@@ -100,6 +107,7 @@ export const User = ({isEditLocked}) => {
                     type="text"
                     placeholder={data.email}
                     className="userUpdateInput"
+                    disabled={!isEditable}
                   />
                 )}
               </div>
@@ -110,6 +118,7 @@ export const User = ({isEditLocked}) => {
                     type="text"
                     placeholder={data.email}
                     className="userUpdateInput"
+                    disabled={!isEditable}
                   />
                 )}
               </div>
@@ -120,22 +129,54 @@ export const User = ({isEditLocked}) => {
                     type="text"
                     placeholder={data.email}
                     className="userUpdateInput"
+                    disabled={!isEditable}
                   />
                 )}
               </div>
             </div>
-            {user.role==='admin'?
-            (<div className="userUpdateRight">
-              {isEditLocked&&<div  className="userUpdateUpload">
-                <span> Update photo</span>
-                <label htmlFor="file">
-                  <PublishIcon className="userUpdateIcon" />
-                </label>
-                <input   type="file" id="file" />
-              </div>}
-              <button hidden={!isEditLocked} className="userUpdateButton">Update</button>
-            </div>):
-            (<span>xd</span>)}
+            {isEditLocked&&(
+              <div className="userUpdateRight">
+               
+                  <div className="userUpdateUpload">
+                    <span> Update photo</span>
+                    <label htmlFor="file">
+                      <PublishIcon className="userUpdateIcon" />
+                    </label>
+                    <input type="file" id="file" />
+                    <button hidden={!isEditLocked} className="userUpdateButton">
+                      Update
+                    </button>
+                  </div>
+            
+                {!isEditable ? (
+                  <div className="editBtnsWrapper">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsEditable(!isEditable);
+                      }}
+                      className="editUserDataBtn"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                ) : (
+                  <div className="actionBtnsWrapper">
+                    <button>Save</button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsEditable(!isEditable);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+              </div>
+          
+            
+            )}
           </form>
         </div>
       </div>

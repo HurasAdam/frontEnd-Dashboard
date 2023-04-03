@@ -93,6 +93,26 @@
 .userUpdateTitle{
     font-size: 24px;
     font-weight: 600;
+  
+    display: flex;
+    justify-content: space-between;
+}
+.userUpdateTitle span{
+font-size: 20px
+}
+
+.userUpdateTitle button{
+    cursor: pointer;
+padding: 2px 10px;
+border: none;
+border-radius: 4px;
+font-weight: 600;
+font-size: 14px;
+background: transparent;
+transition: all 0.1s ease-in-out;
+}
+.userUpdateTitle button:hover{
+    background: rgb(225, 138, 225);
 }
 
 .userShowInfo{
@@ -112,6 +132,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
+    ;
 }
 .userUpdateLeft{
 flex: 5;
@@ -153,3 +174,43 @@ display: none;
     color: white;
     font-weight: 600;
 }
+
+.editBtnsWrapper {
+    
+    display: flex;
+    justify-content: center;
+}
+
+.editBtnsWrapper button{
+    width: 75%;
+    border: none;
+    cursor: pointer;
+    padding: 3px 0px;
+    background: rgb(209, 65, 209);
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+}
+.actionBtnsWrapper{
+   
+    display: flex;
+    justify-content: space-between;
+    
+}
+.actionBtnsWrapper button{
+    cursor: pointer;
+    width: 46%;
+ 
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 2px 0px;
+}
+
+.actionBtnsWrapper button:first-child{
+background:rgb(25, 137, 96);
+    }
+    .actionBtnsWrapper button:nth-child(2){
+        background:rgb(195, 21, 62);
+            }

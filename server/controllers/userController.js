@@ -149,8 +149,9 @@ const getUserData = async (req, res) => {
 const getUserList = async (req, res) => {
   const allUserList = await User.find({});
 
+// console.log(req.query)
   //return list of all users as select options for new project 
-if(!req.query.settings && !req.query.project&& !req.query.page){
+if(!req.query.settings && !req.query.project&& !req.query.page&&!req.query.changePM){
 
   const result = allUserList.map((user) => {
     return {
@@ -166,6 +167,33 @@ if(!req.query.settings && !req.query.project&& !req.query.page){
   })
   return res.status(200).json(result)
 }
+
+if(req.query.changePM){
+const allUsers = await User.find({})
+console.log(allUsers)
+  const queryString= req.query.changePM
+  const currentPM = await User.findOne({email:queryString})
+const pmID= currentPM._id.toString()
+
+const filter= allUsers.filter((user)=>{
+   const filteredList=user._id.toString()!==pmID
+   return filteredList
+})
+
+ return res.status(200).json(
+ filter.map((u)=>{
+  return({
+    name:u.name,
+    surname:u.surname,
+    email:u.email,
+    role:u.role,
+    gender:u.gender,
+_id:u._id
+  })
+ }) 
+ )
+}
+
 
 //return paginated list of all users
   if (req.query.page) {

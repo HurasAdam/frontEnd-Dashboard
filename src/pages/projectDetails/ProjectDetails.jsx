@@ -28,6 +28,7 @@ export const ProjectDetails = () => {
   const [projectLeader, setProjectLeader] = useState();
   const [projectDescription, setProjectDescription] = useState();
   const [fetchError,setFetchError]=useState('')
+  const [check,setCheck]=useState()
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/projects/${projectId}/`
   );
@@ -40,8 +41,25 @@ setUserList(userList.filter((user)=>user!==selectedOption))
   }
   useEffect(() => {
     getUserList();
+
   }, []);
   //get list of users
+  console.log(data)
+  const getAllUsers = async () => {
+    const response = await fetch(`http://127.0.0.1:3000/api/user?changePM=${data.createdBy.email}&&project=${projectId}`,{
+      headers:{'Authorization': `Bearer ${user.token}`},
+    });
+
+    const json = await response.json();
+
+    const arr = json.map((user) => {
+      return { value: user._id, label: user.email };
+    });
+    setCheck(arr)
+  };
+
+
+
   const getUserList = async () => {
     const response = await fetch(`http://127.0.0.1:3000/api/user?project=${projectId}`,
     {
@@ -49,12 +67,12 @@ setUserList(userList.filter((user)=>user!==selectedOption))
     });
 
     const json = await response.json();
-console.log(json)
+
 
     setUserList(json);
   };
 
-  
+ 
 
   useEffect(() => {
     displayProjectDetails();
@@ -201,14 +219,12 @@ catch(Error){
               </div>
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project leader</label>
-                {data && (
-                  <input
-                    type="text"
-                    onChange={(e) => setProjectLeader(e.target.value)}
-                    defaultValue={projectLeader}
-                    disabled={isDisabled}
-                  />
-                )}
+           {data&&<select    id="">
+<option disabled>{data.createdBy.name}</option>
+            {check?check.map((user)=>{
+              return(<option>{user.label}</option>)
+            }):null}
+           </select>}
               </div>
 
               <div className="projectDataBottomItem">
@@ -280,7 +296,7 @@ catch(Error){
                   Save
                 </button>)}
 <button onClick={(e)=>{e.preventDefault();setIsDeleted(true)}}>Delete</button>
-
+<button onClick={(e)=>{e.preventDefault();getAllUsers()}}>CHECK</button>
 
 
 

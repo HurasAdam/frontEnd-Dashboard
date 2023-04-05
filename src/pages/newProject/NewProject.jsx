@@ -55,7 +55,7 @@ console.log(result)
       },
       body: JSON.stringify({
         ...newProject,
-        createdBy: user.email,
+        projectLeader: user.email,
         contributors: selecedtUsers.map(({value})=>value),
       }),
     });
@@ -80,7 +80,7 @@ console.log(result)
             <label className="newProjectItemLabel" htmlFor="">
               Project Title
             </label>
-            <input type="text" onChange={(e) => handleNewProject(e, "title")} />
+            <input type="text" onChange={(e) => handleNewProject(e, "projectTitle")} />
           </div>
 
           <div className="newProjectItemDescripion">

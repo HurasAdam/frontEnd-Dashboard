@@ -43,13 +43,13 @@ export const ProjectsList = () => {
   console.log(data);
 
   const columns = [
-    { field: "title", headerName: "Title", width: 300, flex: 0.4 },
+    { field: "projectTitle", headerName: "Title", width: 300, flex: 0.4 },
     {field:"createdBy",headerName:'PM',width:300,renderCell:(params)=>{
       return(
         <>
         <div className='userListUser'>
-        <img className='userListUserImg' src={params.row.createdBy.userAvatar} alt="" />
-       <span> {`${params.row.createdBy.name} ${params.row.createdBy.surname}`}</span>
+        <img className='userListUserImg' src={params.row.projectLeader.userAvatar} alt="" />
+       <span> {`${params.row.projectLeader.name} ${params.row.projectLeader.surname}`}</span>
         </div>
         </>
       )

@@ -149,7 +149,7 @@ const getUserData = async (req, res) => {
 const getUserList = async (req, res) => {
   const allUserList = await User.find({});
 
-// console.log(req.query)
+console.log(req.query)
   //return list of all users as select options for new project 
 if(!req.query.settings && !req.query.project&& !req.query.page&&!req.query.changePM){
 

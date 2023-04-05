@@ -5,15 +5,15 @@ const { ObjectId } = require("mongodb");
 const {convertDate}=require('../utils/dateConvert')
 //Create Projet
 const createProject = async (req, res) => {
-  const { title, description, contributors, createdBy } = req.body;
+  const { projectTitle, description, contributors, projectLeader } = req.body;
   try {
-    if (!title || !description || !contributors || !createdBy) {
+    if (!projectTitle || !description || !contributors || !projectLeader) {
       throw Error("All fields have to be filled");
     }
 
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
-const projectManager = await User.findOne({email:createdBy})
+const projectManager = await User.findOne({email:projectLeader})
 console.log(projectManager)
     const result = projectContributor.map((user) => {
       return {
@@ -26,10 +26,10 @@ console.log(projectManager)
     });
 
     const project = await Project.create({
-      title,
+      projectTitle,
       description,
       contributors: result,
-      createdBy:{
+      projectLeader:{
         name:projectManager.name,
         surname:projectManager.surname,
         email:projectManager.email,
@@ -104,10 +104,12 @@ const updateProject = async (req, res) => {
   const updates = req.body;
   const projectContributor = await User.find({ _id: { $in: contributors } });
   
+  const newPM = await User.findOne({_id:updates.projectLeader})
 
+  console.log(newPM)
   const project = await Project.findOneAndUpdate(
     { _id: id },
-    { $set: updates }
+    { $set: {...updates,projectLeader:{name:newPM.name,surname:newPM.surname,email:newPM.email,role:newPM.role,gender:newPM.gender,_id:newPM._id,userAvatar:newPM.userAvatar}} }
   );
 
   res.status(200).json(project);

@@ -1,178 +1,172 @@
-.projectDetails{
-    flex: 5;
-    padding: 20px;
+.projectDetails {
+  flex: 5;
+  padding: 20px;
 }
-.projectHeaderContainer{
-    display: flex;
-   margin-left: 20px;
-   margin-top: 10px;
-   font-size: 22px;
-   font-weight: 600;
-   margin-bottom: 10px;
+.projectHeaderContainer {
+  display: flex;
+  margin-left: 20px;
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
-.headerIcon{
-    font-size: 32px !important;
-    color: blue !important;
+.headerIcon {
+  font-size: 32px !important;
+  color: blue !important;
 }
-.projectId{
-    font-size: 14px;
-    font-weight: 400;
-    color:rgb(92, 105, 106)
+.projectId {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(92, 105, 106);
 }
-.projectDataContainer{
-    display: flex;
+.projectDataContainer {
+  display: flex;
 }
-.projectDataContainerLeft{
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+.projectDataContainerLeft {
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    flex:3;
-    padding: 5px 30px;
+  flex: 3;
+  padding: 5px 30px;
 }
 
-.projectDataContainerTop{
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
+.projectDataContainerTop {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.projectDataContainerTop button{
-    width: 24px;
-    height: 24px;
-    border: none;
-    font-size: 20px;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: 600;
+.projectDataContainerTop button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  font-size: 20px;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
 }
-.projectDataContainerTop button:hover{
-background-color: rgb(249, 188, 249);
-}
-
-
-
-
-.ticektDataBottom{
-   height: max-content;
-    flex-direction: column;
-  
-}
-.projectDataBottomItem{
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-   
-}
-.projectDataBottomItem>input{
-height: 30px;
-border: none;
-border-bottom: 1px solid grey;
-font-size: 15px;
-
-}
-.projectDataBottomItem textarea{
-    resize: none;
-}
-.projectDataBottomItem>label{
-margin-bottom: 5px;
-font-size: 14px;
-color: grey;
-}
-.projectDataContainerRight{
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    flex: 1;
-    margin-left: 20px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-  
-}
-.projectInfoTop{
-   
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 50px;
-}
-.projectInfoTopImg{
-    width: 100px;
-    height: 140px;
-    border-radius: 5px;
-    object-fit: cover;
- 
-}
-.projectInfoTopAuthor{
-   
-
-}
-.projectInfoItemsContainer{
-    display: flex;
-    flex-direction: column;
-    
- 
-    align-items: center;
-   justify-content: space-evenly;
-}
-.projectAuthorDataWrapper{
-    display: flex;
-    flex-direction: column;
-}
-.projectInfoAuthorName{
-    font-size: 20px;
-    font-weight: 600;
-}
-.projectInfoAuthorJobTitle{
-    font-weight: 300;
-    text-align: center;
-}
-.projectInfoBottom{
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-   
-}
-.projectInfoBottomItem{
-    display: flex;
-   
-    width: 100%;
-    margin-bottom: 20px;
-}
-.projectInfoBottomItem>span{
-    margin-left: 40px;
+.projectDataContainerTop button:hover {
+  background-color: rgb(249, 188, 249);
 }
 
-.projectDataBottomItem-Btns{
-margin-top: 20px;
-display: flex;
-gap:5px;
+.ticektDataBottom {
+  height: max-content;
+  flex-direction: column;
 }
-.projectDataBottomItem-Btns button{
-    padding: 6px;
-    width: 55px;
-    border-radius: 4px;
-    border: none;
-    color: white;
-    font-weight: 400;
-    background:rgb(144, 72, 144);
-    cursor: pointer;
+.projectDataBottomItem {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
 }
-.contributorsList{
-    border: 2px solid rgb(174, 0, 255);
-   padding: 5px;
+.projectDataBottomItem > input {
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid grey;
+  font-size: 15px;
 }
-.contributorItem{
-    background-color: olive;
-    margin-bottom: 6px;
-    display: flex;
-    justify-content: space-around;
+.projectDataBottomItem textarea {
+  resize: none;
+}
+.projectDataBottomItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: grey;
 }
 
-.error{
-    color:red
+.projectDataBottomItem select {
+  width: 100%;
+  padding: 5px 5px;
+  text-align: left;
+  background: transparent;
+  border-bottom: 1px ridge grey;
+}
+.projectDataContainerRight {
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  flex: 1;
+  margin-left: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.projectInfoTop {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 50px;
+}
+.projectInfoTopImg {
+  width: 100px;
+  height: 140px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+.projectInfoTopAuthor {
+}
+.projectInfoItemsContainer {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: space-evenly;
+}
+.projectAuthorDataWrapper {
+  display: flex;
+  flex-direction: column;
+}
+.projectInfoAuthorName {
+  font-size: 20px;
+  font-weight: 600;
+}
+.projectInfoAuthorJobTitle {
+  font-weight: 300;
+  text-align: center;
+}
+.projectInfoBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.projectInfoBottomItem {
+  display: flex;
+
+  width: 100%;
+  margin-bottom: 20px;
+}
+.projectInfoBottomItem > span {
+  margin-left: 40px;
 }
 
-::placeholder{
-    color:black;
-    font-weight: 400;
+.projectDataBottomItem-Btns {
+  margin-top: 20px;
+  display: flex;
+  gap: 5px;
+}
+.projectDataBottomItem-Btns button {
+  padding: 6px;
+  width: 55px;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  font-weight: 400;
+  background: rgb(144, 72, 144);
+  cursor: pointer;
+}
+.contributorsList {
+  border: 2px solid rgb(174, 0, 255);
+  padding: 5px;
+}
+.contributorItem {
+  background-color: olive;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.error {
+  color: red;
+}
+
+::placeholder {
+  color: black;
+  font-weight: 400;
 }

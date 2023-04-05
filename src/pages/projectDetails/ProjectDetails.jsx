@@ -19,7 +19,7 @@ export const ProjectDetails = () => {
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [contributorsList, setContributorsList] = useState([]);
+  // const [contributorsList, setContributorsList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [isDeleted,setIsDeleted]=useState(false)
   const [confirmDelete,setConfirmDelete]=useState('')
@@ -33,10 +33,11 @@ export const ProjectDetails = () => {
     `http://localhost:3000/api/projects/${projectId}/`
   );
 
-
+console.log(check)
+const [projectData,setProjectData]=useState({})
   
   const handleChange=(selectedOption)=>{
-setContributorsList([...contributorsList,selectedOption])
+setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption]})
 setUserList(userList.filter((user)=>user!==selectedOption))
   }
   useEffect(() => {
@@ -46,7 +47,7 @@ setUserList(userList.filter((user)=>user!==selectedOption))
   //get list of users
   console.log(data)
   const getAllUsers = async () => {
-    const response = await fetch(`http://127.0.0.1:3000/api/user?changePM=${data.createdBy.email}&&project=${projectId}`,{
+    const response = await fetch(`http://127.0.0.1:3000/api/user?changePM=${data.projectLeader.email}&&project=${projectId}`,{
       headers:{'Authorization': `Bearer ${user.token}`},
     });
 
@@ -58,6 +59,21 @@ setUserList(userList.filter((user)=>user!==selectedOption))
     setCheck(arr)
   };
 
+
+  useEffect(()=>{
+    if(data){
+setProjectData({...projectData,
+  projectTitle:data.projectTitle,
+  projectLeader:data.projectLeader,
+  _id:data.id,
+  contributors:data.contributors,
+  createdAt:data.createdAt,
+  description:data.description
+
+
+})
+}
+  },[data])
 
 
   const getUserList = async () => {
@@ -74,18 +90,18 @@ setUserList(userList.filter((user)=>user!==selectedOption))
 
  
 
-  useEffect(() => {
-    displayProjectDetails();
-  }, [data]);
+  // useEffect(() => {
+  //   displayProjectDetails();
+  // }, [data]);
 
-  const displayProjectDetails = () => {
-    if (data) {
-      setContributorsList(data.contributors);
-      setProjectTitle(data.title);
-      setProjectLeader(data.createdBy);
-      setProjectDescription(data.description);
-    }
-  };
+  // const displayProjectDetails = () => {
+  //   if (data) {
+  //     setContributorsList(data.contributors);
+  //     setProjectTitle(data.title);
+  //     setProjectLeader(data.createdBy);
+  //     setProjectDescription(data.description);
+  //   }
+  // };
 const kekw=(confirm)=>{
 
   if(confirm==='delete'){
@@ -137,12 +153,7 @@ catch(Error){
           Authorization: `Bearer ${user.token}`,
         },
 
-        body: JSON.stringify({
-          title: projectTitle,
-          createdBy: projectLeader,
-          description: projectDescription,
-          contributors: contributorsList,
-        }),
+        body: JSON.stringify(projectData),
       }
     );
     if (response.ok) {
@@ -165,8 +176,8 @@ catch(Error){
             <button
             disabled={isDisabled}
               onClick={(e) =>
-                setContributorsList(
-                  contributorsList.filter((user) => user._id !== params.id)
+                setProjectData(
+                 {...projectData,contributors:[...projectData.contributors.filter((user) => user._id !== params.id)]}
                 )
               }
             >
@@ -199,8 +210,8 @@ catch(Error){
                   <input
                     type="text"
                     required
-                    defaultValue={projectTitle}
-                    onChange={(e) => setProjectTitle(e.target.value)}
+                    defaultValue={projectData.projectTitle}
+                    onChange={(e) => setProjectData({...projectData,projectTitle:e.target.value})}
                     disabled={isDisabled}
                   />
                 )}
@@ -211,18 +222,18 @@ catch(Error){
                 {data && (
                   <input
                     type="text"
-                    onChange={(e) => handleInputChange(e, "priority")}
+                  
                     defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
-                    disabled={isDisabled}
+                    disabled={true}
                   />
                 )}
               </div>
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project leader</label>
-           {data&&<select    id="">
-<option disabled>{data.createdBy.name}</option>
+           {data&&<select disabled={isDisabled} onChange={(e)=>setProjectData({...projectData,projectLeader:e.target.value})} id="">
+<option disabled selected>{data.projectLeader.name}</option>
             {check?check.map((user)=>{
-              return(<option>{user.label}</option>)
+              return(<option value={user.value} key={user.value}>{user.label}</option>)
             }):null}
            </select>}
               </div>
@@ -231,21 +242,21 @@ catch(Error){
                 <label htmlFor="">Project Description</label>
                 {data && (
                   <textarea
-                    defaultValue={projectDescription}
+                    defaultValue={projectData.description}
                     disabled={isDisabled}
-                    onChange={(e) => setProjectDescription(e.target.value)}
+                    onChange={(e) => setProjectData({...projectData,description:e.target.value})}
                   ></textarea>
                 )}
               </div>
 
               <div className="projectDataBottomItem">
-                {contributorsList && (
+                {projectData.contributors && (
                   <DataGrid
                     className="dataGrid"
                     autoHeight={true}
                     getRowId={(row) => row._id}
                     rowHeight={40}
-                    rows={contributorsList}
+                    rows={projectData.contributors}
                     columns={columns}
                     pageSize={10}
                     rowsPerPageOptions={[10]}
@@ -281,6 +292,7 @@ catch(Error){
                   onClick={(e) => {
                     e.preventDefault();
                     setIsDisabled(false);
+                    getAllUsers()
                   }}
                 >
                   Edit
@@ -296,7 +308,7 @@ catch(Error){
                   Save
                 </button>)}
 <button onClick={(e)=>{e.preventDefault();setIsDeleted(true)}}>Delete</button>
-<button onClick={(e)=>{e.preventDefault();getAllUsers()}}>CHECK</button>
+
 
 
 

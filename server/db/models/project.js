@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 const projectSchema = new Schema({
-  title: {
+  projectTitle: {
     type: String,
     required: true,
     unique:true,
@@ -15,7 +15,7 @@ const projectSchema = new Schema({
     type:Array,
     required:true
   },
-  createdBy:{
+  projectLeader:{
     type:Object,
     required:true
   },

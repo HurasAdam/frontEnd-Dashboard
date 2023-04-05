@@ -1,7 +1,8 @@
+const ObjectId = require("mongodb").ObjectID;
 const Note = require("../db/models/note");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
-const {convertDate}=require("../utils/dateConvert")
+const { convertDate } = require("../utils/dateConvert");
 module.exports = {
   //Zapisywanie notatki
   async saveNote(req, res) {
@@ -14,23 +15,26 @@ module.exports = {
     const description = req.body.description;
     const type = req.body.type;
 
-    const check = await Project.find({ _id: project }).select(
-      "_id title createdBy"
-    );
+    // const check = await Project.find({ _id: project }).select(
+    //   "_id projectTitle projectLeader"
+    // );
+
+    const projectAsigned = await Project.findOne({ _id: project });
+
+    console.log(projectAsigned);
     const findAuthor = await await User.find({ email: author });
 
-    const projectObject = check.reduce((obj, item) => ({
-      ...obj,
-      [item.key]: item.value,
-    }));
+    // const projectObject = check.reduce((obj, item) => ({
+    //   ...obj,
+    //   [item.key]: item.value,
+    // }));
     const authorObject = findAuthor.reduce((obj, item) => ({
       ...obj,
       [item.key]: item.value,
     }));
 
-    console.log(authorObject)
     const newNote = new Note({
-      project: projectObject,
+      project: projectAsigned._id,
       title: title,
       status: status,
       date: date,
@@ -39,12 +43,11 @@ module.exports = {
         name: authorObject.name,
         surname: authorObject.surname,
         email: authorObject.email,
-        userAvatar:authorObject.userAvatar
+        userAvatar: authorObject.userAvatar,
       },
       description: description,
       type: type,
-      createdAt:convertDate()
-      
+      createdAt: convertDate(),
     });
 
     await newNote.save();
@@ -67,8 +70,23 @@ module.exports = {
   async getNote(req, res) {
     const id = req.params.id;
     const note = await Note.findOne({ _id: id });
+    const projectId = note.project;
+    const findProject = await Project.findOne({ _id: projectId.toString() });
 
-    res.status(200).json(note);
+    const xd = {
+      _id: note._id,
+      title: note.title,
+      status: note.status,
+      priority: note.priority,
+      type: note.type,
+      author: note.author,
+      description: note.description,
+      createdAt: note.createdAt,
+      project: findProject,
+    };
+    console.log(xd);
+
+    res.status(200).json(xd);
   },
 
   //aktualizowanie notatki
@@ -76,7 +94,15 @@ module.exports = {
     const id = req.params.id;
     const updates = req.body;
 
-    const note = await Note.findOneAndUpdate({ _id: id }, { $set: updates });
+    const finalUpdates = {
+      ...updates,
+      project: new ObjectId(updates.project.id),
+    };
+
+    const note = await Note.findOneAndUpdate(
+      { _id: id },
+      { $set: finalUpdates }
+    );
 
     res.status(201).json(note);
   },

@@ -15,104 +15,80 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 export const ProjectDetails = () => {
   const { projectId } = useParams();
-
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  // const [contributorsList, setContributorsList] = useState([]);
   const [userList, setUserList] = useState([]);
-  const [isDeleted,setIsDeleted]=useState(false)
-  const [confirmDelete,setConfirmDelete]=useState('')
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [projectTitle, setProjectTitle] = useState();
-  const [projectLeader, setProjectLeader] = useState();
-  const [projectDescription, setProjectDescription] = useState();
-  const [fetchError,setFetchError]=useState('')
-  const [check,setCheck]=useState()
+  const [fetchError, setFetchError] = useState("");
+  const [check, setCheck] = useState();
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/projects/${projectId}/`
   );
+  const [projectData, setProjectData] = useState({});
 
-console.log(check)
-const [projectData,setProjectData]=useState({})
-  
-  const handleChange=(selectedOption)=>{
-setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption]})
-setUserList(userList.filter((user)=>user!==selectedOption))
-  }
+  const handleChange = (selectedOption) => {
+    setProjectData({
+      ...projectData,
+      contributors: [...projectData.contributors, selectedOption],
+    });
+    setUserList(userList.filter((user) => user !== selectedOption));
+  };
   useEffect(() => {
     getUserList();
-
   }, []);
-  //get list of users
-  console.log(data)
+  //get list of users for change PM select
   const getAllUsers = async () => {
-    const response = await fetch(`http://127.0.0.1:3000/api/user?changePM=${data.projectLeader.email}&&project=${projectId}`,{
-      headers:{'Authorization': `Bearer ${user.token}`},
-    });
+    const response = await fetch(
+      `http://127.0.0.1:3000/api/user?changePM=${data.projectLeader.email}&&project=${projectId}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      }
+    );
 
     const json = await response.json();
-
     const arr = json.map((user) => {
       return { value: user._id, label: user.email };
     });
-    setCheck(arr)
+    setCheck(arr);
   };
 
-
-  useEffect(()=>{
-    if(data){
-setProjectData({...projectData,
-  projectTitle:data.projectTitle,
-  projectLeader:data.projectLeader,
-  _id:data.id,
-  contributors:data.contributors,
-  createdAt:data.createdAt,
-  description:data.description
-
-
-})
-}
-  },[data])
-
+  useEffect(() => {
+    if (data) {
+      setProjectData({
+        ...projectData,
+        projectTitle: data.projectTitle,
+        projectLeader: data.projectLeader,
+        _id: data.id,
+        contributors: data.contributors,
+        createdAt: data.createdAt,
+        description: data.description,
+      });
+    }
+  }, [data]);
 
   const getUserList = async () => {
-    const response = await fetch(`http://127.0.0.1:3000/api/user?project=${projectId}`,
-    {
-      headers:{'Authorization': `Bearer ${user.token}`},
-    });
+    const response = await fetch(
+      `http://127.0.0.1:3000/api/user?project=${projectId}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      }
+    );
 
     const json = await response.json();
-
-
     setUserList(json);
   };
 
- 
-
-  // useEffect(() => {
-  //   displayProjectDetails();
-  // }, [data]);
-
-  // const displayProjectDetails = () => {
-  //   if (data) {
-  //     setContributorsList(data.contributors);
-  //     setProjectTitle(data.title);
-  //     setProjectLeader(data.createdBy);
-  //     setProjectDescription(data.description);
-  //   }
-  // };
-const kekw=(confirm)=>{
-
-  if(confirm==='delete'){
-  handleDelete()
-  }
-  else{
-    setFetchError('inncorect command')
-  }
-}
+  const kekw = (confirm) => {
+    if (confirm === "delete") {
+      handleDelete();
+    } else {
+      setFetchError("inncorect command");
+    }
+  };
   const handleDelete = async () => {
-   
     const response = await fetch(
       `http://127.0.0.1:3000/api/projects/${projectId}`,
       {
@@ -120,27 +96,22 @@ const kekw=(confirm)=>{
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
-        }
+        },
       }
     );
-    try{
-    if (response.status===409) {
-      throw Error("Can not delete project due to other references.Check ticket list ")
+    try {
+      if (response.status === 409) {
+        throw Error(
+          "Can not delete project due to other references.Check ticket list "
+        );
+      }
+      if (response.ok) {
+        setFetchError("");
+        navigate("/projects");
+      }
+    } catch (Error) {
+      setFetchError(Error.message);
     }
-if(response.ok){
-  setFetchError('')
-  navigate("/projects");
-}
-    }
-catch(Error){
-  setFetchError(Error.message)
-}
-  };
-
-  const handleInputChange = (e, prop) => {
-    const target = e.target;
-    const value = target.value;
-    data[prop] = value;
   };
 
   const handleDataUpdate = async (e) => {
@@ -174,11 +145,16 @@ catch(Error){
         return (
           <>
             <button
-            disabled={isDisabled}
+              disabled={isDisabled}
               onClick={(e) =>
-                setProjectData(
-                 {...projectData,contributors:[...projectData.contributors.filter((user) => user._id !== params.id)]}
-                )
+                setProjectData({
+                  ...projectData,
+                  contributors: [
+                    ...projectData.contributors.filter(
+                      (user) => user._id !== params.id
+                    ),
+                  ],
+                })
               }
             >
               Remove
@@ -188,17 +164,14 @@ catch(Error){
       },
     },
   ];
-
   return (
     <div className="projectDetails">
       <div className="projectHeaderContainer">
         <span className="projectHeaderIcon">
           <AssessmentOutlinedIcon className="headerIcon" />
         </span>
-
         <h3 className="projecttHeaderTitle">Project Details</h3>
       </div>
-
       <div className="projectDataContainer">
         <div className="projectDataContainerLeft">
           <div className="projectDataContainerTop"></div>
@@ -211,18 +184,21 @@ catch(Error){
                     type="text"
                     required
                     defaultValue={projectData.projectTitle}
-                    onChange={(e) => setProjectData({...projectData,projectTitle:e.target.value})}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        projectTitle: e.target.value,
+                      })
+                    }
                     disabled={isDisabled}
                   />
                 )}
               </div>
-
               <div className="projectDataBottomItem">
                 <label htmlFor="">Created At :</label>
                 {data && (
                   <input
                     type="text"
-                  
                     defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
                     disabled={true}
                   />
@@ -230,25 +206,47 @@ catch(Error){
               </div>
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project leader</label>
-           {data&&<select disabled={isDisabled} onChange={(e)=>setProjectData({...projectData,projectLeader:e.target.value})} id="">
-<option disabled selected>{data.projectLeader.name}</option>
-            {check?check.map((user)=>{
-              return(<option value={user.value} key={user.value}>{user.label}</option>)
-            }):null}
-           </select>}
+                {data && (
+                  <select
+                    disabled={isDisabled}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        projectLeader: e.target.value,
+                      })
+                    }
+                    id=""
+                  >
+                    <option disabled selected>
+                      {data.projectLeader.name}
+                    </option>
+                    {check
+                      ? check.map((user) => {
+                          return (
+                            <option value={user.value} key={user.value}>
+                              {user.label}
+                            </option>
+                          );
+                        })
+                      : null}
+                  </select>
+                )}
               </div>
-
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project Description</label>
                 {data && (
                   <textarea
                     defaultValue={projectData.description}
                     disabled={isDisabled}
-                    onChange={(e) => setProjectData({...projectData,description:e.target.value})}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        description: e.target.value,
+                      })
+                    }
                   ></textarea>
                 )}
               </div>
-
               <div className="projectDataBottomItem">
                 {projectData.contributors && (
                   <DataGrid
@@ -268,51 +266,80 @@ catch(Error){
               <div className="projectDataBottomItem">
                 <label>Add member</label>
                 <Select
-                isDisabled={isDisabled}
+                  isDisabled={isDisabled}
                   className="selectList"
                   options={userList}
                   isSearchable
-                  getOptionLabel={option=>`${option.name} ${option.surname}`}
-                  getOptionValue={option=>option._id}
+                  getOptionLabel={(option) =>
+                    `${option.name} ${option.surname}`
+                  }
+                  getOptionValue={(option) => option._id}
                   onChange={handleChange}
                 />
               </div>
-              
-             {isDeleted? 
-             (<div><p>Are your sure you want to delete this project? Insert Delete to confirm</p>
-              <input onChange={(e)=>setConfirmDelete(e.target.value)} type="text"/>
-             <button onClick={(e)=>{e.preventDefault();kekw(confirmDelete)}}>Confirm</button>
-             <button onClick={(e)=>{e.preventDefault();setIsDeleted(false);setFetchError(false)}}>Cancel</button>
-             {fetchError&&<span className="error">{fetchError}</span>}
-             </div>):
-             (<div className="projectDataBottomItem-Btns">
-                
-                {isDisabled?
-                (<button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsDisabled(false);
-                    getAllUsers()
-                  }}
-                >
-                  Edit
-                </button>):
 
-                (<button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleDataUpdate();
-                    setIsDisabled(!isDisabled)
-                  }}
-                >
-                  Save
-                </button>)}
-<button onClick={(e)=>{e.preventDefault();setIsDeleted(true)}}>Delete</button>
-
-
-
-
-              </div>)}
+              {isDeleted ? (
+                <div>
+                  <p>
+                    Are your sure you want to delete this project? Insert Delete
+                    to confirm
+                  </p>
+                  <input
+                    onChange={(e) => setConfirmDelete(e.target.value)}
+                    type="text"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      kekw(confirmDelete);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsDeleted(false);
+                      setFetchError(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  {fetchError && <span className="error">{fetchError}</span>}
+                </div>
+              ) : (
+                <div className="projectDataBottomItem-Btns">
+                  {isDisabled ? (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsDisabled(false);
+                        getAllUsers();
+                      }}
+                    >
+                      Edit
+                    </button>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDataUpdate();
+                        setIsDisabled(!isDisabled);
+                      }}
+                    >
+                      Save
+                    </button>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsDeleted(true);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </form>
           </div>
           <div>

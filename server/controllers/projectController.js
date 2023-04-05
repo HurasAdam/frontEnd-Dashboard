@@ -10,11 +10,11 @@ const createProject = async (req, res) => {
     if (!projectTitle || !description || !contributors || !projectLeader) {
       throw Error("All fields have to be filled");
     }
-
+    
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
 const projectManager = await User.findOne({email:projectLeader})
-console.log(projectManager)
+
     const result = projectContributor.map((user) => {
       return {
         _id: user._id,
@@ -30,6 +30,7 @@ console.log(projectManager)
       description,
       contributors: result,
       projectLeader:{
+        _id:projectManager._id,
         name:projectManager.name,
         surname:projectManager.surname,
         email:projectManager.email,
@@ -39,7 +40,7 @@ console.log(projectManager)
       },
       createdAt:convertDate()
     });
-
+console.log(project)
     res.status(201).json(project);
   } catch (Error) {
     console.log(Error.message);
@@ -100,11 +101,13 @@ const getSingleProject = async (req, res) => {
 
 const updateProject = async (req, res) => {
   const { id } = req.params;
-  const { title, description, createdBy, contributors } = req.body;
+  const { projectTitle, description, createdBy, contributors } = req.body;
   const updates = req.body;
   const projectContributor = await User.find({ _id: { $in: contributors } });
   
   const newPM = await User.findOne({_id:updates.projectLeader})
+
+
 
   console.log(newPM)
   const project = await Project.findOneAndUpdate(

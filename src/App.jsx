@@ -45,7 +45,6 @@ function App() {
           <Route  path="/manageRoles" element={user?<AdminPanel/>:<Navigate to='/login'/>}> </Route>
           <Route  path="/manageUsers" element={user?<ManageUsers/>:<Navigate to='/login'/>}> </Route>
           <Route  path="/settings" element={user?<SettingsPage/>:<Navigate to='/login'/>}> </Route>
-  
           <Route path="/tickets/:ticketId" element={user?<TicketDetails/>:<Navigate to='/login'/>}></Route>
           <Route exact path="/Newticket" element={user?<NewTicket />:<Navigate to='/login'/>}></Route>
           <Route path="/login" element={!user?<LoginPage/>:<Navigate to='/'/>}></Route>

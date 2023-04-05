@@ -57,7 +57,7 @@ export const NewTicket = () => {
               <Select
               onChange={setChoseProject}
                 options={data.map((ob) => {
-                  return { value: ob.id, label: ob.title };
+                  return { value: ob.id, label: ob.projectTitle };
                 })}
               ></Select>
             )}

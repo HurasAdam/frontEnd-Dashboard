@@ -33,6 +33,8 @@ console.log(data)
     }
   };
 
+
+
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions=["Open","Closed"]
 
@@ -74,8 +76,8 @@ console.log(data)
         <div className="ticketDataContainerLeft">
           {data && (
             <div className="ticketDataContainerTop">
-              <p>Project: {data.project.title}</p>
-              <p>Project Leader: {`${data.project.createdBy.name} ${data.project.createdBy.surname}`}</p>
+              <p>Project: {data.project.projectTitle}</p>
+              <p>Project Leader: {`${data.project.projectLeader.name} ${data.project.projectLeader.surname}`}</p>
               <p className="ticketId">Ticket ID:{ticketId}</p>
             </div>
           )}
@@ -153,14 +155,14 @@ console.log(data)
         <div className="ticketDataContainerRight">
           <div className="ticketInfoTop">
             <div className="ticketInfoItemsContainer">
-              {data&&<span>Created By:{`${data.author.name} ${data.author.surname}`}</span>}
+              {data&& <span>Created By:{`${data.author.name} ${data.author.surname}`}</span>}
 
               <div className="ticketAuthorDataWrapper">
                 <span className="ticketInfoAuthorName"></span>
                 <span className="ticketInfoAuthorJobTitle"></span>
               </div>
             </div>
-            {data&&<img src={data.author.userAvatar} className="ticketInfoTopImg" alt="" />}
+            {data&& <img src={data.author.userAvatar} className="ticketInfoTopImg" alt="" />}
           </div>
           <div className="ticketInfoBottom">
             <div className="ticketInfoBottomItem">

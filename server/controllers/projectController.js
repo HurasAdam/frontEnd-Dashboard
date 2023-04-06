@@ -2,7 +2,7 @@ const Project = require("../db/models/project");
 const User = require("../db/models/user");
 const Note = require("../db/models/note");
 const { ObjectId } = require("mongodb");
-const {convertDate}=require('../utils/dateConvert')
+const { convertDate } = require("../utils/dateConvert");
 //Create Projet
 const createProject = async (req, res) => {
   const { projectTitle, description, contributors, projectLeader } = req.body;
@@ -10,18 +10,14 @@ const createProject = async (req, res) => {
     if (!projectTitle || !description || !contributors || !projectLeader) {
       throw Error("All fields have to be filled");
     }
-    
+
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
-const projectManager = await User.findOne({email:projectLeader})
+    const projectManager = await User.findOne({ email: projectLeader });
 
     const result = projectContributor.map((user) => {
       return {
         _id: user._id,
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        role: user.role,
       };
     });
 
@@ -29,18 +25,18 @@ const projectManager = await User.findOne({email:projectLeader})
       projectTitle,
       description,
       contributors: result,
-      projectLeader:{
-        _id:projectManager._id,
-        name:projectManager.name,
-        surname:projectManager.surname,
-        email:projectManager.email,
-        role:projectManager.role,
-        phone:projectManager.phone,
-        userAvatar:projectManager.userAvatar
+      projectLeader: {
+        _id: projectManager._id,
+        name: projectManager.name,
+        surname: projectManager.surname,
+        email: projectManager.email,
+        role: projectManager.role,
+        phone: projectManager.phone,
+        userAvatar: projectManager.userAvatar,
       },
-      createdAt:convertDate()
+      createdAt: convertDate(),
     });
-console.log(project)
+
     res.status(201).json(project);
   } catch (Error) {
     console.log(Error.message);
@@ -51,20 +47,20 @@ console.log(project)
 //Get All Projects
 const getProjectList = async (req, res) => {
   // const page = req.query.page||0
-  
+
   const { id: userId } = req.user;
   const { role } = req.role;
-  const page = Number(req.query.page)
- 
-  
-  let size = 10
-const limit= parseInt(size);
-const skip= (page-1)*size
-  const allProjects= await Project.find({})
-  const projects = await Project.find({}).skip(skip).limit(limit)
+  const page = Number(req.query.page);
+
+  let size = 10;
+  const limit = parseInt(size);
+  const skip = (page - 1) * size;
+  const allProjects = await Project.find({});
+
+  const projects = await Project.find({}).skip(skip).limit(limit);
+  console.log()
   const { projects: queryString } = req.query;
 
-  
   const isMember = (list, id) => {
     const check = list.filter((user) => user._id.toString() === id);
     return check.length > 0;
@@ -73,20 +69,25 @@ const skip= (page-1)*size
   const userProjects = projects.filter((proj) => {
     return isMember(proj.contributors, userId);
   });
-  
-  if(!queryString && typeof(page)==='number' ){
-    res.status(200).json({pageSize:size,total:Math.ceil((allProjects.length)/size),page:page,projects:projects})
-  }
-//project list that user belongs to as select opions
-  if (queryString==='userProjects'&& role==='admin'){
-    res.status(200).json(allProjects);
-    }
-    //all project as select options - only for admin role 
-    else if(queryString==='userProjects'&& role!=='admin'){
-      res.status(200).json(userProjects)
-    }
 
-   
+  if (!queryString && typeof page === "number") {
+    res
+      .status(200)
+      .json({
+        pageSize: size,
+        total: Math.ceil(allProjects.length / size),
+        page: page,
+        projects: projects,
+      });
+  }
+  //project list that user belongs to as select opions
+  if (queryString === "userProjects" && role === "admin") {
+    res.status(200).json(allProjects);
+  }
+  //all project as select options - only for admin role
+  else if (queryString === "userProjects" && role !== "admin") {
+    res.status(200).json(userProjects);
+  }
 };
 
 //Get Sinle Project
@@ -95,8 +96,15 @@ const getSingleProject = async (req, res) => {
   const { id } = req.params;
 
   const project = await Project.findOne({ _id: id });
+  const contributors = await User.find({ _id: project.contributors });
+  const projectLeader = await User.findOne({ _id: project.projectLeader });
 
-  res.status(200).json(project);
+  const result = await Project.findOneAndUpdate(
+    { _id: id },
+    { $set: { contributors: contributors, projectLeader: projectLeader } }
+  );
+
+  res.status(200).json(result);
 };
 
 const updateProject = async (req, res) => {
@@ -104,15 +112,25 @@ const updateProject = async (req, res) => {
   const { projectTitle, description, createdBy, contributors } = req.body;
   const updates = req.body;
   const projectContributor = await User.find({ _id: { $in: contributors } });
-  
-  const newPM = await User.findOne({_id:updates.projectLeader})
 
+  const newPM = await User.findOne({ _id: updates.projectLeader });
 
-
-  console.log(newPM)
   const project = await Project.findOneAndUpdate(
     { _id: id },
-    { $set: {...updates,projectLeader:{name:newPM.name,surname:newPM.surname,email:newPM.email,role:newPM.role,gender:newPM.gender,_id:newPM._id,userAvatar:newPM.userAvatar}} }
+    {
+      $set: {
+        ...updates,
+        projectLeader: {
+          name: newPM.name,
+          surname: newPM.surname,
+          email: newPM.email,
+          role: newPM.role,
+          gender: newPM.gender,
+          _id: newPM._id,
+          userAvatar: newPM.userAvatar,
+        },
+      },
+    }
   );
 
   res.status(200).json(project);

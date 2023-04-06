@@ -55,6 +55,7 @@ export const ProjectDetails = () => {
     setCheck(arr);
   };
 
+  console.log(projectData)
   useEffect(() => {
     if (data) {
       setProjectData({

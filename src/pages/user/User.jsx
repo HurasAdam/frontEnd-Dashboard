@@ -6,8 +6,8 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PublishIcon from "@mui/icons-material/Publish";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { Link, json } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -16,12 +16,39 @@ export const User = ({ isEditLocked }) => {
   const { userId } = useParams();
   const { user } = useContext(AuthContext);
   const [isEditable, setIsEditable] = useState(false);
+  const [userData,setUserData]=useState({})
   const [data, error, isLoading] = useFetch(
     `http://127.0.0.1:3000/api/user/${userId}`
   );
 
+ 
+
+
+
+  useEffect(()=>{
+
+    if(data){
+      setUserData(data)
+    }
+
+  },[data])
   const navigate = useNavigate()
   
+
+  const updateUserData=async(e)=>{
+    e.preventDefault()
+        const response = await fetch(`http://127.0.0.1:3000/api/user?id=${userId}`,{
+            method:"PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+              },
+              body: JSON.stringify(userData),
+            
+        })
+    
+    }
+
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -83,9 +110,10 @@ export const User = ({ isEditLocked }) => {
                 {data && (
                   <input
                     type="text"
-                    placeholder={data.name}
+                    defaultValue={userData.name}
                     className="userUpdateInput"
                     disabled={!isEditable}
+                    onChange={(e)=>{e.preventDefault(); setUserData({...userData,name:e.target.value})}}
                   />
                 )}
               </div>
@@ -94,9 +122,10 @@ export const User = ({ isEditLocked }) => {
                 {data && (
                   <input
                     type="text"
-                    placeholder={data.surname}
+                    defaultValue={userData.surname}
                     className="userUpdateInput"
                     disabled={!isEditable}
+                    onChange={(e)=>{e.preventDefault(); setUserData({...userData,surname:e.target.value})}}
                   />
                 )}
               </div>
@@ -105,9 +134,10 @@ export const User = ({ isEditLocked }) => {
                 {data && (
                   <input
                     type="text"
-                    placeholder={data.email}
+                    defaultValue={userData.email}
                     className="userUpdateInput"
                     disabled={!isEditable}
+                    onChange={(e)=>{e.preventDefault(); setUserData({...userData,email:e.target.value})}}
                   />
                 )}
               </div>
@@ -116,9 +146,10 @@ export const User = ({ isEditLocked }) => {
                 {data && (
                   <input
                     type="text"
-                    placeholder={data.email}
+                    defaultValue={userData.phone}
                     className="userUpdateInput"
                     disabled={!isEditable}
+                    onChange={(e)=>{e.preventDefault(); setUserData({...userData,phone:e.target.value})}}
                   />
                 )}
               </div>
@@ -127,9 +158,10 @@ export const User = ({ isEditLocked }) => {
                 {data && (
                   <input
                     type="text"
-                    placeholder={data.email}
+                    defaultValue={userData.adress}
                     className="userUpdateInput"
                     disabled={!isEditable}
+                    onChange={(e)=>{e.preventDefault(); setUserData({...userData,adress:e.target.value})}}
                   />
                 )}
               </div>
@@ -162,7 +194,7 @@ export const User = ({ isEditLocked }) => {
                   </div>
                 ) : (
                   <div className="actionBtnsWrapper">
-                    <button>Save</button>
+                    <button onClick={updateUserData}>Save xd</button>
                     <button
                       onClick={(e) => {
                         e.preventDefault();

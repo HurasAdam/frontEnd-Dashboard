@@ -92,7 +92,7 @@ export const ProjectsList = () => {
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}
       {data && (
-        <DataGrid
+        <DataGrid className="DataGrid"
           autoHeight={true}
           rowHeight={45}
           rows={data.projects}

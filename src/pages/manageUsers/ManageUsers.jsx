@@ -89,7 +89,7 @@ const ManageUsers = ({ setUserData }) => {
               
                 className="userListEdit"
               >
-                View
+                Edit
               </button>
             </Link>
             <DeleteOutlineIcon

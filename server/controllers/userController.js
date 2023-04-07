@@ -138,6 +138,7 @@ const getUserData = async (req, res) => {
     surname: user.surname,
     email: user.email,
     role: user.role,
+    phone:user.phone,
     userAvatar: user.userAvatar,
     createdAt: user.createdAt,
     adress: user.adress,
@@ -276,24 +277,32 @@ _id:u._id
 };
 
 const updateUserData = async (req, res) => {
-  let { id, role, name, surname, email, adress, phone } = req.body;
+  let {selectedUser, role, name, surname, email, adress, phone } = req.body;
 
-  const { _id } = req.user;
 
-  if (!id) {
-    id = _id.toString();
+let id
+
+if(selectedUser){
+  id=selectedUser
+}
+ else if(req.query){
+id=req.query.id
   }
+  
+else{
+  id= req.user._id.toString()
+}
 
   const updateUserRole = await User.findOneAndUpdate(
     { _id: id },
     {
       $set: {
-        role: role,
-        name: name,
-        surname: surname,
-        email: email,
-        adress: adress,
+       role:role,
         phone: phone,
+        surname:surname,
+        email:email,
+        adress:adress,
+        name:name
       },
     }
   );

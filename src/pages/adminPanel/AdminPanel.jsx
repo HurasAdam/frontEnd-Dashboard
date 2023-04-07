@@ -24,7 +24,7 @@ export const AdminPanel = () => {
       },
 
       body: JSON.stringify({
-        id: selectedUser,
+        selectedUser: selectedUser,
         role: userRole,
       }),
     });

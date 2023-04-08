@@ -52,7 +52,7 @@ const getProjectList = async (req, res) => {
   const { role } = req.role;
   const page = Number(req.query.page);
 
-  let size = 10;
+  let size = 5;
   const limit = parseInt(size);
   const skip = (page - 1) * size;
   const allProjects = await Project.find({});

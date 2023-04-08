@@ -44,6 +44,7 @@ module.exports = {
         surname: authorObject.surname,
         email: authorObject.email,
         userAvatar: authorObject.userAvatar,
+        _id:authorObject._id
       },
       description: description,
       type: type,
@@ -93,18 +94,23 @@ module.exports = {
   async updateNote(req, res) {
     const id = req.params.id;
     const updates = req.body;
+    const ticketAuthor = await Note.findOne({_id:id})
+if(ticketAuthor.author._id===req.user._id.toString()||req.user.role==='admin'){
 
     const finalUpdates = {
       ...updates,
       project: new ObjectId(updates.project.id),
     };
-
     const note = await Note.findOneAndUpdate(
       { _id: id },
       { $set: finalUpdates }
     );
 
     res.status(201).json(note);
+}
+else{
+  res.status(400).json()
+}
   },
 
   //usuwanie notatki

@@ -16,7 +16,7 @@ export const AdminPanel = () => {
 
 
   const handleRoleUpdate = async (e) => {
-    const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
+    const response = await fetch(`http://127.0.0.1:3000/api/user/manageRole`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

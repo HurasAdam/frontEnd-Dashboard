@@ -16,6 +16,7 @@ export const User = ({ isEditLocked }) => {
   const { userId } = useParams();
   const { user } = useContext(AuthContext);
   const [isEditable, setIsEditable] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
   const [userData,setUserData]=useState({})
   const [data, error, isLoading] = useFetch(
     `http://127.0.0.1:3000/api/user/${userId}`
@@ -44,10 +45,23 @@ export const User = ({ isEditLocked }) => {
                 Authorization: `Bearer ${user.token}`,
               },
               body: JSON.stringify(userData),
-            
         })
-    
     }
+
+    const uploadUserAvatar = async (e) => {
+      e.preventDefault()
+      const file = new FormData();
+      file.append("file", selectedFile);
+  
+      const response = await fetch(`http://127.0.0.1:3000/api/user/upload?id=${userId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+        body:
+          file
+      });
+    };
 
   return (
     <div className="user">
@@ -174,8 +188,8 @@ export const User = ({ isEditLocked }) => {
                     <label htmlFor="file">
                       <PublishIcon className="userUpdateIcon" />
                     </label>
-                    <input type="file" id="file" />
-                    <button hidden={!isEditLocked} className="userUpdateButton">
+                    <input type="file" id="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
+                    <button hidden={!isEditLocked} className="userUpdateButton" onClick={uploadUserAvatar}>
                       Update
                     </button>
                   </div>
@@ -194,7 +208,7 @@ export const User = ({ isEditLocked }) => {
                   </div>
                 ) : (
                   <div className="actionBtnsWrapper">
-                    <button onClick={updateUserData}>Save xd</button>
+                    <button onClick={updateUserData}>Save</button>
                     <button
                       onClick={(e) => {
                         e.preventDefault();

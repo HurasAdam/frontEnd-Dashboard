@@ -203,7 +203,9 @@ export const ProjectDetails = () => {
                     defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
                     disabled={true}
                   />
+                 
                 )}
+                
               </div>
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project leader</label>

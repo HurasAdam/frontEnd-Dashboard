@@ -54,26 +54,6 @@ const signupUser = async (req, res) => {
     gender,
   } = req.body;
 
-  if (!role) {
-    role = "user";
-  }
-  if (role) {
-    role = role;
-  }
-
-  if (!userAvatar) {
-    userAvatar = "";
-  }
-  if (!phone) {
-    phone = "";
-  }
-  if (!birthDay) {
-    birthDay = "";
-  }
-  if (!adress) {
-    adress = "";
-  }
-
   try {
     if (!email || !password || !name || !surname) {
       throw Error("All fields have to be filled");
@@ -102,11 +82,11 @@ const signupUser = async (req, res) => {
         email,
         password: hashPassword,
         gender,
-        role,
-        userAvatar,
-        phone,
-        birthDay,
-        adress,
+        role: role || "user",
+        userAvatar: userAvatar || "",
+        phone: phone || "",
+        birthDay: birthDay || "",
+        adress: adress || "",
         createdAt: convertDate(),
       });
       const token = createToken(user._id);
@@ -138,7 +118,7 @@ const getUserData = async (req, res) => {
     surname: user.surname,
     email: user.email,
     role: user.role,
-    phone:user.phone,
+    phone: user.phone,
     userAvatar: user.userAvatar,
     createdAt: user.createdAt,
     adress: user.adress,
@@ -149,54 +129,56 @@ const getUserData = async (req, res) => {
 
 const getUserList = async (req, res) => {
   const allUserList = await User.find({});
-console.log(allUserList)
+  console.log(allUserList);
 
-  //return list of all users as select options for new project 
-if(!req.query.settings && !req.query.project&& !req.query.page&&!req.query.changePM){
+  //return list of all users as select options for new project
+  if (
+    !req.query.settings &&
+    !req.query.project &&
+    !req.query.page &&
+    !req.query.changePM
+  ) {
+    const result = allUserList.map((user) => {
+      return {
+        _id: user._id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        role: user.role,
+        userAvatar: user.userAvatar,
+        createdAt: user.createdAt,
+      };
+    });
+    return res.status(200).json(result);
+  }
 
-  const result = allUserList.map((user) => {
-    return {
-      _id: user._id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      role: user.role,
-      userAvatar: user.userAvatar,
-      createdAt: user.createdAt,
-    };
-   
-  })
-  return res.status(200).json(result)
-}
+  if (req.query.changePM) {
+    const allUsers = await User.find({});
 
-if(req.query.changePM){
-const allUsers = await User.find({})
+    const queryString = req.query.changePM;
+    const currentPM = await User.findOne({ email: queryString });
+    const pmID = currentPM._id.toString();
 
-  const queryString= req.query.changePM
-  const currentPM = await User.findOne({email:queryString})
-const pmID= currentPM._id.toString()
+    const filter = allUsers.filter((user) => {
+      const filteredList = user._id.toString() !== pmID;
+      return filteredList;
+    });
 
-const filter= allUsers.filter((user)=>{
-   const filteredList=user._id.toString()!==pmID
-   return filteredList
-})
+    return res.status(200).json(
+      filter.map((u) => {
+        return {
+          name: u.name,
+          surname: u.surname,
+          email: u.email,
+          role: u.role,
+          gender: u.gender,
+          _id: u._id,
+        };
+      })
+    );
+  }
 
- return res.status(200).json(
- filter.map((u)=>{
-  return({
-    name:u.name,
-    surname:u.surname,
-    email:u.email,
-    role:u.role,
-    gender:u.gender,
-_id:u._id
-  })
- }) 
- )
-}
-
-
-//return paginated list of all users
+  //return paginated list of all users
   if (req.query.page) {
     const allUserList = await User.find({});
     const page = Number(req.query.page);
@@ -217,14 +199,12 @@ _id:u._id
       };
     });
 
-    return res
-      .status(200)
-      .json({
-        pageSize: size,
-        page: page,
-        total: Math.ceil(allUserList.length / size),
-        users: UserList,
-      });
+    return res.status(200).json({
+      pageSize: size,
+      page: page,
+      total: Math.ceil(allUserList.length / size),
+      users: UserList,
+    });
   }
 
   //return list of users that are not asigned yet to the current project
@@ -257,8 +237,8 @@ _id:u._id
 
     return res.status(200).json(result);
   }
-  
-//return user account data
+
+  //return user account data
   if (req.query.settings) {
     return res.status(200).json({
       _id: req.user._id,
@@ -277,32 +257,19 @@ _id:u._id
 };
 
 const updateUserData = async (req, res) => {
-  let {selectedUser, role, name, surname, email, adress, phone } = req.body;
+  let { name, surname, email, adress, phone } = req.body;
 
+  const id = req.query.id || req.user._id;
 
-let id
-
-if(selectedUser){
-  id=selectedUser
-}
- else if(req.query){
-id=req.query.id
-  }
-  
-else{
-  id= req.user._id.toString()
-}
-
-  const updateUserRole = await User.findOneAndUpdate(
+  const updateUser = await User.findOneAndUpdate(
     { _id: id },
     {
       $set: {
-       role:role,
         phone: phone,
-        surname:surname,
-        email:email,
-        adress:adress,
-        name:name
+        surname: surname,
+        email: email,
+        adress: adress,
+        name: name,
       },
     }
   );
@@ -310,10 +277,20 @@ else{
   res.status(200).json();
 };
 
+const updateUserRole = async (req, res) => {
+  const { selectedUser, role } = req.body;
+  const user = await User.findOneAndUpdate(
+    { _id: selectedUser },
+    { $set: { role: role } }
+  );
+
+  res.status(200);
+};
 module.exports = {
   signupUser,
   loginUser,
   getUserData,
   getUserList,
   updateUserData,
+  updateUserRole,
 };

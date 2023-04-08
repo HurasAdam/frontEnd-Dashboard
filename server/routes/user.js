@@ -5,7 +5,7 @@ const {
   loginUser,
   signupUser,
   getUserList,
- 
+  updateUserRole,
   updateUserData,
   getUserData
  
@@ -31,7 +31,7 @@ router.get('/:id',requireAuth,getUserData)
 
 router.patch("/", requireAuth, authRole("admin",'user'), updateUserData);
 
-
+router.patch("/manageRole",updateUserRole)
 router.patch('/upload',requireAuth,upload.single('file'),uploadAvatar)
 // router.post('/upload', upload.single("file"),uploadAvatar)
 module.exports = router;

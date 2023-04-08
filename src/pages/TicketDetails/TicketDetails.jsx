@@ -196,10 +196,10 @@ console.log(data)
               <span></span>
             </div>
           </div>
-          {user.role==='admin'?<div className="ticketInfoButtonWrapper">
+         <div className="ticketInfoButtonWrapper">
             <button onClick={handleDelete}>Delete</button>
            {isDisabled?<button onClick={()=>setIsDisabled(false)}>Edit</button>:<button disabled={isDisabled} onClick={()=>{setIsDisabled(true);handleDataUpdate()}}>Update</button>}
-          </div>:null}
+          </div>
         </div>
       </div>
     </div>

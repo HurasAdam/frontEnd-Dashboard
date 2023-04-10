@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 const Topbar = () => {
 const {user}=useContext(AuthContext)
 
+
   return (
 
     <div className="topbar">
@@ -28,7 +29,7 @@ const {user}=useContext(AuthContext)
             <SettingsIcon />
           </div>
           <div className="topicons-container">
-            {user.userAvatar?<img  src={user.userAvatar}/>
+            {user?<img  src={user.userAvatar}/>
             :<AccountCircleIcon fontSize="large" />
 }
           </div>

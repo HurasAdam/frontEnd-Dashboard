@@ -7,10 +7,10 @@ const { convertDate } = require("../utils/dateConvert");
 const createProject = async (req, res) => {
   const { projectTitle, description, contributors, projectLeader } = req.body;
   try {
-    if (!projectTitle || !description || !contributors || !projectLeader) {
+    if (!projectTitle || !description || !contributors) {
       throw Error("All fields have to be filled");
     }
-
+console.log(projectLeader)
     //Find contributors in DB
     const projectContributor = await User.find({ _id: { $in: contributors } });
     const projectManager = await User.findOne({ email: projectLeader });
@@ -24,16 +24,9 @@ const createProject = async (req, res) => {
     const project = await Project.create({
       projectTitle,
       description,
+     
       contributors: result,
-      projectLeader: {
-        _id: projectManager._id,
-        name: projectManager.name,
-        surname: projectManager.surname,
-        email: projectManager.email,
-        role: projectManager.role,
-        phone: projectManager.phone,
-        userAvatar: projectManager.userAvatar,
-      },
+      projectLeaderId:projectManager._id,
       createdAt: convertDate(),
     });
 
@@ -52,13 +45,27 @@ const getProjectList = async (req, res) => {
   const { role } = req.role;
   const page = Number(req.query.page);
 
-  let size = 5;
+  let size = 2;
   const limit = parseInt(size);
   const skip = (page - 1) * size;
   const allProjects = await Project.find({});
-
   const projects = await Project.find({}).skip(skip).limit(limit);
-  console.log()
+const projectLeaderList = await Promise.all((projects.map((p)=> User.findOne({_id:p.projectLeaderId})))) 
+
+
+ const result = projects.map((proj)=>{
+  const projectLeader = projectLeaderList.find((pl)=>pl._id.toString()===proj.projectLeaderId)
+
+  proj["projectLeader"]=projectLeader
+  
+  return proj
+ })
+
+ console.log(result)
+ 
+
+
+
   const { projects: queryString } = req.query;
 
   const isMember = (list, id) => {
@@ -77,7 +84,7 @@ const getProjectList = async (req, res) => {
         pageSize: size,
         total: Math.ceil(allProjects.length / size),
         page: page,
-        projects: projects,
+        projects: result,
       });
   }
   //project list that user belongs to as select opions

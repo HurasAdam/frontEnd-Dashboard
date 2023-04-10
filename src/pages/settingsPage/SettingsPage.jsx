@@ -2,6 +2,7 @@ import "../settingsPage/settingsPage.css"
 import {useFetch} from "../../hooks/useFetch"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
+import { settLocalStorage } from "../../utils/SettlocalStorage"
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 export const SettingsPage=()=>{
 
@@ -10,12 +11,24 @@ const [userSettings,setUserSettings]=useState({})
 const [selectedFile, setSelectedFile] = useState();
 const [isEdited,setIsEdited]=useState(false)
 const {user}=useContext(AuthContext)
-
+const [checker,setChecker]=useState({})
 useEffect(()=>{
     if(data){
         setUserSettings(data)
     }
 },[data])
+
+useEffect(()=>{
+check()
+},[])
+
+const check = ()=>{
+  const avatar = localStorage.getItem("userAvatar")
+  if(avatar){
+    setChecker(avatar)
+  }
+ 
+}
 
 const updateUserData=async(e)=>{
 e.preventDefault()
@@ -38,7 +51,7 @@ const uploadUserAvatar = async (e) => {
     const file = new FormData();
     file.append("file", selectedFile);
 
-    const response = await fetch("http://127.0.0.1:3000/api/user/upload", {
+    const response = await fetch(`http://127.0.0.1:3000/api/user/upload?id=${user.userId}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -48,6 +61,16 @@ const uploadUserAvatar = async (e) => {
         
       
     });
+    if(response.ok){
+const json = await response.json()
+
+
+
+
+
+localStorage.setItem('userAvatar',json.data)
+// localStorage.setItem('user', JSON.stringify(updatedUser))
+}
   };
 
     return(

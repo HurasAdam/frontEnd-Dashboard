@@ -14,9 +14,13 @@ const projectSchema = new Schema({
     type:Array,
     required:true
   },
+  projectLeaderId:{
+    type:String,
+    required:true
+  },
   projectLeader:{
     type:Object,
-    required:true
+    required:false
   },
   createdAt:{
     type:Object

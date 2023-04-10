@@ -66,6 +66,7 @@ export const ProjectDetails = () => {
         contributors: data.contributors,
         createdAt: data.createdAt,
         description: data.description,
+       
       });
     }
   }, [data]);
@@ -195,7 +196,7 @@ export const ProjectDetails = () => {
                   />
                 )}
               </div>
-              <div className="projectDataBottomItem">
+             { <div className="projectDataBottomItem">
                 <label htmlFor="">Created At :</label>
                 {data && (
                   <input
@@ -206,7 +207,7 @@ export const ProjectDetails = () => {
                  
                 )}
                 
-              </div>
+              </div>}
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project leader</label>
                 {data && (

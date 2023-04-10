@@ -18,7 +18,7 @@ export const TicketDetails = () => {
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
   );
- 
+ const [ticketData,setTicketData]=useState({})
 console.log(data)
   const handleDelete = async () => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
@@ -33,17 +33,30 @@ console.log(data)
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      setTicketData({
+        ...ticketData,
+        title: data.title,
+        status: data.status,
+        _id: data._id,
+        priority: data.priority,
+        type: data.type,
+        description: data.description,
+        project:data.project,
+        permissions:data.permissions
+       
+      });
+    }
+  }, [data]);
 
 
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions=["Open","Closed"]
 
-  const handleInputChange = (e, prop) => {
-    const target = e.target;
-    const value = target.value;
-    data[prop] = value;
-    console.log(data);
-  };
+
+   
+  
 
   const handleDataUpdate = async () => {
     const response = await fetch(
@@ -74,7 +87,7 @@ console.log(data)
       </div>
       <div className="ticketDataContainer">
         <div className="ticketDataContainerLeft">
-          {data && (
+          {data && data.project&& (
             <div className="ticketDataContainerTop">
               <p>Project: {data.project.projectTitle}</p>
               <p>Project Leader: {`${data.project.projectLeader.name} ${data.project.projectLeader.surname}`}</p>
@@ -91,7 +104,7 @@ console.log(data)
                     type="text"
                     required
                     defaultValue={data.title}
-                    onChange={(e) => handleInputChange(e, "title")}
+                    onChange={(e) =>setTicketData({...ticketData,title:e.target.value})}
                   />
                 )}
               </div>
@@ -104,7 +117,7 @@ console.log(data)
                     <select
                     disabled={isDisabled}
                       className="selectTicketPriority"
-                      onChange={(e) => handleInputChange(e, "priority")}
+                      onChange={(e) =>setTicketData({...ticketData,priority:e.target.value})}
                       defaultValue={data.priority}
                     >
                       <option disabled selected>
@@ -123,7 +136,7 @@ console.log(data)
                 <div className="ticketDataBottomItemWrapper-select">
                 <label htmlFor="">Status</label>
                 {data&&<select 
-                onChange={(e) => handleInputChange(e, "status")} 
+                     onChange={(e) =>setTicketData({...ticketData,status:e.target.value})}
                 defaultValue={data.status}  
                 className="selectTicketPriority"
                 disabled={isDisabled}
@@ -143,7 +156,7 @@ console.log(data)
                 <label htmlFor="">Description</label>
                 {data && (
                   <textarea
-                    onChange={(e) => handleInputChange(e, "description")}
+                  onChange={(e) =>setTicketData({...ticketData,description:e.target.value})}
                     defaultValue={data.description}
                     disabled={isDisabled}
                   ></textarea>
@@ -196,10 +209,10 @@ console.log(data)
               <span></span>
             </div>
           </div>
-         <div className="ticketInfoButtonWrapper">
+         {ticketData.permissions?(<div className="ticketInfoButtonWrapper">
             <button onClick={handleDelete}>Delete</button>
            {isDisabled?<button onClick={()=>setIsDisabled(false)}>Edit</button>:<button disabled={isDisabled} onClick={()=>{setIsDisabled(true);handleDataUpdate()}}>Update</button>}
-          </div>
+          </div>):null}
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@ export const ProjectsList = () => {
     e.preventDefault();
     setPageState({ ...pageState, page: action });
   };
-
+  console.log(data);
   useEffect(() => {
     if (data) {
       setPageState({
@@ -40,15 +40,15 @@ export const ProjectsList = () => {
     }
   }, [data]);
 
-  console.log(data);
+
 
   const columns = [
     { field: "projectTitle", headerName: "Title", width: 300, flex: 0.4 },
-    {field:"createdBy",headerName:'PM',width:300,renderCell:(params)=>{
+    {field:"projectLeader",headerName:'PM',width:300,renderCell:(params)=>{
       return(
         <>
         <div className='userListUser'>
-        <img className='userListUserImg' src={params.row.projectLeader.userAvatar} alt="" />
+        <img className='userListUserImg' src={params.row.projectLeader.name} alt="" />
        <span> {`${params.row.projectLeader.name} ${params.row.projectLeader.surname}`}</span>
         </div>
         </>

@@ -31,7 +31,7 @@ const loginUser = async (req, res) => {
       const token = createToken(user._id);
       res
         .status(200)
-        .json({ email, token, role: user.role, userAvatar: user.userAvatar });
+        .json({userId:user._id,email, token, role: user.role, userAvatar: user.userAvatar });
     }
   } catch (Error) {
     console.log(Error);
@@ -260,7 +260,7 @@ const updateUserData = async (req, res) => {
   let { name, surname, email, adress, phone } = req.body;
 
   const id = req.query.id || req.user._id;
-
+console.log(req.query.id)
   const updateUser = await User.findOneAndUpdate(
     { _id: id },
     {

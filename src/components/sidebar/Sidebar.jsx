@@ -18,7 +18,7 @@ const [isHidden,setIsHidden]=useState(true)
 
 const handleClick=()=>{
 
-  localStorage.removeItem('user')
+  localStorage.clear()
   dispatch({type:"LOGOUT",payload:null})
 
 }

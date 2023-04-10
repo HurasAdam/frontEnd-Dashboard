@@ -61,6 +61,10 @@ export const User = ({ isEditLocked }) => {
         body:
           file
       });
+      if(response.ok){
+        const json= response.json()
+        localStorage.setItem('userAvatar',json.data)
+      }
     };
 
   return (

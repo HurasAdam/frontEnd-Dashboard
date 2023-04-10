@@ -5,9 +5,7 @@ const cloudinary = require('cloudinary')
 const mongoose = require("mongoose");
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads");
-    },
+
     filename: (req, file, cb) => {
       const { originalname } = file;
       cb(null, `${uuid()}-${originalname}`);
@@ -31,25 +29,21 @@ const storage = multer.diskStorage({
 
 
   const uploadAvatar= async (req, res) => {
+    
     try {
     
 
-        const {_id}=req.user
-
-    const userId= _id.toString()
+   
       const up = await cloudinary.uploader.upload(req.file.path, {
-        folder: "userAvatars"
+        folder: "userAvatars",
+        resource_type:"auto"
       });
       
-      console.log(userId)
-      
-      
-     
-     
-    
+    const userId = req.query.id
     const updateUserAvatar= await User.findOneAndUpdate( { _id:userId} , { $set: { userAvatar : up.secure_url}})
-
-    res.status(200).json()
+console.log(up)
+  
+    res.status(200).json({data:up.secure_url,message:"Updated sucessfully" })
     } catch (err) {
       res.json({ message: err });
     }

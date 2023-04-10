@@ -73,6 +73,9 @@ module.exports = {
     const note = await Note.findOne({ _id: id });
     const projectId = note.project;
     const findProject = await Project.findOne({ _id: projectId.toString() });
+    const ticketAuthor = await Note.findOne({_id:id})
+    
+  const access =(ticketAuthor.author._id.toString()===req.user._id.toString()||req.user.role==='admin')
 
     const xd = {
       _id: note._id,
@@ -84,8 +87,10 @@ module.exports = {
       description: note.description,
       createdAt: note.createdAt,
       project: findProject,
+      permissions:access
+      
     };
-    console.log(xd);
+  console.log(xd)
 
     res.status(200).json(xd);
   },
@@ -94,9 +99,14 @@ module.exports = {
   async updateNote(req, res) {
     const id = req.params.id;
     const updates = req.body;
+  
+   
     const ticketAuthor = await Note.findOne({_id:id})
-if(ticketAuthor.author._id===req.user._id.toString()||req.user.role==='admin'){
+   
 
+    const isAuthor = ticketAuthor.author._id.toString()===req.user._id.toString()
+if(isAuthor||req.user.role==='admin'){
+console.log(req.body)
     const finalUpdates = {
       ...updates,
       project: new ObjectId(updates.project.id),
@@ -106,10 +116,10 @@ if(ticketAuthor.author._id===req.user._id.toString()||req.user.role==='admin'){
       { $set: finalUpdates }
     );
 
-    res.status(201).json(note);
-}
+   return  res.status(201).json(note);
+  }
 else{
-  res.status(400).json()
+  return res.status(400).json({data:null,message:"You dont have permissions"})
 }
   },
 

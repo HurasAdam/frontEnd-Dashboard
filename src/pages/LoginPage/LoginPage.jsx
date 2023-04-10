@@ -1,7 +1,7 @@
 import './loginPage.css';
 import { useContext, useState,use, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
-
+import { settLocalStorage } from '../../utils/SettlocalStorage';
 export const LoginPage=()=>{
 const {dispatch,user}=useContext(AuthContext)
 
@@ -9,12 +9,7 @@ const [email,setEmail]=useState('')
 const [password,setPassword]=useState('')
 const [error,setError]=useState(null)
 
-useEffect(()=>{
-if(user){
-history.push('/')
-}
 
-},[user])
 
 const handleClick=async(e)=>{
 e.preventDefault()
@@ -26,6 +21,7 @@ const response =await fetch('http://127.0.0.1:3000/api/user/login',{
 })
 
 const data= await response.json()
+
 if(!response.ok){
     setError(data)
     setEmail('')
@@ -35,8 +31,9 @@ if(!response.ok){
 if(response.ok){
     setEmail('')
     setPassword('')
-    console.log('success')
-    localStorage.setItem('user',JSON.stringify(data))
+    
+    console.log('succes')
+    settLocalStorage(data)
 dispatch({type:"LOGIN",payload:data})
 
 }

@@ -12,7 +12,7 @@ const {user,dispatch}=useContext(AuthContext)
     getData(url)
     }
   }, [url,user]);
-
+console.log(user.token)
   
   const getData = (url) => {
     fetch(url,{
@@ -22,7 +22,7 @@ const {user,dispatch}=useContext(AuthContext)
         if (res.status===401) {
           dispatch({type:"LOGOUT",payload:null})
           
-          localStorage.removeItem('user')
+          localStorage.removeItem('role')
           throw Error("Unauthorized, You have to be sign in!"); 
         }
         if(res.status===403){

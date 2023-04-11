@@ -48,7 +48,7 @@ export const ProjectsList = () => {
       return(
         <>
         <div className='userListUser'>
-        <img className='userListUserImg' src={params.row.projectLeader.name} alt="" />
+        <img className='userListUserImg' src={params.row.projectLeader.userAvatar} alt="" />
        <span> {`${params.row.projectLeader.name} ${params.row.projectLeader.surname}`}</span>
         </div>
         </>

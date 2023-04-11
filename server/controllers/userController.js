@@ -129,7 +129,7 @@ const getUserData = async (req, res) => {
 
 const getUserList = async (req, res) => {
   const allUserList = await User.find({});
-  console.log(allUserList);
+
 
   //return list of all users as select options for new project
   if (
@@ -222,7 +222,7 @@ const getUserList = async (req, res) => {
     const notAsignedYet = userList.filter(
       (user) =>
         contributorsList.find(
-          (contributor) => user._id.toString() === contributor._id.toString()
+          (contributor) => user._id === contributor._id
         ) === undefined
     );
     const result = notAsignedYet.map((user) => {
@@ -260,7 +260,7 @@ const updateUserData = async (req, res) => {
   let { name, surname, email, adress, phone } = req.body;
 
   const id = req.query.id || req.user._id;
-console.log(req.query.id)
+
   const updateUser = await User.findOneAndUpdate(
     { _id: id },
     {

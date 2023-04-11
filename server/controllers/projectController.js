@@ -10,22 +10,19 @@ const createProject = async (req, res) => {
     if (!projectTitle || !description || !contributors) {
       throw Error("All fields have to be filled");
     }
-console.log(projectLeader)
+
     //Find contributors in DB
-    const projectContributor = await User.find({ _id: { $in: contributors } });
+    const projectContributor = (await User.find({ _id: { $in: contributors } }).select("_id"))
     const projectManager = await User.findOne({ email: projectLeader });
 
-    const result = projectContributor.map((user) => {
-      return {
-        _id: user._id,
-      };
-    });
+const projectContributorListId= projectContributor.map((contributor)=>contributor._id.toString())
+
 
     const project = await Project.create({
       projectTitle,
       description,
      
-      contributors: result,
+      contributors: projectContributorListId,
       projectLeaderId:projectManager._id,
       createdAt: convertDate(),
     });
@@ -61,7 +58,7 @@ const projectLeaderList = await Promise.all((projects.map((p)=> User.findOne({_i
   return proj
  })
 
- console.log(result)
+
  
 
 
@@ -69,7 +66,7 @@ const projectLeaderList = await Promise.all((projects.map((p)=> User.findOne({_i
   const { projects: queryString } = req.query;
 
   const isMember = (list, id) => {
-    const check = list.filter((user) => user._id.toString() === id);
+    const check = list.filter((user) => user._id === id);
     return check.length > 0;
   };
 
@@ -103,44 +100,70 @@ const getSingleProject = async (req, res) => {
   const { id } = req.params;
 
   const project = await Project.findOne({ _id: id });
+
+ 
   const contributors = await User.find({ _id: project.contributors });
-  const projectLeader = await User.findOne({ _id: project.projectLeader });
+  const projectLeader = await User.findOne({ _id: project.projectLeaderId });
 
-  const result = await Project.findOneAndUpdate(
-    { _id: id },
-    { $set: { contributors: contributors, projectLeader: projectLeader } }
-  );
+const contributorsList = contributors.map((contributor)=>{
+  return {
+    contributorId:contributor._id.toString(),
+    name:contributor.name,
+    surname:contributor.surname,
+    email:contributor.email,
+    role:contributor.role,
+    gender:contributor.gender,
+    userAvatar:contributor.userAvatar
+  
+  }
+})
 
-  res.status(200).json(result);
+const singleProject = {
+  projectId:project._id,
+  projectTitle:project.projectTitle,
+  description:project.description,
+contributors:contributorsList,
+  projectLeader:{
+    projectLeaderId:projectLeader._id.toString(),
+    name:projectLeader.name,
+    surname:projectLeader.surname,
+    email:projectLeader.email,
+    role:projectLeader.role,
+    gender:projectLeader.gender,
+    userAvatar:projectLeader.userAvatar,
+  },
+createdAt:project.createdAt
+}
+
+
+
+
+  res.status(200).json(singleProject);
 };
+
 
 const updateProject = async (req, res) => {
   const { id } = req.params;
-  const { projectTitle, description, createdBy, contributors } = req.body;
+  const { projectTitle, description, projectLeader, contributors } = req.body;
   const updates = req.body;
-  const projectContributor = await User.find({ _id: { $in: contributors } });
+  
+  const findProjectLeader= await User.findOne({_id:projectLeader})
+  const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
+  const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
+const convertTypeContributorsId= projectContributors.map((contributor)=>contributor._id.toString())
 
-  const newPM = await User.findOne({ _id: updates.projectLeader });
+console.log(findProjectLeader)
 
-  const project = await Project.findOneAndUpdate(
-    { _id: id },
-    {
-      $set: {
-        ...updates,
-        projectLeader: {
-          name: newPM.name,
-          surname: newPM.surname,
-          email: newPM.email,
-          role: newPM.role,
-          gender: newPM.gender,
-          _id: newPM._id,
-          userAvatar: newPM.userAvatar,
-        },
-      },
-    }
-  );
 
-  res.status(200).json(project);
+  const updateProject = await Project.findOneAndUpdate({_id:id},{$set:{
+    projectTitle:projectTitle,
+    description:description,
+    projectLeaderId:findProjectLeader._id,
+    contributors:convertTypeContributorsId
+  }})
+
+
+  res.status(200).json(updateProject);
 };
 
 const deleteProject = async (req, res) => {

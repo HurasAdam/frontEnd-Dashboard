@@ -55,14 +55,14 @@ export const ProjectDetails = () => {
     setCheck(arr);
   };
 
-  console.log(projectData)
+  console.log(data)
   useEffect(() => {
     if (data) {
       setProjectData({
         ...projectData,
         projectTitle: data.projectTitle,
-        projectLeader: data.projectLeader,
-        _id: data.id,
+        projectLeader: data.projectLeader.projectLeaderId,
+        _id: data.projectId,
         contributors: data.contributors,
         createdAt: data.createdAt,
         description: data.description,
@@ -210,7 +210,7 @@ export const ProjectDetails = () => {
               </div>}
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project leader</label>
-                {data && (
+                {data&&(
                   <select
                     disabled={isDisabled}
                     onChange={(e) =>
@@ -222,7 +222,7 @@ export const ProjectDetails = () => {
                     id=""
                   >
                     <option disabled selected>
-                      {data.projectLeader.name}
+                     { `${data.projectLeader.name} ${data.projectLeader.surname}`}
                     </option>
                     {check
                       ? check.map((user) => {
@@ -256,7 +256,7 @@ export const ProjectDetails = () => {
                   <DataGrid
                     className="dataGrid"
                     autoHeight={true}
-                    getRowId={(row) => row._id}
+                    getRowId={(row) => row.contributorId}
                     rowHeight={40}
                     rows={projectData.contributors}
                     columns={columns}

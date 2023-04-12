@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const TicketSchema = new Schema(
   {
     project: {
-      type: Object,
+      type: String,
       required: true,
     },
 
@@ -25,7 +25,7 @@ const TicketSchema = new Schema(
       required: true,
     },
     author: {
-      type: Object,
+      type: String,
       required: true,
     },
     description: {

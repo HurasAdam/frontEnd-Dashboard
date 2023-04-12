@@ -21,17 +21,17 @@ module.exports = {
 
     const projectAsigned = await Project.findOne({ _id: project });
 
-    console.log(projectAsigned);
-    const findAuthor = await await User.find({ email: author });
-
+   
+    const ticketAuthor = await await User.findOne({ email: author });
+   
     // const projectObject = check.reduce((obj, item) => ({
     //   ...obj,
     //   [item.key]: item.value,
     // }));
-    const authorObject = findAuthor.reduce((obj, item) => ({
-      ...obj,
-      [item.key]: item.value,
-    }));
+    // const authorObject = findAuthor.reduce((obj, item) => ({
+    //   ...obj,
+    //   [item.key]: item.value,
+    // }));
 
     const newNote = new Note({
       project: projectAsigned._id,
@@ -39,13 +39,7 @@ module.exports = {
       status: status,
       date: date,
       priority: priority,
-      author: {
-        name: authorObject.name,
-        surname: authorObject.surname,
-        email: authorObject.email,
-        userAvatar: authorObject.userAvatar,
-        _id:authorObject._id
-      },
+      author:ticketAuthor._id.toString(),
       description: description,
       type: type,
       createdAt: convertDate(),
@@ -71,27 +65,48 @@ module.exports = {
   async getNote(req, res) {
     const id = req.params.id;
     const note = await Note.findOne({ _id: id });
-    const projectId = note.project;
-    const findProject = await Project.findOne({ _id: projectId.toString() });
-    const ticketAuthor = await Note.findOne({_id:id})
-    
-  const access =(ticketAuthor.author._id.toString()===req.user._id.toString()||req.user.role==='admin')
+  
+  
+    const ticketAuthor = await User.findOne({_id:note.author})
+  const project = await Project.findOne({_id:note.project})
+  const projectLeader= await User.findOne({_id:project.projectLeaderId})
+  const access =(ticketAuthor.author===req.user._id.toString()||req.user.role==='admin')
 
     const xd = {
-      _id: note._id,
+      ticketId: note._id,
       title: note.title,
       status: note.status,
       priority: note.priority,
       type: note.type,
-      author: note.author,
+      author:{
+        id:ticketAuthor._id,
+        name:ticketAuthor.name,
+        surname:ticketAuthor.surname,
+        email:ticketAuthor.email,
+        role:ticketAuthor.role,
+        gender:ticketAuthor.gender,
+        userAvatar:ticketAuthor.userAvatar,
+      },
       description: note.description,
       createdAt: note.createdAt,
-      project: findProject,
+      project:{
+        id:project._id.toString(),
+        projectTitle:project.projectTitle,
+        description:project.description,
+        projectLeader:{
+          id:projectLeader._id,
+          name:projectLeader.name,
+          surname:projectLeader.surname,
+          email:projectLeader.email,
+          role:projectLeader.role,
+          gender:projectLeader.gender,
+          userAvatar:projectLeader.userAvatar
+        }
+
+      },
       permissions:access
       
     };
-  console.log(xd)
-
     res.status(200).json(xd);
   },
 
@@ -104,12 +119,13 @@ module.exports = {
     const ticketAuthor = await Note.findOne({_id:id})
    
 
-    const isAuthor = ticketAuthor.author._id.toString()===req.user._id.toString()
+    const isAuthor = ticketAuthor.author===req.user._id.toString()
+
 if(isAuthor||req.user.role==='admin'){
 console.log(req.body)
     const finalUpdates = {
-      ...updates,
-      project: new ObjectId(updates.project.id),
+      ...updates
+      
     };
     const note = await Note.findOneAndUpdate(
       { _id: id },

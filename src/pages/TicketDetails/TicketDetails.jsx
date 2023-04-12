@@ -39,7 +39,7 @@ console.log(data)
         ...ticketData,
         title: data.title,
         status: data.status,
-        _id: data._id,
+        _id: data.ticketId,
         priority: data.priority,
         type: data.type,
         description: data.description,
@@ -67,7 +67,12 @@ console.log(data)
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          title:ticketData.title,
+          priority:ticketData.priority,
+          status:ticketData.status,
+          description:ticketData.description
+        }),
       }
     );
 
@@ -118,15 +123,15 @@ console.log(data)
                     disabled={isDisabled}
                       className="selectTicketPriority"
                       onChange={(e) =>setTicketData({...ticketData,priority:e.target.value})}
-                      defaultValue={data.priority}
+                      value={ticketData.priority}
                     >
                       <option disabled selected>
-                        {data.priority}
+                        {ticketData.priority}
                       </option>
 
                       {data &&
                         priorityOptions
-                          .filter((o) => o !== data.priority)
+                          .filter((o) => o !== ticketData.priority)
                           .map((option) => {
                             return <option key={option}>{option}</option>;
                           })}
@@ -137,12 +142,12 @@ console.log(data)
                 <label htmlFor="">Status</label>
                 {data&&<select 
                      onChange={(e) =>setTicketData({...ticketData,status:e.target.value})}
-                defaultValue={data.status}  
+                value={ticketData.status}
                 className="selectTicketPriority"
                 disabled={isDisabled}
                 >
-                <option disabled selected>{data.status}</option>
-                 {statusOptions.filter((o)=>o!==data.status).map((option)=>{
+                <option disabled selected>{ticketData.status}</option>
+                 {statusOptions.filter((o)=>o!==ticketData.status).map((option)=>{
                   return( 
                     <option>{option}</option>
                   )

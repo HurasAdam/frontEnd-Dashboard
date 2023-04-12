@@ -21,11 +21,11 @@ export const NewTicket = () => {
   const handleNewTicket = (e, prop) => {
     const value = e.target.value;
     newTicket[prop] = value;
-    console.log(newTicket)
+   
  
   };
 
-  console.log(newTicket)
+
   const handleAddTicket = async () => {
     const response = await fetch("http://127.0.0.1:3000/api/notes", {
       method: "POST",

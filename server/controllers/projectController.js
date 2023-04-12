@@ -42,7 +42,7 @@ const getProjectList = async (req, res) => {
   const { role } = req.role;
   const page = Number(req.query.page);
 
-  let size = 2;
+  let size = 10;
   const limit = parseInt(size);
   const skip = (page - 1) * size;
   const allProjects = await Project.find({});
@@ -59,21 +59,16 @@ const projectLeaderList = await Promise.all((projects.map((p)=> User.findOne({_i
  })
 
 
- 
+  // const isMember = (list, id) => {
+  //   const check = list.filter((user) => { user._id === id});
+  //   return check.length > 0;
+  // };
 
-
-
+  // const userProjects = allProjects.filter((proj) => {
+  //   return isMember(proj.contributors, userId);
+  // });
   const { projects: queryString } = req.query;
-
-  const isMember = (list, id) => {
-    const check = list.filter((user) => user._id === id);
-    return check.length > 0;
-  };
-
-  const userProjects = projects.filter((proj) => {
-    return isMember(proj.contributors, userId);
-  });
-
+  const userProjects = allProjects.filter((project)=>project.contributors.includes(userId))
   if (!queryString && typeof page === "number") {
     res
       .status(200)
@@ -152,7 +147,7 @@ const updateProject = async (req, res) => {
   const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
 const convertTypeContributorsId= projectContributors.map((contributor)=>contributor._id.toString())
 
-console.log(findProjectLeader)
+
 
 
   const updateProject = await Project.findOneAndUpdate({_id:id},{$set:{

@@ -47,15 +47,16 @@ export const ProjectDetails = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       }
     );
-
+    
     const json = await response.json();
+    console.log(json)
     const arr = json.map((user) => {
       return { value: user._id, label: user.email };
     });
     setCheck(arr);
   };
 
-  console.log(data)
+ 
   useEffect(() => {
     if (data) {
       setProjectData({
@@ -153,7 +154,7 @@ export const ProjectDetails = () => {
                   ...projectData,
                   contributors: [
                     ...projectData.contributors.filter(
-                      (user) => user._id !== params.id
+                      (user) => user.contributorId !== params.id
                     ),
                   ],
                 })

@@ -209,32 +209,31 @@ const getUserList = async (req, res) => {
 
   //return list of users that are not asigned yet to the current project
   if (req.query.project) {
-    const asignedToProject = await Project.find({ _id: req.query.project });
+    const projectId = req.query.project
+    const project = await Project.find({ _id: projectId });
+
     //get ID of users asigned to the project
-    const contributorsList = asignedToProject
+    const contributorsListId = project
       .map((ob) => ob.contributors)
       .flat();
 
     //get full list of Users
     const userList = await User.find({});
 
-    //filter userLis and return only those users whos are not asigned to the project
-    const notAsignedYet = userList.filter(
-      (user) =>
-        contributorsList.find(
-          (contributor) => user._id === contributor._id
-        ) === undefined
-    );
-    const result = notAsignedYet.map((user) => {
+    //filter and return users that are not asigned to current project
+const filteredUserList = userList.filter((user)=>!contributorsListId.includes(user._id.toString()))
+
+    const result = filteredUserList.map((user) => {
       return {
-        _id: user._id,
+        contributorId: user._id,
         name: user.name,
         surname: user.surname,
         email: user.email,
         role: user.role,
+        gender:user.gender,
+        userAvatar:user.userAvatar
       };
     });
-
     return res.status(200).json(result);
   }
 

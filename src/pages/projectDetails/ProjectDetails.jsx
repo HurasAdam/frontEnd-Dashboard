@@ -56,7 +56,7 @@ export const ProjectDetails = () => {
     setCheck(arr);
   };
 
- 
+ console.log(data)
   useEffect(() => {
     if (data) {
       setProjectData({
@@ -180,6 +180,8 @@ export const ProjectDetails = () => {
           <div className="projectDataContainerTop"></div>
           <div className="projecttDataBottom">
             <form action="">
+              <div className="projectDataBottomItemsWrapper">
+                <div className="projectDataBottomItemsLeft">
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project title :</label>
                 {data && (
@@ -197,20 +199,28 @@ export const ProjectDetails = () => {
                   />
                 )}
               </div>
-             { <div className="projectDataBottomItem">
-                <label htmlFor="">Created At :</label>
+              <div className="projectDataBottomItem">
+                <label htmlFor="">Project Description</label>
                 {data && (
-                  <input
-                    type="text"
-                    defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
-                    disabled={true}
-                  />
-                 
+                  <textarea
+                    defaultValue={projectData.description}
+                    disabled={isDisabled}
+                    onChange={(e) =>
+                      setProjectData({
+                        ...projectData,
+                        description: e.target.value,
+                      })
+                    }
+                  ></textarea>
                 )}
-                
-              </div>}
+              </div>
+
+       
+              </div>
+              <div className="projectDataBottomItemsRight">
               <div className="projectDataBottomItem">
                 <label htmlFor="">Project leader</label>
+                {data&&<img className="projectDataBottomItem-img" src={data.projectLeader.userAvatar} alt="" />}
                 {data&&(
                   <select
                     disabled={isDisabled}
@@ -236,21 +246,22 @@ export const ProjectDetails = () => {
                       : null}
                   </select>
                 )}
+               
               </div>
-              <div className="projectDataBottomItem">
-                <label htmlFor="">Project Description</label>
+              { <div className="projectDataBottomItem">
+                <label htmlFor="">Created At :</label>
                 {data && (
-                  <textarea
-                    defaultValue={projectData.description}
-                    disabled={isDisabled}
-                    onChange={(e) =>
-                      setProjectData({
-                        ...projectData,
-                        description: e.target.value,
-                      })
-                    }
-                  ></textarea>
+                  <input
+                    type="text"
+                    defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
+                    disabled={true}
+                  />
+                 
                 )}
+                
+              </div>}
+   
+              </div>
               </div>
               <div className="projectDataBottomItem">
                 {projectData.contributors && (
@@ -261,7 +272,7 @@ export const ProjectDetails = () => {
                     rowHeight={40}
                     rows={projectData.contributors}
                     columns={columns}
-                    pageSize={10}
+                    pageSize={5}
                     rowsPerPageOptions={[10]}
                     checkboxSelection={false}
                     disableSelectionOnClick

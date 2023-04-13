@@ -49,7 +49,6 @@ function App() {
           <Route exact path="/Newticket" element={user?<NewTicket />:<Navigate to='/login'/>}></Route>
           <Route path="/login" element={!user?<LoginPage/>:<Navigate to='/'/>}></Route>
           <Route path="/signup" element={!user?<SignupPage/>:<Navigate to='/'/>}></Route>
-          
         </Routes>
       </div>
     </BrowserRouter>

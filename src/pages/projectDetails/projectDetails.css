@@ -1,10 +1,10 @@
 .projectDetails {
   flex: 5;
-  padding: 20px;
+  padding: 15px 18px;
 }
 .projectHeaderContainer {
   display: flex;
-  margin-left: 20px;
+  margin-left: 6px;
   margin-top: 10px;
   font-size: 22px;
   font-weight: 600;
@@ -23,10 +23,7 @@
   display: flex;
 }
 .projectDataContainerLeft {
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   flex: 3;
-  padding: 5px 30px;
 }
 
 .projectDataContainerTop {
@@ -53,19 +50,100 @@
   height: max-content;
   flex-direction: column;
 }
+.projectDataBottomItemsWrapper{
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  display: flex;
+gap:10px
+
+
+}
+.projectDataBottomItemsLeft{
+ display: flex;
+ flex-direction: column;
+ gap:6px;
+ padding:0px 10px;
+  flex:4;
+ justify-content: center;
+
+
+}
+
+.projectDataBottomItemsLeft .projectDataBottomItem input,textarea {
+width: 96%;
+}
+.projectDataBottomItemsRight{
+
+flex:1;
+display: flex;
+flex-direction: column;
+align-items: center;
+
+
+
+}
+.projectDataBottomItemsRight .projectDataBottomItem{
+ 
+width: 100%;
+display: flex;
+
+align-items: center;
+}
+.projectDataBottomItemsRight label{
+
+  width: max-content;
+text-align: center;
+}
+
+.projectDataBottomItemsRight .projectDataBottomItem input:disabled{
+text-align: center;
+width: max-content;
+background-color:transparent;
+border-bottom: transparent;
+}
+.projectDataBottomItemsRight .projectDataBottomItem select:disabled{
+border: none;
+}
+
+.projectDataBottomItemsRight .projectDataBottomItem select{
+text-align: center;
+width: max-content;
+}
+.projectDataBottomItem-img{
+
+  width: 65px;
+  height: 65px;
+  border-radius: 20%;
+  
+  object-fit: cover;
+}
+
+
+
+
+
 .projectDataBottomItem {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 15px;
 }
-.projectDataBottomItem > input {
+ .projectDataBottomItem > input {
   height: 30px;
   border: none;
   border-bottom: 1px solid grey;
   font-size: 15px;
+  padding: 0px 5px;
+  
+}
+.projectDataBottomItem > input:disabled {
+border-bottom: 1px solid rgb(213, 203, 203);
+
+background-color: transparent;
 }
 .projectDataBottomItem textarea {
   resize: none;
+  height: 70px;
+  border-radius: 5px;
 }
 .projectDataBottomItem > label {
   margin-bottom: 5px;
@@ -160,6 +238,9 @@
   margin-bottom: 6px;
   display: flex;
   justify-content: space-around;
+}
+.dataGrid{
+padding: 0px 5px;
 }
 
 .error {

@@ -8,6 +8,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import {CommentBox} from "../../components/commentBox/CommentBox"
 export const TicketDetails = () => {
   const { ticketId } = useParams();
   const [isDisabled,setIsDisabled]=useState(true)
@@ -169,6 +170,7 @@ console.log(data)
               </div>
             </form>
           </div>
+         
         </div>
         <div className="ticketDataContainerRight">
           <div className="ticketInfoTop">
@@ -219,7 +221,9 @@ console.log(data)
            {isDisabled?<button onClick={()=>setIsDisabled(false)}>Edit</button>:<button disabled={isDisabled} onClick={()=>{setIsDisabled(true);handleDataUpdate()}}>Update</button>}
           </div>):null}
         </div>
+      
       </div>
+    
     </div>
   );
 };

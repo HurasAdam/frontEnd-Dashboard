@@ -21,6 +21,10 @@
 .ticketDataContainer {
   display: flex;
 }
+.ticketDataContainerWrapper{
+
+  display: flex;
+}
 .ticketDataContainerLeft {
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -29,11 +33,82 @@
 }
 
 .ticketDataContainerTop {
-  margin-top: 10px;
+  margin-top: 15px;
+  flex: 1;
+}
+.ticketInfoTopItem{
+
+  flex:1;
+  display: flex;
+  align-items: center;
+  
+}
+.ticketInfoTopItem.title input:enabled{
+border-bottom: 1px double grey;
+}
+.ticketInfoTopItem.title{
+ display: flex;
+ flex-direction: column;
+
+align-items: flex-start;
+
+} 
+.ticketInfoTopItem.title label{
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: grey;
+}
+.ticketInfoTopItem.title input{
+ border: none;
+ word-wrap: break-word;
+background: transparent;
+  width: 100%;
+  
+  min-width: max-content;
+  padding: 3px 5px;
+ border: transparent;
+cursor: pointer;
+  word-wrap: break-word;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ticketDataTopItemWrapper{
+ 
+  display: flex;
+  justify-content: space-around;
+
+
+
+}
+.ticketDataTopItem{
+
+  display: flex;
+  flex-direction: column;
+flex:1;
+}
+.ticketDataTopItem input{
+padding: 5px;
+}
+.ticketDataTopItem label{
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: grey;
+}
+.ticketDataTopItem input{
+border: none;
+border-bottom: 1px solid grey;
+width: 96%;
+
+}
+
+.ticketDataContainerTop-right {
+flex:5;
 }
 .ticektDataBottom {
   height: max-content;
   flex-direction: column;
+
 }
 .ticketDataBottomItem {
   display: flex;
@@ -49,6 +124,7 @@
 .ticketDataBottomItemWrapper {
   display: flex;
   gap: 5px;
+
 }
 
 .ticketDataBottomItemWrapper-select {
@@ -87,12 +163,13 @@
 }
 .ticketInfoTop {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 50px;
+align-items: center;
+flex-direction: column;
+
 }
 .ticketInfoTopImg {
-  width: 100px;
-  height: 140px;
+  width: 80px;
+  height: 80px;
   border-radius: 5px;
   object-fit: cover;
 }
@@ -135,9 +212,10 @@
 .ticketInfoBottomItem-span {
   display: flex;
   flex-direction: column;
+  
 }
 .ticketInfoBottomItem-span span {
-  margin-bottom: 10px;
+ justify-content: center;
   display: flex;
 }
 .selectTicketPriority {

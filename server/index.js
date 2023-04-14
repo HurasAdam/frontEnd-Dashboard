@@ -18,11 +18,12 @@ const apiRouter= require('./routes/api');
 const userRoutes = require('./routes/user')
 const projectRoutes=require('./routes/project')
 const statsRoutes=require('./routes/stats')
+const postsRoutes = require('./routes/posts')
 app.use('/api/notes',apiRouter);
 app.use('/api/user', userRoutes)
 app.use('/api/projects',projectRoutes)
 app.use('/api/stats',statsRoutes)
-
+app.use('/api/posts',postsRoutes)
 
 //server
 app.listen(port,function(){

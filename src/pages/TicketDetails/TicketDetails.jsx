@@ -93,18 +93,18 @@ console.log(data)
       </div>
       <div className="ticketDataContainer">
         <div className="ticketDataContainerLeft">
+          <div className="ticketDataContainerWrapper">
           {data && data.project&& (
             <div className="ticketDataContainerTop">
-              <p>Project: {data.project.projectTitle}</p>
-              <p>Project Leader: {`${data.project.projectLeader.name} ${data.project.projectLeader.surname}`}</p>
-              <p className="ticketId">Ticket ID:{ticketId}</p>
-            </div>
-          )}
-          <div className="ticektDataBottom">
+          
+              <div className="ticektDataBottom">
             <form action="">
-              <div className="ticketDataBottomItem">
-                <label htmlFor="">Title</label>
+            <div className="ticketDataTopItemWrapper">
+            <div className="ticketInfoTopItem title">
+        <label htmlFor="">Ticket</label>
+                
                 {data && (
+                  
                   <input
                   disabled={isDisabled}
                     type="text"
@@ -113,6 +113,29 @@ console.log(data)
                     onChange={(e) =>setTicketData({...ticketData,title:e.target.value})}
                   />
                 )}
+            </div>
+            <div className="ticketInfoTopItem">
+            <ScheduleOutlinedIcon />
+                <span>
+                 
+                  Created:
+                </span>
+                {data && <span>{`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}</span>}
+              </div>
+            </div>
+              <div className="ticketDataBottomItem">
+               
+         
+              </div>
+              <div className="ticketDataTopItemWrapper">
+            <div className="ticketDataTopItem">
+           <label htmlFor="">CreatedBy</label>
+           <input type="text" />
+            </div>
+            <div className="ticketDataTopItem">
+              <label htmlFor="">Project</label>
+              <input type="text" />
+            </div>
               </div>
               <div className="ticketDataBottomItem">
               <div className="ticketDataBottomItemWrapper">
@@ -169,58 +192,22 @@ console.log(data)
                 )}
               </div>
             </form>
-          </div>
-         
-        </div>
-        <div className="ticketDataContainerRight">
-          <div className="ticketInfoTop">
-            <div className="ticketInfoItemsContainer">
-              {data&& <span>Created By:{`${data.author.name} ${data.author.surname}`}</span>}
-
-              <div className="ticketAuthorDataWrapper">
-                <span className="ticketInfoAuthorName"></span>
-                <span className="ticketInfoAuthorJobTitle"></span>
-              </div>
-            </div>
-            {data&& <img src={data.author.userAvatar} className="ticketInfoTopImg" alt="" />}
-          </div>
-          <div className="ticketInfoBottom">
-            <div className="ticketInfoBottomItem">
-              <div className="ticketInfoBottomItem-span">
-                <span>
-                  <ScheduleOutlinedIcon />
-                  Created:
-                </span>
-                {data && <span>{`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}</span>}
-              </div>
-
-              <div className="ticketInfoBottomItem-span">
-                <span>
-                  <HistoryOutlinedIcon />
-                  Updated:
-                </span>
-                {data && <span>{data.updatedAt}</span>}
-              </div>
-            </div>
-            <div className="ticketInfoBottomItem">
-              <div className="ticketInfoBottomItem-span">
-                <span>
-                  {" "}
-                  <FlagOutlinedIcon />
-                  Type:
-                </span>
-                {data && <span>{data.type}</span>}
-              </div>
-            </div>
-            <div className="ticketInfoBottomItem">
-              <span></span>
-            </div>
-          </div>
-         {ticketData.permissions?(<div className="ticketInfoButtonWrapper">
+            {ticketData.permissions?(<div className="ticketInfoButtonWrapper">
             <button onClick={handleDelete}>Delete</button>
            {isDisabled?<button onClick={()=>setIsDisabled(false)}>Edit</button>:<button disabled={isDisabled} onClick={()=>{setIsDisabled(true);handleDataUpdate()}}>Update</button>}
           </div>):null}
+          </div>
+            </div>
+            
+          )}
+          <div className="ticektDataContainerTop-right">
+          </div>
+    
+          </div>
+         
+         
         </div>
+  
       
       </div>
     

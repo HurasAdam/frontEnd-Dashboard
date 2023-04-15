@@ -13,6 +13,7 @@ export const TicketDetails = () => {
   const { ticketId } = useParams();
   const [isDisabled,setIsDisabled]=useState(true)
   const [updateError, setUpdateError] = useState(null);
+  const [newComment,setNewComment]=useState('')
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -20,7 +21,8 @@ export const TicketDetails = () => {
     `http://localhost:3000/api/notes/${ticketId}`
   );
  const [ticketData,setTicketData]=useState({})
-console.log(data)
+
+
   const handleDelete = async () => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
       method: "DELETE",
@@ -38,6 +40,7 @@ console.log(data)
     if (data) {
       setTicketData({
         ...ticketData,
+        ticketAuthor:data.author,
         title: data.title,
         status: data.status,
         _id: data.ticketId,
@@ -56,7 +59,46 @@ console.log(data)
   const statusOptions=["Open","Closed"]
 
 
+  useEffect(()=>{
+    renderPosts()
    
+  },[])
+   const renderPosts=async()=>{
+
+    const response = await fetch(`http://127.0.0.1:3000/api/posts/`,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+
+    const json = await response.json()
+    
+  if(json.length>0){
+    setTicketData({
+      ...ticketData,
+      comments:json
+    })
+  }
+   }
+
+
+   const addComment = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('http://127.0.0.1:3000/api/posts/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newComment),
+      });
+      const json= await response.json()
+      
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   
 
   const handleDataUpdate = async () => {
@@ -130,11 +172,11 @@ console.log(data)
               <div className="ticketDataTopItemWrapper">
             <div className="ticketDataTopItem">
            <label htmlFor="">CreatedBy</label>
-           <input type="text" />
+         {ticketData.ticketAuthor&&<div className="ticketAuthorInfo"> {`${ticketData.ticketAuthor.name} ${ticketData.ticketAuthor.surname}`}</div>}
             </div>
             <div className="ticketDataTopItem">
               <label htmlFor="">Project</label>
-              <input type="text" />
+              {ticketData.project&&<div className="projectInfo">{ticketData.project.projectTitle}</div>}
             </div>
               </div>
               <div className="ticketDataBottomItem">
@@ -204,13 +246,13 @@ console.log(data)
           </div>
     
           </div>
-         
+    <CommentBox posts={ticketData.comments} addComment={addComment} setNewComment={setNewComment}/>
          
         </div>
-  
+
       
       </div>
-    
+  
     </div>
   );
 };

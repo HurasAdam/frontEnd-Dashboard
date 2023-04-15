@@ -1,10 +1,20 @@
 const Post = require("../db/models/post")
-const getAllPosts= async(req,res)=>{
+const createPost= async(req,res)=>{
 
    const{TicketId,CreatedBy,Content,createdAt}= req.body
+   const user= req.user
+   console.log(req.user)
 const newPost = await Post.create({
     TicketId,
-    CreatedBy,
+    CreatedBy:{
+        id:user._id,
+        name:user.name,
+        surname:user.surname,
+        role:user.role,
+        email:user.email,
+        userAvatar:user.userAvatar
+    
+    },
     Content,
     createdAt
 })
@@ -12,5 +22,13 @@ const newPost = await Post.create({
     res.status(200).json(newPost)
 }
 
+const getAllPosts= async(req,res)=>{
 
-module.exports=[getAllPosts]
+    const postList = await Post.find({})
+    console.log(postList)
+    res.status(200).json(postList)
+
+}
+
+
+module.exports=[createPost,getAllPosts]

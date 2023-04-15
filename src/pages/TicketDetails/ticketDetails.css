@@ -41,6 +41,8 @@
   flex:1;
   display: flex;
   align-items: center;
+ 
+
   
 }
 .ticketInfoTopItem.title input:enabled{
@@ -78,14 +80,24 @@ cursor: pointer;
   display: flex;
   justify-content: space-around;
 
-
-
 }
 .ticketDataTopItem{
-
   display: flex;
   flex-direction: column;
 flex:1;
+}
+.ticketAuthorInfo{
+border: none;
+border-bottom: 1px solid grey;
+width: 98%;
+padding: 3px 0px;
+}
+.projectInfo{
+  border: none;
+  border-bottom: 1px solid grey;
+width: 98%;
+padding: 3px 0px;
+
 }
 .ticketDataTopItem input{
 padding: 5px;

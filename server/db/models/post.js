@@ -8,7 +8,7 @@ TicketId:{
     required:true
 },
 CreatedBy:{
-    type:String,
+    type:Object,
     required:true
 },
 CreatedAt:{

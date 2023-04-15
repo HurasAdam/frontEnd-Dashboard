@@ -1,22 +1,19 @@
 const Post = require("../db/models/post")
+const User= require("../db/models/user")
+const Note = require("../db/models/note")
 const createPost= async(req,res)=>{
-
-   const{TicketId,CreatedBy,Content,createdAt}= req.body
-   const user= req.user
-   console.log(req.user)
-const newPost = await Post.create({
-    TicketId,
-    CreatedBy:{
-        id:user._id,
-        name:user.name,
-        surname:user.surname,
-        role:user.role,
-        email:user.email,
-        userAvatar:user.userAvatar
+    const{newComment}= req.body
+    const {ticketId}=req.query
+    const user= req.user
+    const currentTicket = await Note.findOne({_id:ticketId})
     
-    },
-    Content,
-    createdAt
+
+  
+const newPost = await Post.create({
+    ticketId:currentTicket._id.toString(),
+    CreatedBy:user._id.toString(),
+    Content:newComment
+    
 })
 
     res.status(200).json(newPost)

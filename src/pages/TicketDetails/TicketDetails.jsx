@@ -85,11 +85,14 @@ export const TicketDetails = () => {
 
    const addComment = async (event) => {
     event.preventDefault();
+    console.log(newComment)
     try {
-      const response = await fetch('http://127.0.0.1:3000/api/posts/', {
+      const response = await fetch(`http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newComment),
+        headers: { 'Content-Type': 'application/json',
+        Authorization:`Bearer ${user.token}`,
+      },
+        body: JSON.stringify({newComment}),
       });
       const json= await response.json()
       

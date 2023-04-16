@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import "../commentBox/commentBox.css"
 export const CommentBox=({posts,addComment,setNewComment})=> {
 
+const [textAreaHeight,setTextAreaHeight]=useState()
 
- 
+
 
   return (
     <div className="comment-box">
@@ -11,11 +12,19 @@ export const CommentBox=({posts,addComment,setNewComment})=> {
   
       {posts&&posts.map((comment) => (
         <div key={comment.id} className="comment">
-         <img className='userImage' src={comment.CreatedBy.userAvatar} alt="" /> <h4> {comment.CreatedBy.name} {comment.CreatedAt}</h4>
+        <div className="comment-userInfo">
+        <img className='userImage' src={comment.CreatedBy.userAvatar} alt="" /> <h4> {comment.CreatedBy.name} {comment.CreatedAt}</h4>
+        </div>
           
-          <p>{comment.Content}</p>
-        
-        
+          <textarea
+          rows={((comment.Content.length)/150)-1} 
+         
+          value={comment.Content}
+          
+          >
+          
+          </textarea>
+    
         </div>
       ))}
        

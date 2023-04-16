@@ -65,7 +65,7 @@ export const TicketDetails = () => {
   },[])
    const renderPosts=async()=>{
 
-    const response = await fetch(`http://127.0.0.1:3000/api/posts/`,{
+    const response = await fetch(`http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,{
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
@@ -85,7 +85,6 @@ export const TicketDetails = () => {
 
    const addComment = async (event) => {
     event.preventDefault();
-    console.log(newComment)
     try {
       const response = await fetch(`http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`, {
         method: 'POST',
@@ -95,7 +94,10 @@ export const TicketDetails = () => {
         body: JSON.stringify({newComment}),
       });
       const json= await response.json()
-      
+      if(response.ok){
+        // setTicketData({...ticketData, comments:[...ticketData.comments,json]})
+        renderPosts()
+      }
     } catch (error) {
       console.error(error);
     }

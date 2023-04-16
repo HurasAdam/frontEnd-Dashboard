@@ -2,53 +2,38 @@
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
+
 }
 
-.form-input {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-}
-
-.form-input label {
-  font-weight: bold;
-}
-
-.form-input input,
-.form-input textarea {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  border: 1px solid #ccc;
-}
-
-.form-input input {
-  margin-bottom: 0.5rem;
-}
-
-.form-input button {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  border: none;
-  background-color: #008cdd;
-  color: #fff;
-  cursor: pointer;
-}
-
-.comments-container {
-  display: flex;
-  flex-direction: column;
-}
 
 .comment {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  padding: 1rem;
+
   background-color: #f9f9f9;
   border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba
+  box-shadow: 0 2px 4px rgba;
+height: max-content;
+padding: 15px 0px;
+
+}
+.comment textarea {
+background-color: transparent;
+
+margin: 0 auto;
+padding: 2px 35px;
+border: none;
+height: 100%;
+
+
 }
 
+.comment-userInfo{
+ 
+  display: flex;
+  gap:10px
+}
 
 .userImage{
   width: 40px;

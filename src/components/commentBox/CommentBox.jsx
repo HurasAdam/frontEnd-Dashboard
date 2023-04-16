@@ -12,18 +12,24 @@ const [textAreaHeight,setTextAreaHeight]=useState()
   
       {posts&&posts.map((comment) => (
         <div key={comment.id} className="comment">
-        <div className="comment-userInfo">
-        <img className='userImage' src={comment.CreatedBy.userAvatar} alt="" /> <h4> {comment.CreatedBy.name} {comment.CreatedAt}</h4>
+        <div className="comment-userInfoContainer">
+          <div className='comment-userInfo'> 
+        <img className='userImage' src={comment.CreatedBy.userAvatar} alt="" /> 
+        <div className='comment-userInfoData'>
+        <h4> {comment.CreatedBy.name}</h4>
+        <span>{comment.CreatedBy.role}</span>
+        </div>
+        </div>
+        <div>{comment.CreatedAt}</div>
         </div>
           
-          <textarea
-          rows={((comment.Content.length)/150)-1} 
-         
-          value={comment.Content}
+   <p>
+        
+          {comment.Content}
+          </p>
           
-          >
           
-          </textarea>
+        
     
         </div>
       ))}
@@ -35,7 +41,7 @@ const [textAreaHeight,setTextAreaHeight]=useState()
           <label htmlFor="comment">Comment:</label>
           <textarea
             id="comment"
-            
+            maxLength={4000}
             onChange={(event) => setNewComment(event.target.value)}
             required
           ></textarea>

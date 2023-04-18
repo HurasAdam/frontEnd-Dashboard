@@ -48,8 +48,8 @@ export const TicketDetails = () => {
         type: data.type,
         description: data.description,
         project:data.project,
-        permissions:data.permissions
-       
+        fullAccess:data.fullAccess,
+        contributorAccess:data.contributorAccess
       });
     }
   }, [data]);
@@ -251,7 +251,7 @@ export const TicketDetails = () => {
           </div>
     
           </div>
-    <CommentBox posts={ticketData.comments} addComment={addComment} setNewComment={setNewComment}/>
+    <CommentBox posts={ticketData.comments} addComment={addComment} setNewComment={setNewComment} fullAccess={ticketData.fullAccess} contributorAccess={ticketData.contributorAccess} />
          
         </div>
 

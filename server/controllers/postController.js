@@ -1,12 +1,22 @@
 const Post = require("../db/models/post")
 const User= require("../db/models/user")
 const Note = require("../db/models/note")
+const Project = require("../db/models/project")
+
 const createPost= async(req,res)=>{
     const{newComment}= req.body
     const {ticketId}=req.query
     const user= req.user
+ 
     const currentTicket = await Note.findOne({_id:ticketId})
-    
+   const currProjectId = currentTicket.project
+   const currentProject= await Project.findOne({_id:currProjectId})
+   const currentProjectContributorsList= currentProject.contributors
+   const isContributor = currentProjectContributorsList.includes(user._id.toString())
+
+
+   if(isContributor||user.role==='admin'){
+
 const newPost = await Post.create({
     ticketId:currentTicket._id.toString(),
     CreatedBy:user._id.toString(),
@@ -14,9 +24,12 @@ const newPost = await Post.create({
     
 })
 
-    res.status(200).json(newPost)
+    return res.status(200).json(newPost)
 }
-
+else{
+    return res.status(400).json("Forrbiden access")
+}
+}
 const getAllPosts= async(req,res)=>{
 const {ticketId}=req.query
 

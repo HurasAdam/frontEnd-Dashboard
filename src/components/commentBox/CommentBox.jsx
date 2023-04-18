@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import "../commentBox/commentBox.css"
-export const CommentBox=({posts,addComment,setNewComment})=> {
+export const CommentBox=({posts,addComment,setNewComment,fullAccess,contributorAccess})=> {
 
 const [textAreaHeight,setTextAreaHeight]=useState()
 
-
+console.log(contributorAccess&&contributorAccess)
 
   return (
     <div className="comment-box">
@@ -34,7 +34,7 @@ const [textAreaHeight,setTextAreaHeight]=useState()
         </div>
       ))}
        
-      <form onSubmit={addComment}>
+      {contributorAccess&&<form onSubmit={addComment}>
     
         <div className='newCommentContainer'>
           
@@ -49,7 +49,7 @@ const [textAreaHeight,setTextAreaHeight]=useState()
         <div>
           <button type="submit">Add comment</button>
         </div>
-      </form>
+      </form>}
     </div>
   );
 }

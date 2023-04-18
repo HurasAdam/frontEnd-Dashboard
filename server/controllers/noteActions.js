@@ -63,14 +63,19 @@ module.exports = {
 
   //podbieranie noatki
   async getNote(req, res) {
+    const userId = req.user._id.toString()
+
     const id = req.params.id;
     const note = await Note.findOne({ _id: id });
   
   
     const ticketAuthor = await User.findOne({_id:note.author})
   const project = await Project.findOne({_id:note.project})
+  const conctibutorsList= project.contributors
+const contributorAccess = conctibutorsList.includes(userId)||req.user.role==='admin'
+
   const projectLeader= await User.findOne({_id:project.projectLeaderId})
-  const access =(ticketAuthor.author===req.user._id.toString()||req.user.role==='admin')
+  const fullAccess =(ticketAuthor.author===req.user._id.toString()||req.user.role==='admin')
 
     const xd = {
       ticketId: note._id,
@@ -104,7 +109,8 @@ module.exports = {
         }
 
       },
-      permissions:access
+      fullAccess:fullAccess,
+      contributorAccess:contributorAccess
       
     };
     res.status(200).json(xd);

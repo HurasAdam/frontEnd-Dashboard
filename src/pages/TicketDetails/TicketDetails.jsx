@@ -251,7 +251,11 @@ export const TicketDetails = () => {
           </div>
     
           </div>
-    <CommentBox posts={ticketData.comments} addComment={addComment} setNewComment={setNewComment} fullAccess={ticketData.fullAccess} contributorAccess={ticketData.contributorAccess} />
+    <CommentBox posts={ticketData.comments} 
+    addComment={addComment} 
+    setNewComment={setNewComment} 
+    fullAccess={ticketData.fullAccess} 
+    contributorAccess={ticketData.contributorAccess} />
          
         </div>
 

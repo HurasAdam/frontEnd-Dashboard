@@ -14,6 +14,7 @@ export const TicketDetails = () => {
   const [isDisabled,setIsDisabled]=useState(true)
   const [updateError, setUpdateError] = useState(null);
   const [newComment,setNewComment]=useState('')
+  const [editedCommentTextContent, setEditedCommentTextContent] = useState("");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -64,23 +65,49 @@ export const TicketDetails = () => {
    
   },[])
    const renderPosts=async()=>{
-
     const response = await fetch(`http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,{
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
       },
     })
-
     const json = await response.json()
-    
-  if(json.length>0){
+        const initialPostState = json.map((post) => {
+          return { ...post, contentEditable: false, ButtonText: false };
+        });
+  if(initialPostState.length>0){
     setTicketData({
       ...ticketData,
-      comments:json
+      comments:initialPostState
     })
   }
    }
+
+
+   const handleEditComment = (id,commentList) => {
+    console.log(id)
+    const index = commentList.findIndex((comment) => comment.id === id);
+    if (index === -1) {
+      console.log("comment not found");
+      return;
+    }
+    const updatedComment = {
+      ...commentList[index],
+      contentEditable: !commentList[index].contentEditable,
+      ButtonText: !commentList[index].ButtonText
+    };
+    const updatedComments = [...commentList];
+    updatedComments[index] = updatedComment;
+    console.log(updatedComments);
+
+    setTicketData({...ticketData,comments:updatedComments});
+  };
+
+  const handleUpdateCommnet=()=>{
+
+    console.log('UPDATED!!!')
+  }
+
 
 
    const addComment = async (event) => {
@@ -103,7 +130,9 @@ export const TicketDetails = () => {
     }
   };
 
-
+  const handleEditTextContent = (el) => {
+    setEditedComment(el);
+  };
   
 
   const handleDataUpdate = async () => {
@@ -255,7 +284,11 @@ export const TicketDetails = () => {
     addComment={addComment} 
     setNewComment={setNewComment} 
     fullAccess={ticketData.fullAccess} 
-    contributorAccess={ticketData.contributorAccess} />
+    contributorAccess={ticketData.contributorAccess}
+    onEditComment={handleEditComment}
+    onUpdateComment={handleUpdateCommnet}
+    onEditTextContent={setEditedCommentTextContent}
+    />
          
         </div>
 

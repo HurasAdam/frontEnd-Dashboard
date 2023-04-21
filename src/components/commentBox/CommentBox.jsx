@@ -7,46 +7,27 @@ export const CommentBox = ({
   setNewComment,
   fullAccess,
   contributorAccess,
+  onEditComment,
+  onUpdateComment,
+  onEditTextContent
 }) => {
   const { user } = useContext(AuthContext);
-  const [commentsData, setCommentsData] = useState();
-  const [editedComment, setEditedComment] = useState("");
+  // const [commentsData, setCommentsData] = useState();
+  
 
-  useEffect(() => {
-    if (posts) {
-      const initialPostState = posts.map((post) => {
-        return { ...post, contentEditable: false, ButtonText: "Edit" };
-      });
-      setCommentsData(initialPostState);
-    }
-  }, [posts]);
 
-  const handleEditCommentText = (el) => {
-    setEditedComment(el);
-  };
+
+ 
 
   const handleEditComment = (id) => {
-    const index = commentsData.findIndex((comment) => comment.id === id);
-    if (index === -1) {
-      console.log("comment not found");
-      return;
-    }
-    const updatedComment = {
-      ...commentsData[index],
-      contentEditable: !commentsData[index].contentEditable,
-      ButtonText: "Save",
-    };
-    const updatedComments = [...commentsData];
-    updatedComments[index] = updatedComment;
-    console.log(updatedComments);
-
-    setCommentsData(updatedComments);
+    onEditComment(id,posts)
   };
+
 
   return (
     <div className="comment-box">
-      {commentsData &&
-        commentsData.map((comment) => (
+      {posts &&
+        posts.map((comment) => (
           <div key={comment.id} className="comment">
             <div className="comment-userInfoContainer">
               <div className="comment-userInfo">
@@ -59,11 +40,14 @@ export const CommentBox = ({
                   <h4> {comment.CreatedBy.name}</h4>
                   <span>{comment.CreatedBy.role}</span>
                 </div>
-                {comment.CreatedBy.id === user.userId ? (
-                  <button onClick={() => handleEditComment(comment.id)}>
-                    {comment.ButtonText}
+                {comment.CreatedBy.id === user.userId &&!comment.contentEditable ? (
+                  <button onClick={() => handleEditComment(comment.id,posts)}>
+                   Edit
                   </button>
                 ) : null}
+{comment.CreatedBy.id === user.userId &&comment.contentEditable ?(
+                <button onClick={onUpdateComment} >Save</button>):null
+}
               </div>
               <div>{comment.CreatedAt}</div>
             </div>
@@ -72,7 +56,7 @@ export const CommentBox = ({
               defaultValue={comment.Content}
               onInput={(e) => {
                 e.preventDefault();
-                handleEditCommentText(e.target.innerHTML);
+                onEditTextContent(e.target.innerHTML);
               }}
               contentEditable={comment.contentEditable}
             >

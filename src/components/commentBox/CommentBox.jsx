@@ -1,3 +1,5 @@
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -9,7 +11,8 @@ export const CommentBox = ({
   contributorAccess,
   onEditComment,
   onUpdateComment,
-  onEditTextContent
+  onEditTextContent,
+  newComment
 }) => {
   const { user } = useContext(AuthContext);
   // const [commentsData, setCommentsData] = useState();
@@ -41,12 +44,12 @@ export const CommentBox = ({
                   <span>{comment.CreatedBy.role}</span>
                 </div>
                 {comment.CreatedBy.id === user.userId &&!comment.contentEditable ? (
-                  <button onClick={() => handleEditComment(comment.id,posts)}>
-                   Edit
-                  </button>
+                  <CreateOutlinedIcon disabled={true} className='editCommentIcon' onClick={() =>{!comment.buttonDisabled? handleEditComment(comment.id,posts):null}}></CreateOutlinedIcon>
+              
                 ) : null}
 {comment.CreatedBy.id === user.userId &&comment.contentEditable ?(
-                <button onClick={onUpdateComment} >Save</button>):null
+  <CheckOutlinedIcon className='editCommentIcon'  onClick={()=>onUpdateComment(comment.id,posts)}></CheckOutlinedIcon>
+                ):null
 }
               </div>
               <div>{comment.CreatedAt}</div>
@@ -74,6 +77,7 @@ export const CommentBox = ({
               maxLength={4000}
               onChange={(event) => setNewComment(event.target.value)}
               required
+              value={newComment}
             ></textarea>
           </div>
           <div>

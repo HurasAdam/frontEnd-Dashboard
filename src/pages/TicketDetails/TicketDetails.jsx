@@ -73,7 +73,7 @@ export const TicketDetails = () => {
     })
     const json = await response.json()
         const initialPostState = json.map((post) => {
-          return { ...post, contentEditable: false, ButtonText: false };
+          return { ...post, contentEditable: false, buttonDisabled: false };
         });
   if(initialPostState.length>0){
     setTicketData({
@@ -83,29 +83,49 @@ export const TicketDetails = () => {
   }
    }
 
-
    const handleEditComment = (id,commentList) => {
-    console.log(id)
+   
     const index = commentList.findIndex((comment) => comment.id === id);
+    const rest = commentList.filter((comment)=>comment.id!==id)
+   
     if (index === -1) {
       console.log("comment not found");
       return;
     }
+
+const uneditableCommentList= commentList.map((com)=>{
+  return {...com,buttonDisabled:true}
+})
+
     const updatedComment = {
       ...commentList[index],
       contentEditable: !commentList[index].contentEditable,
-      ButtonText: !commentList[index].ButtonText
+      buttonDisabled: !commentList[index].buttonDisabled,
     };
-    const updatedComments = [...commentList];
+    const updatedComments = [...uneditableCommentList];
     updatedComments[index] = updatedComment;
-    console.log(updatedComments);
-
+    
+ 
     setTicketData({...ticketData,comments:updatedComments});
   };
 
-  const handleUpdateCommnet=()=>{
-
-    console.log('UPDATED!!!')
+  const handleUpdateCommnet=async(id,commentList)=>{
+if(setEditedCommentTextContent.length>0){
+const response = await fetch(`http://127.0.0.1:3000/api/posts/${id}`,{
+  method:"PATCH",
+  headers:{
+    'Content-Type':'application/json',
+    Authorization:`Bearer' ${user.token}`
+  },
+  body:JSON.stringify({editedComment:editedCommentTextContent})
+})
+  if(response.ok){
+    
+    handleEditComment(id,commentList)
+    setEditedCommentTextContent('')
+    renderPosts()
+  }
+}
   }
 
 
@@ -122,7 +142,7 @@ export const TicketDetails = () => {
       });
       const json= await response.json()
       if(response.ok){
-        // setTicketData({...ticketData, comments:[...ticketData.comments,json]})
+       setNewComment('')
         renderPosts()
       }
     } catch (error) {
@@ -282,7 +302,8 @@ export const TicketDetails = () => {
           </div>
     <CommentBox posts={ticketData.comments} 
     addComment={addComment} 
-    setNewComment={setNewComment} 
+    setNewComment={setNewComment}
+    newComment={newComment} 
     fullAccess={ticketData.fullAccess} 
     contributorAccess={ticketData.contributorAccess}
     onEditComment={handleEditComment}

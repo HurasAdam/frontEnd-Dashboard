@@ -94,7 +94,7 @@ export const TicketDetails = () => {
     }
 
 const uneditableCommentList= commentList.map((com)=>{
-  return {...com,buttonDisabled:true}
+  return {...com,buttonDisabled:!com.buttonDisabled}
 })
 
     const updatedComment = {
@@ -288,7 +288,7 @@ const response = await fetch(`http://127.0.0.1:3000/api/posts/${id}`,{
                 )}
               </div>
             </form>
-            {ticketData.permissions?(<div className="ticketInfoButtonWrapper">
+            {ticketData.fullAccess?(<div className="ticketInfoButtonWrapper">
             <button onClick={handleDelete}>Delete</button>
            {isDisabled?<button onClick={()=>setIsDisabled(false)}>Edit</button>:<button disabled={isDisabled} onClick={()=>{setIsDisabled(true);handleDataUpdate()}}>Update</button>}
           </div>):null}

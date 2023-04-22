@@ -1,12 +1,9 @@
 .comment-box {
   display: flex;
-  gap:15px;
+  gap: 15px;
   flex-direction: column;
   margin: 1rem 0;
-
-
 }
-
 
 .comment {
   display: flex;
@@ -16,56 +13,204 @@
   background-color: #adbbd0;
   border-radius: 0.25rem;
   box-shadow: 0 2px 4px rgba;
-height: max-content;
+  height: max-content;
 
-border-radius: 10px;
-border-top-left-radius: 20px;
+  border-radius: 10px;
+  border-top-left-radius: 20px;
 }
 
-
-
-.comment-userInfo{
- 
+.comment-userInfo {
   display: flex;
-  gap:10px;
-
+  gap: 10px;
 }
 
-.comment-userInfoContainer{
+.comment-userInfoContainer {
   display: flex;
 
+  border-top-left-radius: 50%;
 
-border-top-left-radius: 50%;
- padding-right: 20px;
   justify-content: space-between;
-
 }
 
-.userImage{
+.userImage {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
 
-.comment-userInfoData{
- 
+.comment-userInfoData {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.comment-userInfoData span{
-font-size: 14px;
+.comment-userInfoData span {
+  font-size: 14px;
 }
-.comment p{
+.comment p {
   margin-top: 5px;
   max-width: 100%;
   padding: 25px 35px;
   word-break: break-all;
   background-color: rgb(235, 240, 244);
-border-bottom-left-radius: 10px;
-border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
-.editCommentIcon{
+.editCommentIcon {
   cursor: pointer;
-  background-color: red;
+  border-radius: 5px;
+}
+.editCommentIcon:hover {
+  background-color: #dde7f2;
+}
+
+.editConfirmCommentIcon {
+  background-color: green;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.editConfirmCommentIcon:hover {
+  background-color: rgb(30, 162, 118);
+}
+
+.editCancelCommentIcon{
+  background-color: rgb(214, 40, 40);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.editCancelCommentIcon:hover{
+background-color: rgb(250, 40, 40);
+}
+.comment-actionContainer {
+  gap: 15px;
+  display: flex;
+
+}
+
+.comment-actionContainer-Date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  flex: 4;
+}
+
+.comment-actionContainer-Buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ width:max-content;
+  flex: 1;
+
+  min-width: 70px;
+
+}
+.confirmCancelButtonWrapper{
+
+  display: flex;
+  gap:7px;
+}
+.toggleNewCommentForm{
+
+  display: flex;
+  justify-content: center;
+
+}
+.toggleNewCommentForm-action{
+display: flex;
+justify-content: center;
+align-content: center;
+padding: 6px 6px;
+  cursor: pointer;
+color: white;
+font-weight: 400;
+  border-radius: 5px;
+  background-color: rgb(159, 67, 178);
+}
+  
+/* NEW COMMENT  */
+.newCommentForm{
+
+display: flex;
+flex-direction: column;
+
+
+}
+
+.newCommentForm textarea{
+
+width: 100%;
+min-height: 120px;
+padding: 3px;
+
+}
+.newCommentContainer{
+
+  display: flex;
+  flex-direction: column;
+  
+}
+
+
+.addNewCommentButtonContainer{
+  
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* NEW COMMENT INPUT FILE  */
+
+.file-input-container {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  height: 34px;
+
+  width: 100%;
+}
+
+.file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-input-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #704180;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.file-input-label:hover {
+  background-color: #2f363d;
+}
+
+.file-input-label::before {
+  content: "\f093";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.file-input-label::after {
+  content: "Attach files";
+  margin-left: 10px;
 }

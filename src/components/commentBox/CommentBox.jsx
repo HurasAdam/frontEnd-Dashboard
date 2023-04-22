@@ -1,5 +1,7 @@
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
 import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -15,7 +17,7 @@ export const CommentBox = ({
   newComment
 }) => {
   const { user } = useContext(AuthContext);
-  // const [commentsData, setCommentsData] = useState();
+  const [visible, setVisible] = useState(false)
   
 
 
@@ -33,6 +35,7 @@ export const CommentBox = ({
         posts.map((comment) => (
           <div key={comment.id} className="comment">
             <div className="comment-userInfoContainer">
+              
               <div className="comment-userInfo">
                 <img
                   className="userImage"
@@ -40,19 +43,27 @@ export const CommentBox = ({
                   alt=""
                 />
                 <div className="comment-userInfoData">
-                  <h4> {comment.CreatedBy.name}</h4>
+                  <h4> {comment.CreatedBy.name} {comment.CreatedBy.surname}</h4>
                   <span>{comment.CreatedBy.role}</span>
                 </div>
-                {comment.CreatedBy.id === user.userId &&!comment.contentEditable ? (
+
+              </div>
+              <div className='comment-actionContainer'>
+                <span className='comment-actionContainer-Date'>{comment.CreatedAt}</span>
+              <span className='comment-actionContainer-Buttons'>
+              {comment.CreatedBy.id === user.userId &&!comment.contentEditable||user.role==='admin'&&!comment.contentEditable ? (
                   <CreateOutlinedIcon disabled={true} className='editCommentIcon' onClick={() =>{!comment.buttonDisabled? handleEditComment(comment.id,posts):null}}></CreateOutlinedIcon>
               
                 ) : null}
-{comment.CreatedBy.id === user.userId &&comment.contentEditable ?(
-  <CheckOutlinedIcon className='editCommentIcon'  onClick={()=>onUpdateComment(comment.id,posts)}></CheckOutlinedIcon>
+{comment.CreatedBy.id === user.userId &&comment.contentEditable ||user.role==='admin' &&comment.contentEditable?(
+  <div className='confirmCancelButtonWrapper'>
+  <CheckOutlinedIcon className='editConfirmCommentIcon'  onClick={()=>onUpdateComment(comment.id,posts)}></CheckOutlinedIcon>
+  <ClearOutlinedIcon className='editCancelCommentIcon' onClick={()=>handleEditComment(comment.id,posts)}></ClearOutlinedIcon>
+  </div>
                 ):null
-}
+}</span>
               </div>
-              <div>{comment.CreatedAt}</div>
+              
             </div>
 
             <p
@@ -67,9 +78,11 @@ export const CommentBox = ({
             </p>
           </div>
         ))}
-
-      {contributorAccess && (
-        <form onSubmit={addComment}>
+<div className='toggleNewCommentForm'>
+<div onClick={()=>setVisible(!visible)} className='toggleNewCommentForm-action'>Add comment </div>
+</div>
+      {visible &&contributorAccess&& (
+        <form className='newCommentForm' onSubmit={addComment}>
           <div className="newCommentContainer">
             <label htmlFor="comment">Comment:</label>
             <textarea
@@ -80,7 +93,16 @@ export const CommentBox = ({
               value={newComment}
             ></textarea>
           </div>
-          <div>
+          <div className="file-input-container">
+          <input
+            type="file"
+            name="file"
+            id="file"
+            className="file-input"
+          />
+          <label htmlFor="file" className="file-input-label"></label>
+        </div>
+          <div className='addNewCommentButtonContainer'>
             <button type="submit">Add comment</button>
           </div>
         </form>

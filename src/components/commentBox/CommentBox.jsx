@@ -2,7 +2,7 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext  } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
 export const CommentBox = ({
@@ -14,15 +14,12 @@ export const CommentBox = ({
   onEditComment,
   onUpdateComment,
   onEditTextContent,
-  newComment
+  newComment,
+  
 }) => {
   const { user } = useContext(AuthContext);
   const [visible, setVisible] = useState(false)
   
-
-
-
- 
 
   const handleEditComment = (id) => {
     onEditComment(id,posts)
@@ -67,6 +64,9 @@ export const CommentBox = ({
             </div>
 
             <p
+            className={`commentFocus commentFocus-${comment.contentEditable}`}
+           
+            
               defaultValue={comment.Content}
               onInput={(e) => {
                 e.preventDefault();

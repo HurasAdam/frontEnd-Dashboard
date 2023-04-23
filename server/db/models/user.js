@@ -42,6 +42,10 @@ const userSchema = new Schema({
   },
   createdAt:{
     type: Object
+  },
+  theme:{
+    type:String,
+    default:'LIGHT'
   }
 });
 

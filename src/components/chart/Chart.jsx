@@ -9,12 +9,13 @@ import {
     Legend,
     ResponsiveContainer
   } from "recharts";
-
+import { ThemeContext } from '../../contexts/ThemeContext'
+import { useContext } from 'react';
 const Chart=({title,data,dataKey,grid,dataKey2,dataKey3})=>{
-   
+   const {theme}=useContext(ThemeContext)
     return(
-        <div className="chart">
-         <h3 className='chartTitle'>{title}</h3>
+        <div className="chart" id={theme.mode} style={{ color:`${theme.color}` }}>
+         <h3 className='chartTitle'>{title} </h3 >
          <ResponsiveContainer width='100%' aspect={4/1}>
             <LineChart data={data}>
                 <XAxis dataKey='name' stroke='#5550bd'/>

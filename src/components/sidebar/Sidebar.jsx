@@ -12,43 +12,57 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext, AuthContextProvider } from "../../contexts/AuthContext";
+import {ThemeContext} from "../../contexts/ThemeContext"
 const Sidebar = () => {
   const {user,dispatch}=useContext(AuthContext)
+  const {theme,dispatch:themeSwitch}= useContext(ThemeContext)
 const [isHidden,setIsHidden]=useState(true)
 
-const handleClick=()=>{
 
+//HANDLE LOGOUT
+const handleClick=()=>{
   localStorage.clear()
   dispatch({type:"LOGOUT",payload:null})
-
 }
 
+const toggleTheme= ()=>{
+
+  const mode =theme.mode
+  const color = theme.color
+
+  themeSwitch({type:"LIGHT",
+  payload:{mode:mode==='light'?'dark':'light',color:color==='rgb(92, 92, 92)'?'white':'rgb(92, 92, 92)'}})
+ 
+}
 
   
   return (
-    <div className="sidebar">
+    <div className={'sidebar'} id={theme.mode}>
      {user? <div className="sidebar-wrapper">
         <div className="sidebar-menu">
-          <h3 className="sidebar-title">Dashboard</h3>
+          <h3 className="sidebar-title" id={theme.mode}>Dashboard</h3>
           <ul className="sidebar-list">
-            <Link to='/'className="sidebarLink" >
-            <li className="sidebar-list-item active">
-              <AppsIcon className="sidebarIcon"/>
+            <Link to='/'className="sidebarLink">
+            <li id={theme.mode} className="sidebar-list-item active" style={{ color:`${theme.color}` }} >
+              <AppsIcon  className="sidebarIcon"/>
               Home
             </li>
             </Link >
-           <Link className="sidebarLink" to='/projects'> <li className="sidebar-list-item">
+           <Link className="sidebarLink" to='/projects'> 
+           <li className="sidebar-list-item" style={{ color:`${theme.color}` }}>
               <TimelineIcon className="sidebarIcon" />
               Projects
             </li></Link>
-            <Link to='/tickets' className="sidebarLink">
-            <li className="sidebar-list-item">
+            <Link to='/tickets' className="sidebarLink" >
+            <li className="sidebar-list-item" style={{ color:`${theme.color}` }}>
               <StyleOutlinedIcon className="sidebarIcon"/>
               Tickets
             </li>
             </Link>
-            <li className="sidebar-list-item ">
-              <ReceiptLongOutlinedIcon className="sidebarIcon"/>
+            <li className="sidebar-list-item " style={{ color:`${theme.color}` }}>
+              <ReceiptLongOutlinedIcon className="sidebarIcon" 
+              
+              />
               My tickets
              
             </li>
@@ -56,9 +70,10 @@ const handleClick=()=>{
           </ul>
         </div>
         <div className="sidebar-menu">
-          <h3 className="sidebar-title">Quick Menu</h3>
+          <h3 className="sidebar-title" id={theme.mode}>Quick Menu</h3>
           <ul className="sidebar-list">
-          <Link to='/users' className="sidebarLink">
+          <Link to='/users' className="sidebarLink" 
+          style={{ color:`${theme.color}` }}>
             <li className="sidebar-list-item">
               <PeopleAltOutlinedIcon className="sidebarIcon" />
               Users
@@ -67,7 +82,7 @@ const handleClick=()=>{
             
             {user.role==='admin'?(
       
-       <li className="sidebar-list-item-submenu" >
+       <li className="sidebar-list-item-submenu"  style={{ color:`${theme.color}` }} >
            <div className="submenuItem" onClick={()=>setIsHidden(!isHidden)}>
            <AdminPanelSettingsOutlinedIcon className="sidebarIcon"/>
            Admin Panel
@@ -92,16 +107,17 @@ const handleClick=()=>{
            
            ):null}
             <Link to='/settings' className="sidebarLink">
-            <li className="sidebar-list-item">
+            <li className="sidebar-list-item"  style={{ color:`${theme.color}` }}>
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings
             </li>
             </Link>
-            <li className="sidebar-list-item" onClick={handleClick}>
+            <li className="sidebar-list-item" onClick={handleClick}  style={{ color:`${theme.color}`}}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout
             </li>
           </ul>
+          <button onClick={toggleTheme} >Theme</button>
         </div>
    
       </div>:null}

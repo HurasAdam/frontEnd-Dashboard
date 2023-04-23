@@ -6,26 +6,29 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../../contexts/ThemeContext"
 const Topbar = () => {
 const {user}=useContext(AuthContext)
+const {theme,dispatch}=useContext(ThemeContext)
 
+console.log(theme)
 
   return (
 
-    <div className="topbar">
+    <div className="topbar" id={theme.mode}>
       <div className="topbar-wrapper">
         <div className="top-left">
           <span className="logo">IssueTracker</span>
         </div>
-        {user?<div className="top-right">
-          <div className="topicons-container">
-            <NotificationsNoneIcon />
+        {user?<div className="top-right"  >
+          <div className="topicons-container" style={{ color:`${theme.color}` }}>
+            <NotificationsNoneIcon  />
             <span className="topicon-badge">2</span>
           </div>
-          <div className="topicons-container">
+          <div className="topicons-container" style={{ color:`${theme.color}` }}>
             <LanguageIcon />
           </div>
-          <div className="topicons-container">
+          <div className="topicons-container" style={{ color:`${theme.color}` }}>
             <SettingsIcon />
           </div>
           <div className="topicons-container">
@@ -33,7 +36,7 @@ const {user}=useContext(AuthContext)
             :<AccountCircleIcon fontSize="large" />
 }
           </div>
-        </div>:<div className="topbar-login">
+        </div>:<div className="topbar-login" >
           <Link className="loginLink" to='/login'><span>Login</span></Link>
           <Link className="loginLink" to='/signup'><span>Signup</span></Link>
           </div>}

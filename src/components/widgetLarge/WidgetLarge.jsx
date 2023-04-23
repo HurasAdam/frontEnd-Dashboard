@@ -1,7 +1,9 @@
 import './widgetLarge.css';
-
+import {ThemeContext} from '../../contexts/ThemeContext'
+import { useContext } from 'react';
 const WidgetLarge=()=>{
 
+    const {theme}=useContext(ThemeContext)
 const Button=({type})=>{
     return(
         <button className={`widgetLargeButon ${type}`}>{type}</button>
@@ -9,7 +11,7 @@ const Button=({type})=>{
 }
 
     return(
-        <div className="widgetLarge">
+        <div className="widgetLarge" id={theme.mode}>
          
          <h3 className="widgetLargeTitle">Latest transactions</h3>
 <table className="widgetLargeTable">

@@ -30,6 +30,12 @@
     color: darkblue;
     cursor: pointer;
 }
+#dark.logo{
+    font-weight: bold;
+    font-size: 30px;
+    color: rgb(224, 229, 229);
+    cursor: pointer;
+}
 .top-right{
     display: flex;
     align-items: center;

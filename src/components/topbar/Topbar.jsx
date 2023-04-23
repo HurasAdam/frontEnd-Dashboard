@@ -18,7 +18,7 @@ console.log(theme)
     <div className="topbar" id={theme.mode}>
       <div className="topbar-wrapper">
         <div className="top-left">
-          <span className="logo">IssueTracker</span>
+          <span  id={theme.mode} className="logo">IssueTracker</span>
         </div>
         {user?<div className="top-right"  >
           <div className="topicons-container" style={{ color:`${theme.color}` }}>

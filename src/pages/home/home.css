@@ -16,3 +16,9 @@
     margin: 20px;
     gap:12px
 }
+.homeCharts{
+    width: 100%;
+    display: flex;
+    
+
+}

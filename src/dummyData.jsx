@@ -75,6 +75,14 @@ const reportData = [
     }
   ];
 
+
+  export const circleChartdata = [
+    { name: "Group A", value: 400,color:"#0088FE" },
+    { name: "Group B", value: 300,color:"##00C49F" },
+    { name: "Group C", value: 300,color:"#FFBB28" },
+    { name: "Group D", value: 200,color:"#FF8042" }
+  ];
+
   export const userRows = [
     { id: 1, userName: 'Andrew Golota',avatar:'public/img/person3.jpg',email:'andrew@gmail.com',status:'active',role:'PM',birthday:'12/05/1992',adress:'London | GB',phone:'+17 213 421 489'},
     { id: 2, userName: 'Benedykta Czarnecka',avatar:'public/img/person8.jpg',email:'Czarnecka@gmail.com',status:'active',role:'Tester',birthday:'12/05/1992',adress:'London | GB',phone:'+11 523 156 489'},
@@ -172,3 +180,4 @@ const reportData = [
 ]
 
   export default reportData;
+  

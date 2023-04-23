@@ -26,17 +26,26 @@
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   background-color: rgb(28, 36, 56);
-  color:white;
+color:rgb(58, 153, 127)
   
 }
+
 .featuredTitle{
     font-size: 22px;
-
 }
+
+
 .featuredMoneyContainer{
     margin: 10px 0px;
     display: flex;
     align-items: center;
+    
+}
+#dark.featuredMoneyContainer{
+    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+    color:white   
 }
 .featuredMoney{
     font-size: 30px;
@@ -62,4 +71,8 @@ color: rgb(215, 127, 194);
 .featuredSub{
     font-size: 15px;
     color: grey;
+}
+#dark.featuredSub{
+    font-size: 15px;
+    color:rgb(58, 153, 127)
 }

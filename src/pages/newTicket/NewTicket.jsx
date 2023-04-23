@@ -91,7 +91,7 @@ export const NewTicket = () => {
             >
 <option value="Bug">Bug</option>
 <option value="Enhancement">Enhancement</option>
-<option value="Qestion">Question</option>
+<option value="Question">Question</option>
 
             </select>
             </div>

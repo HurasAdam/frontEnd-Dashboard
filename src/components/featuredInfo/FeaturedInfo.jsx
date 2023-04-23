@@ -5,15 +5,15 @@ import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
 import { useFetch } from '../../hooks/useFetch';
 import {ThemeContext} from '../../contexts/ThemeContext'
 import { useContext } from 'react';
-const FeaturedInfo=()=>{
+const FeaturedInfo=({data})=>{
 
 
-const [data,isLoading,Error]=useFetch("http://127.0.0.1:3000/api/stats")
+
 const {theme}=useContext(ThemeContext)
 
 
 
-
+console.log(data)
     return(
         <div className="featuredInfo" >
             <div className="featuredItem" id={theme.mode}>

@@ -5,12 +5,27 @@ const getStats = async(req, res) => {
 
 const projects=await Project.find({})
 const notes=await Note.find({}).select("status")
+const xd = await Note.find({}).select("type")
 const result = {amount:projects.length}
 
 const ticketsOpen = notes.filter((note)=>note.status==='Open')
 const ticketsClosed= notes.filter((note)=>note.status==='Closed')
 
-  res.status(200).json({totalTickets:notes.length,ticketsOpen:ticketsOpen.length,ticketsClosed:ticketsClosed.length});
+const ticketTypeBug = xd.filter((note)=>note.type===`Bug`)
+const ticketTypeEnhancement = xd.filter((note)=>note.type===`Enhancement`)
+const ticketTypeQuestion = xd.filter((note)=>note.type==='Question')
+console.log(ticketTypeQuestion)
+
+  res.status(200).json(
+    [
+      {name:'totalTickets',value:notes.length},
+      {name:'ticketsOpen',value:ticketsOpen.length},
+      {name:'ticketsClosed',value:ticketsClosed.length},
+      {name:'Question',value:ticketTypeQuestion.length},
+      {name:'Enhancement',value:ticketTypeEnhancement.length},
+      {name:'Bug',value:ticketTypeBug.length},
+    
+    ]);
 };
 
 module.exports = { getStats };

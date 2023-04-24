@@ -1,7 +1,13 @@
 .ticketsList {
   flex: 5;
+  padding: 0px 10px;
 }
 
+#dark.ticketsList {
+  flex: 5;
+  padding: 0px 10px;
+  color: rgb(243, 243, 248);
+}
 .ticketListHeaderTitle {
   font-size: 22px;
   font-weight: 600;
@@ -12,10 +18,20 @@
   justify-content: space-between;
   padding: 40px 10px;
 }
-.actionWrapper button {
+.newTicketButton {
   padding: 7px 10px;
   border: none;
   background-color: blueviolet;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#dark.newTicketButton {
+  padding: 7px 10px;
+  border: none;
+  background-color: rgb(56, 59, 139);
   color: white;
   font-weight: 600;
   border-radius: 5px;
@@ -54,6 +70,15 @@ width: 50px;
 font-weight: 600;
 padding: 1px;
 }
+
+#dark .ticketsList button.Closed{
+  background-color: rgba(80, 159, 80, 0.996);
+  color: rgb(187, 215, 187);
+  width: 50px;
+  font-weight: 600;
+  padding: 1px;
+  }
+  
 .ticketsList button.Open{
   background-color: rgba(68, 151, 210, 0.241);
   color:rgb(6, 21, 99);
@@ -61,9 +86,24 @@ padding: 1px;
   width: 50px;
   padding: 1px;
 }
+#dark .ticketsList button.Open{
+  background-color: rgba(22, 90, 139, 0.991);
+  color:rgb(188, 190, 197);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+
 .ticketsList button.High{
   background-color: rgba(255, 0, 0, 0.613);
   color: rgba(84, 9, 9, 0.994);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#dark .ticketsList button.High{
+  background-color: rgba(255, 0, 0, 0.613);
+  color: rgba(211, 201, 201, 0.994);
   font-weight: 600;
   width: 50px;
   padding: 1px;
@@ -75,10 +115,26 @@ padding: 1px;
   width: 50px;
   padding: 1px;
 }
+
+#dark .ticketsList button.Medium{
+  background-color: rgba(234, 162, 6, 0.537);
+  color: rgb(213, 209, 202);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
 .ticketsList button.Low{
   background-color: rgba(20, 218, 50, 0.508);
   font-weight: 600;
   color: rgb(13, 59, 4);
+  width: 50px;
+  padding: 1px;
+}
+
+#dark .ticketsList button.Low{
+  background-color: rgba(20, 218, 50, 0.508);
+  font-weight: 600;
+  color: rgb(208, 215, 207);
   width: 50px;
   padding: 1px;
 }

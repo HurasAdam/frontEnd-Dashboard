@@ -1,25 +1,64 @@
-.projectList{
-    flex: 5;
-
-  }
-.navButtonsContainer{
- 
-  display: flex;
-flex-direction: row-reverse;
-  gap: 5px;
-  padding: 0 15px;
+.projectList {
+  flex: 5;
+  height: max-content;
+  padding: 0px 10px;
 }
-.navButtonsContainer button{
-  padding: 2px 5px;
+#dark.projectList {
+  flex: 5;
+  height: max-content;
+  color: rgb(243, 243, 248);
+}
+.navButtonsContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 5px;
+  padding: 10px 15px;
+}
+#dark.navButtonsContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 5px;
+  padding: 10px 15px;
+  color: rgb(243, 243, 248);
+}
+.newProjectButton {
+  padding: 7px 10px;
   border: none;
-  background-color: rgb(195, 0, 255);
-  color:white;
+  background-color: blueviolet;
+  color: white;
   font-weight: 600;
   border-radius: 3px;
   cursor: pointer;
 }
-.navButtonsContainer button.true{
- opacity: 0.5;
+#dark.newProjectButton {
+  padding: 7px 10px;
+  border: none;
+  background-color: rgb(56, 59, 139);
+  color: white;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.navButtonsContainer button {
+  background-color: blueviolet;
+  border: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+#dark.navButtonsContainer button {
+  background-color: rgb(87, 148, 186);
+  border: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+.navButtonsContainer button.true {
+  opacity: 0.4;
 }
 .userListUserImg {
   width: 35px;
@@ -28,9 +67,21 @@ flex-direction: row-reverse;
   object-fit: cover;
   margin-right: 10px;
 }
+.userListUser span {
+  display: flex;
+  align-items: center;
+}
+#dark .DataGrid {
+  background-color: rgb(28, 36, 56);
+  border: none;
+  color: rgb(243, 243, 248);
+}
+#dark .MuiDataGrid-root .MuiDataGrid-row .MuiDataGrid-cell {
+  border: none;
+  background-color: rgb(28, 36, 56);
+}
 
-.userListUser span{
-
-display: flex;
-align-items: center;
+#dark .MuiDataGrid-columnHeaders {
+  background-color: rgb(56, 59, 139);
+  color: rgb(243, 243, 248);
 }

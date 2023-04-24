@@ -22,15 +22,17 @@ import { SettingsPage } from "./pages/settingsPage/SettingsPage";
 import ManageUsers from"../src/pages/manageUsers/ManageUsers";
 import { UserCard } from "./components/userCard/UserCard";
 import { ManageUser } from "./pages/manageUser/ManageUser";
+import {ThemeContext} from '../src/contexts/ThemeContext'
 function App() {
   const {user}=useContext(AuthContext)
   const [EditTicketData, setEditTicketData] = useState();
+  const {theme}=useContext(ThemeContext)
   
   return (
     <BrowserRouter>
       <Topbar />
 
-      <div className="container">
+      <div  className="container" id={theme.mode}>
         <Sidebar />
         <Routes>
           <Route exact path="/" element={user?<Home />:<Navigate to='/login'/>}></Route>

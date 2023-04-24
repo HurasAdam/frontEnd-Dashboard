@@ -12,9 +12,9 @@ const WidgetSmall=()=>{
                     <img src='public/img/person1.jpg' className="widgetSmallImg" />
                 <div className="widgetSmallUser">
                     <span className="userSmallUsername">Nicolas Larrson</span>
-                    <span className="userSmallJobTitle">Software Engineer</span>
+                    <span id={theme.mode} className="userSmallJobTitle">Software Engineer</span>
                 </div>
-                <button className="widgetSmallButton">
+                <button id={theme.mode} className="widgetSmallButton">
                     <VisibilityIcon className='widgetSmallIcon'/>
                     Display
                 </button>
@@ -23,9 +23,9 @@ const WidgetSmall=()=>{
                     <img src='public/img/person1.jpg' className="widgetSmallImg" />
                 <div className="widgetSmallUser">
                     <span className="userSmallUsername">Nicolas Larrson</span>
-                    <span className="userSmallJobTitle">Software Engineer</span>
+                    <span id={theme.mode} className="userSmallJobTitle">Software Engineer</span>
                 </div>
-                <button className="widgetSmallButton">
+                <button id={theme.mode} className="widgetSmallButton">
                     <VisibilityIcon className='widgetSmallIcon'/>
                     Display
                 </button>
@@ -34,9 +34,9 @@ const WidgetSmall=()=>{
                     <img src='public/img/person1.jpg' className="widgetSmallImg" />
                 <div className="widgetSmallUser">
                     <span className="userSmallUsername">Nicolas Larrson</span>
-                    <span className="userSmallJobTitle">Software Engineer</span>
+                    <span id={theme.mode} className="userSmallJobTitle">Software Engineer</span>
                 </div>
-                <button className="widgetSmallButton">
+                <button id={theme.mode} className="widgetSmallButton">
                     <VisibilityIcon className='widgetSmallIcon'/>
                     Display
                 </button>
@@ -45,9 +45,9 @@ const WidgetSmall=()=>{
                     <img src='public/img/person1.jpg' className="widgetSmallImg" />
                 <div className="widgetSmallUser">
                     <span className="userSmallUsername">Nicolas Larrson</span>
-                    <span className="userSmallJobTitle">Software Engineer</span>
+                    <span id={theme.mode} className="userSmallJobTitle">Software Engineer</span>
                 </div>
-                <button className="widgetSmallButton">
+                <button id={theme.mode} className="widgetSmallButton">
                     <VisibilityIcon className='widgetSmallIcon'/>
                     Display
                 </button>
@@ -56,9 +56,9 @@ const WidgetSmall=()=>{
                     <img src='public/img/person1.jpg' className="widgetSmallImg" />
                 <div className="widgetSmallUser">
                     <span className="userSmallUsername">Nicolas Larrson</span>
-                    <span className="userSmallJobTitle">Software Engineer</span>
+                    <span id={theme.mode} className="userSmallJobTitle">Software Engineer</span>
                 </div>
-                <button className="widgetSmallButton">
+                <button id={theme.mode} className="widgetSmallButton">
                     <VisibilityIcon className='widgetSmallIcon'/>
                     Display
                 </button>

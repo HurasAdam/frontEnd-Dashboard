@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 export const ProjectsList = () => {
   const [pageState, setPageState] = useState({
@@ -23,7 +24,7 @@ export const ProjectsList = () => {
     `http://127.0.0.1:3000/api/projects?page=${pageState.page}`
   );
   const { user } = useContext(AuthContext);
-
+const {theme}=useContext(ThemeContext)
   const selectPage = (e, action) => {
     e.preventDefault();
     setPageState({ ...pageState, page: action });
@@ -71,7 +72,7 @@ export const ProjectsList = () => {
         return (
           <>
             <Link to={`/projects/${params.row.id}/`}>
-              <VisibilityOutlinedIcon className="TicketListActionIcon" />
+              <VisibilityOutlinedIcon className="TicketListActionIcon" style={theme.mode==='dark'?{ color:`${theme.color}` }:null}  />
             </Link>
           </>
         );
@@ -80,19 +81,23 @@ export const ProjectsList = () => {
   ];
 
   return (
-    <div className="projectList">
+    <div className="projectList" id={theme.mode} >
       <div className="actionWrapper">
         <span className="projectListHeaderTitle">Current Projects</span>
         {user.role === "admin" ? (
           <Link to="/NewProject">
-            <button>New project</button>
+            <button id={theme.mode} className="newProjectButton">New project</button>
           </Link>
         ) : null}
       </div>
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}
       {data && (
-        <DataGrid className="DataGrid"
+        <DataGrid 
+        
+        
+          className="DataGrid"
+          id={theme.mode}
           autoHeight={true}
           rowHeight={45}
           rows={data.projects}
@@ -102,7 +107,7 @@ export const ProjectsList = () => {
           hideFooter={true}
         />
       )}
-      <div className="navButtonsContainer">
+      <div className="navButtonsContainer" id={theme.mode}>
         <button
           className={`${next}`}
           disabled={next}

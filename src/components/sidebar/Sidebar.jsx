@@ -31,7 +31,7 @@ const toggleTheme= ()=>{
   const color = theme.color
 
   themeSwitch({type:"LIGHT",
-  payload:{mode:mode==='light'?'dark':'light',color:color==='rgb(92, 92, 92)'?'white':'rgb(92, 92, 92)'}})
+  payload:{mode:mode==='light'?'dark':'light',color:color==='rgb(92, 92, 92)'?'rgb(230, 234, 237)':'rgb(92, 92, 92)'}})
  
 }
 

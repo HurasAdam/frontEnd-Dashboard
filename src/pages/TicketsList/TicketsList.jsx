@@ -4,11 +4,13 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { useContext } from "react";
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 
 export const TicketsList = () => {
 
-
+const {theme}=useContext(ThemeContext)
 
 
   const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/notes/')
@@ -42,16 +44,16 @@ export const TicketsList = () => {
 
 
   return (
-    <div className="ticketsList">
+    <div className="ticketsList" id={theme.mode}>
       <div className="actionWrapper">
         <span className="ticketListHeaderTitle">Current Tickets</span>
         <Link to="/Newticket">
-          <button >New ticket</button>
+          <button className="newTicketButton" id={theme.mode} >New ticket</button>
         </Link>
       </div>
       {error&&<div>{error}</div>}
       {isLoading&& <div>Loading...</div>}
-      {data&&<DataGrid className="dataGrid"   autoHeight={true}
+      {data&&<DataGrid className="DataGrid"   autoHeight={true}
       rowHeight={40}
       
         rows={data}

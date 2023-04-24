@@ -98,6 +98,7 @@ export const UserList = () => {
   ];
   return (
     <div className="userList">
+          <div className="userListHeaderTitleContainer"> <span className="userListHeaderTitle">Current users</span></div>
       {data && (
         <DataGrid
           className="dataGrid"

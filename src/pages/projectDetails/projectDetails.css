@@ -24,6 +24,11 @@
 }
 .projectDataContainerLeft {
   flex: 3;
+  
+}
+#dark .projectDataContainerLeft {
+  flex: 3;
+  background-color: rgb(28, 36, 56);
 }
 
 .projectDataContainerTop {
@@ -105,6 +110,9 @@ border-bottom: transparent;
 .projectDataBottomItemsRight .projectDataBottomItem select:disabled{
 border: none;
 }
+option:disabled{
+  color:rgb(64, 188, 193)
+}
 
 .projectDataBottomItemsRight .projectDataBottomItem select{
 text-align: center;
@@ -150,15 +158,49 @@ background-color: transparent;
   margin-bottom: 5px;
   font-size: 14px;
   color: grey;
+  
 }
 
 .projectDataBottomItem select {
+  margin-top: 5px;
   width: 100%;
   padding: 5px 5px;
   text-align: left;
   background: transparent;
   border-bottom: 1px ridge grey;
+ 
 }
+
+#dark .projectDataBottomItem input:disabled{
+ 
+  color: rgb(208, 208, 214);
+}
+#dark .projectDataBottomItem input{
+ background-color:transparent;
+  color: rgb(243, 243, 248);
+}
+#dark .projectDataBottomItem textarea:disabled{
+  background-color: rgb(67, 70, 89);
+  color: rgb(202, 202, 208);
+}
+#dark .projectDataBottomItem textarea{
+  background-color: rgb(99, 101, 121);
+  color: rgb(243, 243, 248);
+}
+#dark .projectDataBottomItem label{
+  color: rgb(243, 243, 248);
+}
+
+#dark .projectDataBottomItem select {
+ background-color:transparent;
+ border-bottom: 1px solid white;
+  color: rgb(243, 243, 248);
+}
+
+#dark .projectDataBottomItem select option {
+  background-color: rgb(99, 101, 121);
+}
+
 .projectDataContainerRight {
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -240,6 +282,8 @@ background-color: transparent;
   display: flex;
   justify-content: space-around;
 }
+
+
 .dataGrid{
 padding: 0px 5px;
 }

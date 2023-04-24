@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import { settLocalStorage } from "../../utils/SettlocalStorage"
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import { ThemeContext } from '../../contexts/ThemeContext'
 export const SettingsPage=()=>{
 
 const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
@@ -11,6 +12,7 @@ const [userSettings,setUserSettings]=useState({})
 const [selectedFile, setSelectedFile] = useState();
 const [isEdited,setIsEdited]=useState(false)
 const {user}=useContext(AuthContext)
+const {theme}=useContext(ThemeContext)
 const [checker,setChecker]=useState({})
 useEffect(()=>{
     if(data){
@@ -75,11 +77,11 @@ localStorage.setItem('userAvatar',json.data)
 
     return(
 
-        <div className="settingsPage">
+        <div className="settingsPage" id={theme.mode} >
 
 <h1 className="settingsPageTitle"><PeopleAltOutlinedIcon/> Account Settings</h1>
 
-          <form className="settingsPageForm">
+          <form className="settingsPageForm" id={theme.mode}>
             <div className="settingsPageItem">
               <label>Username</label>
               <input disabled={!isEdited} type="text" defaultValue={userSettings.name}  onChange={(e)=>setUserSettings({...userSettings, name:e.target.value})}/>

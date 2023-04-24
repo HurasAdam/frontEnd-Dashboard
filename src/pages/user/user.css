@@ -2,6 +2,16 @@
     flex:5;
     padding: 20px;
 }
+
+#dark .userTitleContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(243, 243, 248);
+    
+}
+
+
 .userTitleContainer{
     display: flex;
     align-items: center;
@@ -20,14 +30,27 @@
 .userContainer{
     display: flex;
     margin-top: 22px;
-    
-    
+}
+
+#dark .userContainer{
+    display: flex;
+    margin-top: 22px;
+    background-color: rgb(28, 36, 56);
+
 }
 .userShow{
     flex:1;
     padding: 20px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+#dark .userShow{
+    flex:1;
+    padding: 20px;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    color:rgb(58, 153, 127)
 }
 .userUpdate{
     flex:2;
@@ -57,6 +80,10 @@
 }
 .userShowJobTitle{
     font-weight: 300;
+}
+#dark .userShowJobTitle{
+    font-weight: 300;
+    color: rgb(243, 243, 248)
 }
 .userShowBottom{
     margin-top:20px
@@ -122,6 +149,14 @@ transition: all 0.1s ease-in-out;
     margin: 20px 0px;
     color: #444;
 }
+
+#dark .userShowInfo{
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+    color: rgb(243, 243, 248)
+}
+
 .userShowIcon{
     font-size: 16px !important;
 }

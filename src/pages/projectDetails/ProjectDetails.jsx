@@ -13,10 +13,12 @@ import { useFetch } from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ThemeContext } from '../../contexts/ThemeContext'
 export const ProjectDetails = () => {
   const { projectId } = useParams();
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
+  const {theme}=useContext(ThemeContext)
   const navigate = useNavigate();
   const [userList, setUserList] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -27,8 +29,11 @@ export const ProjectDetails = () => {
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/projects/${projectId}/`
   );
-  const [projectData, setProjectData] = useState({});
 
+console.log(check&&check)
+
+  const [projectData, setProjectData] = useState({});
+ 
   const handleChange = (selectedOption) => {
     setProjectData({
       ...projectData,
@@ -39,6 +44,10 @@ export const ProjectDetails = () => {
   useEffect(() => {
     getUserList();
   }, []);
+
+ 
+
+
   //get list of users for change PM select
   const getAllUsers = async () => {
     const response = await fetch(
@@ -51,18 +60,18 @@ export const ProjectDetails = () => {
     const json = await response.json();
     console.log(json)
     const arr = json.map((user) => {
-      return { value: user._id, label: user.email };
+      return { value: user._id, name: user.name+' '+user.surname};
     });
     setCheck(arr);
   };
 
- console.log(data)
+
   useEffect(() => {
     if (data) {
       setProjectData({
         ...projectData,
         projectTitle: data.projectTitle,
-        projectLeader: data.projectLeader.projectLeaderId,
+        projectLeader: {id:data.projectLeader.projectLeaderId,name:data.projectLeader.name +' '+data.projectLeader.surname},
         _id: data.projectId,
         contributors: data.contributors,
         createdAt: data.createdAt,
@@ -117,6 +126,15 @@ export const ProjectDetails = () => {
     }
   };
 
+const handleSelectChange=(event)=>{
+const selectedOptionIndex = event.target.selectedIndex;
+const selectedOptionValue = event.target.value;
+const selectedOptionLabel = event.target.options[selectedOptionIndex].textContent
+
+setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:selectedOptionLabel}})
+
+}
+
   const handleDataUpdate = async (e) => {
     const response = await fetch(
       `http://127.0.0.1:3000/api/projects/${projectId}`,
@@ -127,7 +145,7 @@ export const ProjectDetails = () => {
           Authorization: `Bearer ${user.token}`,
         },
 
-        body: JSON.stringify(projectData),
+        body: JSON.stringify({...projectData,projectLeader:projectData.projectLeader?.id}),
       }
     );
     if (response.ok) {
@@ -176,7 +194,7 @@ export const ProjectDetails = () => {
         <h3 className="projecttHeaderTitle">Project Details</h3>
       </div>
       <div className="projectDataContainer">
-        <div className="projectDataContainerLeft">
+        <div className="projectDataContainerLeft" id={theme.mode}>
           <div className="projectDataContainerTop"></div>
           <div className="projecttDataBottom">
             <form action="">
@@ -223,23 +241,26 @@ export const ProjectDetails = () => {
                 {data&&<img className="projectDataBottomItem-img" src={data.projectLeader.userAvatar} alt="" />}
                 {data&&(
                   <select
+                   defaultValue='xd'
                     disabled={isDisabled}
-                    onChange={(e) =>
-                      setProjectData({
-                        ...projectData,
-                        projectLeader: e.target.value,
-                      })
-                    }
-                    id=""
+                    // onChange={(e) =>
+                    //   setProjectData({
+                    //     ...projectData,
+                    //     projectLeader: e.target.dataset
+
+                    //   })
+                    // }
+                    onChange={handleSelectChange}
                   >
-                    <option disabled selected>
-                     { `${data.projectLeader.name} ${data.projectLeader.surname}`}
-                    </option>
+                    {/* <option disabled selected>
+                     {`${data.projectLeader?.name}`}
+                    </option> */}
                     {check
-                      ? check.map((user) => {
+                      ? check.map((user) =>{
+                          
                           return (
-                            <option value={user.value} key={user.value}>
-                              {user.label}
+                            <option value={user.value} key={user.value} data-name={`${user.name}`} disabled={user.value===projectData.projectLeader.id} selected={user.value===projectData.projectLeader.id}>
+                              {user.name}
                             </option>
                           );
                         })
@@ -266,7 +287,7 @@ export const ProjectDetails = () => {
               <div className="projectDataBottomItem">
                 {projectData.contributors && (
                   <DataGrid
-                    className="dataGrid"
+                    className="DataGrid"
                     autoHeight={true}
                     getRowId={(row) => row.contributorId}
                     rowHeight={40}
@@ -276,12 +297,14 @@ export const ProjectDetails = () => {
                     rowsPerPageOptions={[10]}
                     checkboxSelection={false}
                     disableSelectionOnClick
+                    hideFooter={true}
                   />
                 )}
               </div>
               <div className="projectDataBottomItem">
                 <label>Add member</label>
                 <Select
+                
                   isDisabled={isDisabled}
                   className="selectList"
                   options={userList}

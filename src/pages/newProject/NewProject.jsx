@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 import Select from "react-select";
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 export const NewProject = () => {
   const [newProject, setNewProject] = useState({});
@@ -14,6 +15,7 @@ export const NewProject = () => {
   const [selecedtUsers, setSelecedtUsers] = useState([]);
   const navigate = useNavigate();
   const { user, dispatch } = useContext(AuthContext);
+  const {theme}=useContext(ThemeContext)
 
   //handle new project inputs
   const handleNewProject = (e, prop) => {
@@ -67,14 +69,17 @@ console.log(result)
 
 
   return (
-    <div className="newProject">
-      <div className="newProjectConent">
+    <div className="newProject" id={theme.mode}>
         <div className="newProjectTop">
           <span>New Project</span>
-          <Link to="/Projects">
+         
+        </div>
+      <div className="newProjectConent" id={theme.mode}>
+      <div className="newProjectContentTopButton">
+      <Link to="/Projects">
             <button>X</button>
           </Link>
-        </div>
+      </div>
         <div className="newProjectBottom">
           <div className="newProjectItem">
             <label className="newProjectItemLabel" htmlFor="">
@@ -98,10 +103,13 @@ console.log(result)
             <label className="newProjectItemLabel" htmlFor="">
               Asign Members
             </label>
-            <Select
+            <Select 
+             
+            className="newProjectMemberSelect"
               options={userList}
               isMulti
               isSearchable
+              
               onChange={setSelecedtUsers}
             ></Select>
           </div>

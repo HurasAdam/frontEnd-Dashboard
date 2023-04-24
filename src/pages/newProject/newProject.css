@@ -1,103 +1,146 @@
-.newProject{
-    flex:5;
-    width: 100%;
-   padding: 20px 30px;
+.newProject {
+  flex: 5;
+  width: 100%;
+  padding: 20px 30px;
 }
-.newProjectConent{
-
-padding: 5px  20px;
-
+.newProjectConent {
+  padding: 5px 20px;
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-
-}
-.newProjectTop{
-
-    display: flex;
-    justify-content: space-between;
-   
-}
-.newProjectTop span{
-font-size: 24px;
-font-weight: 600;
-}
-.newProjectTop button{
-    width: 24px;
-    height: 24px;
-    border: none;
-    font-size: 20px;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: 600;
-}
-.newProjectTop button:hover{
-background-color: rgb(249, 188, 249);
 }
 
-.newProjectBottom{
-
-    height: 500px;
-
-
+#dark.newProjectConent {
+  padding: 5px 20px;
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  background-color: rgb(28, 36, 56);
+}
+.newProjectTop {
+  padding: 18px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+#dark .newProjectTop {
+  padding: 18px 0px;
+  display: flex;
+  justify-content: space-between;
+  color: rgb(243, 243, 248);
 }
 
-.newProjectItem{
-padding: 0px 30px;
-    height: 100px;
-    display: flex;
-    flex-direction: column;   
-    
+#dark .newProjectConent label {
+  color: rgb(243, 243, 248);
+}
+/* MUI SELECT  */
+#dark .newProject input {
+  background-color: rgb(67, 70, 89);
+  color: rgb(243, 243, 248);
+}
+#dark .newProject textarea {
+  background-color: rgb(67, 70, 89);
+  color: rgb(243, 243, 248);
 }
 
-.multiselect{
-   width: 20px;
+#dark .css-art2ul-ValueContainer2 {
+  background-color: rgb(67, 70, 89);
+  border: none;
+}
+#dark .css-4xgw5l-IndicatorsContainer2 {
+  background-color: rgb(67, 70, 89);
 }
 
-
-.newProjectItemLabel{
-    font-size: 14px;
-    color:grey;
-    margin-bottom: 5px;
-}
-.newProjectItem input{
-height: 35px;
-border: none;
-border-bottom: 1px solid grey;
-
-}
-.newProjectItemDescripion{
-    padding: 20px;
-    height: 160px;
-    display: flex;
-    flex-direction: column;
-}
-.newProjectItemDescripion textarea{
- resize: none;
+#dark .css-1i837h3-ValueContainer2{
+    background-color: rgb(82, 74, 74);
 }
 
-.newProjectAction{
-    display: flex;
-    justify-content: flex-end;
+#dark .css-16xfy0z-control{
+  background-color: rgb(67, 70, 89);
+  border: none;
 }
-.newProjectAction button{
-    margin-left: 30px;
-    width: 100px;
-    padding: 4px 10px;
-    border: none;
-    font-weight: 600;
-    color:white;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-bottom: 10px;
+#dark .css-13cymwt-control{
+  background-color: rgb(67, 70, 89);
 }
-.newProjectSave{
-    background-color: rgb(72, 140, 96);
-}
-.newProjectCancel{
-background-color: red;
+/* MUI SELECT */
 
+.newProjectTop span {
+  font-size: 24px;
+  font-weight: 600;
 }
 
-.multiselect{
-    width: 30%;
+.newProjectContentTopButton {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 2px 0px;
+}
+.newProjectContentTopButton button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  font-size: 20px;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+}
+.newProjectContentTopButton button:hover {
+  background-color: rgb(249, 188, 249);
+}
+
+.newProjectBottom {
+  height: 500px;
+}
+
+.newProjectItem {
+  padding: 0px 30px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.multiselect {
+  width: 20px;
+}
+
+.newProjectItemLabel {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 5px;
+}
+.newProjectItem input {
+  height: 35px;
+  border: none;
+  border-bottom: 1px solid grey;
+}
+.newProjectItemDescripion {
+  padding: 20px;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+.newProjectItemDescripion textarea {
+  resize: none;
+}
+
+.newProjectAction {
+  display: flex;
+  justify-content: flex-end;
+}
+.newProjectAction button {
+  margin-left: 30px;
+  width: 100px;
+  padding: 4px 10px;
+  border: none;
+  font-weight: 600;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.newProjectSave {
+  background-color: rgb(72, 140, 96);
+}
+.newProjectCancel {
+  background-color: red;
+}
+
+.multiselect {
+  width: 30%;
 }

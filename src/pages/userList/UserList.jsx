@@ -2,8 +2,9 @@ import "../userList/userList.css";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 export const UserList = () => {
   const [pageState, setPageState] = useState({
@@ -13,6 +14,7 @@ export const UserList = () => {
     users: 0,
   });
 
+  const {theme}=useContext(ThemeContext)
   const prev = pageState.page <= 1 || pageState.total <= 1;
   const next = pageState.total <= 1 || pageState.page === pageState.total;
 
@@ -98,10 +100,10 @@ export const UserList = () => {
   ];
   return (
     <div className="userList">
-          <div className="userListHeaderTitleContainer"> <span className="userListHeaderTitle">Current users</span></div>
+          <div id={theme.mode} className="userListHeaderTitleContainer"> <span className="userListHeaderTitle">Current users</span></div>
       {data && (
         <DataGrid
-          className="dataGrid"
+          className="DataGrid"
           autoHeight={true}
           getRowId={(row) => row._id}
           rows={data.users}

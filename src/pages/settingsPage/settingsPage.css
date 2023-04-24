@@ -2,9 +2,21 @@
     flex:5;
     display: flex;
     flex-direction: column;
-    gap:20px
+    gap:20px;
+    height: max-content;
+    padding: 0px 10px;
 }
-.settingsPageTitle{
+#dark.settingsPage{
+  flex:5;
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  height: max-content;
+  padding: 0px 10px;
+  color: rgb(243, 243, 248);
+}
+
+#dark.settingsPageTitle{
 
   padding: 5px 15px;
   font-size: 24px;
@@ -17,6 +29,17 @@
     flex-wrap: wrap;
   }
   
+#dark.settingsPageForm {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: rgb(28, 36, 56);
+
+}
+#dark.settingsPageForm label {
+  color: rgb(243, 243, 248);
+}
+
   .settingsPageItem {
     width: 610px;
     display: flex;
@@ -24,6 +47,8 @@
     margin-top: 10px;
     margin-right: 20px;
   }
+
+
   
   .settingsPageItem > label {
     margin-bottom: 10px;
@@ -42,7 +67,7 @@
   .settingsPageItem-inputFile input[type=file]{
     margin-right: 20px;
     border: none;
-    background: #b2c4ed;
+    background: #3c538a;
   line-height: 45px;
   padding: 0px 20px;
     border-radius: 10px;

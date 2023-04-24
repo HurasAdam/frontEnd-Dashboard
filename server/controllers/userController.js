@@ -165,7 +165,7 @@ const getUserList = async (req, res) => {
     });
 
     return res.status(200).json(
-      filter.map((u) => {
+      allUsers.map((u) => {
         return {
           name: u.name,
           surname: u.surname,

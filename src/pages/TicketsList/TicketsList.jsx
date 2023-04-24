@@ -55,7 +55,7 @@ const {theme}=useContext(ThemeContext)
       {isLoading&& <div>Loading...</div>}
       {data&&<DataGrid className="DataGrid"   autoHeight={true}
       rowHeight={40}
-      
+      hideFooter={true}
         rows={data}
         columns={columns} 
         pageSize={10}

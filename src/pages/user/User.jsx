@@ -12,9 +12,11 @@ import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from '../../contexts/ThemeContext'
 export const User = ({ isEditLocked }) => {
   const { userId } = useParams();
   const { user } = useContext(AuthContext);
+  const {theme}=useContext(ThemeContext)
   const [isEditable, setIsEditable] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const [userData,setUserData]=useState({})
@@ -68,7 +70,7 @@ export const User = ({ isEditLocked }) => {
     };
 
   return (
-    <div className="user">
+    <div className="user" id={theme.mode}>
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
         <Link to="/newUser">
@@ -82,7 +84,7 @@ export const User = ({ isEditLocked }) => {
               <img src={data.userAvatar} alt="" className="userShowImg" />
             )}
             <div className="userShowTopTitle">
-              {data && <span className="userShowUsername">{data.name}</span>}
+              {data && <span className="userShowUsername">{data.name}{data.surname}</span>}
               {data && <span className="userShowJobTitle">{data.role}</span>}
             </div>
           </div>

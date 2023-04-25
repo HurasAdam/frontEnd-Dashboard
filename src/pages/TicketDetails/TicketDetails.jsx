@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CommentBox } from "../../components/commentBox/CommentBox";
+import { ThemeContext } from '../../contexts/ThemeContext'
 export const TicketDetails = () => {
   const { ticketId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -14,6 +15,7 @@ export const TicketDetails = () => {
   const [newComment, setNewComment] = useState("");
   const [editedCommentTextContent, setEditedCommentTextContent] = useState("");
   const { user } = useContext(AuthContext);
+  const {theme}=useContext(ThemeContext)
   const navigate = useNavigate();
 
   const [data, isLoading, error] = useFetch(
@@ -172,7 +174,7 @@ export const TicketDetails = () => {
   };
 
   return (
-    <div className="ticketDetails">
+    <div className="ticketDetails" id={theme.mode}>
       <div className="ticketHeaderContainer">
         <span className="ticketHeaderIcon">
           <BugReportOutlinedIcon className="headerIcon" />

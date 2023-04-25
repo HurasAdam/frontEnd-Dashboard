@@ -5,6 +5,7 @@ import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined';
 import React, { useState, useEffect, useContext  } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ThemeContext } from '../../contexts/ThemeContext'
 export const CommentBox = ({
   posts,
   addComment,
@@ -18,6 +19,7 @@ export const CommentBox = ({
   
 }) => {
   const { user } = useContext(AuthContext);
+  const {theme}=useContext(ThemeContext)
   const [visible, setVisible] = useState(false)
   
 
@@ -27,7 +29,7 @@ export const CommentBox = ({
 
 
   return (
-    <div className="comment-box">
+    <div className="comment-box" id={theme.mode}>
       {posts &&
         posts.map((comment) => (
           <div key={comment.id} className="comment">

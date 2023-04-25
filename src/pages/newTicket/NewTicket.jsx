@@ -10,6 +10,7 @@ import { useFetch } from "../../hooks/useFetch";
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
   const [choseProject,setChoseProject]=useState()
+ 
   const navigate = useNavigate();
   const [data, isLoading, error] = useFetch(
     "http://127.0.0.1:3000/api/projects?projects=userProjects"
@@ -89,6 +90,7 @@ export const NewTicket = () => {
             <select 
             onChange={(e)=>handleNewTicket(e,'type')}
             >
+              <option value="" disabled selected>None</option>
 <option value="Bug">Bug</option>
 <option value="Enhancement">Enhancement</option>
 <option value="Question">Question</option>

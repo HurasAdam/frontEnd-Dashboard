@@ -241,7 +241,7 @@ setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:select
                 {data&&<img className="projectDataBottomItem-img" src={data.projectLeader.userAvatar} alt="" />}
                 {data&&(
                   <select
-                   defaultValue='xd'
+                   defaultValue={projectData.projectLeader?.name}
                     disabled={isDisabled}
                     // onChange={(e) =>
                     //   setProjectData({
@@ -252,9 +252,9 @@ setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:select
                     // }
                     onChange={handleSelectChange}
                   >
-                    {/* <option disabled selected>
-                     {`${data.projectLeader?.name}`}
-                    </option> */}
+                    <option selected hidden={!isDisabled}>
+                     {`${projectData.projectLeader?.name}`}
+                    </option>
                     {check
                       ? check.map((user) =>{
                           

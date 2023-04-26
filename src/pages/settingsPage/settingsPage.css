@@ -3,36 +3,51 @@
     display: flex;
     flex-direction: column;
     gap:20px;
-    height: max-content;
-    padding: 0px 10px;
+    
+    padding: 0px 20px;
+    height:calc(100vh-100px);
+  
 }
 #dark.settingsPage{
   flex:5;
   display: flex;
   flex-direction: column;
   gap:20px;
-  height: max-content;
-  padding: 0px 10px;
+  
+  padding: 15px 20px;
   color: rgb(243, 243, 248);
+  height:calc(100vh-100px);
+
 }
-
-#dark.settingsPageTitle{
-
+.settingsPageTitle{
+ 
   padding: 5px 15px;
   font-size: 24px;
-  color:rgb(50, 48, 48)
+  color: rgb(44, 44, 46);
+}
+
+#dark .settingsPageTitle{
+  padding: 5px 15px;
+  font-size: 24px;
+  color: rgb(243, 243, 248);
 }
   
 .settingsPageForm {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
+    height: 100%;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   }
   
-#dark.settingsPageForm {
+#dark .settingsPageForm {
   display: flex;
   justify-content: center;
+  height: 100%;
   flex-wrap: wrap;
+ 
+  
   background-color: rgb(28, 36, 56);
 
 }

@@ -1,0 +1,26 @@
+.paginationNavbar{
+    border: 2px solid red;
+}
+
+.paginationActionContainer{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    padding: 10px 15px;
+}
+
+.paginationActionContainer button{
+
+    background-color: blueviolet;
+    border: none;
+    width: 40px;
+    height: 22px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+
+}
+
+.paginationActionContainer button.true {
+    opacity: 0.4;
+  }

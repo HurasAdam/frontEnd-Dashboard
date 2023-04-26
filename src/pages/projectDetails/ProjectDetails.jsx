@@ -298,6 +298,7 @@ setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:select
                     checkboxSelection={false}
                     disableSelectionOnClick
                     hideFooter={true}
+                    
                   />
                 )}
               </div>

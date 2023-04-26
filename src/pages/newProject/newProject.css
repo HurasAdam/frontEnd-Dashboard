@@ -2,17 +2,32 @@
   flex: 5;
   width: 100%;
   padding: 20px 30px;
-}
-.newProjectConent {
-  padding: 5px 20px;
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  height: calc(100vh-50px);
+margin:0px 22px;
 }
 
-#dark.newProjectConent {
-  padding: 5px 20px;
+#dark .newProject {
+  flex: 5;
+  width: 100%;
+  padding: 20px 0px;
+  height: calc(100vh-50px);
+  background-color: rgb(21, 25, 41);
+}
+.newProjectConent {
+  padding: 5px 30px;
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
+height: calc(100vh - 160px)
+}
+
+#dark .newProjectConent {
+  padding: 5px 30px;
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   background-color: rgb(28, 36, 56);
+height: calc(100vh - 160px)
 }
+
+
 .newProjectTop {
   padding: 18px 0px;
   display: flex;
@@ -23,6 +38,7 @@
   display: flex;
   justify-content: space-between;
   color: rgb(243, 243, 248);
+
 }
 
 #dark .newProjectConent label {
@@ -79,20 +95,42 @@
   cursor: pointer;
   border-radius: 5px;
   font-weight: 600;
+  
+}
+#dark .newProjectContentTopButton button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  font-size: 20px;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+  color:white
 }
 .newProjectContentTopButton button:hover {
   background-color: rgb(249, 188, 249);
 }
 
+#dark .newProjectContentTopButton button:hover {
+  background-color: rgb(79, 107, 121);
+}
+
 .newProjectBottom {
-  height: 500px;
+  height: calc(100vh - 260px);
+ 
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  padding: 20px 0px;
 }
 
 .newProjectItem {
-  padding: 0px 30px;
+  padding: 0px 15px;
   height: 100px;
   display: flex;
   flex-direction: column;
+
 }
 
 .multiselect {
@@ -110,13 +148,14 @@
   border-bottom: 1px solid grey;
 }
 .newProjectItemDescripion {
-  padding: 20px;
-  height: 160px;
+  padding: 0px 15px;
+  height: 260px;
   display: flex;
   flex-direction: column;
 }
 .newProjectItemDescripion textarea {
   resize: none;
+  width: 100%;
 }
 
 .newProjectAction {

@@ -16,9 +16,15 @@ height: calc(100vh - 60px);
     width: 30%;
 background-color:rgba(255, 255, 255, 0.274);
     gap:5px;
+}
 
-
+#dark .loginPage-form{
    
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap:5px;
+    background-color: rgb(21, 25, 41);
 
 }
 .loginPage-form label{
@@ -46,3 +52,23 @@ border-radius: 5px;
 cursor: pointer;
 
 }
+#dark .loginPage-form button{
+    height: 35px;
+    width: max-content;
+    padding: 0 25px;
+    border: none;
+    background-color: rgb(35, 51, 95);
+    color:white;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    
+    }
+
+    .topbar-login span{
+        color: blueviolet;
+    }
+    #dark .topbar-login span{
+        color: rgb(243, 243, 248);
+    }

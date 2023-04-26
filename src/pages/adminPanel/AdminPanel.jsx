@@ -71,10 +71,12 @@ export const AdminPanel = () => {
 
   return (
     <div className="adminPanel">
+      <h2>Manage Roles</h2>
       <div className="dataGrid">
         {data && (
           <DataGrid
-            autoHeight={true}
+          className="DataGrid"
+            autoHeight={false}
             rowHeight={40}
             getRowId={(row) => row._id}
             rows={data}

@@ -2,9 +2,10 @@ import './loginPage.css';
 import { useContext, useState,use, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { settLocalStorage } from '../../utils/SettlocalStorage';
+import { ThemeContext } from '../../contexts/ThemeContext'
 export const LoginPage=()=>{
 const {dispatch,user}=useContext(AuthContext)
-
+const {theme}=useContext(ThemeContext)
 const [email,setEmail]=useState('')
 const [password,setPassword]=useState('')
 const [error,setError]=useState(null)
@@ -46,7 +47,7 @@ dispatch({type:"LOGIN",payload:data})
 }
 
     return(
-        <div className="loginPage">
+        <div className="loginPage" id={theme.mode}>
        <form className='loginPage-form' action="">
             <label htmlFor="">Email</label>
             <input type="email" onChange={(e)=>setEmail(e.target.value)} value={email} />

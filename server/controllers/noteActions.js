@@ -51,14 +51,29 @@ module.exports = {
 
   //podbieranie noatek
   async getAllNotes(req, res) {
+
+    const page = Number(req.query.page);
+    console.log(page)
+
+
+let size = 17;
+const limit = parseInt(size);
+const skip = (page - 1) * size;
+const allTickets=await Note.find({})
     let doc;
     try {
-      doc = await Note.find({});
+      doc = await Note.find({}).skip(skip).limit(limit);
+     
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
 
-    res.status(200).json(doc);
+    res.status(200).json({
+      page:page,
+      pageSize:size,
+      total:Math.ceil(allTickets.length / size),
+      tickets:doc
+    });
   },
 
   //podbieranie noatki

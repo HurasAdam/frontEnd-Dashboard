@@ -1,6 +1,7 @@
 .ticketsList {
   flex: 5;
   padding: 0px 10px;
+  height: calc(100vh - 200px);
 }
 
 #dark.ticketsList {
@@ -16,7 +17,7 @@
 .actionWrapper {
   display: flex;
   justify-content: space-between;
-  padding: 40px 10px;
+  padding: 20px 10px;
 }
 .newTicketButton {
   padding: 7px 10px;
@@ -138,3 +139,6 @@ padding: 1px;
   width: 50px;
   padding: 1px;
 }
+
+
+

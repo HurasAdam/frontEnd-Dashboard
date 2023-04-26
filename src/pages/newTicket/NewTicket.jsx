@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 import { useFetch } from "../../hooks/useFetch";
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
@@ -18,7 +19,7 @@ export const NewTicket = () => {
   console.log(data);
 
   const { user } = useContext(AuthContext);
-
+const {theme}=useContext(ThemeContext)
   const handleNewTicket = (e, prop) => {
     const value = e.target.value;
     newTicket[prop] = value;
@@ -43,14 +44,16 @@ export const NewTicket = () => {
   };
 
   return (
-    <div className="newTicket">
+    <div className="newTicket" id={theme.mode}>
+       
+          <h2>New Ticket</h2>
+       
       <div className="newTicketConent">
-        <div className="newTicketTop">
-          <span>New Ticket</span>
+       <div className="newTicketTop">
           <Link to="/tickets">
             <button>X</button>
           </Link>
-        </div>
+          </div>
         <div className="newTicketBottom">
           <div className="newTicketItem">
             <label htmlFor="">Choose project</label>
@@ -110,9 +113,7 @@ export const NewTicket = () => {
               onChange={(e) => handleNewTicket(e, "description")}
             ></textarea>
           </div>
-          </div>
-        </div>
-        <div className="newTicketAction">
+          <div className="newTicketAction">
           <button className="newTicketSave" onClick={handleAddTicket}>
             Save
           </button>
@@ -123,6 +124,9 @@ export const NewTicket = () => {
             Cancel
           </button>
         </div>
+          </div>
+        </div>
+   
       </div>
     </div>
   );

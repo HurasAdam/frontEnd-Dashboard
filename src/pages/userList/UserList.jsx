@@ -104,7 +104,7 @@ export const UserList = () => {
       {data && (
         <DataGrid
           className="DataGrid"
-          autoHeight={true}
+          autoHeight={false}
           getRowId={(row) => row._id}
           rows={data.users}
           columns={columns}

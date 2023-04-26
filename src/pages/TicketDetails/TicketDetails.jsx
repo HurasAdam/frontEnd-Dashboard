@@ -295,7 +295,7 @@ export const TicketDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="ticketDataBottomItem">
+                    <div className="ticketDataBottomItem-textArea">
                       <label htmlFor="">Description</label>
                       {data && (
                         <textarea

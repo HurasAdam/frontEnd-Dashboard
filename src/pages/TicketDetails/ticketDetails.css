@@ -164,7 +164,15 @@ flex:5;
   flex-direction: column;
   margin-top: 20px;
   margin-bottom: 25px;
+
 }
+.ticketDataBottomItem-textArea {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  margin-top: 55px;
+}
+
 
 .ticketDataBottomItem-select {
   margin-top: 20px;
@@ -184,7 +192,9 @@ flex:5;
 }
 
 #dark select {
-  background-color: rgb(82, 74, 74)
+  background-color: rgb(67, 70, 89);
+  color: rgb(243, 243, 248);
+
 }
 .ticketDataBottomItemWrapper-select label {
   margin-bottom: 5px;
@@ -197,11 +207,13 @@ flex:5;
   border-bottom: 1px solid grey;
   font-size: 15px;
 }
-.ticketDataBottomItem textarea {
-  resize: none;
-}
 
-#dark .ticketDataBottomItem textarea {
+.ticketDataBottomItem-textArea textarea {
+  height: 85px;
+resize: none;
+width: 100%;
+}
+#dark .ticketDataBottomItem-textArea textarea {
   resize: none;
   background-color: rgb(67, 70, 89);
   color: rgb(243, 243, 248)

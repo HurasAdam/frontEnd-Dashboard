@@ -11,10 +11,15 @@ const COLORS = chartData&&chartData.map((ob)=>ob.color)
 useEffect(()=>{
     if(data){
   setChartData(data.map((ob)=>{
-    return {...ob,color:`rgb(${Math.round(Math.random()*255)},${Math.round(Math.random()*255)},${Math.round(Math.random()*255)})`}
+    return {...ob,color:`rgb(${getRandomNumber(0,255)},${getRandomNumber(0,255)},${getRandomNumber(0,255)})`}
 }))
 }
 },[data])
+
+
+function getRandomNumber(min, max){
+  return Math.floor(Math.random()*(max-min+1)+min);
+}
 
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -31,8 +36,9 @@ useEffect(()=>{
     
     return (
         <div className="circleChart" id={theme.mode}>
-      <h3 className='chartTitle'>{title} </h3 >
+     
       {chartData&&<div className="legendContainer">
+      <h3 className='chartTitle'>{title} </h3 >
       {chartData.map((tile)=>{
     return(<div style={{ color:`${tile.color}` }} className="pieChartLegendTile">{tile.name}</div>)
   })}

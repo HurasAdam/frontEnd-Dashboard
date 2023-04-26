@@ -4,16 +4,57 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from '../../contexts/ThemeContext'
-
+import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const TicketsList = () => {
 
 const {theme}=useContext(ThemeContext)
+const {user}=useContext(AuthContext)
+const [pageState,setPageState]=useState({
+  page: 1,
+  total: 0,
+  pageSize: 10,
+  tickets:''
+})
+
+const handleSelectPage = (e, action) => {
+  e.preventDefault();
+  setPageState({ ...pageState, page: action });
+};
 
 
-  const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/notes/')
+// const getTicketList =async ()=>{
+
+//   const response = await fetch(`http://127.0.0.1:3000/api/notes?page=${pageState.page}`,{
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${user.token}`,
+//   }
+//   })
+//   const json =await response.json()
+//   console.log(json)
+//   setPageState({...pageState,
+//     page:json.page,
+//     total:json.total,
+//     pageSize:json.pageSize,
+//     tickets:json.tickets})
+// }
+
+
+  const [data,isLoading,error]=useFetch(`http://127.0.0.1:3000/api/notes?page=${pageState.page}`)
+
+  useEffect(()=>{
+    if(data){
+      setPageState(data)
+      
+    }
+    
+    
+    },[data])
+
 
   const columns = [
     
@@ -29,8 +70,8 @@ const {theme}=useContext(ThemeContext)
         <button className={params.row.priority}>{params.row.priority}</button>
       )
     }},
-    {field:'createdAt',headerName:'Date',width: 160,flex:0.9,valueFormatter: ({value} ) => `${value.Day}/${value.Month}/${value.Year}` },
-    {field:'action',headerName:'Action',width:'100', renderCell:(params)=>{
+    {field:'createdAt',headerName:'Date',width: 160,flex:0.5,valueFormatter: ({value} ) => `${value.Day}/${value.Month}/${value.Year}` },
+    {field:'action',headerName:'Action',width:100, renderCell:(params)=>{
       return(
 <>
 <Link to={`/tickets/${params.row.id}/`}>
@@ -53,18 +94,20 @@ const {theme}=useContext(ThemeContext)
       </div>
       {error&&<div>{error}</div>}
       {isLoading&& <div>Loading...</div>}
-      {data&&<DataGrid className="DataGrid"   autoHeight={true}
+      {pageState.tickets?<DataGrid className="DataGrid"   autoHeight={false}
       rowHeight={40}
-      hideFooter={true}
-        rows={data}
+     hideFooterSelectedRowCount={true}
+      
+        rows={pageState.tickets}
         columns={columns} 
-        pageSize={10}
+        pageSize={17}
         rowsPerPageOptions={[10]}
         checkboxSelection={false}
         disableSelectionOnClick
+        hideFooter={true}
         
-      />}
-
+      />:null}
+<PaginationNavbar pageState={pageState} handleSelectPage={handleSelectPage} theme={theme}/>
     </div>
   );
 };

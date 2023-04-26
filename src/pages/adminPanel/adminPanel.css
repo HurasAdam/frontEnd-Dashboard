@@ -1,15 +1,17 @@
 .adminPanel{
+  padding: 20px 0px;
     flex:5;
     display: flex;
     flex-direction: column;
 
+margin: 0px 15px;
 }
 
 .dataGrid{
- 
-  height: max-content;
+  margin-top: 30px;
+  
+  height: 100vh;
 }
-
 select{
     width: 22%;
     text-align: center;

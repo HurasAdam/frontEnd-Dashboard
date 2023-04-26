@@ -98,13 +98,14 @@ const {theme}=useContext(ThemeContext)
         
           className="DataGrid"
           id={theme.mode}
-          autoHeight={true}
+          autoHeight={false}
           rowHeight={45}
           rows={data.projects}
           columns={columns}
           checkboxSelection={false}
           disableSelectionOnClick
           hideFooter={true}
+         
         />
       )}
       <div className="navButtonsContainer" id={theme.mode}>

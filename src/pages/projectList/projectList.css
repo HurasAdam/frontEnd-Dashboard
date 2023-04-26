@@ -1,12 +1,20 @@
 .projectList {
   flex: 5;
-  height: max-content;
-  padding: 0px 10px;
+  margin: 0px 22px;
+  height: calc(100vh - 200px);
 }
+
 #dark.projectList {
   flex: 5;
-  height: max-content;
+
   color: rgb(243, 243, 248);
+  height: calc(100vh - 200px);
+  background-color: rgb(28, 36, 56);
+  margin: 0px 22px;
+  
+}
+#dark .actionWrapper{
+  background-color: rgb(21, 25, 41);
 }
 .navButtonsContainer {
   display: flex;
@@ -39,6 +47,7 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
 .navButtonsContainer button {
   background-color: blueviolet;
   border: none;
@@ -48,6 +57,11 @@
   color: white;
   cursor: pointer;
 }
+#dark .navButtonsContainer{
+ 
+  background-color: rgb(44, 44, 70);
+}
+
 #dark.navButtonsContainer button {
   background-color: rgb(87, 148, 186);
   border: none;
@@ -75,14 +89,36 @@
   background-color: rgb(28, 36, 56);
   border: none;
   color: rgb(243, 243, 248);
-}
-#dark .MuiDataGrid-root .MuiDataGrid-row .MuiDataGrid-cell {
-  border: none;
-  background-color: rgb(28, 36, 56);
+
 }
 
+.MuiDataGrid-columnHeaders {
+  background-color: rgb(210, 220, 225);
+  color: rgb(33, 33, 35);
+  border-bottom: none;
+}
 
 #dark .MuiDataGrid-columnHeaders {
-  background-color: rgb(56, 59, 139);
+  background-color: rgb(44, 44, 70);
   color: rgb(243, 243, 248);
+  border-bottom: none;
+}
+
+#dark .MuiDataGrid-row{
+  border: 1px double rgb(33, 33, 47);
+  border-left: none;
+}
+#dark .MuiDataGrid-row:hover{
+  background-color: rgb(31, 39, 61);
+  border-left: none;
+}
+
+
+.MuiPaper-root-MuiDrawer-paper,
+.MuiDataGrid-footerContainer,
+.MuiDataGrid-root,
+.MuiDataGrid-row,
+.MuiDataGrid-column
+.MuiDataGrid {
+    border: none !important;
 }

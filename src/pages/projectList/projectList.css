@@ -1,20 +1,24 @@
 .projectList {
-  flex: 5;
+  flex: 6;
   margin: 0px 22px;
   height: calc(100vh - 200px);
+  
 }
 
 #dark.projectList {
-  flex: 5;
+  flex: 6;
 
   color: rgb(243, 243, 248);
   height: calc(100vh - 200px);
-  background-color: rgb(28, 36, 56);
+
   margin: 0px 22px;
   
 }
 #dark .actionWrapper{
   background-color: rgb(21, 25, 41);
+  
+  font-size: 22px;
+    font-weight: 600;
 }
 .navButtonsContainer {
   display: flex;
@@ -86,8 +90,8 @@
   align-items: center;
 }
 #dark .DataGrid {
-  background-color: rgb(28, 36, 56);
-  border: none;
+  /* background-color: rgb(28, 36, 56); */
+  border: none !important;
   color: rgb(243, 243, 248);
 
 }
@@ -103,10 +107,15 @@
   color: rgb(243, 243, 248);
   border-bottom: none;
 }
+.MuiDataGrid-row{
+  border-bottom: 1px solid rgb(226, 226, 227);
+  }
 
 #dark .MuiDataGrid-row{
-  border: 1px double rgb(33, 33, 47);
-  border-left: none;
+border-bottom: 1px solid rgb(49, 49, 69);
+}
+.MuiDataGrid-cell{
+  border: none !important;
 }
 #dark .MuiDataGrid-row:hover{
   background-color: rgb(31, 39, 61);
@@ -114,11 +123,11 @@
 }
 
 
-.MuiPaper-root-MuiDrawer-paper,
+/* .MuiPaper-root-MuiDrawer-paper,
 .MuiDataGrid-footerContainer,
 .MuiDataGrid-root,
 .MuiDataGrid-row,
 .MuiDataGrid-column
 .MuiDataGrid {
     border: none !important;
-}
+} */

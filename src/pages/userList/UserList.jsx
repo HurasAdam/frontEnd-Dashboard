@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { ThemeContext } from '../../contexts/ThemeContext'
+import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
 
 export const UserList = () => {
   const [pageState, setPageState] = useState({
@@ -14,11 +15,12 @@ export const UserList = () => {
     users: 0,
   });
 
+  
   const {theme}=useContext(ThemeContext)
   const prev = pageState.page <= 1 || pageState.total <= 1;
   const next = pageState.total <= 1 || pageState.page === pageState.total;
 
-  const selectPage = (e, action) => {
+  const handleSelectPage = (e, action) => {
     e.preventDefault();
 
     setPageState({ ...pageState, page: action });
@@ -27,8 +29,7 @@ export const UserList = () => {
   const [data, error, isLoading] = useFetch(
     `http://127.0.0.1:3000/api/user?page=${pageState.page}`
   );
-
-
+  console.log(data)
   useEffect(() => {
     if (data) {
       setPageState({
@@ -108,28 +109,14 @@ export const UserList = () => {
           getRowId={(row) => row._id}
           rows={data.users}
           columns={columns}
-         
+          pageSize={10}
+        rowsPerPageOptions={[10]}
           disableSelectionOnClick
           hideFooter={true}
          
         />
       )}
-      <div className="userListButtonsContainer">
-        <button
-          disabled={next}
-          className={`${next}`}
-          onClick={(e) => selectPage(e, pageState.page + 1)}
-        >
-          Next
-        </button>
-        <button
-          disabled={prev}
-          className={`${prev}`}
-          onClick={(e) => selectPage(e, pageState.page - 1)}
-        >
-          Prev
-        </button>
-      </div>
+<PaginationNavbar pageState={pageState} handleSelectPage={handleSelectPage} theme={theme}/>
     </div>
   );
 };

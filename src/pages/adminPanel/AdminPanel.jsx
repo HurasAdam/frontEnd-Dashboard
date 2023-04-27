@@ -71,7 +71,9 @@ export const AdminPanel = () => {
 
   return (
     <div className="adminPanel">
-      <h2>Manage Roles</h2>
+      <div className="adminPanelHeaderTitle">
+      <span>Manage Roles</span>
+      </div>
       <div className="dataGrid">
         {data && (
           <DataGrid

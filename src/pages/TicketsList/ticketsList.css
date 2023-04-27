@@ -1,13 +1,15 @@
 .ticketsList {
-  flex: 5;
-  padding: 0px 10px;
-  height: calc(100vh - 200px);
+  flex: 6;
+  padding: 0px 15px;
+  height: calc(100vh - 140px);
+
 }
 
 #dark.ticketsList {
-  flex: 5;
-  padding: 0px 10px;
+  flex: 6;
+  padding: 0px 20px;
   color: rgb(243, 243, 248);
+  
 }
 .ticketListHeaderTitle {
   font-size: 22px;
@@ -140,5 +142,10 @@ padding: 1px;
   padding: 1px;
 }
 
+.DataGrid {
 
+  border: none !important;
+  color: rgb(243, 243, 248);
+height: calc(100vh - 215px) !important;
 
+}

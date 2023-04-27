@@ -1,25 +1,28 @@
 .userList {
     flex: 5;
-    padding: 0px 10px;
+    padding: 0px 10px; 
   }
   .userListHeaderTitleContainer {
     font-size: 22px;
     font-weight: 600;
-    padding: 40px 10px;
+    padding: 20px 10px;
   }
   #dark.userListHeaderTitleContainer {
     font-size: 22px;
     font-weight: 600;
-    padding: 40px 10px;
+    padding: 20px 10px;
     color: rgb(243, 243, 248); 
+   
   }
-  .DataGrid {
+  /* .DataGrid {
     width: 100%;
     height: 1200px;
-  }
+    
+  } */
   .userListUser {
     display: flex;
     justify-content: center;
+    
   }
   .userListUserImg {
     width: 33px;

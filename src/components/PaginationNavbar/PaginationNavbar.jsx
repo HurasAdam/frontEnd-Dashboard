@@ -8,7 +8,7 @@ export const PaginationNavbar=({pageState,handleSelectPage,theme})=>{
   
 
     return(
-        <div className="paginationActionContainer">
+        <div className="paginationActionContainer" id={theme.mode}>
         <button onClick={(e)=>handleSelectPage(e,pageState.page+1)}
           className={`${next}`}
           disabled={next}

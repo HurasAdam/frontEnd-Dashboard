@@ -4,6 +4,7 @@
   padding: 20px 30px;
   height: calc(100vh-50px);
 margin:0px 22px;
+border: 2px solid red;
 }
 
 #dark .newProject {

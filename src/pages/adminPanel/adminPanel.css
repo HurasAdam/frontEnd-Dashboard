@@ -7,6 +7,18 @@
 margin: 0px 15px;
 }
 
+.adminPanelHeaderTitle{
+  padding: 20px 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color:black;
+}
+#dark .adminPanelHeaderTitle{
+  padding: 20px 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color: rgb(243, 243, 248);
+}
 .dataGrid{
   margin-top: 30px;
   
@@ -31,3 +43,12 @@ select{
    cursor: pointer;
 }
 
+#dark .changeRoleBtn{
+  margin-left: 5px;
+  padding: 1px 6px;
+  border: none;
+  background-color: rgb(79, 72, 154);
+  color:white;
+  border-radius: 2px;
+  cursor: pointer;
+}

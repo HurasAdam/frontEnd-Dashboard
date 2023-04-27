@@ -6,7 +6,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext } from '../../contexts/ThemeContext';
-
+import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
 export const ProjectsList = () => {
   const [pageState, setPageState] = useState({
     page: 1,
@@ -25,10 +25,14 @@ export const ProjectsList = () => {
   );
   const { user } = useContext(AuthContext);
 const {theme}=useContext(ThemeContext)
-  const selectPage = (e, action) => {
-    e.preventDefault();
-    setPageState({ ...pageState, page: action });
-  };
+
+
+const handleSelectPage = (e, action) => {
+  e.preventDefault();
+  setPageState({ ...pageState, page: action });
+};
+
+
   console.log(data);
   useEffect(() => {
     if (data) {
@@ -36,7 +40,7 @@ const {theme}=useContext(ThemeContext)
         ...pageState,
         total: data.total,
         pageSize: data.pageSize,
-        projects: data.projects.length,
+        projects: data.projects
       });
     }
   }, [data]);
@@ -72,7 +76,7 @@ const {theme}=useContext(ThemeContext)
         return (
           <>
             <Link to={`/projects/${params.row.id}/`}>
-              <VisibilityOutlinedIcon className="TicketListActionIcon" style={theme.mode==='dark'?{ color:`${theme.color}` }:null}  />
+              <VisibilityOutlinedIcon className="TicketListActionIcon"  />
             </Link>
           </>
         );
@@ -105,30 +109,13 @@ const {theme}=useContext(ThemeContext)
           checkboxSelection={false}
           disableSelectionOnClick
           hideFooter={true}
+          pageSize={15}
+          rowsPerPageOptions={[10]}
+     
          
         />
       )}
-      <div className="navButtonsContainer" id={theme.mode}>
-        <button
-          className={`${next}`}
-          disabled={next}
-          onClick={(e) => selectPage(e, pageState.page + 1)}
-        >
-          Next
-        </button>
-        <button
-          className={`${prev}`}
-          disabled={prev}
-          onClick={(e) => selectPage(e, pageState.page - 1)}
-        >
-          Prev
-        </button>
-        {data && (
-          <span>
-            Page:{pageState.page}of {pageState.total}
-          </span>
-        )}
-      </div>
+      <PaginationNavbar pageState={pageState} handleSelectPage={handleSelectPage} theme={theme}/>
     </div>
   );
 };

@@ -4,6 +4,8 @@ const Note=require('../db/models/note')
 const getStats = async(req, res) => {
 
 const projects=await Project.find({})
+// const kek = await Project.find().sort({'Day':12})
+// console.log(kek)
 const notes=await Note.find({}).select("status")
 const xd = await Note.find({}).select("type")
 const result = {amount:projects.length}
@@ -14,7 +16,7 @@ const ticketsClosed= notes.filter((note)=>note.status==='Closed')
 const ticketTypeBug = xd.filter((note)=>note.type===`Bug`)
 const ticketTypeEnhancement = xd.filter((note)=>note.type===`Enhancement`)
 const ticketTypeQuestion = xd.filter((note)=>note.type==='Question')
-console.log(ticketTypeQuestion)
+// console.log(ticketTypeQuestion)
 
   res.status(200).json(
     [

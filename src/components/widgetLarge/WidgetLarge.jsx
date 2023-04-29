@@ -1,8 +1,8 @@
 import './widgetLarge.css';
 import {ThemeContext} from '../../contexts/ThemeContext'
 import { useContext } from 'react';
-const WidgetLarge=()=>{
-
+const WidgetLarge=({stats})=>{
+// console.log(stats.tickets)
     const {theme}=useContext(ThemeContext)
 const Button=({type})=>{
     return(
@@ -14,15 +14,25 @@ const Button=({type})=>{
         <div className="widgetLarge" id={theme.mode}>
          
          <h3 className="widgetLargeTitle">Latest transactions</h3>
-<table className="widgetLargeTable">
+
+{stats?.tickets.map((row)=>{
+    return(<div className='tableRow'>
+        <span>A</span>
+        <span>B</span>
+        <span>C</span>
+        <span>D</span>
+    </div>)
+})}
+
+{/* <table className="widgetLarge-Table">
 <tbody>
-    <tr className="widgetLargeTr">
+    <tr className="widgetLargeTable-Header">
         <th className="widgetLargeTh">User</th>
         <th className="widgetLargeTh">Date</th>
         <th className="widgetLargeTh">Type</th>
         <th className="widgetLargeTh">Priority</th>
     </tr>
-    <tr className="widgetLargeTr">
+    <tr className="widgetLargeTable">
         <td className="widgetLargeUser">
             <img src="public/img/person2.jpg" alt="" className="widgetLargeImg" />
             <span className="widgetLargeName">Susan Carol</span>
@@ -59,7 +69,7 @@ const Button=({type})=>{
         <td className="widgetLargeStatus"><Button type='Approved'/></td>
     </tr>
     </tbody>
-</table>
+</table> */}
         </div>
     )
 }

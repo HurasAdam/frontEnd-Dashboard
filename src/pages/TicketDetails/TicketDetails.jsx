@@ -212,7 +212,7 @@ export const TicketDetails = () => {
                         <ScheduleOutlinedIcon />
                         <span>Created:</span>
                         {data && (
-                          <span>{`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}</span>
+                          <span>{data.createdAt}</span>
                         )}
                       </div>
                     </div>

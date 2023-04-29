@@ -13,7 +13,6 @@ const {theme}=useContext(ThemeContext)
 
 
 
-console.log(data)
     return(
         <div className="featuredInfo" >
             <div className="featuredItem" id={theme.mode}>

@@ -37,12 +37,7 @@ function getRandomNumber(min, max){
     return (
         <div className="circleChart" id={theme.mode}>
      
-      {chartData&&<div className="legendContainer">
-      <h3 className='chartTitle'>{title} </h3 >
-      {chartData.map((tile)=>{
-    return(<div style={{ color:`${tile.color}` }} className="pieChartLegendTile">{tile.name}</div>)
-  })}
-      </div>}
+ 
 
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={200} height={200}>

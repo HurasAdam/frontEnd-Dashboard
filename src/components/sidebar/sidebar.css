@@ -1,10 +1,19 @@
 .sidebar {
-  flex: 1;
-  height: calc(100vh - 50px);
-  background-color: rgb(243, 243, 248);
-  position: sticky;
-  top: 50px;
+ display: none;
  
+}
+
+@media screen and (min-width: 768px) {
+  .sidebar {
+    display: block;
+    flex: 1;
+    height: calc(100vh - 50px);
+    background-color: rgb(243, 243, 248);
+    position: sticky;
+    top: 50px;
+   
+  
+  }
 }
 #dark.sidebar{
   flex: 1;

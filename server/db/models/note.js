@@ -33,7 +33,7 @@ const TicketSchema = new Schema(
       required: true,
     },
     createdAt:{
-      type:Object
+      type:String
     }
   },
  

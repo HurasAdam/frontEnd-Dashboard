@@ -3,15 +3,17 @@
     padding: 10px;
     flex:6;
     flex-wrap: wrap;
-/* display: grid; */
-display: flex;
-/* height: 100%; */
-width: 97%;
-background: var(--glass);
-border-radius: 2rem;
-gap: 12px;
-/* grid-template-columns:  auto 24rem; */
-overflow: hidden;
+    /* display: grid; */
+    display: flex;
+    /* TODO: this should be in a media query */
+  
+    /* height: 100%; */
+    width: 100%;
+    background: var(--glass);
+    border-radius: 2rem;
+    gap: 12px;
+    /* grid-template-columns:  auto 24rem; */
+    overflow: hidden;
 
 }
 
@@ -19,7 +21,6 @@ overflow: hidden;
    
     height: 100%;
 
- 
 }
 
 .mainDash{
@@ -27,7 +28,7 @@ overflow: hidden;
     flex:2;
     display: flex;
     flex-direction: column;
-    gap:30px
+    gap:45px
 }
 .homeCharts{
    
@@ -45,3 +46,11 @@ gap:15px;
     }
 }
 
+@media screen and (max-width: 980px) {
+
+.home{
+    display: flex;
+    flex-direction: column;
+
+}
+}

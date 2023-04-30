@@ -3,7 +3,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import {ThemeContext} from '../../contexts/ThemeContext'
 import { useContext } from 'react';
 const WidgetLarge=({data})=>{
-console.log(data)
+
     const {theme}=useContext(ThemeContext)
 const Button=({type})=>{
     return(
@@ -13,8 +13,6 @@ const Button=({type})=>{
 
     return(
         <div className="widgetLarge" id={theme.mode}>
-         
-         
 
 {data?.LastAdded.map((row)=>{
     return(<div className='tableRow'>
@@ -26,7 +24,7 @@ const Button=({type})=>{
     </div>)
    
 })}
-<h3 className="widgetLargeTitle">Latest transactions</h3>
+<h3 className="widgetLargeTitle">Latest reports</h3>
 {/* <table className="widgetLarge-Table">
 <tbody>
     <tr className="widgetLargeTable-Header">

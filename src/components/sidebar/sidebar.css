@@ -1,9 +1,19 @@
 .sidebar {
- display: none;
- 
+  display: none;
+}
+.sidebar.true {
+  display: block;
+  position: fixed;
+  z-index: 999; 
+  background-color: rgb(157, 148, 172);
+  height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
+
   .sidebar {
     display: block;
     flex: 1;
@@ -11,28 +21,22 @@
     background-color: rgb(243, 243, 248);
     position: sticky;
     top: 50px;
-   
-  
   }
 }
-#dark.sidebar{
+#dark.sidebar {
   flex: 1;
   height: calc(100vh - 50px);
   background-color: rgb(28, 36, 56);
   position: sticky;
   top: 50px;
- 
 }
 
 .sidebar-wrapper {
   padding: 20px;
   color: #555;
- 
 }
 .sidebar-menu {
   margin-bottom: 10px;
-
-
 }
 .sidebar-title {
   font-size: 13px;
@@ -47,7 +51,6 @@
   list-style: none;
   padding: 5px;
   
-
 }
 .sidebar-list-item {
   padding: 7px;
@@ -55,8 +58,6 @@
   display: flex;
   align-items: center;
   border-radius: 15px;
-  
-  
 }
 
 .sidebar-list-item:hover,
@@ -64,8 +65,8 @@
   background-color: rgb(227, 227, 248);
 }
 
-#dark .sidebar-list-item:hover{
-  background-color:  rgb(186, 185, 185);
+#dark .sidebar-list-item:hover {
+  background-color: rgb(186, 185, 185);
 }
 #dark.sidebar-list-item.active {
   background-color: rgb(186, 185, 185);
@@ -74,21 +75,16 @@
 .sidebarIcon {
   margin-right: 6px;
   font-size: 26px !important;
- 
 }
 .sidebar-list-item-submenu {
-
   cursor: pointer;
   display: flex;
   flex-direction: column;
-
- 
 }
 .submenuItem {
   cursor: pointer;
-padding: 7px;
-border-radius: 15px;
-
+  padding: 7px;
+  border-radius: 15px;
 }
 
 .submenuItem:hover {
@@ -96,7 +92,6 @@ border-radius: 15px;
 }
 
 .sidebar-list-item-submenu ul {
-  
   align-items: center;
   list-style-type: none;
 }
@@ -104,7 +99,7 @@ border-radius: 15px;
   margin-top: 10px;
   padding: 7px 25px;
 }
-.sidebar-list-item-submenu ul li:hover{
-    background: rgb(133, 183, 234);
-    border-radius: 14px;
+.sidebar-list-item-submenu ul li:hover {
+  background: rgb(133, 183, 234);
+  border-radius: 14px;
 }

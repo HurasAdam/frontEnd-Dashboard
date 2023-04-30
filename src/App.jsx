@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
 import "./app.css";
@@ -17,40 +17,125 @@ import { ProjectsList } from "./pages/projectList/ProjectList";
 import { ProjectDetails } from "./pages/projectDetails/ProjectDetails";
 import { Contributors } from "./components/contributorsLayout/Contributors";
 import { NewProject } from "./pages/newProject/NewProject";
-import { AdminPanel } from "../src/pages/adminPanel/AdminPanel"
+import { AdminPanel } from "../src/pages/adminPanel/AdminPanel";
 import { SettingsPage } from "./pages/settingsPage/SettingsPage";
-import ManageUsers from"../src/pages/manageUsers/ManageUsers";
+import ManageUsers from "../src/pages/manageUsers/ManageUsers";
 import { UserCard } from "./components/userCard/UserCard";
 import { ManageUser } from "./pages/manageUser/ManageUser";
-import {ThemeContext} from '../src/contexts/ThemeContext'
+import { ThemeContext } from "../src/contexts/ThemeContext";
 function App() {
-  const {user}=useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   const [EditTicketData, setEditTicketData] = useState();
-  const {theme}=useContext(ThemeContext)
-  
+  const { theme } = useContext(ThemeContext);
+  const [isMenuActive, setIsMenuActive] = useState(false);
+  const mediaQuery = window.matchMedia("(min-width: 768px)");
+  //hide scroll when menu ios open
+  useEffect(() => {
+    if (isMenuActive) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMenuActive]);
+
+  useEffect(() => {
+    const handleMediaQueryChange = (e) => {
+      if (e.matches) {
+        setIsMenuActive(false);
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    };
+  }, [mediaQuery]);
+
   return (
     <BrowserRouter>
-      <Topbar />
+      <Topbar isMenuActive={isMenuActive} setIsMenuActive={setIsMenuActive} />
 
-      <div  className="container" id={theme.mode}>
-        <Sidebar />
+      <div className="container" id={theme.mode}>
+        <Sidebar isMenuActive={isMenuActive} />
         <Routes>
-          <Route exact path="/" element={user?<Home />:<Navigate to='/login'/>}></Route>
-          <Route path="/users"element={user?<UserList/>:<Navigate to='/login'/>}></Route>
-          <Route path="/userDetails/:userId" element={user?<UserCard />:<Navigate to='/login'/>}></Route>
-          <Route path="/user/:userId" element={user?<ManageUser/>:<Navigate to='/login'/>}></Route>
-          <Route path="/newUser" element={user?<NewUser />:<Navigate to='/login'/>}></Route>
-          <Route exact path="/tickets" element={user?<TicketsList />:<Navigate to='/login'/>}></Route>
-          <Route exact path="/projects" element={user?<ProjectsList />:<Navigate to='/login'/>}></Route>
-          <Route exact path="/NewProject" element={user?<NewProject/>:<Navigate to='/login'/>}></Route>
-          <Route path="/projects/:projectId" element={user?<ProjectDetails />:<Navigate to='/login'/>}> </Route>
-          <Route  path="/manageRoles" element={user?<AdminPanel/>:<Navigate to='/login'/>}> </Route>
-          <Route  path="/manageUsers" element={user?<ManageUsers/>:<Navigate to='/login'/>}> </Route>
-          <Route  path="/settings" element={user?<SettingsPage/>:<Navigate to='/login'/>}> </Route>
-          <Route path="/tickets/:ticketId" element={user?<TicketDetails/>:<Navigate to='/login'/>}></Route>
-          <Route exact path="/Newticket" element={user?<NewTicket />:<Navigate to='/login'/>}></Route>
-          <Route path="/login" element={!user?<LoginPage/>:<Navigate to='/'/>}></Route>
-          <Route path="/signup" element={!user?<SignupPage/>:<Navigate to='/'/>}></Route>
+          <Route
+            exact
+            path="/"
+            element={user ? <Home /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            path="/users"
+            element={user ? <UserList /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            path="/userDetails/:userId"
+            element={user ? <UserCard /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            path="/user/:userId"
+            element={user ? <ManageUser /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            path="/newUser"
+            element={user ? <NewUser /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            exact
+            path="/tickets"
+            element={user ? <TicketsList /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            exact
+            path="/projects"
+            element={user ? <ProjectsList /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            exact
+            path="/NewProject"
+            element={user ? <NewProject /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            path="/projects/:projectId"
+            element={user ? <ProjectDetails /> : <Navigate to="/login" />}
+          >
+            {" "}
+          </Route>
+          <Route
+            path="/manageRoles"
+            element={user ? <AdminPanel /> : <Navigate to="/login" />}
+          >
+            {" "}
+          </Route>
+          <Route
+            path="/manageUsers"
+            element={user ? <ManageUsers /> : <Navigate to="/login" />}
+          >
+            {" "}
+          </Route>
+          <Route
+            path="/settings"
+            element={user ? <SettingsPage /> : <Navigate to="/login" />}
+          >
+            {" "}
+          </Route>
+          <Route
+            path="/tickets/:ticketId"
+            element={user ? <TicketDetails /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            exact
+            path="/Newticket"
+            element={user ? <NewTicket /> : <Navigate to="/login" />}
+          ></Route>
+          <Route
+            path="/login"
+            element={!user ? <LoginPage /> : <Navigate to="/" />}
+          ></Route>
+          <Route
+            path="/signup"
+            element={!user ? <SignupPage /> : <Navigate to="/" />}
+          ></Route>
         </Routes>
       </div>
     </BrowserRouter>

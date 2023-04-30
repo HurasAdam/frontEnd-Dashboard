@@ -28,6 +28,23 @@ export const CommentBox = ({
   };
 
 
+  const calculateTimeDifference = (date) => {
+    const difference = new Date() - new Date(date);
+    const units = {
+      day: 24 * 60 * 60 * 1000,
+      hour: 60 * 60 * 1000,
+      minute: 60 * 1000,
+      second: 1000,
+    };
+    for (const [unit, value] of Object.entries(units)) {
+      const count = Math.floor(difference / value);
+      if (count > 0) {
+        return `${count} ${unit}${count > 1 ? 's' : ''} ago`;
+      }
+    }
+    return 'just now';
+  };  
+
   return (
     <div className="comment-box" id={theme.mode}>
       {posts &&
@@ -48,7 +65,7 @@ export const CommentBox = ({
 
               </div>
               <div className='comment-actionContainer'>
-                <span className='comment-actionContainer-Date'>{comment.CreatedAt}</span>
+                <span className='comment-actionContainer-Date'>{calculateTimeDifference(comment.CreatedAt)}</span>
               <span className='comment-actionContainer-Buttons'>
               {comment.CreatedBy.id === user.userId &&!comment.contentEditable||user.role==='admin'&&!comment.contentEditable ? (
                   <CreateOutlinedIcon disabled={true} className='editCommentIcon' onClick={() =>{!comment.buttonDisabled? handleEditComment(comment.id,posts):null}}></CreateOutlinedIcon>

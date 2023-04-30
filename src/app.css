@@ -1,12 +1,11 @@
 .container{
     display: flex;
+    position:relative;
 }
 
 #dark.container{
     display: flex;
     background-color: rgb(21, 25, 41);
- 
-    
 }
 .sidebarLink{
     text-decoration: none;

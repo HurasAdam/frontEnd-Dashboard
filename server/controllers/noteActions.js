@@ -15,23 +15,8 @@ module.exports = {
     const description = req.body.description;
     const type = req.body.type;
 
-    // const check = await Project.find({ _id: project }).select(
-    //   "_id projectTitle projectLeader"
-    // );
-
     const projectAsigned = await Project.findOne({ _id: project });
-
-   
     const ticketAuthor = await await User.findOne({ email: author });
-   
-    // const projectObject = check.reduce((obj, item) => ({
-    //   ...obj,
-    //   [item.key]: item.value,
-    // }));
-    // const authorObject = findAuthor.reduce((obj, item) => ({
-    //   ...obj,
-    //   [item.key]: item.value,
-    // }));
 
     const newNote = new Note({
       project: projectAsigned._id,
@@ -39,7 +24,7 @@ module.exports = {
       status: status,
       date: date,
       priority: priority,
-      author:ticketAuthor._id.toString(),
+      author: ticketAuthor._id.toString(),
       description: description,
       type: type,
       createdAt: convertDate(),
@@ -51,46 +36,49 @@ module.exports = {
 
   //podbieranie noatek
   async getAllNotes(req, res) {
-
     const page = Number(req.query.page);
-    console.log(page)
+    let size = 15;
+    const limit = parseInt(size);
+    const skip = (page - 1) * size;
 
-
-let size = 15;
-const limit = parseInt(size);
-const skip = (page - 1) * size;
-const allTickets=await Note.find({})
-    let doc;
+    let notes;
+    let allNotesCount;
     try {
-      doc = await Note.find({}).skip(skip).limit(limit);
-     
+      allNotesCount = await Note.countDocuments();
+      console.log(typeof allNotesCount);
+      notes = await Note.find({})
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
 
     res.status(200).json({
-      page:page,
-      pageSize:size,
-      total:Math.ceil(allTickets.length / size),
-      tickets:doc
+      page: page,
+      pageSize: size,
+      total: Math.ceil(allNotesCount / size),
+      tickets: notes,
     });
   },
 
   //podbieranie noatki
   async getNote(req, res) {
-    const userId = req.user._id.toString()
+    const userId = req.user._id.toString();
 
     const id = req.params.id;
     const note = await Note.findOne({ _id: id });
-  
-  
-    const ticketAuthor = await User.findOne({_id:note.author})
-  const project = await Project.findOne({_id:note.project})
-  const conctibutorsList= project.contributors
-const contributorAccess = conctibutorsList.includes(userId)||req.user.role==='admin'
 
-  const projectLeader= await User.findOne({_id:project.projectLeaderId})
-  const fullAccess =(ticketAuthor.author===req.user._id.toString()||req.user.role==='admin')
+    const ticketAuthor = await User.findOne({ _id: note.author });
+    const project = await Project.findOne({ _id: note.project });
+    const conctibutorsList = project.contributors;
+    const contributorAccess =
+      conctibutorsList.includes(userId) || req.user.role === "admin";
+
+    const projectLeader = await User.findOne({ _id: project.projectLeaderId });
+    const fullAccess =
+      ticketAuthor.author === req.user._id.toString() ||
+      req.user.role === "admin";
 
     const xd = {
       ticketId: note._id,
@@ -98,35 +86,33 @@ const contributorAccess = conctibutorsList.includes(userId)||req.user.role==='ad
       status: note.status,
       priority: note.priority,
       type: note.type,
-      author:{
-        id:ticketAuthor._id,
-        name:ticketAuthor.name,
-        surname:ticketAuthor.surname,
-        email:ticketAuthor.email,
-        role:ticketAuthor.role,
-        gender:ticketAuthor.gender,
-        userAvatar:ticketAuthor.userAvatar,
+      author: {
+        id: ticketAuthor._id,
+        name: ticketAuthor.name,
+        surname: ticketAuthor.surname,
+        email: ticketAuthor.email,
+        role: ticketAuthor.role,
+        gender: ticketAuthor.gender,
+        userAvatar: ticketAuthor.userAvatar,
       },
       description: note.description,
       createdAt: note.createdAt,
-      project:{
-        id:project._id.toString(),
-        projectTitle:project.projectTitle,
-        description:project.description,
-        projectLeader:{
-          id:projectLeader._id,
-          name:projectLeader.name,
-          surname:projectLeader.surname,
-          email:projectLeader.email,
-          role:projectLeader.role,
-          gender:projectLeader.gender,
-          userAvatar:projectLeader.userAvatar
-        }
-
+      project: {
+        id: project._id.toString(),
+        projectTitle: project.projectTitle,
+        description: project.description,
+        projectLeader: {
+          id: projectLeader._id,
+          name: projectLeader.name,
+          surname: projectLeader.surname,
+          email: projectLeader.email,
+          role: projectLeader.role,
+          gender: projectLeader.gender,
+          userAvatar: projectLeader.userAvatar,
+        },
       },
-      fullAccess:fullAccess,
-      contributorAccess:contributorAccess
-      
+      fullAccess: fullAccess,
+      contributorAccess: contributorAccess,
     };
     res.status(200).json(xd);
   },
@@ -135,29 +121,27 @@ const contributorAccess = conctibutorsList.includes(userId)||req.user.role==='ad
   async updateNote(req, res) {
     const id = req.params.id;
     const updates = req.body;
-  
-   
-    const ticketAuthor = await Note.findOne({_id:id})
-   
 
-    const isAuthor = ticketAuthor.author===req.user._id.toString()
+    const ticketAuthor = await Note.findOne({ _id: id });
 
-if(isAuthor||req.user.role==='admin'){
-console.log(req.body)
-    const finalUpdates = {
-      ...updates
-      
-    };
-    const note = await Note.findOneAndUpdate(
-      { _id: id },
-      { $set: finalUpdates }
-    );
+    const isAuthor = ticketAuthor.author === req.user._id.toString();
 
-   return  res.status(201).json(note);
-  }
-else{
-  return res.status(400).json({data:null,message:"You dont have permissions"})
-}
+    if (isAuthor || req.user.role === "admin") {
+      console.log(req.body);
+      const finalUpdates = {
+        ...updates,
+      };
+      const note = await Note.findOneAndUpdate(
+        { _id: id },
+        { $set: finalUpdates }
+      );
+
+      return res.status(201).json(note);
+    } else {
+      return res
+        .status(400)
+        .json({ data: null, message: "You dont have permissions" });
+    }
   },
 
   //usuwanie notatki

@@ -24,6 +24,26 @@
     justify-content: space-between;
     align-items: center;
 }
+.mobileMenuTrigger-container{
+    display: none
+}
+.burgetButton{
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: none;
+
+}
+.line{
+    margin: .7em;
+    border-radius: 20px;
+    transition: .3s ease-in-out;
+    width: 3em;
+    height: .3em;
+    background: rgb(45, 44, 43)
+   
+}
 .logo{
     font-weight: bold;
     font-size: 30px;
@@ -95,3 +115,54 @@ color: rgb(143, 38, 242);
 }
 
 
+@media screen and (max-width: 768px) {
+    .topbar{
+        width: 100%;
+        height: 50px;
+        background-color: white;
+        position: sticky;
+        top:0;
+        z-index: 999;
+
+    }
+    .languageIcon{
+        display: none;
+    }
+    .settingsIcon{
+        display: none;
+    }
+    .mobileMenuTrigger-container{
+        display: inline-block;
+    }
+    .top-left{
+        display: flex;
+        align-items: center;
+        gap:5px;
+    }
+    .topbar-wrapper{
+  
+        display: flex;
+       justify-content: space-between
+       
+    }
+    .burgetButton{
+        display: block;
+        transition: .3s ease-in-out;
+        
+    
+    }
+    .burgetButton.true .line:first-child {
+        transform: translateY(-300px);
+    }
+
+    .burgetButton.true .line:nth-child(2) {
+        transform: rotate(-405deg) translateY(8px);
+    }
+
+    .burgetButton.true .line:nth-child(3) {
+        transform: rotate(-320deg) translateY(-10px);
+    }
+   
+
+
+}

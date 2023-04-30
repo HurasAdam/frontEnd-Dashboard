@@ -1,347 +1,228 @@
-/* .widgetLarge {
-  flex: 2;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  padding: 15px;
- height: 100%;
- display: flex;
- flex-direction: column;
-
-}
-#dark.widgetLarge {
-  flex: 2;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  padding: 20px;
-  background-color: rgb(28, 36, 56);
-}
-
-
-.widgetLargeTitle {
-  font-size: 22px;
-  font-weight: 600;
-}
-.widgetLargeTable{
-    width: 100%;
-    border-spacing: 20px;
-   
-}
-
-.widgetLargeTh{
-  text-align: left;
-}
-
-.widgetLargeUser{
+.widgetLarge {
   display: flex;
-  align-items: center;
-  font-weight: 600;
-}
-.widgetLargeImg {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-}
-.widgetLargeDate, .widgetLargeAmount{
-  font-weight: 300;
-}
-.widgetLargeButon {
-  padding: 5px 7px;
-  border: none;
-  border-radius: 10px;
-}
-.widgetLargeButon.Low {
-  background-color:#e5faf2;
-  color:#3bb077;
-}
-.widgetLargeButon.High {
-  background-color:#fff0f1;
-  color:#d95087;
-}
-.widgetLargeButon.Medium {
-  background-color:#ebf1fe;
-  color:#2a7ade;
-}
-
-@media screen and (max-width: 840px) {
-
-  .widgetLarge-Table{
- 
-  display: flex;
-  gap:55px
-  }
-  .widgetLarge-Table{
-    display: flex;
-    flex-direction: column;
-
-align-items: center;
-
-  }
-  .widgetLargeTable {
-
-
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-padding: 30px 10px;
-display: flex;
-justify-content: space-between;
-
-
-    
-  }
-  .widgetLargeTh{
-   display: none;
-  }
-  .widgetLargeTr{
-
-}
-
-} */
-.widgetLarge{
-display: flex;
-flex-direction: column-reverse;
-gap:15px;
+  flex-direction: column-reverse;
+  justify-content: space-around;
+  gap: 15px;
   padding: 20px;
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  height: 100%;
 }
-.tableRow{
-
+.tableRow {
   padding: 10px;
   display: flex;
   justify-content: space-around;
-  /* margin: 8px; */
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
 
-.rowTitle{
-  flex:5
-
+.rowTitle {
+  flex: 5;
 }
-.rowProprsContainer{
-  
-  flex:4
+.rowProprsContainer {
+  flex: 4;
 }
-.rowPriority{
+.rowPriority {
   text-align: center;
   display: flex;
-align-items: center;
-justify-content: center;
-flex:2;
-font-size: 12px;
+  align-items: center;
+  justify-content: center;
+  flex: 2;
+  font-size: 12px;
 }
-.rowPriority span{
-width: 50px;
-height: 75%;
-border-radius: 10px;
-line-height:175%;
+.rowPriority span {
+  width: 50px;
+  height: 20px;
+  border-radius: 6px;
+  padding: 1px 0px;
+  line-height: 150%;
+  color: rgb(243, 243, 248);
 }
-.rowPriority Span.Low{
+.rowPriority Span.Low {
   background-color: rgb(149, 199, 149);
 }
-.rowPriority Span.High{
-  background-color: rgb(145, 55, 58);
+.rowPriority Span.High {
+  background-color: rgb(198, 21, 27);
+  font-weight: 600;
 }
-.rowPriority Span.Medium{
-  background-color: rgb(242, 217, 88);
+.rowPriority Span.Medium {
+  background-color: rgb(156, 131, 3);
 }
-.rowType{
-  flex:2;
+.rowType {
+  flex: 2;
   text-align: center;
   font-size: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.rowType span{
-width: 78px;
-border-radius: 10px;
-height: 80%;
-line-height:175%;
+.rowType span {
+  width: 78px;
+  border-radius: 6px;
+  height: 20px;
+  line-height: 175%;
+  font-weight: 600;
+  color: rgb(243, 243, 248);
 }
-.rowType span.Bug{
+.rowType span.Bug {
   background-color: rgb(218, 121, 121);
 }
-.rowType span.Enhancement{
+.rowType span.Enhancement {
   background-color: rgb(178, 134, 225);
 }
-.rowType span.Question{
+.rowType span.Question {
   background-color: rgb(112, 145, 213);
 }
 
-.rowAction{
-  /* height: 30px; */
-
-  flex:1;
+.rowAction {
+  flex: 1;
   cursor: pointer;
   display: flex;
   justify-content: center;
 }
-.rowAction-icon{
 
+.rowAction-icon:hover {
+  color: blue;
 }
-.rowAction-icon:hover{
-  color:blue;  
-}
-.rowProprsContainer{
+.rowProprsContainer {
   display: flex;
 }
 
-@media screen and (max-width: 842) {
-
-  .rowTitle{
-padding:0px !important
-      }
-  
-  }
-
-@media screen and (max-width: 900px) {
-.tableRow{
-padding: 0;
-}
-.rowTitle{
-  padding:2px !important;
-}
-
-}
-
-
-
-
 @media screen and (max-width: 1500px) {
-  .rowTitle{
-flex:7
+  .rowTitle {
+    flex: 7;
   }
-  .rowType{
-flex:2
+  .rowType {
+    flex: 2;
   }
-  .rowPriority{
-    flex:1
+  .rowPriority {
+    flex: 1;
   }
-  .rowAction{
-    flex:1
-  }
-}
-@media screen and (max-width:480px) {
-  .rowTitle{
-   
-  
-    word-break: break-all;
-    flex:8;
-    font-size: 12px;
-   
-      }
-      /* .rowType{
-    flex:1
-      }
-      .rowPriority{
-        flex:1
-      }
-      .rowAction{
-        flex:1
-      } */
-
-}
-@media screen and (max-width: 1050px) {
-  .rowTitle{
-    flex:8;
-    font-size: 12px;
-      }
-      .rowType{
-    flex:1
-      }
-      .rowPriority{
-        flex:1
-      }
-      .rowAction{
-        flex:1
-      }
-
-}
-
-@media screen and (max-width: 1200px) {
-  .rowTitle{
-flex:8;
-font-size: 14px;
-  }
-  .rowType{
-flex:1
-  }
-  .rowPriority{
-    flex:1
-  }
-  .rowAction{
-    flex:1
+  .rowAction {
+    flex: 1;
   }
 }
 
 @media screen and (max-width: 1350px) {
-  .rowTitle{
-flex:8
+  .rowTitle {
+    flex: 8;
   }
-  .rowType{
-flex:1
+  .rowType {
+    flex: 1;
   }
-  .rowPriority{
-    flex:1
+  .rowPriority {
+    flex: 1;
   }
-  .rowAction{
-    flex:1
+  .rowAction {
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .tableRow {
+    padding: 16px;
+  }
+  .rowTitle {
+    flex: 8;
+    font-size: 14px;
+  }
+  .rowType {
+    flex: 1;
+  }
+  .rowPriority {
+    flex: 1;
+  }
+  .rowAction {
+    flex: 1;
+  }
+}
+@media screen and (max-width: 1050px) {
+  .tableRow {
+    padding: 25px;
+  }
+  .rowTitle {
+    flex: 8;
+    font-size: 12px;
+  }
+  .rowType {
+    flex: 1;
+  }
+  .rowPriority {
+    flex: 1;
+  }
+  .rowAction {
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .rowTitle {
+    flex: 6;
+  }
+  .rowProprsContainer {
+    flex: 4;
+  }
+}
+
+@media screen and (max-width: 912px) {
+  .tableRow {
+    padding: 20px;
+  }
+  .rowTitle {
+    padding: 2px !important;
+    font-size: 16px;
+    word-break: break-all;
   }
 }
 
 @media screen and (max-width: 900px) {
- .tableRow{
-  display: flex;
-  flex-direction: column;
- 
- }
- .rowTitle{
-  flex:9;
-  padding: 20px;
-  text-align: center;
- }
+  .tableRow {
+    display: flex;
+    flex-direction: column;
+  }
+  .rowTitle {
+    flex: 9;
+    padding: 20px;
+    text-align: center;
+  }
 
-.rowPriority{
-  padding: 20px;
-  text-align: center;
-  flex:1;
+  .rowPriority {
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .rowType {
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .rowAction {
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+  }
+}
+@media screen and (max-width: 842) {
+  .rowTitle {
+    padding: 0px !important;
+  }
 }
 
-.rowType{
-  padding: 20px;
-  text-align: center;
-  flex:1;
+@media screen and (max-width: 480px) {
+  .rowTitle {
+    word-break: break-all;
+    flex: 8;
+    font-size: 12px;
+  }
 }
 
-.rowAction{
-  padding: 20px;
-  text-align: center;
-  flex:1;
-
-}
-}
-
-
-@media screen and (max-width: 980px) {
-.rowTitle{
-flex:6;
-}
-.rowProprsContainer{
-  flex:4
-}
-}
 @media screen and (max-width: 390px) {
-
-
-  .tableRow{
-    /* background-color: orange; */
+  .tableRow {
     padding: 12px;
     display: flex;
     justify-content: space-around;
     border-radius: 10px;
-    
   }
 }

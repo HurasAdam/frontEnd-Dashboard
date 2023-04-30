@@ -14,7 +14,7 @@ const Home = () => {
   const [data, isLoading, Error] = useFetch("http://127.0.0.1:3000/api/stats");
   const [stats, setStats] = useState();
   const { theme, dispatch } = useContext(ThemeContext);
-// console.log(data)
+
 
   useEffect(() => {
     if (data) {
@@ -59,7 +59,7 @@ const Home = () => {
       </div>
       <div className="homeCharts">
         {/* <Chart data={reportData} title='Report Analytics'grid dataKey='Total Reports' dataKey2='Pending Reports' dataKey3='Fiexed Reports'></Chart> */}
-  <Donut></Donut>
+  <Donut data={data&&data.filter((ob)=>ob.name==="Question"||ob.name==="Bug"||ob.name==="Enhancement")}></Donut>
   <WidgetSmall />
       </div>
     </div>

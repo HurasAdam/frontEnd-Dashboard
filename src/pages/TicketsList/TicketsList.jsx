@@ -105,6 +105,7 @@ const handleSelectPage = (e, action) => {
         checkboxSelection={false}
         disableSelectionOnClick
         hideFooter={true}
+   
         
       />:null}
 <PaginationNavbar pageState={pageState} handleSelectPage={handleSelectPage} theme={theme}/>

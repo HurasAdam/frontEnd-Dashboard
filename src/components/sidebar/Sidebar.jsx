@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext, AuthContextProvider } from "../../contexts/AuthContext";
 import {ThemeContext} from "../../contexts/ThemeContext"
-const Sidebar = () => {
-  const {user,dispatch}=useContext(AuthContext)
-  const {theme,dispatch:themeSwitch}= useContext(ThemeContext)
+const Sidebar = ({isMenuActive,setIsMenuActive}) => {
+const {user,dispatch}=useContext(AuthContext)
+const {theme,dispatch:themeSwitch}= useContext(ThemeContext)
 const [isHidden,setIsHidden]=useState(true)
 
 
@@ -37,7 +37,7 @@ const toggleTheme= ()=>{
 
   
   return (
-    <div className={'sidebar'} id={theme.mode}>
+    <div className={`sidebar ${isMenuActive}`} id={theme.mode}>
      {user? <div className="sidebar-wrapper">
         <div className="sidebar-menu">
           <h3 className="sidebar-title" id={theme.mode}>Dashboard</h3>

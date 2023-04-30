@@ -1,8 +1,9 @@
 import './widgetLarge.css';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import {ThemeContext} from '../../contexts/ThemeContext'
 import { useContext } from 'react';
-const WidgetLarge=({stats})=>{
-// console.log(stats.tickets)
+const WidgetLarge=({data})=>{
+console.log(data)
     const {theme}=useContext(ThemeContext)
 const Button=({type})=>{
     return(
@@ -13,17 +14,19 @@ const Button=({type})=>{
     return(
         <div className="widgetLarge" id={theme.mode}>
          
-         <h3 className="widgetLargeTitle">Latest transactions</h3>
+         
 
-{stats?.tickets.map((row)=>{
+{data?.LastAdded.map((row)=>{
     return(<div className='tableRow'>
-        <span>A</span>
-        <span>B</span>
-        <span>C</span>
-        <span>D</span>
+        <div className='rowTitle'><span >{row.title}</span></div>
+        <div className='rowProprsContainer'><div className='rowType'><span className={row.type} >{row.type}</span></div>
+        <div className='rowPriority'><span className={row.priority} >{row.priority}</span></div>
+        <div className='rowAction'><VisibilityOutlinedIcon className='rowAction-icon' ></VisibilityOutlinedIcon></div>
+        </div>
     </div>)
+   
 })}
-
+<h3 className="widgetLargeTitle">Latest transactions</h3>
 {/* <table className="widgetLarge-Table">
 <tbody>
     <tr className="widgetLargeTable-Header">

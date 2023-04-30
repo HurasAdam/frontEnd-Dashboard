@@ -98,23 +98,250 @@ justify-content: space-between;
 }
 
 } */
-
+.widgetLarge{
+display: flex;
+flex-direction: column-reverse;
+gap:15px;
+  padding: 20px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
 .tableRow{
-  border: 2px solid red;
-  padding: 12px;
+
+  padding: 10px;
   display: flex;
   justify-content: space-around;
- 
+  /* margin: 8px; */
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.rowTitle{
+  flex:5
+
+}
+.rowProprsContainer{
+  
+  flex:4
+}
+.rowPriority{
+  text-align: center;
+  display: flex;
+align-items: center;
+justify-content: center;
+flex:2;
+font-size: 12px;
+}
+.rowPriority span{
+width: 50px;
+height: 75%;
+border-radius: 10px;
+line-height:175%;
+}
+.rowPriority Span.Low{
+  background-color: rgb(149, 199, 149);
+}
+.rowPriority Span.High{
+  background-color: rgb(145, 55, 58);
+}
+.rowPriority Span.Medium{
+  background-color: rgb(242, 217, 88);
+}
+.rowType{
+  flex:2;
+  text-align: center;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rowType span{
+width: 78px;
+border-radius: 10px;
+height: 80%;
+line-height:175%;
+}
+.rowType span.Bug{
+  background-color: rgb(218, 121, 121);
+}
+.rowType span.Enhancement{
+  background-color: rgb(178, 134, 225);
+}
+.rowType span.Question{
+  background-color: rgb(112, 145, 213);
+}
+
+.rowAction{
+  /* height: 30px; */
+
+  flex:1;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.rowAction-icon{
+
+}
+.rowAction-icon:hover{
+  color:blue;  
+}
+.rowProprsContainer{
+  display: flex;
+}
+
+@media screen and (max-width: 842) {
+
+  .rowTitle{
+padding:0px !important
+      }
+  
+  }
+
+@media screen and (max-width: 900px) {
+.tableRow{
+padding: 0;
+}
+.rowTitle{
+  padding:2px !important;
+}
+
 }
 
 
+
+
+@media screen and (max-width: 1500px) {
+  .rowTitle{
+flex:7
+  }
+  .rowType{
+flex:2
+  }
+  .rowPriority{
+    flex:1
+  }
+  .rowAction{
+    flex:1
+  }
+}
+@media screen and (max-width:480px) {
+  .rowTitle{
+   
+  
+    word-break: break-all;
+    flex:8;
+    font-size: 12px;
+   
+      }
+      /* .rowType{
+    flex:1
+      }
+      .rowPriority{
+        flex:1
+      }
+      .rowAction{
+        flex:1
+      } */
+
+}
+@media screen and (max-width: 1050px) {
+  .rowTitle{
+    flex:8;
+    font-size: 12px;
+      }
+      .rowType{
+    flex:1
+      }
+      .rowPriority{
+        flex:1
+      }
+      .rowAction{
+        flex:1
+      }
+
+}
+
+@media screen and (max-width: 1200px) {
+  .rowTitle{
+flex:8;
+font-size: 14px;
+  }
+  .rowType{
+flex:1
+  }
+  .rowPriority{
+    flex:1
+  }
+  .rowAction{
+    flex:1
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .rowTitle{
+flex:8
+  }
+  .rowType{
+flex:1
+  }
+  .rowPriority{
+    flex:1
+  }
+  .rowAction{
+    flex:1
+  }
+}
+
+@media screen and (max-width: 900px) {
+ .tableRow{
+  display: flex;
+  flex-direction: column;
+ 
+ }
+ .rowTitle{
+  flex:9;
+  padding: 20px;
+  text-align: center;
+ }
+
+.rowPriority{
+  padding: 20px;
+  text-align: center;
+  flex:1;
+}
+
+.rowType{
+  padding: 20px;
+  text-align: center;
+  flex:1;
+}
+
+.rowAction{
+  padding: 20px;
+  text-align: center;
+  flex:1;
+
+}
+}
+
+
+@media screen and (max-width: 980px) {
+.rowTitle{
+flex:6;
+}
+.rowProprsContainer{
+  flex:4
+}
+}
 @media screen and (max-width: 390px) {
 
 
   .tableRow{
-    background-color: orange;
+    /* background-color: orange; */
     padding: 12px;
     display: flex;
     justify-content: space-around;
+    border-radius: 10px;
+    
   }
 }

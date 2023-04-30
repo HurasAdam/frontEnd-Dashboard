@@ -100,7 +100,7 @@ const handleSelectPage = (e, action) => {
       
         rows={pageState.tickets}
         columns={columns} 
-        pageSize={17}
+        pageSize={15}
         rowsPerPageOptions={[10]}
         checkboxSelection={false}
         disableSelectionOnClick

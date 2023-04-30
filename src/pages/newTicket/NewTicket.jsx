@@ -70,7 +70,7 @@ const {theme}=useContext(ThemeContext)
             <label className="newTicketItemLabel" htmlFor="">
               Title
             </label>
-            <input type="text" onChange={(e) => handleNewTicket(e, "title")} />
+            <input type="text" minLength={5} maxLength={50} onChange={(e) => handleNewTicket(e, "title")} />
           </div>
           <div className="newTicketItem">
             <div className="newTicketItemWrapper">

@@ -4,8 +4,11 @@ const Note=require('../db/models/note')
 const getStats = async(req, res) => {
 
 const projects=await Project.find({})
-// const kek = await Project.find().sort({'Day':12})
-// console.log(kek)
+const kek = await Note.find({})
+
+const lol = kek.sort((a,b)=> new Date(b.createdAt)- new Date(a.createdAt))
+const cut = lol.slice(kek.length-8,kek.length)
+console.log(cut)
 const notes=await Note.find({}).select("status")
 const xd = await Note.find({}).select("type")
 const result = {amount:projects.length}
@@ -26,6 +29,7 @@ const ticketTypeQuestion = xd.filter((note)=>note.type==='Question')
       {name:'Question',value:ticketTypeQuestion.length},
       {name:'Enhancement',value:ticketTypeEnhancement.length},
       {name:'Bug',value:ticketTypeBug.length},
+      {name:'LastAdded',value:cut}
     
     ]);
 };

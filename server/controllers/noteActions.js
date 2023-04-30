@@ -56,7 +56,7 @@ module.exports = {
     console.log(page)
 
 
-let size = 17;
+let size = 15;
 const limit = parseInt(size);
 const skip = (page - 1) * size;
 const allTickets=await Note.find({})

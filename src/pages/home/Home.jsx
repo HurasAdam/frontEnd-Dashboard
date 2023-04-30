@@ -14,7 +14,7 @@ const Home = () => {
   const [data, isLoading, Error] = useFetch("http://127.0.0.1:3000/api/stats");
   const [stats, setStats] = useState();
   const { theme, dispatch } = useContext(ThemeContext);
-
+// console.log(data)
 
   useEffect(() => {
     if (data) {
@@ -50,7 +50,10 @@ const Home = () => {
         />
         </div>
         <div className="homeWidgets">
-          <WidgetLarge stats={stats} />
+          <WidgetLarge data={data&&data.reduce((acc, {name, value}) => {
+  acc[name] = value;
+  return acc;
+}, {})} />
        
         </div>
       </div>

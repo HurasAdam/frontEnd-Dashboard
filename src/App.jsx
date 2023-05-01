@@ -57,7 +57,7 @@ function App() {
       <Topbar isMenuActive={isMenuActive} setIsMenuActive={setIsMenuActive} />
 
       <div className="container" id={theme.mode}>
-        <Sidebar isMenuActive={isMenuActive} />
+        <Sidebar isMenuActive={isMenuActive} setIsMenuActive={setIsMenuActive} />
         <Routes>
           <Route
             exact

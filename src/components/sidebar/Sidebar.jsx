@@ -43,23 +43,23 @@ const toggleTheme= ()=>{
           <h3 className="sidebar-title" id={theme.mode}>Dashboard</h3>
           <ul className="sidebar-list">
             <Link to='/'className="sidebarLink">
-            <li id={theme.mode} className="sidebar-list-item active" style={{ color:`${theme.color}` }} >
+            <li onClick={()=>setIsMenuActive(false)} id={theme.mode} className="sidebar-list-item active" style={{ color:`${theme.color}` }} >
               <AppsIcon  className="sidebarIcon"/>
               Home
             </li>
             </Link >
            <Link className="sidebarLink" to='/projects'> 
-           <li className="sidebar-list-item" style={{ color:`${theme.color}` }}>
+           <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item" style={{ color:`${theme.color}` }}>
               <TimelineIcon className="sidebarIcon" />
               Projects
             </li></Link>
             <Link to='/tickets' className="sidebarLink" >
-            <li className="sidebar-list-item" style={{ color:`${theme.color}` }}>
+            <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item" style={{ color:`${theme.color}` }}>
               <StyleOutlinedIcon className="sidebarIcon"/>
               Tickets
             </li>
             </Link>
-            <li className="sidebar-list-item " style={{ color:`${theme.color}` }}>
+            <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item " style={{ color:`${theme.color}` }}>
               <ReceiptLongOutlinedIcon className="sidebarIcon" 
               
               />
@@ -74,7 +74,7 @@ const toggleTheme= ()=>{
           <ul className="sidebar-list">
           <Link to='/users' className="sidebarLink" 
           style={{ color:`${theme.color}` }}>
-            <li className="sidebar-list-item">
+            <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item">
               <PeopleAltOutlinedIcon className="sidebarIcon" />
               Users
             </li>
@@ -92,12 +92,12 @@ const toggleTheme= ()=>{
           
              
               <Link to='/manageRoles'className="sidebarLink">
-                <li hidden={isHidden}>
+                <li onClick={()=>setIsMenuActive(false)} hidden={isHidden}>
                 Manage Roles
                 </li>
                 </Link>
                 <Link to='/manageUsers' className="sidebarLink">
-                <li hidden={isHidden}>
+                <li onClick={()=>setIsMenuActive(false)} hidden={isHidden}>
                 Manage Users
                 </li>
                 </Link>
@@ -107,12 +107,12 @@ const toggleTheme= ()=>{
            
            ):null}
             <Link to='/settings' className="sidebarLink">
-            <li className="sidebar-list-item"  style={{ color:`${theme.color}` }}>
+            <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item"  style={{ color:`${theme.color}` }}>
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings
             </li>
             </Link>
-            <li className="sidebar-list-item" onClick={handleClick}  style={{ color:`${theme.color}`}}>
+            <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item" onClick={handleClick}  style={{ color:`${theme.color}`}}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout
             </li>

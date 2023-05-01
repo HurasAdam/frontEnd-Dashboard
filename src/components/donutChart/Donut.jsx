@@ -21,8 +21,17 @@ export const Donut = ({ data, theme }) => {
             labels: {
               ...state.options.legend.labels,
               colors: theme.color,
-            }
-          },dataLabels:{...state.options.dataLabels,style:{...state.options.dataLabels.style,colors:theme.mode==='dark'?['white']:['purple']}}
+            },
+          },
+          dataLabels: {
+            ...state.options.dataLabels,
+            style: {
+              ...state.options.dataLabels.style,
+              colors: theme.mode === "dark" ? ["white"] : ["rgb(212, 81, 81);"],
+            },
+           background:{...state.options.dataLabels.background,enabled:theme.mode==='light'?true:false},
+          
+          },
         },
       });
     }
@@ -30,12 +39,17 @@ export const Donut = ({ data, theme }) => {
 
   const [state, setState] = useState({
     options: {
-     dataLabels:{
-      enabled:true,
-style:{
-  colors:[]
-}
-     },
+      
+      dataLabels: {
+        enabled: true,
+        
+        style: {
+          colors: [],
+        },
+        background:{
+borderColor:''
+        },
+      },
       legend: {
         position: "bottom",
         fontSize: "13px",

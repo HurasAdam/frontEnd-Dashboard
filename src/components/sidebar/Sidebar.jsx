@@ -21,6 +21,7 @@ const [isHidden,setIsHidden]=useState(true)
 
 //HANDLE LOGOUT
 const handleClick=()=>{
+  setIsMenuActive(false)
   localStorage.clear()
   dispatch({type:"LOGOUT",payload:null})
 }
@@ -112,7 +113,7 @@ const toggleTheme= ()=>{
               Settings
             </li>
             </Link>
-            <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item" onClick={handleClick}  style={{ color:`${theme.color}`}}>
+            <li className="sidebar-list-item" onClick={handleClick}  style={{ color:`${theme.color}`}}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout
             </li>

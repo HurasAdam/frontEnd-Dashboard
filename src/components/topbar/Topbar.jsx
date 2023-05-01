@@ -19,13 +19,13 @@ console.log(theme)
     <div className="topbar" id={theme.mode}>
       <div className="topbar-wrapper">
         <div className="top-left">
-        <div className="mobileMenuTrigger-container">
+        {user?(<div className="mobileMenuTrigger-container">
           <button onClick={()=>setIsMenuActive(!isMenuActive)} className={`burgetButton ${isMenuActive}`}>
             <div className="line"></div>
             <div className="line"></div>
             <div className="line"></div>
           </button>
-        </div>
+        </div>):null}
           <span  id={theme.mode} className="logo">IssueTracker</span>
         </div>
         {user?<div className="top-right"  >

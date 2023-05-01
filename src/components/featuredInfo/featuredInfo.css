@@ -4,6 +4,7 @@
   padding-top: 10px;
   flex-wrap: wrap;
   gap: 12px;
+  
 }
 
 .featuredItem {
@@ -14,6 +15,7 @@
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  
 }
 
 #dark.featuredItem {
@@ -26,6 +28,9 @@
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   background-color: rgb(28, 36, 56);
   color: rgb(58, 153, 127);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+border-right: 1px solid rgba(255, 255, 255, 0.068);
+border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 }
 .featuredTitle {
   font-size: 22px;
@@ -41,6 +46,7 @@
   display: flex;
   align-items: center;
   color: rgb(230, 234, 237);
+  
 }
 .featuredMoney {
   font-size: 30px;

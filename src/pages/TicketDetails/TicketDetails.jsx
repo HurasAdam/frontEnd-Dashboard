@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CommentBox } from "../../components/commentBox/CommentBox";
 import { ThemeContext } from '../../contexts/ThemeContext'
+import {ObjectDateToString} from '../../utils/ObjectDateToString'
 export const TicketDetails = () => {
   const { ticketId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -17,6 +18,8 @@ export const TicketDetails = () => {
   const { user } = useContext(AuthContext);
   const {theme}=useContext(ThemeContext)
   const navigate = useNavigate();
+
+
 
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
@@ -212,7 +215,7 @@ export const TicketDetails = () => {
                         <ScheduleOutlinedIcon />
                         <span>Created:</span>
                         {data && (
-                          <span>{data.createdAt}</span>
+                          <span>{ObjectDateToString(data.createdAt)}</span>
                         )}
                       </div>
                     </div>

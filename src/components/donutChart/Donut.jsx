@@ -4,12 +4,15 @@ import "../../components/donutChart/donut.css";
 import { useState } from "react";
 
 export const Donut = ({ data, theme }) => {
-  console.log(theme);
 
   useEffect(() => {
     if (data) {
-      const arrayOfKeys = data.map((key) => key.name);
-      const arrayOfValues = data.map((val) => val.value);
+      const arrayOfKeys = data.filter((key) => key.value>0).map((key)=>{
+        return key.name
+      });
+      const arrayOfValues = data.filter((val) => val.value>0).map((val)=>{
+        return val.value
+      });
       setState({
         ...state,
         series: arrayOfValues,
@@ -22,6 +25,7 @@ export const Donut = ({ data, theme }) => {
               ...state.options.legend.labels,
               colors: theme.color,
             },
+            
           },
           dataLabels: {
             ...state.options.dataLabels,
@@ -56,6 +60,7 @@ borderColor:''
         labels: {
           colors: "",
         },
+        
       },
       labels: [],
       responsive: [
@@ -67,6 +72,7 @@ borderColor:''
             },
             legend: {
               position: "bottom",
+             
             },
           },
         },
@@ -85,6 +91,7 @@ borderColor:''
       maintainAspectRatio: false,
     },
     series: [],
+   
   });
   // console.log({...state.options})
   return (

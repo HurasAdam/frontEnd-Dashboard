@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Link } from "react-router-dom";
+import { ObjectDateToString } from "../../utils/ObjectDateToString";
 import { useFetch } from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from '../../contexts/ThemeContext'
@@ -70,7 +71,7 @@ const handleSelectPage = (e, action) => {
         <button className={params.row.priority}>{params.row.priority}</button>
       )
     }},
-    {field:'createdAt',headerName:'Date',width: 160,flex:0.5,valueFormatter: ({value} ) => value.split(',')[0] },
+    {field:'createdAt',headerName:'Date',width: 160,flex:0.5,valueFormatter: ({value} ) =>ObjectDateToString(value.split(',')[0] ) },
     {field:'action',headerName:'Action',width:100, renderCell:(params)=>{
       return(
 <>

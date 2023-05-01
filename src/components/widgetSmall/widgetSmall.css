@@ -20,12 +20,14 @@
 .widgetSmallTitle{
     font-size: 24px;
     font-weight: 600;
-
-
 display: block;
 margin-bottom: 20px;
-
 }
+
+#dark .widgetSmallTitle{
+    color:rgb(58, 153, 127) 
+}
+
 
 @media screen and (max-width: 768px) {
     .widgetSmallTable {

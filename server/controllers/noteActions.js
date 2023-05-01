@@ -27,7 +27,7 @@ module.exports = {
       author: ticketAuthor._id.toString(),
       description: description,
       type: type,
-      createdAt: convertDate(),
+      createdAt: new Date()
     });
 
     await newNote.save();

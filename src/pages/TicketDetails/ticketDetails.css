@@ -1,14 +1,14 @@
 .ticketDetails {
   flex: 5;
   padding: 20px;
-height: calc(100vh - 50px);
+  height: auto;
 }
 
 #dark .ticketDetails {
   flex: 5;
   padding: 20px;
   color: rgb(243, 243, 248);
-  height: calc(100vh - 50px);
+height: auto;
 }
 
 .ticketHeaderContainer {

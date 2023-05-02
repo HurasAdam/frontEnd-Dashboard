@@ -36,6 +36,13 @@ gap:10px
 .sidebar.true .submenuItem  {
   /* background-color: yellow; */
 display: none;
+
+}
+.sidebar.true .sidebar-list-item-submenu  {
+/* border: 2px solid orange; */
+display: flex;
+flex-direction: column;
+gap:20px
 }
 .sidebar.true ul li a {
   /* background-color: rgb(29, 192, 132); */
@@ -52,11 +59,82 @@ display: none;
  justify-content: center;
  text-align: center;
  width: 100%;
+ /* background-color: red; */
 }
 .sidebar.true .sidebarIcon{
  
   display: none;
 }
+
+/* DARKMODE MENU STYLES */
+
+#dark .sidebar.true {
+  display: block;
+  position: fixed;
+  z-index: 999; 
+  background-color: rgb(45, 58, 82);
+  height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+#dark .sidebar.true .sidebar-wrapper{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+#dark .sidebar.true .sidebar-wrapper .sidebar-menu{
+  width: 75%;
+  /* border: 2px solid red; */
+display: flex;
+flex-direction: column;
+margin-bottom: 0px;
+}
+#dark .sidebar.true .sidebar-wrapper .sidebar-menu ul{
+/* background-color: red; */
+display: flex;
+flex-direction: column;
+gap:10px
+}
+
+#dark .sidebar.true .submenuItem  {
+  /* background-color: yellow; */
+display: none;
+
+}
+#dark .sidebar.true .sidebar-list-item-submenu  {
+/* border: 2px solid orange; */
+display: flex;
+flex-direction: column;
+gap:20px
+}
+#dark .sidebar.true ul li a {
+  /* background-color: rgb(29, 192, 132); */
+
+  width: 100%;
+  
+}
+#dark .sidebar.true .sidebar-title{
+  display: none;
+}
+#dark .sidebar.true .sidebar-list li{
+
+ display: flex;
+ justify-content: center;
+ text-align: center;
+ width: 100%;
+ /* background-color: red; */
+}
+#dark .sidebar.true .sidebarIcon{
+ 
+  display: none;
+}
+
+/* --DARKMODE */
+
 
 @media screen and (min-width: 769px) {
 

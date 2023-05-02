@@ -79,7 +79,7 @@ localStorage.setItem('userAvatar',json.data)
 
         <div className="settingsPage" id={theme.mode} >
 
-<h1 className="settingsPageTitle"><PeopleAltOutlinedIcon/> Account Settings</h1>
+<span className="settingsPageTitle"><PeopleAltOutlinedIcon/> Account Settings</span>
 
           <form className="settingsPageForm" id={theme.mode}>
             <div className="settingsPageItem">

@@ -183,7 +183,7 @@ export const TicketDetails = () => {
           <BugReportOutlinedIcon className="headerIcon" />
         </span>
 
-        <h3 className="ticketHeaderTitle">Edit Ticket</h3>
+        <span className="ticketHeaderTitle">Edit Ticket</span>
       </div>
       <div className="ticketDataContainer">
         <div className="ticketDataContainerLeft">

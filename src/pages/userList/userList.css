@@ -1,6 +1,7 @@
 .userList {
     flex: 6;
     padding: 0px 10px; 
+    height:calc(100vh - 50px);
   }
   .userListHeaderTitleContainer {
     font-size: 22px;

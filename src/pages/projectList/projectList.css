@@ -1,19 +1,22 @@
 .projectList {
   flex: 6;
   margin: 0px 22px;
-  height: calc(100vh - 200px);
-  
+  height:calc(100vh - 50px);
+  overflow-y: hidden;
 }
 
 #dark.projectList {
   flex: 6;
 
   color: rgb(243, 243, 248);
-  height: calc(100vh - 200px);
-
+  /* height: calc(100vh - 200px); */
+height:calc(100vh - 50px);
   margin: 0px 22px;
-  
+  overflow-y: hidden; 
 }
+
+
+
 #dark .actionWrapper{
   background-color: rgb(21, 25, 41);
   
@@ -93,7 +96,8 @@
   /* background-color: rgb(28, 36, 56); */
   border: none !important;
   color: rgb(243, 243, 248);
-
+ /* max-height: 100%; */
+ height: max-content;
 }
 
 .MuiDataGrid-columnHeaders {
@@ -131,3 +135,14 @@ border-bottom: 1px solid rgb(49, 49, 69);
 .MuiDataGrid {
     border: none !important;
 } */
+
+@media screen and (max-width: 900px) {
+
+  .projectDataBottomItemsWrapper{
+    border: 2px solid orange;
+    display: flex;
+  flex-direction: column-reverse;
+  }
+
+}
+

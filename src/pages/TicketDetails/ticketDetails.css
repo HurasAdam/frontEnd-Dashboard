@@ -1,12 +1,14 @@
 .ticketDetails {
   flex: 5;
   padding: 20px;
+height: calc(100vh - 50px);
 }
 
 #dark .ticketDetails {
   flex: 5;
   padding: 20px;
   color: rgb(243, 243, 248);
+  height: calc(100vh - 50px);
 }
 
 .ticketHeaderContainer {
@@ -16,6 +18,7 @@
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 10px;
+
 }
 
 
@@ -31,7 +34,6 @@
   display: flex;
 }
 .ticketDataContainerWrapper{
-
   display: flex;
 }
 .ticketDataContainerLeft {
@@ -95,7 +97,7 @@ align-items: flex-start;
 background: transparent;
   width: 100%;
   
-  min-width: max-content;
+  min-width:auto;
   padding: 3px 5px;
  border: transparent;
 cursor: pointer;

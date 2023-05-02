@@ -1,15 +1,15 @@
 .ticketsList {
   flex: 6;
   padding: 0px 15px;
-  height: calc(100vh - 140px);
-
+height: 100vh;
+height:calc(100vh - 50px);
 }
 
 #dark.ticketsList {
   flex: 6;
   padding: 0px 20px;
   color: rgb(243, 243, 248);
-  
+  height:calc(100vh - 50px);
 }
 .ticketListHeaderTitle {
   font-size: 22px;

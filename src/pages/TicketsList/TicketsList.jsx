@@ -46,7 +46,7 @@ const handleSelectPage = (e, action) => {
 
 
   const [data,isLoading,error]=useFetch(`http://127.0.0.1:3000/api/notes?page=${pageState.page}`)
-
+  console.log(data)
   useEffect(()=>{
     if(data){
       setPageState(data)

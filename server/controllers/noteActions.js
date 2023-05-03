@@ -1,4 +1,5 @@
 const ObjectId = require("mongodb").ObjectID;
+const {scheduleTicketArchiving} = require('../utils/scheduleTicketArchiving')
 const Note = require("../db/models/note");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
@@ -46,7 +47,7 @@ module.exports = {
     try {
       allNotesCount = await Note.countDocuments();
       console.log(typeof allNotesCount);
-      notes = await Note.find({})
+      notes = await Note.find({Archivized:false})
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
@@ -60,6 +61,35 @@ module.exports = {
       total: Math.ceil(allNotesCount / size),
       tickets: notes,
     });
+  },
+
+  async getArchived(req,res){
+    const page = Number(req.query.page);
+    let size = 15;
+    const limit = parseInt(size);
+    const skip = (page - 1) * size;
+
+    let notes;
+    let allNotesCount;
+    try {
+      allNotesCount = await Note.countDocuments();
+      console.log(typeof allNotesCount);
+      notes = await Note.find({Archivized:true})
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(200).json({
+      page: page,
+      pageSize: size,
+      total: Math.ceil(allNotesCount / size),
+      tickets: notes,
+    });
+  
+
   },
 
   //podbieranie noatki
@@ -121,16 +151,21 @@ module.exports = {
   async updateNote(req, res) {
     const id = req.params.id;
     const updates = req.body;
+const {status}=req.body
 
     const ticketAuthor = await Note.findOne({ _id: id });
 
     const isAuthor = ticketAuthor.author === req.user._id.toString();
 
     if (isAuthor || req.user.role === "admin") {
-      console.log(req.body);
-      const finalUpdates = {
-        ...updates,
-      };
+    
+      let finalUpdates = {...updates};
+      if(status==='Closed'){
+        finalUpdates={
+          ...updates,
+          closedAt:new Date()
+        }
+      }
       const note = await Note.findOneAndUpdate(
         { _id: id },
         { $set: finalUpdates }
@@ -152,3 +187,7 @@ module.exports = {
     res.status(204).send("status code of 200");
   },
 };
+
+
+scheduleTicketArchiving()
+

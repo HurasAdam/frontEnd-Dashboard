@@ -3,7 +3,7 @@ import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState,useLayoutEffect,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CommentBox } from "../../components/commentBox/CommentBox";
@@ -11,20 +11,29 @@ import { ThemeContext } from '../../contexts/ThemeContext'
 import {ObjectDateToString} from '../../utils/ObjectDateToString'
 export const TicketDetails = () => {
   const { ticketId } = useParams();
+  const domReference = useRef(null);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [iseScrollable,setIsScrollale]=useState(false);
   const [updateError, setUpdateError] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [editedCommentTextContent, setEditedCommentTextContent] = useState("");
-  const { user } = useContext(AuthContext);
-  const {theme}=useContext(ThemeContext)
-  const navigate = useNavigate();
-
-
-
   const [data, isLoading, error] = useFetch(
     `http://localhost:3000/api/notes/${ticketId}`
   );
   const [ticketData, setTicketData] = useState({});
+  const { user } = useContext(AuthContext);
+  const {theme}=useContext(ThemeContext)
+  const navigate = useNavigate();
+
+  useLayoutEffect(()=>{
+const contentHeight= domReference.current.offsetHeight;
+const windowHeight = window.innerHeight;
+setIsScrollale(contentHeight>windowHeight)
+  },[domReference.current])
+  
+
+console.log(iseScrollable)
+
 
   const handleDelete = async () => {
     const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
@@ -177,7 +186,7 @@ export const TicketDetails = () => {
   };
 
   return (
-    <div className="ticketDetails" id={theme.mode}>
+    <div className="ticketDetails" id={theme.mode} ref={domReference}>
       <div className="ticketHeaderContainer">
         <span className="ticketHeaderIcon">
           <BugReportOutlinedIcon className="headerIcon" />

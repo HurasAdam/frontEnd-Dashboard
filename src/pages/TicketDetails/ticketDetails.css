@@ -1,14 +1,16 @@
 .ticketDetails {
   flex: 5;
   padding: 20px;
-  height: auto;
+  height: calc(100vh - 50px);
+  overflow:auto;
 }
 
 #dark .ticketDetails {
   flex: 5;
   padding: 20px;
   color: rgb(243, 243, 248);
-height: auto;
+  height: calc(100vh - 50px);
+  overflow:auto;
 }
 
 .ticketHeaderContainer {
@@ -18,9 +20,7 @@ height: auto;
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 10px;
-
 }
-
 
 .headerIcon {
   font-size: 32px !important;
@@ -33,7 +33,7 @@ height: auto;
 .ticketDataContainer {
   display: flex;
 }
-.ticketDataContainerWrapper{
+.ticketDataContainerWrapper {
   display: flex;
 }
 .ticketDataContainerLeft {
@@ -50,123 +50,111 @@ height: auto;
   background-color: rgb(28, 36, 56);
 }
 
-
-
-.ticketDataContainerTop{
-  margin-top:15px;
-  flex:1;
+.ticketDataContainerTop {
+  margin-top: 15px;
+  flex: 1;
 }
-.ticketInfoTopItem{
-  flex:1;
+.ticketInfoTopItem {
+  flex: 1;
   display: flex;
-  align-items: center; 
+  align-items: center;
 }
-.ticketInfoTopItem.title input:enabled{
-border-bottom: 1px double grey;
-
+.ticketInfoTopItem.title input:enabled {
+  border-bottom: 1px double grey;
 }
 
-#dark .ticketInfoTopItem.title input:disabled{
+#dark .ticketInfoTopItem.title input:disabled {
   border-bottom: 1px double grey;
   color: rgb(243, 243, 248);
-  }
+}
 
-.ticketInfoTopItem.title{
- display: flex;
- flex-direction: column;
+.ticketInfoTopItem.title {
+  display: flex;
+  flex-direction: column;
 
-align-items: flex-start;
-
-} 
-.ticketInfoTopItem.title label{
+  align-items: flex-start;
+}
+.ticketInfoTopItem.title label {
   margin-bottom: 5px;
   font-size: 14px;
   color: grey;
-  
 }
-#dark .ticketInfoTopItem.title label{
+#dark .ticketInfoTopItem.title label {
   margin-bottom: 5px;
   font-size: 14px;
   color: rgb(243, 243, 248);
-  
 }
 
-.ticketInfoTopItem.title input{
- border: none;
- word-wrap: break-word;
-background: transparent;
+.ticketInfoTopItem.title input {
+  border: none;
+  word-wrap: break-word;
+  background: transparent;
   width: 100%;
-  
-  min-width:auto;
+
+  min-width: auto;
   padding: 3px 5px;
- border: transparent;
-cursor: pointer;
+  border: transparent;
+  cursor: pointer;
   word-wrap: break-word;
   font-weight: 600;
   font-size: 14px;
 }
 
-#dark form select:disabled{
+#dark form select:disabled {
   color: rgb(243, 243, 248);
   background-color: rgb(67, 70, 89);
 }
 
-#dark form label{
+#dark form label {
   color: rgb(243, 243, 248);
 }
-.ticketDataTopItemWrapper{
- 
+.ticketDataTopItemWrapper {
   display: flex;
   justify-content: space-around;
-
 }
-.ticketDataTopItem{
+.ticketDataTopItem {
   display: flex;
   flex-direction: column;
-flex:1;
+  flex: 1;
 }
-.ticketAuthorInfo{
-border: none;
-border-bottom: 1px solid grey;
-width: 98%;
-padding: 3px 0px;
-}
-.projectInfo{
+.ticketAuthorInfo {
   border: none;
   border-bottom: 1px solid grey;
-width: 98%;
-padding: 3px 0px;
-
+  width: 98%;
+  padding: 3px 0px;
 }
-.ticketDataTopItem input{
-padding: 5px;
+.projectInfo {
+  border: none;
+  border-bottom: 1px solid grey;
+  width: 98%;
+  padding: 3px 0px;
 }
-.ticketDataTopItem label{
+.ticketDataTopItem input {
+  padding: 5px;
+}
+.ticketDataTopItem label {
   margin-bottom: 5px;
   font-size: 14px;
   color: grey;
 }
-.ticketDataTopItem input{
-border: none;
-border-bottom: 1px solid grey;
-width: 96%;
-
+.ticketDataTopItem input {
+  border: none;
+  border-bottom: 1px solid grey;
+  width: 96%;
 }
 
 .ticketDataContainerTop-right {
-flex:5;
+  flex: 5;
 }
 .ticektDataBottom {
   height: max-content;
   flex-direction: column;
-
 }
 .ticketDataBottomItem {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
   margin-bottom: 25px;
-
 }
 .ticketDataBottomItem-textArea {
   display: flex;
@@ -175,7 +163,6 @@ flex:5;
   margin-top: 55px;
 }
 
-
 .ticketDataBottomItem-select {
   margin-top: 20px;
 }
@@ -183,20 +170,17 @@ flex:5;
 .ticketDataBottomItemWrapper {
   display: flex;
   gap: 5px;
-
 }
 
 .ticketDataBottomItemWrapper-select {
   width: 100%;
   display: flex;
   flex-direction: column;
- 
 }
 
 #dark select {
   background-color: rgb(67, 70, 89);
   color: rgb(243, 243, 248);
-
 }
 .ticketDataBottomItemWrapper-select label {
   margin-bottom: 5px;
@@ -212,13 +196,13 @@ flex:5;
 
 .ticketDataBottomItem-textArea textarea {
   height: 85px;
-resize: none;
-width: 100%;
+  resize: none;
+  width: 100%;
 }
 #dark .ticketDataBottomItem-textArea textarea {
   resize: none;
   background-color: rgb(67, 70, 89);
-  color: rgb(243, 243, 248)
+  color: rgb(243, 243, 248);
 }
 .ticketDataBottomItem > label {
   margin-bottom: 5px;
@@ -236,9 +220,8 @@ width: 100%;
 }
 .ticketInfoTop {
   display: flex;
-align-items: center;
-flex-direction: column;
-
+  align-items: center;
+  flex-direction: column;
 }
 .ticketInfoTopImg {
   width: 80px;
@@ -284,10 +267,9 @@ flex-direction: column;
 .ticketInfoBottomItem-span {
   display: flex;
   flex-direction: column;
-  
 }
 .ticketInfoBottomItem-span span {
- justify-content: center;
+  justify-content: center;
   display: flex;
 }
 .selectTicketPriority {
@@ -297,22 +279,22 @@ flex-direction: column;
   height: 30px;
   font-weight: 600;
 }
-.ticketInfoButtonWrapper{
+.ticketInfoButtonWrapper {
   margin-top: 20px;
-display: flex;
-gap:5px;
+  display: flex;
+  gap: 5px;
 }
 
-.ticketInfoButtonWrapper button{
+.ticketInfoButtonWrapper button {
   padding: 6px;
   width: 55px;
-display: flex;
-justify-content: center;
-border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
   border: none;
   color: white;
   font-weight: 400;
-  background:rgb(144, 72, 144);
+  background: rgb(144, 72, 144);
   cursor: pointer;
 }
 
@@ -320,3 +302,7 @@ border-radius: 4px;
   color: black;
   font-weight: 400;
 }
+
+/* .ticketDetails::-webkit-scrollbar {
+  display: none;
+} */

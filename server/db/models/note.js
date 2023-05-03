@@ -33,7 +33,14 @@ const TicketSchema = new Schema(
       required: true,
     },
     createdAt:{
-      type:String
+      type:Object
+    },
+    closedAt:{
+      type:Object
+    },
+    Archivized:{
+      type:Boolean,
+      default:false
     }
   },
  

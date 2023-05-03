@@ -60,14 +60,15 @@ const toggleTheme= ()=>{
               Tickets
             </li>
             </Link>
+            <Link to='/archive'>
             <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item " style={{ color:`${theme.color}` }}>
               <ReceiptLongOutlinedIcon className="sidebarIcon" 
               
               />
-              My tickets
+              Archive
              
             </li>
-           
+            </Link>
           </ul>
         </div>
         <div className="sidebar-menu">

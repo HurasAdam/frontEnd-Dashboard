@@ -96,8 +96,8 @@ export const Donut = ({ data, theme }) => {
   });
   // console.log({...state.options})
   return (
-    <div className="donut">
-      {state.series > 0 ? (
+    <div className={`donut ${state.series.length>0?'':'hidden'}`}>
+      {state.series.length > 0 ? (
         <Chart options={state.options} series={state.series} type="donut" />
       ) : (
         <div className="missingDataPlaceholder">

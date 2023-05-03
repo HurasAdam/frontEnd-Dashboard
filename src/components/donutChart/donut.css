@@ -84,3 +84,10 @@ border: none;
 outline: none;
 letter-spacing: 1px;
 }
+
+/* @media screen and (max-width: 767px) {
+
+    #dark .donut.hidden{
+    display: none;
+    }
+    } */

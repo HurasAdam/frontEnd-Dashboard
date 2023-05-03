@@ -1,23 +1,17 @@
 const schedule = require('node-schedule');
 const Note = require('../db/models/note')
 
-
 const findAndArchivize = async(req,res)=>{
-    // const allTickets= await Note.find({status:'Closed'})
 
    const xd = await Note.updateMany({status:'Closed'},{$set:{Archivized:true}})
    console.log('BANG')
    
 }
 
-
 const scheduleTicketArchiving = ()=>{
-    schedule.scheduleJob('*/20 * * * * *', findAndArchivize)
-   
+    schedule.scheduleJob('*/20 * * * * *', findAndArchivize)   
 }
-
 module.exports = { scheduleTicketArchiving };
-
 
 
 

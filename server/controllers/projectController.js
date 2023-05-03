@@ -37,7 +37,6 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
 //Get All Projects
 const getProjectList = async (req, res) => {
   // const page = req.query.page||0
-
   const { id: userId } = req.user;
   const { role } = req.role;
   const page = Number(req.query.page);
@@ -49,24 +48,12 @@ const getProjectList = async (req, res) => {
   const projects = await Project.find({}).skip(skip).limit(limit);
 const projectLeaderList = await Promise.all((projects.map((p)=> User.findOne({_id:p.projectLeaderId})))) 
 
-
  const result = projects.map((proj)=>{
   const projectLeader = projectLeaderList.find((pl)=>pl._id.toString()===proj.projectLeaderId)
-
   proj["projectLeader"]=projectLeader
-  
   return proj
  })
 
-
-  // const isMember = (list, id) => {
-  //   const check = list.filter((user) => { user._id === id});
-  //   return check.length > 0;
-  // };
-
-  // const userProjects = allProjects.filter((proj) => {
-  //   return isMember(proj.contributors, userId);
-  // });
   const { projects: queryString } = req.query;
   const userProjects = allProjects.filter((project)=>project.contributors.includes(userId))
   if (!queryString && typeof page === "number") {
@@ -96,10 +83,8 @@ const getSingleProject = async (req, res) => {
 
   const project = await Project.findOne({ _id: id });
 
- 
   const contributors = await User.find({ _id: project.contributors });
   const projectLeader = await User.findOne({ _id: project.projectLeaderId });
-
 const contributorsList = contributors.map((contributor)=>{
   return {
     contributorId:contributor._id.toString(),

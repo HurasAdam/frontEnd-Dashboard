@@ -41,7 +41,13 @@ const TicketSchema = new Schema(
     Archivized:{
       type:Boolean,
       default:false
+    },
+
+    closedBy:{
+      type:Object,
+      
     }
+
   },
  
 );

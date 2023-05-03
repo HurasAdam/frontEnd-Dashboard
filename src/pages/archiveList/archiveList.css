@@ -1,4 +1,18 @@
 .archiveList{
     flex:6;
+border: 2px solid red;
+padding: 0px 20px;
+}
 
+.archiveListHeaderTitle{
+    padding: 20px 10px;
+}
+.archiveListHeaderTitle span{
+    color:black;
+    font-weight: 600;
+    font-size: 20px;
+}
+#dark .archiveListHeaderTitle span{
+
+color:white
 }

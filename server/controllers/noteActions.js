@@ -4,6 +4,9 @@ const Note = require("../db/models/note");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
 const { convertDate } = require("../utils/dateConvert");
+
+scheduleTicketArchiving()
+
 module.exports = {
   //Zapisywanie notatki
   async saveNote(req, res) {
@@ -46,7 +49,7 @@ module.exports = {
     let allNotesCount;
     try {
       allNotesCount = await Note.countDocuments();
-      console.log(typeof allNotesCount);
+      // console.log(typeof allNotesCount);
       notes = await Note.find({Archivized:false})
         .sort({ createdAt: -1 })
         .skip(skip)
@@ -71,22 +74,36 @@ module.exports = {
 
     let notes;
     let allNotesCount;
-    try {
+    // try {
       allNotesCount = await Note.countDocuments();
-      console.log(typeof allNotesCount);
       notes = await Note.find({Archivized:true})
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+
+        const ticketList = await Promise.all((notes.map((t)=> User.findOne({_id:t.closedBy})))) 
+
+
+        const result = notes.map((note)=>{
+         const ticketClosedBy = ticketList.find((pl)=>pl._id.toString()===note.closedBy.toString())
+       
+         note["closedBy"]=ticketClosedBy
+         
+         return note
+        })
+
+console.log(result)
+
+    // } catch (err) {
+    //   return res.status(500).json({ error: err.message });
+    // }
 
     res.status(200).json({
       page: page,
       pageSize: size,
       total: Math.ceil(allNotesCount / size),
-      tickets: notes,
+      tickets: result,
     });
   
 
@@ -152,18 +169,30 @@ module.exports = {
     const id = req.params.id;
     const updates = req.body;
 const {status}=req.body
+const {_id:user}=req.user
 
-    const ticketAuthor = await Note.findOne({ _id: id });
+const {status:ticketStatus}=await Note.findOne({_id:id})
+    const currentTicket = await Note.findOne({ _id: id });
 
-    const isAuthor = ticketAuthor.author === req.user._id.toString();
+    const isAuthor = currentTicket.author === req.user._id.toString();
 
-    if (isAuthor || req.user.role === "admin") {
+    try {
+      if (!isAuthor || req.user.role!=='admin') {
+        throw Error("You dont have permissions to edit this ticket");
+      }
+
+    if (ticketStatus!=='Open') {
+      throw Error("Ticket status is already set as closed, You can not edit closed tickets");
+    }
     
+
+
       let finalUpdates = {...updates};
       if(status==='Closed'){
         finalUpdates={
           ...updates,
-          closedAt:new Date()
+          closedAt:new Date(),
+          closedBy:user
         }
       }
       const note = await Note.findOneAndUpdate(
@@ -172,11 +201,9 @@ const {status}=req.body
       );
 
       return res.status(201).json(note);
-    } else {
-      return res
-        .status(400)
-        .json({ data: null, message: "You dont have permissions" });
-    }
+      }catch(Error){
+        res.status(400).json(Error.message);
+      }
   },
 
   //usuwanie notatki
@@ -189,5 +216,7 @@ const {status}=req.body
 };
 
 
-scheduleTicketArchiving()
+
+
+
 

@@ -84,7 +84,6 @@ const handleSelectPage = (e, action) => {
     
   ];
 
-
   return (
     <div className="ticketsList" id={theme.mode}>
       <div className="actionWrapper">

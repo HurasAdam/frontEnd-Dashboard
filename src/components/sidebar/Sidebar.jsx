@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext, AuthContextProvider } from "../../contexts/AuthContext";
 import {ThemeContext} from "../../contexts/ThemeContext"
+import { settLocalStorage } from "../../utils/SettlocalStorage";
 const Sidebar = ({isMenuActive,setIsMenuActive}) => {
 const {user,dispatch}=useContext(AuthContext)
 const {theme,dispatch:themeSwitch}= useContext(ThemeContext)
@@ -27,13 +28,15 @@ const handleClick=()=>{
 }
 
 const toggleTheme= ()=>{
+  
+  const mainTheme=theme.mode==='light'?'dark':'light'
+  const mainColor = theme.color==='rgb(92, 92, 92)'?'rgb(230, 234, 237)':'rgb(92, 92, 92)'
 
-  const mode =theme.mode
-  const color = theme.color
-
+  
   themeSwitch({type:"LIGHT",
-  payload:{mode:mode==='light'?'dark':'light',color:color==='rgb(92, 92, 92)'?'rgb(230, 234, 237)':'rgb(92, 92, 92)'}})
- 
+  payload:{mode:mainTheme,color:mainColor}})
+localStorage.setItem('mode',mainTheme)
+localStorage.setItem('color',mainColor)
 }
 
   

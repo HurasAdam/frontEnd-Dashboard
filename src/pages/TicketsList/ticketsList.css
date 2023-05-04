@@ -63,6 +63,9 @@ color:rgb(226, 87, 87) !important;
 
   border: none;
   border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
  
 }
 

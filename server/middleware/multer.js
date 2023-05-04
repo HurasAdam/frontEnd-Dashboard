@@ -1,7 +1,7 @@
 const multer = require("multer")
 const uuid = require('uuid').v4
 const User=require('../db/models/user')
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2
 const mongoose = require("mongoose");
 
 const storage = multer.diskStorage({
@@ -25,6 +25,8 @@ const storage = multer.diskStorage({
     storage,
     fileFilter,
     limits:{fileSize:100000000,files:1},
+    dest:null,
+    unique_filename: true,
   })
 
 

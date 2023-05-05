@@ -1,74 +1,128 @@
-.loginPage{
-  
-    width: 100vw;
+@import "../../index.css";
+.loginPage {
+  width: 100vw;
 
-display: flex;
-justify-content: center;
-align-items: center;
-height: calc(100vh - 60px);
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px);
 }
 
-.loginPage-form{
-   
+.loginPage-form {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  background-color: rgba(255, 255, 255, 0.274);
+  gap: 5px;
+}
+
+
+.loginPage-form label {
+  font-size: 14px;
+}
+.loginPage-form input {
+  width: 100%;
+  height: 32px;
+  margin-bottom: 30px;
+}
+
+.loginPage-form button {
+  height: 35px;
+  width: max-content;
+  padding: 0 25px;
+  border: none;
+  background-color: blueviolet;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.topbar-login span {
+  color: blueviolet;
+}
+
+
+/* THEMES */
+
+/* DARK */
+#dark .loginPage-form {
     display: flex;
     flex-direction: column;
     width: 30%;
-background-color:rgba(255, 255, 255, 0.274);
-    gap:5px;
-}
-
-#dark .loginPage-form{
-   
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    gap:5px;
-    background-color: rgb(21, 25, 41);
-
-}
-.loginPage-form label{
-font-size: 14px;
-
-}
-.loginPage-form input{
-width: 100%;
-height: 32px;
-margin-bottom: 30px;
-
-
-}
-
-.loginPage-form button{
-height: 35px;
-width: max-content;
-padding: 0 25px;
-border: none;
-background-color: blueviolet;
-color:white;
-font-weight: 600;
-font-size: 14px;
-border-radius: 5px;
-cursor: pointer;
-
-}
-#dark .loginPage-form button{
+    gap: 5px;
+    background-color:var(--dark-primary);
+  }
+  #dark .loginPage-form button {
     height: 35px;
     width: max-content;
     padding: 0 25px;
     border: none;
-    background-color: rgb(35, 51, 95);
-    color:white;
+    background-color:var(--dark-third);
+    color: var(--dark-color);
     font-weight: 600;
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
-    
-    }
+  }
+  #dark .topbar-login span {
+    color:var(--dark-color)
+  }
 
-    .topbar-login span{
-        color: blueviolet;
-    }
-    #dark .topbar-login span{
-        color: rgb(243, 243, 248);
-    }
+  /* PURPLE */
+
+  #purple .loginPage-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 5px;
+    background-color:var(--purple-secondary);
+    color:var(--purple-color)
+  }
+
+
+  #purple .loginPage-form button {
+    height: 35px;
+    width: max-content;
+    padding: 0 25px;
+    border: none;
+    background-color:var(--purple-third);
+    color: var(--purple-color);
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #purple .topbar-login span {
+    color:var(--purple-color)
+  }
+
+  /* GREEN */
+
+  #green .loginPage-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 5px;
+    background-color:var(--green-primary);
+    color:var(--green-color)
+  }
+
+
+  #green .loginPage-form button {
+    height: 35px;
+    width: max-content;
+    padding: 0 25px;
+    border: none;
+    background-color:var(--green-third);
+    color: var(--green-color);
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #green .topbar-login span {
+    color:var(--green-color)
+  }

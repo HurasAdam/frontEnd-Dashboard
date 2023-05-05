@@ -23,7 +23,12 @@ const [isHidden,setIsHidden]=useState(true)
 //HANDLE LOGOUT
 const handleClick=()=>{
   setIsMenuActive(false)
-  localStorage.clear()
+  // localStorage.clear()
+  localStorage.removeItem("role");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("email");
+  localStorage.removeItem("token");
+  localStorage.removeItem("userAvatar");
   dispatch({type:"LOGOUT",payload:null})
 }
 

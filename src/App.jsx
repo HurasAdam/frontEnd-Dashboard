@@ -18,12 +18,14 @@ import { ProjectDetails } from "./pages/projectDetails/ProjectDetails";
 import { Contributors } from "./components/contributorsLayout/Contributors";
 import { NewProject } from "./pages/newProject/NewProject";
 import { AdminPanel } from "../src/pages/adminPanel/AdminPanel";
-import { SettingsPage } from "./pages/settingsPage/SettingsPage";
+import { ProfileSettings } from "./pages/profileSettings/ProfileSettings";
 import ManageUsers from "../src/pages/manageUsers/ManageUsers";
 import { UserCard } from "./components/userCard/UserCard";
 import { ManageUser } from "./pages/manageUser/ManageUser";
 import { ThemeContext } from "../src/contexts/ThemeContext";
 import { ArchiveList } from "./pages/archiveList/ArchiveList";
+import {SettingsPage} from './pages/settingsPage/SettingsPage'
+import { AccountSettings } from "./pages/AccountSettings/AccountSettings";
 function App() {
   const { user } = useContext(AuthContext);
   const [EditTicketData, setEditTicketData] = useState();
@@ -109,10 +111,7 @@ function App() {
           </Route>
           <Route
             path="/manageRoles"
-            element={user ? <AdminPanel /> : <Navigate to="/login" />}
-          >
-            {" "}
-          </Route>
+            element={user ? <AdminPanel /> : <Navigate to="/login" />}>{" "}</Route>
           <Route
             path="/manageUsers"
             element={user ? <ManageUsers /> : <Navigate to="/login" />}
@@ -124,6 +123,9 @@ function App() {
             element={user ? <SettingsPage /> : <Navigate to="/login" />}
           >
             {" "}
+           
+            <Route path="profile" element={<ProfileSettings/>}></Route>
+            <Route path="account" element={<AccountSettings/>}></Route>
           </Route>
           <Route
             path="/tickets/:ticketId"

@@ -111,7 +111,7 @@ localStorage.setItem('color',mainColor)
           
            
            ):null}
-            <Link to='/settings' className="sidebarLink">
+            <Link to='/settings/profile' className="sidebarLink">
             <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item"  style={{ color:`${theme.color}` }}>
               <SettingsOutlinedIcon className="sidebarIcon"/>
               Settings

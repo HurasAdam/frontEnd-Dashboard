@@ -1,3 +1,4 @@
+@import "../../index.css";
 .widgetLarge {
   display: flex;
   flex-direction: column;
@@ -7,42 +8,11 @@
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   height: 100%;
-box-shadow: 0 25px 45px rgba(0,0,0,0.1);
-border-radius: 15px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
 }
-#dark .widgetLarge {
-  display: flex;
 
-  flex-direction: column;
-justify-content: flex-start;
-  gap:16px;
-  padding: 20px 15px 0px 15px;
-  height: 100%;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-border-radius: 15px;
-border: 1px solid rgba(255, 255, 255, 0.144);
-border-right: 1px solid rgba(255, 255, 255, 0.068);
-border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-/* background-color: rgb(28, 36, 56);  */
-}
-#dark .widgetLargeTitle{
-  color:rgb(58, 153, 127)
-}
-#dark .tableRow {
-  padding: 15px;
-  display: flex;
-  justify-content: space-around;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  background-color: rgb(28, 36, 56);
-  border-radius: 5px;
-  box-shadow: 0 25px 45px rgba(0,0,0,0.1);
-border-radius: 5px;
-border: 1px solid rgba(255, 255, 255, 0.144);
-border-right: 1px solid rgba(255, 255, 255, 0.068);
-border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-} 
+
 .tableRow {
   padding: 15px;
   display: flex;
@@ -54,17 +24,7 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 .rowTitle {
   flex: 5;
 }
-#dark .rowTitle {
-  flex: 5;
-  color: rgb(243, 243, 248);
-}
-#dark .rowCreatedAt{
- font-size: 13px;
-  flex:2
-}
-#dark .rowCreatedAt span{
- color:white;
-}
+
 .rowProprsContainer {
   flex: 4;
 }
@@ -115,11 +75,9 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.096);
   border: 1px solid rgba(255, 255, 255, 0.144);
   border-right: 1px solid rgba(255, 255, 255, 0.068);
   border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-
 }
 .rowType span.Bug {
   background-color: rgb(218, 121, 121);
-  
 }
 .rowType span.Enhancement {
   background-color: rgb(178, 134, 225);
@@ -135,7 +93,7 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.096);
   justify-content: center;
 }
 .rowAction-icon {
-  color:rgb(58, 153, 127) 
+  color: rgb(58, 153, 127);
 }
 .rowAction-icon:hover {
   color: rgba(235, 243, 237, 0.722);
@@ -198,12 +156,12 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.096);
     flex-direction: column;
     justify-content: space-around;
     padding: 15px;
-    gap:10px;
+    gap: 10px;
     height: 100%;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  border-radius: 15px;
-  /* background-color: rgb(28, 36, 56);  */
+    border-radius: 15px;
+    /* background-color: rgb(28, 36, 56);  */
   }
   .tableRow {
     padding: 20px;
@@ -274,12 +232,11 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 }
 @media screen and (min-width: 840px) {
   #dark .widgetLarge {
-  gap:20px;
-}
-  
+    gap: 20px;
+  }
+
   .rowTitle {
     padding: 0px !important;
- 
   }
 }
 
@@ -308,13 +265,13 @@ display: none;
   }
 }
 
-.widgetLarge-missingDataPlaceholderWrapper{
+.widgetLarge-missingDataPlaceholderWrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.widgetLarge-missingaDataImgWrapper{
+.widgetLarge-missingaDataImgWrapper {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -322,16 +279,152 @@ display: none;
   padding: 10px 0px;
 }
 
-.widgetLarge-missingDataPlaceholderImg{
+.widgetLarge-missingDataPlaceholderImg {
   max-width: 25%;
   max-height: 25%;
 }
-.widgetLarge-missingaDataTxtWrapper{
-  flex:1;
+.widgetLarge-missingaDataTxtWrapper {
+  flex: 1;
   display: flex;
   justify-content: center;
 }
-.widgetLarge-missingaDataTxtWrapper span{
-color:white;
-font-size: 16px;
+.widgetLarge-missingaDataTxtWrapper span {
+  color: white;
+  font-size: 16px;
+}
+
+/* THEMES */
+
+/* DARK */
+#dark .widgetLarge {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 20px 15px 0px 15px;
+  height: 100%;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+#dark .widgetLargeTitle {
+  color:var(--dark-fourth)
+}
+#dark .tableRow {
+  padding: 15px;
+  display: flex;
+  justify-content: space-around;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  background-color:var(--dark-secondary);
+  border-radius: 5px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+#dark .rowTitle {
+  flex: 5;
+  color: rgb(243, 243, 248);
+}
+#dark .rowCreatedAt {
+  font-size: 13px;
+  flex: 2;
+}
+#dark .rowCreatedAt span {
+  color: white;
+}
+
+/* PURPLE */
+#purple .widgetLarge {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 20px 15px 0px 15px;
+  height: 100%;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+#purple .widgetLargeTitle {
+  color: rgb(58, 153, 127);
+}
+#purple .tableRow {
+  padding: 15px;
+  display: flex;
+  justify-content: space-around;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  background-color: var(--purple-primary);
+  border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  
+}
+#purple .rowTitle {
+  flex: 5;
+  color: var(--purple-color)
+}
+#purple .rowCreatedAt {
+  font-size: 13px;
+  flex: 2;
+}
+#purple .rowCreatedAt span {
+  color:var(--purple-color)
+}
+
+/* GREEN */
+#green .widgetLarge {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 20px 15px 0px 15px;
+  height: 100%;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+#green .widgetLargeTitle {
+  color: var(--green-color)
+}
+#green .tableRow {
+  padding: 15px;
+  display: flex;
+  justify-content: space-around;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  background-color: var(--green-secondary);
+  border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  
+}
+#green .rowTitle {
+  flex: 5;
+  color: var(--green-color)
+}
+#green .rowCreatedAt {
+  font-size: 13px;
+  flex: 2;
+}
+#green .rowCreatedAt span {
+  color:var(--green-color)
 }

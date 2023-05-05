@@ -1,8 +1,36 @@
-*{
+/* THEME COLORS */
+
+:root {
+  /* dark theme */
+  --dark-primary: rgb(21, 25, 41);
+  --dark-secondary: rgb(28, 36, 56);
+  --dark-color: rgb(245, 245, 245);
+  --dark-third: #45568e;
+  --dark-fourth: rgb(58, 153, 127);
+
+
+  /* purple theme */
+  --purple-primary:#443C68;
+  --purple-secondary:#393053;
+  --purple-third:#411f50;
+  --purple-color: rgb(245, 240, 240);
+  --purple-fourth:#c5b2c4;
+
+  /* darkgreen theme */
+  --green-primary: #393E46;
+  --green-secondary:#354850;
+  --green-third:#3f6056;
+  --green-fourth:#F5F0BB;
+  --green-color: rgb(236, 230, 230); 
+}
+
+
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-  font-family: 'Source Sans Pro', sans-serif;
+  /* border: 2px solid orange; */
+  font-family: "Source Sans Pro", sans-serif;
   /* border:1px solid red; debug  */
 }

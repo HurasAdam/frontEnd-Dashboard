@@ -1,0 +1,211 @@
+@import '../../index.css';
+
+.profileSettings{
+    flex:5;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    height:auto;
+    padding: 15px 20px;
+    height: auto;
+height: auto;
+}
+
+.profileSettingsTitle{
+  padding: 5px 15px;
+  font-size: 24px;
+  color: rgb(44, 44, 46);
+}
+
+.profileSettingsForm {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; 
+    height: auto;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    border-radius:5px;
+    padding: 25px 5px;
+  }
+  @media screen and (max-width: 1000px) {
+    .profileSettingsForm {
+align-items: center;
+display: flex;
+flex-direction: column;
+    }
+    #dark .profileSettingsItem  {
+width: 78%;
+    }
+  }
+
+
+  .profileSettingsItem {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+  .profileSettingsItem > label {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(151, 150, 150);
+  }
+  .profileSettingsItem > input {
+    height: 20px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+  }
+
+  .profileSettingsItem-inputFile input[type=file]{
+    margin-right: 20px;
+    border: none;
+    background: #3c538a;
+  line-height: 45px;
+  padding: 0px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+  }
+
+  .profileSettingsItem-inputFile{
+    width: 80%;
+    margin-top: 10px;
+    margin-right: 20px;
+   display:flex;
+   flex-direction: column;
+   gap:15px;
+
+  }
+
+ .profileSettingsItem-inputFile button{
+width: 85px;
+height: 25px;
+color: white;
+font-weight: 600;
+border-radius: 7px;
+border: none;
+background-color: rgb(191, 32, 191);
+cursor: pointer;
+ }
+  
+  .profileSettingsGender > input {
+    margin-top: 15px;
+  }
+  
+  .profileSettingsGender>label{
+      margin: 10px;
+      font-size: 18px;
+      color: #555;
+  }
+  .profileSettingsSelect{
+      height: 40px;
+      border-radius: 5px;
+  }
+  .profileSettingsButtonContainer{
+ margin-top: 25px;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+  }
+  .profileSettingsButton{
+      width: 200px;
+      border: none;
+      background-color: darkblue;
+      color: white;
+      padding: 7px 10px;
+      font-weight: 600;
+      border-radius: 10px;
+      margin-top: 30px;
+      cursor: pointer;
+  }
+
+  /* THEMES */
+
+/* DARK */
+#dark.profileSettings{
+  flex:5;
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  padding: 15px 20px;
+  color: var(--dark-color)
+}
+#dark .profileSettingsTitle{
+  padding: 5px 15px;
+  font-size: 24px;
+  color: var(--dark-color);
+}
+#dark .profileSettingsForm {
+  display: flex;
+  justify-content: center;
+  height: max-content;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  background-color:var(--dark-secondary)
+}
+
+#dark.profileSettingsForm label {
+  color: var(--dark-color)
+}
+
+/* PURPLE */
+#purple.profileSettings{
+  flex:5;
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  padding: 15px 20px;
+  color: var(--purple-color)
+}
+#purple .profileSettingsTitle{
+  padding: 5px 15px;
+  font-size: 24px;
+  color: var(--purple-color);
+}
+#purple .profileSettingsForm {
+  display: flex;
+  justify-content: center;
+  height: max-content;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  background-color:var(--purple-primary)
+}
+
+#purple.profileSettingsForm label {
+  color: var(--purple-color)
+}
+
+/* GREEN */
+#green.profileSettings{
+  flex:5;
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  padding: 15px 20px;
+  color: var(--green-color)
+}
+#green .profileSettingsTitle{
+  padding: 5px 15px;
+  font-size: 24px;
+  color: var(--green-color);
+}
+#green .profileSettingsForm {
+  display: flex;
+  justify-content: center;
+  height: max-content;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  background-color:var(--green-secondary)
+}
+
+#green.profileSettingsForm label {
+  color: var(--green-color)
+}

@@ -1,169 +1,94 @@
-.settingsPage{
-    flex:5;
-    display: flex;
-    flex-direction: column;
-    gap:20px;
-    height:max-content;
-    padding: 0px 20px;
-    height:100vh;
+@import "../../index.css";
 
-height: auto;
-  
-}
-#dark.settingsPage{
-  flex:5;
-  display: flex;
-  flex-direction: column;
-  gap:20px;
-  
-  padding: 15px 20px;
-  color: rgb(243, 243, 248);
-  height:calc(100vh-100px);
-
-}
-.settingsPageTitle{
- 
-  padding: 5px 15px;
-  font-size: 24px;
-  color: rgb(44, 44, 46);
+.settingsPage {
+  flex: 6;
 }
 
-#dark .settingsPageTitle{
-  padding: 5px 15px;
-  font-size: 24px;
-  color: rgb(243, 243, 248);
+.settingsPage nav {
+  padding: 30px 50px 10px 50px;
 }
-  
-.settingsPageForm {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap; 
-    height: auto;
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  }
 
-  @media screen and (max-width: 1000px) {
-
-    .settingsPageForm {
-align-items: center;
-display: flex;
-flex-direction: column;
-    }
-    #dark .settingsPageItem  {
-width: 78%;
-    }
-
-  }
-  
-#dark .settingsPageForm {
+.settingsPage nav ul {
   display: flex;
   justify-content: center;
-  height: max-content;
-  
- 
-  
-  background-color: rgb(28, 36, 56);
+  gap: 90px;
+  list-style: none;
 
+  flex-wrap: wrap;
 }
-#dark.settingsPageForm label {
+
+.settingsPage nav ul li {
+  padding: 0px 20px;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.settingsPageIcon {
+  font-size: 28px !important;
+}
+.settingsNavLink {
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  border-radius: 6px;
+  text-decoration: none;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  padding: 20px 40px;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .settingsPage nav ul {
+    gap: 40px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .settingsPage nav ul {
+    gap: 25px;
+  }
+}
+@media screen and (max-width: 610px) {
+  .settingsPage nav ul {
+    gap: 15px;
+    flex-direction: column;
+  }
+  .settingsNavLink {
+    padding: 5px 0px;
+  }
+}
+
+/* THEMES */
+
+/* DARK */
+#dark .settingsNavLink {
+  background-color: var(--dark-secondary);
   color: rgb(243, 243, 248);
 }
+#dark .active {
+  background-color: var(--dark-third);
+}
+/* PURPLE */
+#purple .settingsNavLink {
+  background-color:var(--purple-primary);
+  color: rgb(243, 243, 248);
+}
+#purple .active {
+  background-color:var(--purple-fourth);
+}
 
-  .settingsPageItem {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    margin-right: 20px;
-  
-  }
+/* GREEN */
 
-
-  
-  .settingsPageItem > label {
-    margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    color: rgb(151, 150, 150);
-  }
-  
-  .settingsPageItem > input {
-    height: 20px;
-    padding: 10px;
-    border: 1px solid gray;
-    border-radius: 5px;
-  }
-
-  .settingsPageItem-inputFile input[type=file]{
-    margin-right: 20px;
-    border: none;
-    background: #3c538a;
-  line-height: 45px;
-  padding: 0px 20px;
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-    height: 40px;
-    width: 100%;
-  }
-
-
-
-  .settingsPageItem-inputFile{
-    width: 80%;
-    margin-top: 10px;
-    margin-right: 20px;
-   
-   display:flex;
-   flex-direction: column;
-   gap:15px;
- 
-  }
-
- .settingsPageItem-inputFile button{
-width: 85px;
-height: 25px;
-color: white;
-font-weight: 600;
-border-radius: 7px;
-border: none;
-background-color: rgb(191, 32, 191);
-cursor: pointer;
- }
-  
-  .settingsPageGender > input {
-    margin-top: 15px;
-  }
-  
-  .settingsPageGender>label{
-      margin: 10px;
-      font-size: 18px;
-      color: #555;
-  }
-  
-  .settingsPageSelect{
-      height: 40px;
-      border-radius: 5px;
-  }
-  .settingsPageButtonContainer{
- margin-top: 25px;
-   width: 100%;
-   display: flex;
-   justify-content: center;
-    
-
-   
-   
-  }
-  .settingsPageButton{
-      width: 200px;
-      border: none;
-      background-color: darkblue;
-      color: white;
-      padding: 7px 10px;
-      font-weight: 600;
-      border-radius: 10px;
-      margin-top: 30px;
-      cursor: pointer;
-  }
+#green .settingsNavLink {
+  background-color:var(--green-secondary);
+  color: rgb(243, 243, 248);
+}
+#green .active {
+  background-color:var(--green-third);
+}

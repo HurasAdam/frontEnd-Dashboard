@@ -1,56 +1,44 @@
-.home{
-    /* height: calc(100vh - 50px ); */
-    padding: 10px;
-    flex:6;
-    flex-wrap: wrap;
-    /* display: grid; */
-    display: flex;
-    /* TODO: this should be in a media query */
-  
-    /* height: 100%; */
-    width: 100%;
-    background: var(--glass);
-    border-radius: 2rem;
-    gap: 12px;
-    /* grid-template-columns:  auto 24rem; */
-    overflow: hidden;
-
+@import "../../index.css";
+.home {
+  padding: 10px;
+  flex: 6;
+  flex-wrap: wrap;
+  /* display: grid; */
+  display: flex;
+  /* TODO: this should be in a media query */
+  width: 100%;
+  background: var(--glass);
+  border-radius: 2rem;
+  gap: 12px;
+  overflow: hidden;
 }
 
-.homeWidgets{
-   
-    height: 100%;
-
+.homeWidgets {
+  height: 100%;
 }
 
-.mainDash{
-   
-    flex:2;
-    display: flex;
-    flex-direction: column;
-    gap:45px
+.mainDash {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
 }
-.homeCharts{
-   
-    display: flex;
-    flex-direction: column;
-   flex:1;
-gap:15px;
-
+.homeCharts {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 15px;
 }
-
 
 @media screen and (max-width: 430px) {
-    .homeCharts{
- width: 100%;
-    }
+  .homeCharts {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 980px) {
-
-.home{
+  .home {
     display: flex;
     flex-direction: column;
-
-}
+  }
 }

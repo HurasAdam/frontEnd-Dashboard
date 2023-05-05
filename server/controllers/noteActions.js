@@ -5,7 +5,7 @@ const User = require("../db/models/user");
 const Project = require("../db/models/project");
 const { convertDate } = require("../utils/dateConvert");
 
-scheduleTicketArchiving()
+// scheduleTicketArchiving()
 
 module.exports = {
   //Zapisywanie notatki

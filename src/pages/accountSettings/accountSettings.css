@@ -1,0 +1,197 @@
+@import url("../../index.css");
+
+.accountSettings {
+  flex: 6;
+  /* border: 2px solid rgb(0, 255, 140); */
+  padding: 15px 20px;
+  height: auto;
+  display: flex;
+
+  height: calc(100vh - 200px);
+  flex-direction: column;
+  height: auto;
+}
+
+.accountSettingsContent {
+  /* border: 2px solid yellow; */
+  height: 100%;
+  padding: 40px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.accountSettings-right {
+  flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  padding: 40px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.accountSettings-right form {
+  /* border: 2px solid white; */
+  padding: 0px 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.accountSettings-left {
+  flex: 1;
+  /* border: 2px solid orange; */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  padding: 40px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.accountSettings-right-item {
+  display: flex;
+  justify-content: center;
+  padding: 35px 0px;
+}
+@media screen and (max-width: 1250px) {
+  .accountSettings-right-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .accountSettings-right-item,
+  select {
+    width: 100%;
+    padding: 10px;
+  }
+  .accountSettings-right form {
+    padding: 0;
+  }
+  .themeOptionsWrapper ul {
+    display: flex;
+    flex-direction: column;
+  }
+  .themeOptionsWrapper ul li {
+    padding: 5px;
+  }
+  .themeOptionsWrapper ul li span {
+    padding: 5px;
+
+    border: 1px solid rgba(255, 255, 255, 0.144);
+    border-right: 1px solid rgba(255, 255, 255, 0.068);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  }
+}
+
+.accountSettings-right-item label {
+  flex: 1;
+}
+.accountSettings-right-item select {
+  flex: 3;
+}
+
+.accountSettings-left-item {
+  /* flex-direction: column; */
+  display: flex;
+
+  padding: 35px 0px;
+}
+.accountSettings-left-item span {
+  flex: 1;
+  display: block;
+}
+
+.themeOptionsWrapper {
+  flex: 3;
+  /* border: 2px solid red; */
+}
+.themeOptionsWrapper ul {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  /* justify-content: space-around; */
+}
+.themeOptionsWrapper ul li {
+  list-style-type: none;
+  flex: 1;
+}
+.themeOptionsWrapper ul li span {
+  display: block;
+  padding: 10px 30px;
+  border-radius: 5px;
+
+  /* border: 2px solid yellow; */
+}
+
+.themeOptionsWrapper ul li span.dark {
+  background-color: rgb(21, 25, 41);
+}
+.themeOptionsWrapper ul li span.dark.active {
+  border: 3px solid white;
+}
+.themeOptionsWrapper ul li span.light {
+  background-color: rgb(230, 226, 226);
+}
+.themeOptionsWrapper ul li span.light.active {
+  border: 3px solid black;
+  outline: 2px solid;
+}
+.themeOptionsWrapper ul li span.purple {
+  background-color: rgb(122, 23, 179);
+}
+.themeOptionsWrapper ul li span.purple.active {
+  border: 2px solid rgb(218, 212, 212);
+}
+.themeOptionsWrapper ul li span.green {
+  background-color: rgb(25, 66, 43);
+}
+.themeOptionsWrapper ul li span.orange.active {
+  border: 2px solid black;
+}
+
+/* THEMES */
+
+/* DARK */
+#dark .accountSettings {
+  color: var(--dark-color);
+}
+
+#dark .accountSettings-right {
+  background-color: rgb(28, 36, 56);
+}
+#dark .accountSettings-left {
+  background-color: rgb(28, 36, 56);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+
+#purple .accountSettings {
+  color: var(--purple-color);
+}
+
+#purple .accountSettings-right {
+  background-color: var(--purple-primary);
+}
+#purple .accountSettings-left {
+  background-color: var(--purple-primary);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+
+#green .accountSettings {
+  color: var(--green-color);
+}
+
+#green .accountSettings-right {
+  background-color: var(--green-secondary);
+}
+#green .accountSettings-left {
+  background-color: var(--green-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}

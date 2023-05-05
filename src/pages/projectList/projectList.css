@@ -1,3 +1,4 @@
+@import '../../index.css';
 .projectList {
   flex: 6;
   margin: 0px 22px;
@@ -5,37 +6,17 @@
   overflow-y: hidden;
 }
 
-#dark.projectList {
-  flex: 6;
-
-  color: rgb(243, 243, 248);
-  /* height: calc(100vh - 200px); */
-height:calc(100vh - 50px);
-  margin: 0px 22px;
-  overflow-y: hidden; 
-}
 
 
 
-#dark .actionWrapper{
-  background-color: rgb(21, 25, 41);
-  
-  font-size: 22px;
-    font-weight: 600;
-}
+
 .navButtonsContainer {
   display: flex;
   flex-direction: row-reverse;
   gap: 5px;
   padding: 10px 15px;
 }
-#dark.navButtonsContainer {
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 5px;
-  padding: 10px 15px;
-  color: rgb(243, 243, 248);
-}
+
 .newProjectButton {
   padding: 7px 10px;
   border: none;
@@ -45,15 +26,7 @@ height:calc(100vh - 50px);
   border-radius: 3px;
   cursor: pointer;
 }
-#dark.newProjectButton {
-  padding: 7px 10px;
-  border: none;
-  background-color: rgb(56, 59, 139);
-  color: white;
-  font-weight: 600;
-  border-radius: 3px;
-  cursor: pointer;
-}
+
 
 .navButtonsContainer button {
   background-color: blueviolet;
@@ -64,20 +37,9 @@ height:calc(100vh - 50px);
   color: white;
   cursor: pointer;
 }
-#dark .navButtonsContainer{
- 
-  background-color: rgb(44, 44, 70);
-}
 
-#dark.navButtonsContainer button {
-  background-color: rgb(87, 148, 186);
-  border: none;
-  width: 40px;
-  height: 22px;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-}
+
+
 .navButtonsContainer button.true {
   opacity: 0.4;
 }
@@ -92,13 +54,7 @@ height:calc(100vh - 50px);
   display: flex;
   align-items: center;
 }
-#dark .DataGrid {
-  /* background-color: rgb(28, 36, 56); */
-  border: none !important;
-  color: rgb(243, 243, 248);
- /* max-height: 100%; */
- height: max-content;
-}
+
 
 .MuiDataGrid-columnHeaders {
   background-color: rgb(210, 220, 225);
@@ -106,25 +62,16 @@ height:calc(100vh - 50px);
   border-bottom: none;
 }
 
-#dark .MuiDataGrid-columnHeaders {
-  background-color: rgb(44, 44, 70);
-  color: rgb(243, 243, 248);
-  border-bottom: none;
-}
+
 .MuiDataGrid-row{
   border-bottom: 1px solid rgb(226, 226, 227);
   }
 
-#dark .MuiDataGrid-row{
-border-bottom: 1px solid rgb(49, 49, 69);
-}
+
 .MuiDataGrid-cell{
   border: none !important;
 }
-#dark .MuiDataGrid-row:hover{
-  background-color: rgb(31, 39, 61);
-  border-left: none;
-}
+
 
 
 /* .MuiPaper-root-MuiDrawer-paper,
@@ -146,3 +93,192 @@ border-bottom: 1px solid rgb(49, 49, 69);
 
 }
 
+
+/* THEMES */
+
+/* DARK */
+#dark.projectList {
+  flex: 6;
+  color:var(--dark-color);
+  /* height: calc(100vh - 200px); */
+height:calc(100vh - 50px);
+  margin: 0px 22px;
+  overflow-y: hidden; 
+}
+
+#dark .actionWrapper{
+  background-color: var(--dark-primary);
+  font-size: 22px;
+    font-weight: 600;
+}
+
+#dark .navButtonsContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 5px;
+  padding: 10px 15px;
+  color: var(--dark-color)
+}
+#dark.newProjectButton {
+  padding: 7px 10px;
+  border: none;
+  background-color: var(--dark-fourth);
+  color: var(--dark-color);
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+}
+#dark .navButtonsContainer{
+  background-color: var(--dark-primary)
+}
+#dark.navButtonsContainer button {
+  background-color: rgb(87, 148, 186);
+  border: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+#dark .DataGrid {
+  border: none !important;
+  color: var(--dark-color);
+ height: max-content;
+}
+#dark .MuiDataGrid-columnHeaders {
+  background-color:var(--dark-secondary);
+  color: var(--dark-color);
+  border-bottom: none;
+}
+#dark .MuiDataGrid-row{
+  border-bottom: 1px solid var(--dark-secondary)
+  }
+  #dark .MuiDataGrid-row:hover{
+    background-color: var(--dark-secondary);
+    border-left: none;
+  }
+
+  /* PURPLE */
+
+  #purple.projectList {
+    flex: 6;
+    color:var(--purple-color);
+    /* height: calc(100vh - 200px); */
+  height:calc(100vh - 50px);
+    margin: 0px 22px;
+    overflow-y: hidden; 
+  }
+  
+  #purple .actionWrapper{
+    background-color: var(--purple-secondary);
+    font-size: 22px;
+      font-weight: 600;
+  }
+  
+  #purple .navButtonsContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    padding: 10px 15px;
+    color: var(--purple-color)
+  }
+  #purple.newProjectButton {
+    padding: 7px 10px;
+    border: none;
+    background-color: var(--purple-third);
+    color: var(--purple-color);
+    font-weight: 600;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  #purple .navButtonsContainer{
+    background-color: var(--purple-primary)
+  }
+  #purple.navButtonsContainer button {
+    background-color: rgb(87, 148, 186);
+    border: none;
+    width: 40px;
+    height: 22px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+  #purple .DataGrid {
+    border: none !important;
+    color: var(--purple-color);
+   height: max-content;
+  }
+  #purple .MuiDataGrid-columnHeaders {
+    background-color:var(--purple-primary);
+    color: var(--dark-color);
+    border-bottom: none;
+  }
+  #purple .MuiDataGrid-row{
+    border-bottom: 1px solid var(--purple-primary)
+    }
+    #purple .MuiDataGrid-row:hover{
+      background-color: var(--purple-primary);
+      border-left: none;
+    }
+
+    /* GREEN */
+    #green.projectList {
+      flex: 6;
+      color:var(--green-color);
+      /* height: calc(100vh - 200px); */
+    height:calc(100vh - 50px);
+      margin: 0px 22px;
+      overflow-y: hidden; 
+    }
+    
+    #green .actionWrapper{
+      background-color: var(--green-primary);
+      font-size: 22px;
+        font-weight: 600;
+    }
+    
+    #green .navButtonsContainer {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 5px;
+      padding: 10px 15px;
+      color: var(--green-color)
+    }
+    #green.newProjectButton {
+      padding: 7px 10px;
+      border: none;
+      background-color: var(--green-third);
+      color: var(--purple-color);
+      font-weight: 600;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    #green .navButtonsContainer{
+      background-color: var(--green-primary)
+    }
+    #green.navButtonsContainer button {
+      background-color: rgb(87, 148, 186);
+      border: none;
+      width: 40px;
+      height: 22px;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+    }
+    #green .DataGrid {
+      border: none !important;
+      color: var(--green-color);
+     height: max-content;
+    }
+    #green .MuiDataGrid-columnHeaders {
+      background-color:var(--green-secondary);
+      color: var(--green-color);
+      border-bottom: none;
+    }
+    #green .MuiDataGrid-row{
+      border-bottom: 1px solid var(--green-secondary)
+      }
+      #green .MuiDataGrid-row:hover{
+        background-color: var(--green-secondary);
+        border-left: none;
+      }

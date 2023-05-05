@@ -1,32 +1,22 @@
+@import '../../index.css';
 .newProject {
   flex: 5;
   width: 100%;
   padding: 20px 30px;
   height: calc(100vh-50px);
 margin:0px 22px;
-border: 2px solid red;
 }
 
-#dark .newProject {
-  flex: 5;
-  width: 100%;
-  padding: 20px 0px;
-  height: calc(100vh-50px);
-  background-color: rgb(21, 25, 41);
-}
+
 .newProjectConent {
   padding: 5px 30px;
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-
-height: calc(100vh - 160px)
+height: auto;
+overflow-y: auto;
+border-radius: 10px;
 }
 
-#dark .newProjectConent {
-  padding: 5px 30px;
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  background-color: rgb(28, 36, 56);
-height: calc(100vh - 160px)
-}
+
 
 
 .newProjectTop {
@@ -34,46 +24,7 @@ height: calc(100vh - 160px)
   display: flex;
   justify-content: space-between;
 }
-#dark .newProjectTop {
-  padding: 18px 0px;
-  display: flex;
-  justify-content: space-between;
-  color: rgb(243, 243, 248);
 
-}
-
-#dark .newProjectConent label {
-  color: rgb(243, 243, 248);
-}
-/* MUI SELECT  */
-#dark .newProject input {
-  background-color: rgb(67, 70, 89);
-  color: rgb(243, 243, 248);
-}
-#dark .newProject textarea {
-  background-color: rgb(67, 70, 89);
-  color: rgb(243, 243, 248);
-}
-
-#dark .css-art2ul-ValueContainer2 {
-  background-color: rgb(67, 70, 89);
-  border: none;
-}
-#dark .css-4xgw5l-IndicatorsContainer2 {
-  background-color: rgb(67, 70, 89);
-}
-
-#dark .css-1i837h3-ValueContainer2{
-    background-color: rgb(82, 74, 74);
-}
-
-#dark .css-16xfy0z-control{
-  background-color: rgb(67, 70, 89);
-  border: none;
-}
-#dark .css-13cymwt-control{
-  background-color: rgb(67, 70, 89);
-}
 /* MUI SELECT */
 
 .newProjectTop span {
@@ -98,27 +49,15 @@ height: calc(100vh - 160px)
   font-weight: 600;
   
 }
-#dark .newProjectContentTopButton button {
-  width: 24px;
-  height: 24px;
-  border: none;
-  font-size: 20px;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 5px;
-  font-weight: 600;
-  color:white
-}
+
 .newProjectContentTopButton button:hover {
   background-color: rgb(249, 188, 249);
 }
 
-#dark .newProjectContentTopButton button:hover {
-  background-color: rgb(79, 107, 121);
-}
+
 
 .newProjectBottom {
-  height: calc(100vh - 260px);
+  /* height: calc(100vh - 260px); */
  
   display: flex;
   flex-direction: column;
@@ -165,8 +104,8 @@ height: calc(100vh - 160px)
 }
 .newProjectAction button {
   margin-left: 30px;
-  width: 100px;
-  padding: 4px 10px;
+
+  padding: 5px 15px;
   border: none;
   font-weight: 600;
   color: white;
@@ -183,4 +122,214 @@ height: calc(100vh - 160px)
 
 .multiselect {
   width: 30%;
+}
+
+
+/* THEMES */
+
+/* DARK */
+#dark .newProject {
+  flex: 5;
+  width: 100%;
+  padding: 20px 0px;
+  height: calc(100vh-50px);
+  background-color: var(--dark-primary);
+}
+#dark .newProjectConent {
+  padding: 5px 30px;
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  background-color: var(--dark-secondary);
+height: calc(100vh - 160px)
+}
+#dark .newProjectTop {
+  padding: 18px 0px;
+  display: flex;
+  justify-content: space-between;
+  color:var(--dark-color);
+}
+
+#dark .newProjectConent label {
+  color:var(--dark-color);
+}
+/* MUI SELECT  */
+#dark .newProject input {
+  background-color: rgb(67, 70, 89);
+  color:var(--dark-color);
+}
+#dark .newProject textarea {
+  background-color: rgb(67, 70, 89);
+  color:var(--dark-color);
+}
+
+#dark .css-art2ul-ValueContainer2 {
+  background-color: rgb(67, 70, 89);
+  border: none;
+}
+#dark .css-4xgw5l-IndicatorsContainer2 {
+  background-color: rgb(67, 70, 89);
+}
+
+#dark .css-1i837h3-ValueContainer2{
+    background-color: rgb(82, 74, 74);
+}
+
+#dark .css-16xfy0z-control{
+  background-color: rgb(67, 70, 89);
+  border: none;
+}
+#dark .css-13cymwt-control{
+  background-color: rgb(67, 70, 89);
+}
+#dark .newProjectContentTopButton button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  font-size: 20px;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+  color:var(--dark-color);
+}
+#dark .newProjectContentTopButton button:hover {
+  background-color: var(--dark-fourth)
+}
+
+/* PURPLE */
+
+#purple .newProject {
+  flex: 5;
+  width: 100%;
+  padding: 20px 0px;
+  height: calc(100vh-50px);
+  background-color: var(--purple-secondary);
+}
+#purple .newProjectConent {
+  padding: 5px 30px;
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  background-color: var(--purple-primary);
+height: calc(100vh - 160px)
+}
+#purple .newProjectTop {
+  padding: 18px 0px;
+  display: flex;
+  justify-content: space-between;
+  color:var(--purple-color);
+}
+
+#purple .newProjectConent label {
+  color:var(--purple-color);
+}
+/* MUI SELECT  */
+#purple .newProject input {
+  background-color: var(--purple-secondary);
+  color:var(--dark-color);
+}
+#purple .newProject textarea {
+  background-color: var(--purple-secondary);
+  color:var(--purple-color);
+}
+
+#purple .css-art2ul-ValueContainer2 {
+  background-color: var(--purple-secondary);
+  border: none;
+}
+#purple .css-4xgw5l-IndicatorsContainer2 {
+  background-color: var(--purple-secondary);
+}
+
+#purple .css-1i837h3-ValueContainer2{
+  background-color: var(--purple-secondary);
+}
+
+#purple .css-16xfy0z-control{
+  background-color: rgb(67, 70, 89);
+  border: none;
+}
+#purple .css-13cymwt-control{
+  background-color: var(--purple-secondary);
+}
+#purple .newProjectContentTopButton button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  font-size: 20px;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+  color:var(--purple-color);
+}
+#purple .newProjectContentTopButton button:hover {
+  background-color: var(--purple-third)
+}
+
+/* GREEN */
+
+#green .newProject {
+  flex: 5;
+  width: 100%;
+  padding: 20px 0px;
+  height: calc(100vh-50px);
+  background-color: var(--green-primary);
+}
+#green .newProjectConent {
+  padding: 5px 30px;
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  background-color: var(--green-secondary);
+height: calc(100vh - 160px)
+}
+#green .newProjectTop {
+  padding: 18px 0px;
+  display: flex;
+  justify-content: space-between;
+  color:var(--green-color);
+}
+
+#green .newProjectConent label {
+  color:var(--green-color);
+}
+/* MUI SELECT  */
+#green .newProject input {
+  background-color: var(--green-primary);
+  color:var(--dark-color);
+}
+#green .newProject textarea {
+  background-color: var(--green-primary);
+  color:var(--purple-color);
+}
+
+#green .css-art2ul-ValueContainer2 {
+  background-color: var(--green-primary);
+  border: none;
+}
+#green .css-4xgw5l-IndicatorsContainer2 {
+  background-color: var(--green-primary);
+}
+
+#green .css-1i837h3-ValueContainer2{
+  background-color: var(--green-primary);
+}
+
+#green .css-16xfy0z-control{
+  background-color: rgb(67, 70, 89);
+  border: none;
+}
+#green .css-13cymwt-control{
+  background-color: var(--green-secondary);
+}
+#green .newProjectContentTopButton button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  font-size: 20px;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+  color:var(--green-color);
+}
+#green .newProjectContentTopButton button:hover {
+  background-color: var(--green-fourth);
+  color:rgb(90, 86, 86);
 }

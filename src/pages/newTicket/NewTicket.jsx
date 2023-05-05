@@ -112,8 +112,12 @@ const {theme}=useContext(ThemeContext)
               rows={25}
               onChange={(e) => handleNewTicket(e, "description")}
             ></textarea>
+            
           </div>
-          <div className="newTicketAction">
+     
+          </div>
+        </div>
+        <div className="newTicketAction">
           <button className="newTicketSave" onClick={handleAddTicket}>
             Save
           </button>
@@ -124,9 +128,6 @@ const {theme}=useContext(ThemeContext)
             Cancel
           </button>
         </div>
-          </div>
-        </div>
-   
       </div>
     </div>
   );

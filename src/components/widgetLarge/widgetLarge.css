@@ -277,11 +277,12 @@ display: none;
   justify-content: center;
   align-items: flex-end;
   padding: 10px 0px;
+
 }
 
 .widgetLarge-missingDataPlaceholderImg {
-  max-width: 25%;
-  max-height: 25%;
+  max-width: 35%;
+  max-height: 35%;
 }
 .widgetLarge-missingaDataTxtWrapper {
   flex: 1;
@@ -291,6 +292,7 @@ display: none;
 .widgetLarge-missingaDataTxtWrapper span {
   color: white;
   font-size: 16px;
+
 }
 
 /* THEMES */

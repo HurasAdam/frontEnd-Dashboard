@@ -358,6 +358,7 @@ console.log(iseScrollable)
             onEditComment={handleEditComment}
             onUpdateComment={handleUpdateCommnet}
             onEditTextContent={setEditedCommentTextContent}
+            
           />
         </div>
       </div>

@@ -1,16 +1,13 @@
+@import "../../index.css";
+
 .ticketsList {
   flex: 6;
   padding: 0px 15px;
-height: 100vh;
-height:calc(100vh - 50px);
+  height: 100vh;
+  height: calc(100vh - 50px);
 }
 
-#dark.ticketsList {
-  flex: 6;
-  padding: 0px 20px;
-  color: rgb(243, 243, 248);
-  height:calc(100vh - 50px);
-}
+
 .ticketListHeaderTitle {
   font-size: 22px;
   font-weight: 600;
@@ -31,90 +28,59 @@ height:calc(100vh - 50px);
   cursor: pointer;
 }
 
-#dark.newTicketButton {
-  padding: 7px 10px;
-  border: none;
-  background-color: rgb(56, 59, 139);
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.TicketListActionIcon{
+
+.TicketListActionIcon {
   margin-right: 40px;
   font-size: 20px !important;
-  color:rgb(56, 104, 128);
+  color: rgb(56, 104, 128);
   cursor: pointer;
- 
 }
 
-.TicketListActionIcon:hover{
-transform: scale(1.2);
- 
+.TicketListActionIcon:hover {
+  transform: scale(1.2);
 }
-.TicketListActionIcon.delete{
-color:rgb(226, 87, 87) !important;
+.TicketListActionIcon.delete {
+  color: rgb(226, 87, 87) !important;
 }
-.dataGrid{
+.dataGrid {
   max-height: 800px;
-
 }
-.ticketsList button{
-
+.ticketsList button {
   border: none;
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.144);
   border-right: 1px solid rgba(255, 255, 255, 0.068);
   border-bottom: 1px solid rgba(255, 255, 255, 0.096);
- 
 }
 
-.ticketsList button.Closed{
-background-color: rgba(141, 217, 141, 0.326);
-color: rgb(12, 105, 12);
-width: 50px;
-font-weight: 600;
-padding: 1px;
-}
-
-#dark .ticketsList button.Closed{
-  background-color: rgba(80, 159, 80, 0.996);
-  color: rgb(187, 215, 187);
+.ticketsList button.Closed {
+  background-color: rgba(141, 217, 141, 0.326);
+  color: rgb(12, 105, 12);
   width: 50px;
   font-weight: 600;
   padding: 1px;
-  }
-  
-.ticketsList button.Open{
+}
+
+
+
+.ticketsList button.Open {
   background-color: rgba(68, 151, 210, 0.241);
-  color:rgb(6, 21, 99);
-  font-weight: 600;
-  width: 50px;
-  padding: 1px;
-}
-#dark .ticketsList button.Open{
-  background-color: rgba(22, 90, 139, 0.991);
-  color:rgb(188, 190, 197);
+  color: rgb(6, 21, 99);
   font-weight: 600;
   width: 50px;
   padding: 1px;
 }
 
-.ticketsList button.High{
+
+.ticketsList button.High {
   background-color: rgba(255, 0, 0, 0.613);
   color: rgba(84, 9, 9, 0.994);
   font-weight: 600;
   width: 50px;
   padding: 1px;
 }
-#dark .ticketsList button.High{
-  background-color: rgba(255, 0, 0, 0.613);
-  color: rgba(211, 201, 201, 0.994);
-  font-weight: 600;
-  width: 50px;
-  padding: 1px;
-}
-.ticketsList button.Medium{
+
+.ticketsList button.Medium {
   background-color: rgba(234, 162, 6, 0.537);
   color: rgb(78, 53, 8);
   font-weight: 600;
@@ -122,14 +88,8 @@ padding: 1px;
   padding: 1px;
 }
 
-#dark .ticketsList button.Medium{
-  background-color: rgba(234, 162, 6, 0.537);
-  color: rgb(213, 209, 202);
-  font-weight: 600;
-  width: 50px;
-  padding: 1px;
-}
-.ticketsList button.Low{
+
+.ticketsList button.Low {
   background-color: rgba(20, 218, 50, 0.508);
   font-weight: 600;
   color: rgb(13, 59, 4);
@@ -137,7 +97,62 @@ padding: 1px;
   padding: 1px;
 }
 
-#dark .ticketsList button.Low{
+
+
+.DataGrid {
+  border: none !important;
+  color: rgb(243, 243, 248);
+  height: calc(100vh - 215px) !important;
+}
+
+/* THEME */
+
+/* DARK */
+
+#dark.ticketsList {
+  flex: 6;
+  padding: 0px 20px;
+  color: var(--dark-color);
+  height: calc(100vh - 50px);
+}
+#dark.newTicketButton {
+  padding: 7px 10px;
+  border: none;
+  background-color: var(--dark-fourth);
+  color: var(--dark-color);
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#dark .ticketsList button.Closed {
+  background-color: rgba(80, 159, 80, 0.996);
+  color: rgb(187, 215, 187);
+  width: 50px;
+  font-weight: 600;
+  padding: 1px;
+}
+#dark .ticketsList button.Open {
+  background-color: rgba(22, 90, 139, 0.991);
+  color: rgb(188, 190, 197);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#dark .ticketsList button.High {
+  background-color: rgba(255, 0, 0, 0.613);
+  color: rgba(211, 201, 201, 0.994);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#dark .ticketsList button.Medium {
+  background-color: rgba(234, 162, 6, 0.537);
+  color: rgb(213, 209, 202);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#dark .ticketsList button.Low {
   background-color: rgba(20, 218, 50, 0.508);
   font-weight: 600;
   color: rgb(208, 215, 207);
@@ -145,10 +160,106 @@ padding: 1px;
   padding: 1px;
 }
 
-.DataGrid {
+/* PURPLE */
+#purple.ticketsList {
+  flex: 6;
+  padding: 0px 20px;
+  color: var(--purple-color);
+  height: calc(100vh - 50px);
+}
+#purple.newTicketButton {
+  padding: 7px 10px;
+  border: none;
+  background-color: var(--purple-third);
+  color: var(--dark-color);
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#purple .ticketsList button.Closed {
+  background-color: rgba(80, 159, 80, 0.996);
+  color: rgb(187, 215, 187);
+  width: 50px;
+  font-weight: 600;
+  padding: 1px;
+}
+#purple .ticketsList button.Open {
+  background-color: rgba(22, 90, 139, 0.991);
+  color: rgb(188, 190, 197);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#purple .ticketsList button.High {
+  background-color: rgba(255, 0, 0, 0.613);
+  color: rgba(211, 201, 201, 0.994);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#purple .ticketsList button.Medium {
+  background-color: rgba(234, 162, 6, 0.537);
+  color: rgb(213, 209, 202);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#purple .ticketsList button.Low {
+  background-color: rgba(20, 218, 50, 0.508);
+  font-weight: 600;
+  color: rgb(208, 215, 207);
+  width: 50px;
+  padding: 1px;
+}
 
-  border: none !important;
-  color: rgb(243, 243, 248);
-height: calc(100vh - 215px) !important;
-
+/* GREEN */
+#green.ticketsList {
+  flex: 6;
+  padding: 0px 20px;
+  color: var(--green-color);
+  height: calc(100vh - 50px);
+}
+#green.newTicketButton {
+  padding: 7px 10px;
+  border: none;
+  background-color: var(--green-third);
+  color: var(--green-color);
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#green .ticketsList button.Closed {
+  background-color: rgba(80, 159, 80, 0.996);
+  color: rgb(187, 215, 187);
+  width: 50px;
+  font-weight: 600;
+  padding: 1px;
+}
+#green .ticketsList button.Open {
+  background-color: rgba(22, 90, 139, 0.991);
+  color: rgb(188, 190, 197);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#green .ticketsList button.High {
+  background-color: rgba(255, 0, 0, 0.613);
+  color: rgba(211, 201, 201, 0.994);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#green .ticketsList button.Medium {
+  background-color: rgba(234, 162, 6, 0.537);
+  color: rgb(213, 209, 202);
+  font-weight: 600;
+  width: 50px;
+  padding: 1px;
+}
+#green .ticketsList button.Low {
+  background-color: rgba(20, 218, 50, 0.508);
+  font-weight: 600;
+  color: rgb(208, 215, 207);
+  width: 50px;
+  padding: 1px;
 }

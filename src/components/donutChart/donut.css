@@ -99,7 +99,7 @@ height: 100%; */
   }
   
   #purple .missingaDataTxtWrapper span {
-    color: rgb(58, 153, 127);
+    color: var(--purple-color);
     font-weight: 600;
     font-size: 18px;
     font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
@@ -125,7 +125,7 @@ height: 100%; */
   }
   
   #green .missingaDataTxtWrapper span {
-    color: rgb(58, 153, 127);
+    color: var(--green-color);
     font-weight: 600;
     font-size: 18px;
     font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;

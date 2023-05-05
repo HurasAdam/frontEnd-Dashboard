@@ -157,6 +157,9 @@ height:calc(100vh - 50px);
     background-color: var(--dark-secondary);
     border-left: none;
   }
+ #dark .MuiDataGrid-virtualScrollerContent {
+    background-color: var(--dark-primary);
+  }
 
   /* PURPLE */
 
@@ -220,6 +223,7 @@ height:calc(100vh - 50px);
       background-color: var(--purple-primary);
       border-left: none;
     }
+   
 
     /* GREEN */
     #green.projectList {
@@ -282,3 +286,8 @@ height:calc(100vh - 50px);
         background-color: var(--green-secondary);
         border-left: none;
       }
+      /* #green .MuiDataGrid-virtualScrollerContent {
+        background-color: var(--green-third)
+      } */
+
+     

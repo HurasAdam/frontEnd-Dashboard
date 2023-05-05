@@ -1,41 +1,69 @@
-.paginationNavbar{
-    border: 2px solid red;
+@import "../../index.css";
+
+.paginationNavbar {
+  border: 2px solid red;
 }
 
-.paginationActionContainer{
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 5px;
-    padding: 10px 15px;
+.paginationActionContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 5px;
+  padding: 10px 15px;
 }
 
-.paginationActionContainer button{
-
-    background-color: blueviolet;
-    border: none;
-    width: 40px;
-    height: 22px;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-
-}
-
-#dark .paginationActionContainer button{
-
-    background-color: rgb(56, 59, 139);
-    border: none;
-    width: 40px;
-    height: 22px;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-
-}
-#dark .paginationActionContainer span{
-    color: rgb(243, 243, 248);
+.paginationActionContainer button {
+  background-color: blueviolet;
+  border: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
 }
 
 .paginationActionContainer button.true {
-    opacity: 0.4;
+  opacity: 0.4;
+}
+
+/* THEMES */
+
+/* DARK */
+#dark .paginationActionContainer button {
+  background-color: var(--dark-fourth);
+  border: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 4px;
+  color: var(--dark-color);
+  cursor: pointer;
+}
+#dark .paginationActionContainer span {
+  color: var(--dark-color);
+}
+
+#purple .paginationActionContainer button {
+    background-color: var(--purple-fourth);
+    border: none;
+    width: 40px;
+    height: 22px;
+    border-radius: 4px;
+    color: var(--purple-color);
+    cursor: pointer;
+  }
+  #purple .paginationActionContainer span {
+    color: var(--purple-color);
+  }
+  
+  /* GREEN */
+  #green .paginationActionContainer button {
+    background-color: var(--green-fourth);
+    border: none;
+    width: 40px;
+    height: 22px;
+    border-radius: 4px;
+    color: var(--green-primary);
+    cursor: pointer;
+  }
+  #green .paginationActionContainer span {
+    color: var(--green-color);
   }

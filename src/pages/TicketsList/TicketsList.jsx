@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from '../../contexts/ThemeContext'
 import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
 import { AuthContext } from "../../contexts/AuthContext";
+import noDataPlaceholder from '../../../public/img/empty.png'
 
 export const TicketsList = () => {
 
@@ -24,6 +25,15 @@ const [pageState,setPageState]=useState({
 const handleSelectPage = (e, action) => {
   e.preventDefault();
   setPageState({ ...pageState, page: action });
+};
+
+
+const noRowsOverlayStyle = {
+  background: `url(${noDataPlaceholder})`,
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'contain',
+  opacity:'0.3'
 };
 
 
@@ -105,7 +115,11 @@ const handleSelectPage = (e, action) => {
         checkboxSelection={false}
         disableSelectionOnClick
         hideFooter={true}
-   
+        componentsProps={{
+          noRowsOverlay: {
+            style: noRowsOverlayStyle,
+          },
+        }}
         
       />:null}
 <PaginationNavbar pageState={pageState} handleSelectPage={handleSelectPage} theme={theme}/>

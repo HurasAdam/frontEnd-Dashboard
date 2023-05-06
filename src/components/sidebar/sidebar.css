@@ -73,7 +73,7 @@ gap:20px
     display: block;
     flex: 1;
     height: calc(100vh - 50px);
-    background-color: rgb(243, 243, 248);
+    background:var(--light-primary-linear);
     position: sticky;
     top: 50px;
   }
@@ -111,7 +111,7 @@ gap:20px
 
 .sidebar-list-item:hover,
 .sidebar-list-item.active {
-  background-color: rgb(227, 227, 248);
+  background:var(--light-secondary);
 }
 
 
@@ -124,7 +124,7 @@ gap:20px
 .sidebarLink{
   text-decoration: none;
   color: inherit;
-  color:rgb(82, 74, 74);
+  color:var(--light-primary-color);
   text-decoration: none;
 }
 .sidebar-list-item-submenu {
@@ -336,7 +336,7 @@ gap:20px
 #green.sidebar {
   flex: 1;
   height: calc(100vh - 50px);
-  background-color: var(--green-secondary);
+  background:var(--green-secondary);
   position: sticky;
   top: 50px;
 }
@@ -414,4 +414,29 @@ gap:20px
 }
 #green.sidebar-list-item.active {
   background:#5d6b77
+}
+
+
+/* SIDEBAR CUSTOMIZATION */
+
+/* LIGHT */
+
+#light.sidebar.default {
+  flex: 1;
+  height: calc(100vh - 50px);
+  background:linear-gradient(to bottom right, #2b2d42, #1c1e2e);
+  position: sticky;
+  top: 50px;
+}
+#light.sidebar.lightblue {
+
+background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+}
+
+#light.sidebar.darksea{
+  background: linear-gradient(to bottom right, #1c2331, #384a5d)
+  ;
+}
+#light.sidebar.bluegreeny{
+  background: linear-gradient(to bottom right, #283c86, #45a247);
 }

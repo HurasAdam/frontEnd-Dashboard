@@ -22,7 +22,7 @@
 }
 .accountSettings-right {
   flex: 1;
-  border: 2px solid #29233d;
+  border: 2px solid #e7e7ea;
   border-radius: 10px;
   box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   padding: 40px;
@@ -43,9 +43,10 @@
   display: flex;
   flex-direction: column;
   padding: 40px;
-  border: 2px solid #29233d;
-border-radius: 10px;
-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
+  border: 2px solid #e7e7ea;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
+
 
 }
 
@@ -149,23 +150,45 @@ box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   border: 2px solid black;
 }
 
-.themeOptionsWrapper .customize-sidebar{
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
+
+
+
+.themeOptionsWrapper .customize-sidebar {
+  animation-name: fade-in;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+
 .themeOptionsWrapper .customize-sidebar li{
 
 }
-.themeOptionsWrapper .customize-sidebar li .violet{
-  background-color: blueviolet;
+.themeOptionsWrapper .customize-sidebar li .lightblue{
+  background:linear-gradient(to bottom right, #1e3c72, #2a5298);
 }
-.themeOptionsWrapper .customize-sidebar li .silver{
-  background-color: silver;
+.themeOptionsWrapper .customize-sidebar li .bluegreeny{
+  background:linear-gradient(to bottom right, #283c86, #45a247);
 }
 .themeOptionsWrapper .customize-sidebar li .moon{
 background-color: yellow;
 }
-.themeOptionsWrapper .customize-sidebar li .orange{
-  background-color: rgb(240, 146, 23);
+.themeOptionsWrapper .customize-sidebar li .darksea{
+  background:linear-gradient(to bottom right, #1c2331, #384a5d);
+
+}
+.themeOptionsWrapper .customize-sidebar li .default{
+  background:linear-gradient(to bottom right, #2b2d42, #1c1e2e);
 }
 
 
@@ -178,6 +201,9 @@ background-color: yellow;
 
 #dark .accountSettings-right {
   background-color: rgb(28, 36, 56);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 }
 #dark .accountSettings-left {
   background-color: rgb(28, 36, 56);
@@ -193,6 +219,9 @@ background-color: yellow;
 
 #purple .accountSettings-right {
   background: var(--purple-six-linear);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
   
 }
 #purple .accountSettings-left {
@@ -208,6 +237,9 @@ background-color: yellow;
 
 #green .accountSettings-right {
   background-color: var(--green-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 }
 #green .accountSettings-left {
   background-color: var(--green-secondary);

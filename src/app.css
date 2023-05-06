@@ -18,3 +18,7 @@
     display: flex;
     background: var(--green-primary)
 }
+
+#light.container{
+background-color: rgb(243, 243, 248);
+}

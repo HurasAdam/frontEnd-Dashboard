@@ -97,7 +97,7 @@ themeSwitch({
             <div className="themeOptionsWrapper">
               {/*  */}
 
-              {theme.mode==='dark'?(<ul className="customize-sidebar">
+              {theme.mode==='dark'?(<ul className={`customize-sidebar ${theme.mode==='dark'?'show':''}`}>
                 <li>
                   <span onClick={(e)=>toggleSidebarColor(e,'violet')} className="violet"></span>
                 </li>
@@ -112,7 +112,7 @@ themeSwitch({
                 </li>
               </ul>):null}
               {/*  */}
-              {theme.mode==='purple'?(<ul className="customize-sidebar">
+              {theme.mode==='purple'?(<ul className={`customize-sidebar ${theme.mode==='dark'?'show':''}`}>
                 <li>
                   <span onClick={(e)=>toggleSidebarColor(e,'moon')} className="moon"></span>
                 </li>
@@ -124,6 +124,36 @@ themeSwitch({
                 </li>
                 <li>
                   <span onClick={(e)=>toggleSidebarColor(e,'moon')} className="moon"></span>
+                </li>
+              </ul>):null}
+              {/*  */}
+              {theme.mode==='light'?(<ul className={`customize-sidebar ${theme.mode==='dark'?'show':''}`}>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'default')} className="default"></span>
+                </li>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'lightblue')} className="lightblue"></span>
+                </li>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'darksea')} className="darksea"></span>
+                </li>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'bluegreeny')} className="bluegreeny"></span>
+                </li>
+              </ul>):null}
+              {/*  */}
+              {theme.mode==='green'?(<ul className={`customize-sidebar ${theme.mode==='dark'?'show':''}`}>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'moon')} className="moon"></span>
+                </li>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'orange')} className="orange"></span>
+                </li>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'orange')} className="orange"></span>
+                </li>
+                <li>
+                  <span onClick={(e)=>toggleSidebarColor(e,'violet')} className="violet"></span>
                 </li>
               </ul>):null}
             </div>

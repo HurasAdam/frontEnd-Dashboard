@@ -46,7 +46,7 @@ localStorage.setItem('color',mainColor)
 
   
   return (
-    <div className={`sidebar ${isMenuActive}`} id={theme.mode}>
+    <div className={`sidebar ${isMenuActive} ${theme.sidebar}`}  id={theme.mode}>
      {user? <div className="sidebar-wrapper">
         <div className="sidebar-menu">
           <h3 className="sidebar-title" id={theme.mode}>Dashboard</h3>

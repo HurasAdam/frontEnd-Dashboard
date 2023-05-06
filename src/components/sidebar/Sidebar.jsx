@@ -68,7 +68,7 @@ localStorage.setItem('color',mainColor)
               Tickets
             </li>
             </Link>
-            <Link to='/archive'>
+            <Link to='/archive' className="sidebarLink">
             <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item " style={{ color:`${theme.color}` }}>
               <ReceiptLongOutlinedIcon className="sidebarIcon" 
               
@@ -92,7 +92,7 @@ localStorage.setItem('color',mainColor)
             
             {user.role==='admin'?(
       
-       <li className="sidebar-list-item-submenu"  style={{ color:`${theme.color}` }} >
+       <li className="sidebar-list-item-submenu sidebarLink"  style={{ color:`${theme.color}` }} >
            <div className="submenuItem" onClick={()=>setIsHidden(!isHidden)}>
            <AdminPanelSettingsOutlinedIcon className="sidebarIcon"/>
            Admin Panel
@@ -122,7 +122,7 @@ localStorage.setItem('color',mainColor)
               Settings
             </li>
             </Link>
-            <li className="sidebar-list-item" onClick={handleClick}  style={{ color:`${theme.color}`}}>
+            <li className="sidebar-list-item sidebarLink" onClick={handleClick}  style={{ color:`${theme.color}`}}>
               <LogoutOutlinedIcon className="sidebarIcon"/>
               Logout
             </li>

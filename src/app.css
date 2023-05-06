@@ -5,11 +5,6 @@
 }
 
 
-.sidebarLink{
-    text-decoration: none;
-    color: inherit;
-}
-
 /* THEMES */
 #dark.container{
     display: flex;

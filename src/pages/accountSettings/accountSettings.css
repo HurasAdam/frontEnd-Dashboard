@@ -149,6 +149,26 @@ box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   border: 2px solid black;
 }
 
+.themeOptionsWrapper .customize-sidebar{
+
+}
+.themeOptionsWrapper .customize-sidebar li{
+
+}
+.themeOptionsWrapper .customize-sidebar li .violet{
+  background-color: blueviolet;
+}
+.themeOptionsWrapper .customize-sidebar li .silver{
+  background-color: silver;
+}
+.themeOptionsWrapper .customize-sidebar li .moon{
+background-color: yellow;
+}
+.themeOptionsWrapper .customize-sidebar li .orange{
+  background-color: rgb(240, 146, 23);
+}
+
+
 /* THEMES */
 
 /* DARK */

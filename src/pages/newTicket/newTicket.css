@@ -210,7 +210,7 @@ box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   #purple .newTicketItemSelectWrapper select {
     width: 90%;
     padding: 5px 0px;
-    background:var(--dark-primary)
+    background:var(--purple-primary)
   }
   #purple .newTicketItemSelectWrapper select option {
 background:var(--dark-primary)
@@ -218,7 +218,7 @@ background:var(--dark-primary)
   #purple .newTicketItem input {
     height: 35px;
     border: none;
-    background:var(--dark-primary);
+    background:var(--purple-primary);
     color:var(--dark-color)
   }
   #purple .newTicketItemDescripion textarea {
@@ -226,7 +226,7 @@ background:var(--dark-primary)
     resize: none;
     width: 100%;
     height: 150px;
-    background:var(--dark-primary)
+    background:var(--purple-primary)
   }
 
   /* GREEN */

@@ -4,31 +4,44 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 export const AccountSettings = () => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
 
+
+ 
   const toggleTheme = (e, THEME) => {
     
-    let color 
 
-    if(THEME==='light'){
-      color='rgb(92, 92, 92)'
-    }
-    else if(THEME==='dark'){
-      color='rgb(230, 234, 237)'
-    }
-    if(THEME==='purple'){
-      color='white'
-    }
-    if(THEME==='green'){
-      color=' rgb(236, 230, 230); '
-    }
+    let color;
+
+    // if(THEME==='light'){
+    //   color='rgb(92, 92, 92)'
+    // }
+    // else if(THEME==='dark'){
+    //   color='rgb(230, 234, 237)'
+    // }
+    // if(THEME==='purple'){
+    //   color='white'
+    // }
+    // if(THEME==='green'){
+    //   color=' rgb(236, 230, 230); '
+    // }
 
     themeSwitch({
       type: "LIGHT",
-      payload: { mode: THEME,color:color },
+      payload: { mode: THEME },
     });
     localStorage.setItem("mode", THEME);
-    localStorage.setItem("color", color);
+    // localStorage.setItem("color", color);
+    console.log(theme)
   };
 
+
+  const toggleSidebarColor=(e,color)=>{
+console.log(color)
+themeSwitch({
+  type:"DARK",
+  payload:{sidebar:color}
+})
+
+  }
 
 
   return (
@@ -62,18 +75,18 @@ export const AccountSettings = () => {
           <div className="accountSettings-left-item">
             <span>Theme color</span>
             <div className="themeOptionsWrapper">
-              <ul>
+              <ul className="customize-sidebar">
                 <li>
-                  <span className="violet"></span>
+                  <span onClick={(e)=>toggleSidebarColor(e,'violet')} className="violet"></span>
                 </li>
                 <li>
-                  <span className="silver"></span>
+                  <span onClick={(e)=>toggleSidebarColor(e,'silver')} className="silver"></span>
                 </li>
                 <li>
-                  <span className="moon"></span>
+                  <span onClick={(e)=>toggleSidebarColor(e,'moon')} className="moon"></span>
                 </li>
                 <li>
-                  <span className="orange"></span>
+                  <span onClick={(e)=>toggleSidebarColor(e,'orange')} className="orange"></span>
                 </li>
               </ul>
             </div>

@@ -5,6 +5,25 @@ import { useState } from "react";
 import missingData from "../../../public/img/empty.png";
 
 export const Donut = ({ data, theme }) => {
+
+
+  const getLegendColor = (themeMode) => {
+    switch (themeMode) {
+      case 'light':
+        return 'black';
+      case 'dark':
+        return 'white';
+      case 'purple':
+        return 'red';
+        case'green':
+        return'orange';
+      default:
+        return 'black';
+    }
+  }
+
+
+
   useEffect(() => {
     if (data) {
       const arrayOfKeys = data
@@ -27,7 +46,7 @@ export const Donut = ({ data, theme }) => {
             ...state.options.legend,
             labels: {
               ...state.options.legend.labels,
-              colors: theme.color,
+              colors: getLegendColor(theme.mode)
             },
           },
           dataLabels: {

@@ -1,196 +1,192 @@
 @import url("../../index.css");
 
-.topbar{
+.topbar {
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.topbar-wrapper {
+  height: 100%;
+  padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mobileMenuTrigger-container {
+  display: none;
+}
+.burgetButton {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: none;
+}
+.line {
+  margin: 0.7em;
+  border-radius: 20px;
+  transition: 0.3s ease-in-out;
+  width: 3em;
+  height: 0.3em;
+  background: rgb(45, 44, 43);
+}
+.logo {
+  font-weight: bold;
+  font-size: 30px;
+  color: darkblue;
+  cursor: pointer;
+}
+
+.top-right {
+  display: flex;
+  align-items: center;
+  color: #555;
+}
+.topicons-container {
+  position: relative;
+  margin-right: 10px;
+  cursor: pointer;
+  /* color:#555; */
+}
+.topicons-container img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.topicon-badge {
+  position: absolute;
+  top: -5px;
+  right: 0px;
+  background-color: red;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 10px;
+
+  color: white;
+}
+.topAvatar-container {
+  cursor: pointer;
+}
+.topbar-login {
+  margin-right: 20px;
+  display: flex;
+  gap: 14px;
+}
+.topbar-login span {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+}
+.topbar-login span:hover {
+  color: rgb(143, 38, 242);
+}
+.loginLink {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .topbar {
     width: 100%;
     height: 50px;
     background-color: white;
     position: sticky;
-    top:0;
+    top: 0;
     z-index: 999;
-
-}
-
-.topbar-wrapper{
-   
-    height: 100%;
-    padding: 0px 20px;
+  }
+  .languageIcon {
+    display: none;
+  }
+  .settingsIcon {
+    display: none;
+  }
+  .mobileMenuTrigger-container {
+    display: inline-block;
+  }
+  .top-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .topbar-wrapper {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-.mobileMenuTrigger-container{
-    display: none
-}
-.burgetButton{
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: none;
+  }
+  .burgetButton {
+    display: block;
+    transition: 0.3s ease-in-out;
+  }
+  .burgetButton.true .line:first-child {
+    transform: translateY(-300px);
+  }
 
-}
-.line{
-    margin: .7em;
-    border-radius: 20px;
-    transition: .3s ease-in-out;
-    width: 3em;
-    height: .3em;
-    background: rgb(45, 44, 43)
-   
-}
-.logo{
-    font-weight: bold;
-    font-size: 30px;
-    color: darkblue;
-    cursor: pointer;
-}
+  .burgetButton.true .line:nth-child(2) {
+    transform: rotate(-405deg) translateY(8px);
+  }
 
-.top-right{
-    display: flex;
-    align-items: center;color:#555;
+  .burgetButton.true .line:nth-child(3) {
+    transform: rotate(-320deg) translateY(-10px);
+  }
 }
-.topicons-container{
-    position: relative;
-    margin-right: 10px;
-    cursor: pointer;
-    /* color:#555; */
-   
-}
-.topicons-container img{
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-}
-.topicon-badge{
-    position: absolute;
-    top:-5px;
-    right:0px;
-    background-color: red;
-    width: 15px;
-    height: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 10px;
-    
-   
-    color: white;
-}
-.topAvatar-container{
-    cursor: pointer;
-}
-.topbar-login{
-margin-right: 20px;
-display: flex;
-gap:14px
-}
-.topbar-login span{
-cursor: pointer;
-font-size: 16px;
-font-weight: 600;
-display: block;
-
-}
-.topbar-login span:hover{
-color: rgb(143, 38, 242);
-
-}
-.loginLink{
-    
-    text-decoration: none;
-}
-
-
-@media screen and (max-width: 768px) {
-    .topbar{
-        width: 100%;
-        height: 50px;
-        background-color: white;
-        position: sticky;
-        top:0;
-        z-index: 999;
-
-    }
-    .languageIcon{
-        display: none;
-    }
-    .settingsIcon{
-        display: none;
-    }
-    .mobileMenuTrigger-container{
-        display: inline-block;
-    }
-    .top-left{
-        display: flex;
-        align-items: center;
-        gap:5px;
-    }
-    .topbar-wrapper{
-  
-        display: flex;
-       justify-content: space-between
-       
-    }
-    .burgetButton{
-        display: block;
-        transition: .3s ease-in-out;
-        
-    
-    }
-    .burgetButton.true .line:first-child {
-        transform: translateY(-300px);
-    }
-
-    .burgetButton.true .line:nth-child(2) {
-        transform: rotate(-405deg) translateY(8px);
-    }
-
-    .burgetButton.true .line:nth-child(3) {
-        transform: rotate(-320deg) translateY(-10px);
-    }
-   
-}
-
 
 /* THEMES */
 
 /* dark */
 
-#dark.topbar{
-
-    width: 100%;
-    height: 50px;
-    background: rgb(21, 25, 41);
-    position: sticky;
-    top:0;
-    z-index: 999;
+#dark.topbar {
+  width: 100%;
+  height: 50px;
+  background: rgb(21, 25, 41);
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
-#dark.logo{
-    font-weight: bold;
-    font-size: 30px;
-    color: rgb(224, 229, 229);
-    cursor: pointer;
+#dark.logo {
+  font-weight: bold;
+  font-size: 30px;
+  color: rgb(224, 229, 229);
+  cursor: pointer;
+}
+#dark .top-right {
+  display: flex;
+  align-items: center;
+  color: var(--dark-color);
 }
 
-#purple.topbar{
-background:var(--purple-five-linear);
-
+/* PURPLE */
+#purple.topbar {
+  background: var(--purple-five-linear);
 }
-#purple .logo{
-color:var(--purple-color);
+#purple .logo {
+  color: var(--purple-color);
+}
+#purple .top-right {
+  display: flex;
+  align-items: center;
+  color: var(--purple-color);
 }
 
+/* GREEN */
+#green.topbar {
+  background: var(--green-primary);
+}
+#green .top-right {
+    display: flex;
+    align-items: center;
+    color: var(--green-color);
+  }
 
-#green.topbar{
-    background:var(--green-primary);
-    
-    }
-    #green .logo{
-        color:var(--green-color);
-        }
-
-        
+#green .logo {
+  color: var(--green-color);
+}

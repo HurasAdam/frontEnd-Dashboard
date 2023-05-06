@@ -23,7 +23,7 @@
   --purple-six-linear:linear-gradient(to bottom, #1d1337 0%, #27233b 50%, #2b2a45 100%);
   --purple-primary-radial:linear-gradient(to bottom, #463a6b 0%, #1d1337 100%);
   --purple-bg-linear:linear-gradient(to bottom right, #1d1337 0%, #27233b 50%, #2b2a45 100%);
-
+--purple-sidebar-hover:linear-gradient(to bottom, #1d1337 0%, #27233b 50%, #2b2a45 100%);
 
   /* darkgreen theme */
   --green-primary: #282d35;

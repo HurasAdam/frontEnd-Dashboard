@@ -14,7 +14,7 @@ if(mode){
 }
 },[])
 
-const [state,dispatch]=useReducer(themeReducer,{theme:{mode:'light',color:'rgb(92, 92, 92)'}});
+const [state,dispatch]=useReducer(themeReducer,{theme:{mode:'light',sidebar:''}});
     return (
         <ThemeContext.Provider value={{...state,dispatch}}>
             {children}

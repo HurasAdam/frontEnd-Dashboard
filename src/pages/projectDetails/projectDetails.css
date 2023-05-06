@@ -1,3 +1,4 @@
+@import "../../index.css";
 .projectDetails {
   flex: 5;
   padding: 15px 18px;
@@ -24,12 +25,8 @@
 }
 .projectDataContainerLeft {
   flex: 3;
-  
 }
-#dark .projectDataContainerLeft {
-  flex: 3;
-  background-color: rgb(28, 36, 56);
-}
+
 
 .projectDataContainerTop {
   margin-top: 10px;
@@ -55,99 +52,84 @@
   height: max-content;
   flex-direction: column;
 }
-.projectDataBottomItemsWrapper{
+.projectDataBottomItemsWrapper {
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   display: flex;
   padding: 5px 0px 10px 0px;
-gap:10px
-
-
+  gap: 10px;
 }
-.projectDataBottomItemsLeft{
- display: flex;
- flex-direction: column;
- gap:6px;
- padding:0px 10px;
-  flex:4;
- justify-content: center;
-
-
+.projectDataBottomItemsLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0px 10px;
+  flex: 4;
+  justify-content: center;
 }
 
-.projectDataBottomItemsLeft .projectDataBottomItem input,textarea {
-width: 96%;
+.projectDataBottomItemsLeft .projectDataBottomItem input,
+textarea {
+  width: 96%;
 }
-.projectDataBottomItemsRight{
-
-flex:1;
-display: flex;
-flex-direction: column;
-align-items: center;
-
-
-
+.projectDataBottomItemsRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.projectDataBottomItemsRight .projectDataBottomItem{
- 
-width: 100%;
-display: flex;
+.projectDataBottomItemsRight .projectDataBottomItem {
+  width: 100%;
+  display: flex;
 
-align-items: center;
+  align-items: center;
 }
-.projectDataBottomItemsRight label{
-
+.projectDataBottomItemsRight label {
   width: max-content;
-text-align: center;
+  text-align: center;
 }
 
-.projectDataBottomItemsRight .projectDataBottomItem input:disabled{
-text-align: center;
-width: max-content;
-background-color:transparent;
-border-bottom: transparent;
+.projectDataBottomItemsRight .projectDataBottomItem input:disabled {
+  text-align: center;
+  width: max-content;
+  background-color: transparent;
+  border-bottom: transparent;
 }
-.projectDataBottomItemsRight .projectDataBottomItem select:disabled{
-border: none;
+.projectDataBottomItemsRight .projectDataBottomItem select:disabled {
+  border: none;
 }
-option:disabled{
-  color:rgb(64, 188, 193)
+option:disabled {
+  color: rgb(64, 188, 193);
 }
 
-.projectDataBottomItemsRight .projectDataBottomItem select{
-text-align: center;
-width: max-content;
+.projectDataBottomItemsRight .projectDataBottomItem select {
+  text-align: center;
+  width: max-content;
 }
-.projectDataBottomItem-img{
-
+.projectDataBottomItem-img {
   width: 65px;
   height: 65px;
   border-radius: 20%;
-  
+
   object-fit: cover;
 }
-
-
-
-
 
 .projectDataBottomItem {
   display: flex;
   flex-direction: column;
   margin-top: 15px;
 }
- .projectDataBottomItem > input {
+.projectDataBottomItem > input {
   height: 30px;
   border: none;
   border-bottom: 1px solid grey;
   font-size: 15px;
   padding: 0px 5px;
-  
 }
 .projectDataBottomItem > input:disabled {
-border-bottom: 1px solid rgb(213, 203, 203);
+  border-bottom: 1px solid rgb(213, 203, 203);
 
-background-color: transparent;
+  background-color: transparent;
 }
 .projectDataBottomItem textarea {
   resize: none;
@@ -158,7 +140,6 @@ background-color: transparent;
   margin-bottom: 5px;
   font-size: 14px;
   color: grey;
-  
 }
 
 .projectDataBottomItem select {
@@ -168,38 +149,8 @@ background-color: transparent;
   text-align: left;
   background: transparent;
   border-bottom: 1px ridge grey;
- 
 }
 
-#dark .projectDataBottomItem input:disabled{
- 
-  color: rgb(208, 208, 214);
-}
-#dark .projectDataBottomItem input{
- background-color:transparent;
-  color: rgb(243, 243, 248);
-}
-#dark .projectDataBottomItem textarea:disabled{
-  background-color: rgb(67, 70, 89);
-  color: rgb(202, 202, 208);
-}
-#dark .projectDataBottomItem textarea{
-  background-color: rgb(99, 101, 121);
-  color: rgb(243, 243, 248);
-}
-#dark .projectDataBottomItem label{
-  color: rgb(243, 243, 248);
-}
-
-#dark .projectDataBottomItem select {
- background-color:transparent;
- border-bottom: 1px solid white;
-  color: rgb(243, 243, 248);
-}
-
-#dark .projectDataBottomItem select option {
-  background-color: rgb(99, 101, 121);
-}
 
 .projectDataContainerRight {
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -283,9 +234,8 @@ background-color: transparent;
   justify-content: space-around;
 }
 
-
-.dataGrid{
-padding: 0px 5px;
+.dataGrid {
+  padding: 0px 5px;
 }
 
 .error {
@@ -298,3 +248,92 @@ padding: 0px 5px;
 }
 
 
+/* THEMES */
+
+/* DARK */
+
+#dark .projectHeaderContainer {
+color:var(--dark-color);
+}
+
+#dark .projectDataContainerLeft {
+  flex: 3;
+  background-color:var(--dark-secondary);
+  padding: 0px 8px;
+}
+#dark .projectDataBottomItem input:disabled {
+  color:var(--dark-color);
+  background-color: var(--dark-primary);
+}
+#dark .projectDataBottomItem input {
+  background-color: transparent;
+  color:var(--dark-color);
+  background-color: var(--dark-primary);
+}
+#dark .projectDataBottomItem textarea:disabled {
+  background-color: var(--dark-primary);
+  color: rgb(202, 202, 208);
+}
+#dark .projectDataBottomItem textarea {
+  background-color:var(--dark-primary);
+  color:var(--dark-color);
+}
+#dark .projectDataBottomItem label {
+  color:var(--dark-color);
+}
+
+#dark .projectDataBottomItem select {
+  background-color: transparent;
+  border-bottom: 1px solid white;
+  color:var(--dark-color);
+}
+
+#dark .projectDataBottomItem select option {
+  background-color: rgb(99, 101, 121);
+}
+
+/* PURPLE */
+#purple .projectHeaderContainer {
+  color:var(--purple-color);
+  }
+  
+  #purple .projectDataContainerLeft {
+    flex: 3;
+    background:var(--purple-bg-linear);
+    border: 2px solid #29233d;
+border-radius: 10px;
+box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
+padding: 0px 8px;
+  }
+  #purple .projectDataBottomItem input:disabled {
+    color:var(--dark-color);
+    background-color: var(--purple-primary);
+  }
+  #purple .projectDataBottomItem input {
+    background-color: transparent;
+    color:var(--dark-color);
+    background-color: var(--dark-primary);
+    border: none;
+  }
+  #purple .projectDataBottomItem textarea:disabled {
+    background-color: var(--purple-primary);
+    color: rgb(202, 202, 208);
+  }
+  #purple .projectDataBottomItem textarea {
+    background-color:var(--dark-primary);
+    color:var(--dark-color);
+  }
+  #purple .projectDataBottomItem label {
+    color:var(--dark-color);
+  }
+  
+  #purple .projectDataBottomItem select {
+    background-color: transparent;
+    border-bottom: 1px solid white;
+    color:var(--dark-color);
+  }
+  
+  #purple .projectDataBottomItem select option {
+    background-color: rgb(99, 101, 121);
+  }
+  

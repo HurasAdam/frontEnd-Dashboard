@@ -33,14 +33,11 @@
   font-size: 28px !important;
 }
 .settingsNavLink {
-  border: 1px solid rgba(255, 255, 255, 0.144);
-  border-right: 1px solid rgba(255, 255, 255, 0.068);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-  border-radius: 6px;
+
   text-decoration: none;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
   padding: 20px 40px;
+ 
 }
 
 
@@ -70,17 +67,26 @@
 #dark .settingsNavLink {
   background-color: var(--dark-secondary);
   color: rgb(243, 243, 248);
+  border: 1px solid rgba(11, 11, 11, 0.5);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  
 }
 #dark .active {
   background-color: var(--dark-third);
+
 }
 /* PURPLE */
 #purple .settingsNavLink {
-  background-color:var(--purple-primary);
+  background:var(--purple-third-linear);
   color: rgb(243, 243, 248);
+  border:1px solid #29233d;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
 }
 #purple .active {
-  background-color:var(--purple-fourth);
+  background:var(--purple-primary-linear);
 }
 
 /* GREEN */

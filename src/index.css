@@ -10,18 +10,28 @@
 
 
   /* purple theme */
-  --purple-primary:#443C68;
-  --purple-secondary:#393053;
+  --purple-primary:#393053;
+  --purple-secondary:linear-gradient(to bottom, #1d1337 0%, #654ea3 100%);
   --purple-third:#411f50;
   --purple-color: rgb(245, 240, 240);
   --purple-fourth:#c5b2c4;
+  --purple-primary-linear:linear-gradient(to bottom, #1d1337 0%, #654ea3 100%);
+  --purple-secondary-linear:linear-gradient(to bottom, #1d1337 0%, #2a2a2e 100%);
+  --purple-third-linear: linear-gradient(to bottom, #1d1337 0%, #463a6b 100%);
+  --purple-fourth-linear:linear-gradient(to bottom, #191124 0%, #1d1f21 100%);
+  --purple-five-linear:linear-gradient(to bottom, #1d1337 0%, #1f1c32 100%);
+  --purple-six-linear:linear-gradient(to bottom, #1d1337 0%, #27233b 50%, #2b2a45 100%);
+  --purple-primary-radial:linear-gradient(to bottom, #463a6b 0%, #1d1337 100%);
+  --purple-bg-linear:linear-gradient(to bottom right, #1d1337 0%, #27233b 50%, #2b2a45 100%);
+
 
   /* darkgreen theme */
-  --green-primary: #393E46;
+  --green-primary: #282d35;
   --green-secondary:#354850;
   --green-third:#3f6056;
   --green-fourth:#F5F0BB;
   --green-color: rgb(236, 230, 230); 
+  --green-primary-linear:linear-gradient(to bottom, #1d1337 0%, #008080 100%);
 }
 
 

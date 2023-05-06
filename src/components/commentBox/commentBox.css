@@ -1,3 +1,5 @@
+@import "../../index.css";
+
 .comment-box {
   display: flex;
   gap: 15px;
@@ -5,14 +7,10 @@
   box-sizing: border-box;
   margin: 1rem 0;
   margin-top: 30px;
- height: max-content
-
+  height: max-content;
 }
-
-
 .comment {
   display: flex;
-  
   flex-direction: column;
   margin-bottom: 1rem;
   background-color: #adbbd0;
@@ -21,44 +19,17 @@
   height: inherit;
   border-radius: 10px;
   border-top-left-radius: 20px;
-
-
 }
-#dark .comment {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  background-color: #adbbd0;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba;
-  border: 1px solid rgba(255, 255, 255, 0.144);
-  border-right: 1px solid rgba(255, 255, 255, 0.068);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-  border-radius: 10px;
-  border-top-left-radius: 20px;
-  background-color: rgb(39, 43, 66);
-  border: none;
-  box-shadow: 0px 0px 5px #060a28;
 
-}
-#dark .comment p {
-  background-color: rgb(67, 70, 89);
-}
 .commentFocus:focus {
   outline: none;
   box-sizing: border-box;
- 
 }
 .commentFocus-true {
-border: 2px dotted black;
-
-
+  border: 2px dotted black;
 }
 
-#dark .commentFocus-true {
-  border: 2px dotted rgb(177, 163, 163);
-  
-  }
+
 
 .comment-userInfo {
   display: flex;
@@ -93,7 +64,6 @@ border: 2px dotted black;
   background-color: rgb(235, 240, 244);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
- 
 }
 .editCommentIcon {
   cursor: pointer;
@@ -162,17 +132,7 @@ border: 2px dotted black;
   border-radius: 5px;
   background-color: rgb(159, 67, 178);
 }
-#dark .toggleNewCommentForm-action {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  padding: 6px 6px;
-  cursor: pointer;
-  color: white;
-  font-weight: 400;
-  border-radius: 5px;
-  background-color: rgb(47, 61, 153);
-}
+
 
 /* NEW COMMENT  */
 .newCommentForm {
@@ -185,36 +145,8 @@ border: 2px dotted black;
   min-height: 120px;
   padding: 3px;
   resize: none;
-
-  
-}
-#dark .newCommentForm textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 3px;
-  background-color: rgb(31, 35, 73);
-  color: rgb(243, 243, 248);
-  outline: none;
-  border: none;
-  box-shadow: 0px 0px 5px #23242a;
-  transition: border-color 0.5s ease-in-out;
-  border: 1px solid rgba(255, 255, 255, 0.144);
-  border-right: 1px solid rgba(255, 255, 255, 0.068);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 }
 
-
-
-#dark .newCommentForm textarea:focus {
-  width: 100%;
-  min-height: 120px;
-  padding: 3px;
-  background-color: rgb(31, 35, 73);
-  color: rgb(243, 243, 248);
-  border-color: #66afe9;
-  box-shadow: 0px 0px 5px #4b559f;
- 
-}
 .newCommentContainer {
   display: flex;
   flex-direction: column;
@@ -282,23 +214,139 @@ border: 2px dotted black;
   margin-left: 10px;
 }
 
-.addNewCommentButtonContainer{
-
+.addNewCommentButtonContainer {
   margin-top: 20px;
 }
-.addNewCommentButtonContainer button{
-padding: 6px;
-cursor: pointer;
-border-radius: 4px;
-border: none;
-font-weight: 600;
-background-color: rgb(74, 64, 163);
-transition: 0.1s ease;
-color:white
+.addNewCommentButtonContainer button {
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  font-weight: 600;
+  background-color: rgb(74, 64, 163);
+  transition: 0.1s ease;
+  color: white;
 }
 
-.addNewCommentButtonContainer button:hover{
+.addNewCommentButtonContainer button:hover {
+  background: #273ca8;
+}
 
-background: #273ca8;
 
+/* THEMES */
+
+#dark .comment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  background-color: #adbbd0;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  border-radius: 10px;
+  border-top-left-radius: 20px;
+  background-color: rgb(39, 43, 66);
+  border: none;
+  box-shadow: 0px 0px 5px #060a28;
+}
+#dark .comment p {
+  background:var(--dark-primary)
+}
+#dark .commentFocus-true {
+  border: 2px dotted rgb(177, 163, 163);
+}
+#dark .toggleNewCommentForm-action {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 6px 6px;
+  cursor: pointer;
+  color: var(--dark-color);
+  font-weight: 400;
+  border-radius: 5px;
+  background: var(--dark-third);
+}
+#dark .newCommentForm textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 3px;
+  background-color: rgb(31, 35, 73);
+  color: var(--dark-color);
+  outline: none;
+  border: none;
+  transition: border-color 0.5s ease-in-out;
+  border: 2px solid #313e47;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -5px rgba(186, 179, 179, 0.3);
+}
+#dark .newCommentForm textarea:focus {
+  width: 100%;
+  min-height: 120px;
+  padding: 3px;
+  background-color: rgb(31, 35, 73);
+  color: rgb(243, 243, 248);
+  border-color: #66afe9;
+  box-shadow: 0px 0px 5px #4b559f;
+}
+
+/* PURPLE */
+#purple .comment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  background-color: #adbbd0;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  border-radius: 10px;
+  border-top-left-radius: 20px;
+  background-color: rgb(39, 43, 66);
+  border: none;
+  box-shadow: 0px 0px 5px #060a28;
+}
+#purple .comment p {
+  background:var(--purple-primary)
+}
+#purple .commentFocus-true {
+  border: 2px dotted rgb(177, 163, 163);
+}
+#purple .toggleNewCommentForm-action {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 6px 6px;
+  cursor: pointer;
+  color: var(--dark-color);
+  font-weight: 400;
+  border-radius: 5px;
+  background: var(--purple-third);
+}
+#purple .newCommentForm textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 3px;
+  background: var(--purple-primary);
+  color: var(--purple-color);
+  outline: none;
+  border: none;
+  transition: border-color 0.5s ease-in-out;
+  border: 2px solid #635a63;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -5px rgba(186, 179, 179, 0.3);
+}
+#purple .newCommentForm textarea:focus {
+  width: 100%;
+  min-height: 120px;
+  padding: 3px;
+  background-color:var(--purple-primary);
+  color: rgb(243, 243, 248);
+  border-color: #66afe9;
+  box-shadow: 0px 0px 5px var(--purple-primary-linear)
+}
+#purple .file-input-label{
+  background:var(--purple-primary-radial)
 }

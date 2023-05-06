@@ -1,3 +1,4 @@
+@import '../../index.css';
 .ticketDetails {
   flex: 5;
   padding: 20px;
@@ -5,13 +6,7 @@
   overflow:auto;
 }
 
-#dark .ticketDetails {
-  flex: 5;
-  padding: 20px;
-  color: rgb(243, 243, 248);
-  height: calc(100vh - 50px);
-  overflow:auto;
-}
+
 
 .ticketHeaderContainer {
   display: flex;
@@ -42,13 +37,7 @@
   flex: 3;
   padding: 5px 30px;
 }
-#dark .ticketDataContainerLeft {
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  flex: 3;
-  padding: 5px 30px;
-  background-color: rgb(28, 36, 56);
-}
+
 
 .ticketDataContainerTop {
   margin-top: 15px;
@@ -63,10 +52,7 @@
   border-bottom: 1px double grey;
 }
 
-#dark .ticketInfoTopItem.title input:disabled {
-  border-bottom: 1px double grey;
-  color: rgb(243, 243, 248);
-}
+
 
 .ticketInfoTopItem.title {
   display: flex;
@@ -79,11 +65,7 @@
   font-size: 14px;
   color: grey;
 }
-#dark .ticketInfoTopItem.title label {
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: rgb(243, 243, 248);
-}
+
 
 .ticketInfoTopItem.title input {
   border: none;
@@ -100,14 +82,7 @@
   font-size: 14px;
 }
 
-#dark form select:disabled {
-  color: rgb(243, 243, 248);
-  background-color: rgb(67, 70, 89);
-}
 
-#dark form label {
-  color: rgb(243, 243, 248);
-}
 .ticketDataTopItemWrapper {
   display: flex;
   justify-content: space-around;
@@ -178,10 +153,7 @@
   flex-direction: column;
 }
 
-#dark select {
-  background-color: rgb(67, 70, 89);
-  color: rgb(243, 243, 248);
-}
+
 .ticketDataBottomItemWrapper-select label {
   margin-bottom: 5px;
   font-size: 14px;
@@ -199,11 +171,7 @@
   resize: none;
   width: 100%;
 }
-#dark .ticketDataBottomItem-textArea textarea {
-  resize: none;
-  background-color: rgb(67, 70, 89);
-  color: rgb(243, 243, 248);
-}
+
 .ticketDataBottomItem > label {
   margin-bottom: 5px;
   font-size: 14px;
@@ -306,3 +274,181 @@
 /* .ticketDetails::-webkit-scrollbar {
   display: none;
 } */
+
+/* THEMES */
+
+/* DARK */
+#dark .ticketDetails {
+  flex: 5;
+  padding: 20px;
+  color: var(--dark-color);
+  height: calc(100vh - 50px);
+  overflow:auto;
+}
+
+#dark .ticketDataContainerLeft {
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  flex: 3;
+  padding: 5px 30px;
+  background-color: var(--dark-secondary)
+}
+#dark .ticketInfoTopItem.title input:disabled {
+  border-bottom: 1px double grey;
+  color: var(--dark-color)
+}
+#dark .ticketInfoTopItem.title label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--dark-color)
+}
+#dark .ticketDetails-ticketTitle{
+ color:var(--dark-color);
+}
+#dark .ticketDetails-ticketTitle:enabled{
+  background-color: var(--dark-third);
+ }
+
+#dark form select:disabled {
+  color: rgb(243, 243, 248);
+  background-color:var(--dark-primary);
+}
+
+#dark form label {
+  color: var(--dark-color)
+}
+#dark select {
+  background-color: var(--dark-third);
+  color: var(--dark-color)
+}
+#dark .ticketDataBottomItem-textArea textarea {
+  resize: none;
+  background-color: var(--dark-third);
+  color: var(--dark-color)
+}
+
+#dark .ticketDataBottomItem-textArea textarea:disabled {
+
+  background-color: var(--dark-primary);
+color: var(--dark-color)
+}
+#dark .ticketInfoButtonWrapper button{
+background-color: var(--dark-third);
+}
+
+/* PURPLE */
+
+#purple .ticketDetails {
+  flex: 5;
+  padding: 20px;
+  color: var(--purple-color);
+  height: calc(100vh - 50px);
+  overflow:auto;
+}
+#purple .ticketDataContainerLeft {
+  border: 2px solid #29233d;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
+  flex: 3;
+  padding: 5px 30px;
+  background: var(--purple-bg-linear)
+}
+#purple .ticketInfoTopItem.title input:disabled {
+  /* border-bottom: 1px double grey; */
+  background-color: var(--purple-primary);
+  color: var(--purple-color)
+}
+#purple .ticketInfoTopItem.title label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--purple-color)
+}
+#purple .ticketDetails-ticketTitle{
+ color:var(--purple-color);
+}
+#purple .ticketDetails-ticketTitle:enabled{
+  background: var(--dark-primary);
+ }
+
+#purple form select:disabled {
+  color: rgb(243, 243, 248);
+  background:var(--purple-primary);
+}
+
+#purple form label {
+  color: var(--purple-color)
+}
+#purple select {
+  background: var(--dark-primary);
+  color: var(--purple-color)
+}
+#purple .ticketDataBottomItem-textArea textarea {
+  resize: none;
+  background: var(--dark-primary);
+  color: var(--purple-color)
+}
+
+#purple .ticketDataBottomItem-textArea textarea:disabled {
+  background: var(--purple-primary);
+color: var(--purple-color)
+}
+#purple .ticketInfoButtonWrapper button{
+  background-color: var(--purple-third);
+  }
+
+/* GREEN */
+#green .ticketDetails {
+  flex: 5;
+  padding: 20px;
+  color: var(--green-color);
+  height: calc(100vh - 50px);
+  overflow:auto;
+}
+#green .ticketDataContainerLeft {
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  flex: 3;
+  padding: 5px 30px;
+  background-color: var(--green-secondary)
+}
+#green .ticketInfoTopItem.title input:disabled {
+  border-bottom: 1px double grey;
+  color: var(--green-color);
+
+}
+#green .ticketInfoTopItem.title label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--green-color)
+}
+#green .ticketDetails-ticketTitle{
+ color:var(--green-color);
+}
+#green .ticketDetails-ticketTitle:enabled{
+  background-color: var(--green-third);
+ }
+
+#green form select:disabled {
+  color: rgb(243, 243, 248);
+  background-color:var(--green-primary);
+}
+
+#green form label {
+  color: var(--purple-color)
+}
+#green select {
+  background-color: var(--green-third);
+  color: var(--purple-color)
+}
+#green .ticketDataBottomItem-textArea textarea {
+  resize: none;
+  background: var(--green-third-linear);
+  color: var(--green-color)
+}
+#green .ticketDataBottomItem-textArea textarea:disabled {
+  background-color: var(--green-primary);
+color: var(--green-color)
+}
+#green .ticketInfoButtonWrapper button{
+  background-color: var(--green-third);
+  }

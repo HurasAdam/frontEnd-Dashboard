@@ -134,7 +134,7 @@ margin-bottom: 20px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     padding: 20px;
-    background-color: var(--purple-primary);
+    background:var(--purple-edge-linear);
     color:var(--dark-color);
     border-radius: 15px;    
     border: 1px solid rgba(255, 255, 255, 0.144);

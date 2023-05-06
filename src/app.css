@@ -13,13 +13,13 @@
 /* THEMES */
 #dark.container{
     display: flex;
-    background-color: var(--dark-primary)
+    background: var(--dark-primary)
 }
 #purple.container{
     display: flex;
-    background-color: var(--purple-secondary)
+    background: var(--purple-fourth-linear)
 }
 #green.container{
     display: flex;
-    background-color: var(--green-primary)
+    background: var(--green-primary)
 }

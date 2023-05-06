@@ -149,6 +149,10 @@ cursor: pointer;
   border-bottom: 1px solid rgba(255, 255, 255, 0.096);
   background-color:var(--dark-secondary)
 }
+#dark .profileSettingsItem input {
+background-color: var(--dark-primary);
+color:var(--dark-color);
+}
 
 #dark.profileSettingsForm label {
   color: var(--dark-color)
@@ -172,15 +176,22 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   height: max-content;
-  border: 1px solid rgba(255, 255, 255, 0.144);
-  border-right: 1px solid rgba(255, 255, 255, 0.068);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-  background-color:var(--purple-primary)
+  border: 2px solid #29233d;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
+  background:var(--purple-six-linear);
 }
 
 #purple.profileSettingsForm label {
   color: var(--purple-color)
 }
+#purple .profileSettingsItem input:disabled {
+  background-color: var(--purple-primary);
+}
+#purple .profileSettingsItem input {
+  background-color: var(--dark-primary);
+  color:var(--purple-color);
+  }
 
 /* GREEN */
 #green.profileSettings{
@@ -209,3 +220,7 @@ cursor: pointer;
 #green.profileSettingsForm label {
   color: var(--green-color)
 }
+#green .profileSettingsItem input {
+  background-color: var(--green-primary);
+  color:var(--green-color);
+  }

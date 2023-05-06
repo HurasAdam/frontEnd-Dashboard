@@ -239,7 +239,7 @@ gap:20px
 #purple.sidebar {
   flex: 1;
   height: calc(100vh - 50px);
-  background-color: var(--purple-primary);
+  background: var(--purple-six-linear);
   position: sticky;
   top: 50px;
 }

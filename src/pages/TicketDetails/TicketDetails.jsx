@@ -207,6 +207,7 @@ console.log(iseScrollable)
 
                         {data && (
                           <input
+                          className="ticketDetails-ticketTitle"
                             disabled={isDisabled}
                             type="text"
                             required

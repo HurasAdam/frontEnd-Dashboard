@@ -91,11 +91,10 @@ height: 100%; */
     /* background-color: rgb(28, 36, 56); */
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    background-color: var(--purple-primary);
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.144);
-    border-right: 1px solid rgba(255, 255, 255, 0.068);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+    background:var(--purple-edge-linear);
+    border: 2px solid #29233d;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
   
   #purple .missingaDataTxtWrapper span {

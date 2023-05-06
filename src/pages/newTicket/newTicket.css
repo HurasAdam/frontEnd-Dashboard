@@ -158,14 +158,14 @@
   #dark .newTicketItemSelectWrapper select {
     width: 90%;
     padding: 5px 0px;
-    background-color: rgb(67, 70, 89);
+    background:var(--dark-primary)
  
 
   }
   #dark .newTicketItem input {
     height: 35px;
     border: none;
-    background-color: rgb(67, 70, 89);
+    background-color: var(--dark-primary);
     color:var(--dark-color)
   }
   #dark .newTicketItemDescripion textarea {
@@ -173,15 +173,18 @@
     resize: none;
     width: 100%;
     height: 150px;
-    background-color: rgb(67, 70, 89);
+    background-color: var(--dark-primary);
   }
 
   /* PURPLE */
   #purple .newTicketConent {
     margin-top: 30px;
     padding: 5px 20px;
-    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    background-color:var(--purple-primary)
+  
+    background:var(--purple-bg-linear);
+    border: 2px solid #29233d;
+border-radius: 10px;
+box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   }
   #purple h2 {
     color: var(--purple-color);
@@ -207,14 +210,15 @@
   #purple .newTicketItemSelectWrapper select {
     width: 90%;
     padding: 5px 0px;
-    background-color:var(--purple-secondary);
- 
-
+    background:var(--dark-primary)
+  }
+  #purple .newTicketItemSelectWrapper select option {
+background:var(--dark-primary)
   }
   #purple .newTicketItem input {
     height: 35px;
     border: none;
-    background-color:var(--purple-secondary);
+    background:var(--dark-primary);
     color:var(--dark-color)
   }
   #purple .newTicketItemDescripion textarea {
@@ -222,7 +226,7 @@
     resize: none;
     width: 100%;
     height: 150px;
-    background-color:var(--purple-secondary);
+    background:var(--dark-primary)
   }
 
   /* GREEN */

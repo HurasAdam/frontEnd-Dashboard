@@ -14,9 +14,9 @@ export const Donut = ({ data, theme }) => {
       case 'dark':
         return 'white';
       case 'purple':
-        return 'red';
+        return 'orange';
         case'green':
-        return'orange';
+        return'white';
       default:
         return 'black';
     }

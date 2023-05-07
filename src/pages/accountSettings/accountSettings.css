@@ -77,9 +77,14 @@ flex:2;
   position: absolute;
   top:50%;
   right:0;
-  background-color: red;
   width: 20px;
   height: 20px;
+  cursor: pointer;
+  
+}
+.unhidePassword:hover{
+color:rgb(13, 107, 107);
+transition: all 0.2s ease-in-out;
 }
 .changePasswordButtonsWrapper{
   

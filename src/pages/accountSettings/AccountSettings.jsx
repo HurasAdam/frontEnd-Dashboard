@@ -1,37 +1,26 @@
 import "../accountSettings/accountSettings.css";
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 export const AccountSettings = () => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [changePassword, setChangePassword] = useState({
-    oldPassword:'',
-    newPassword:'',
-    repeatNewPassword:''
+    
+    oldPassword:{value:'',isHidden:true},
+    newPassword:{value:'',isHidden:true},
+    repeatNewPassword:{value:'',isHidden:true},
+    errorMessage:{value:''}
 
   });
 
   const toggleTheme = (e, THEME) => {
-    let color;
-
-    // if(THEME==='light'){
-    //   color='rgb(92, 92, 92)'
-    // }
-    // else if(THEME==='dark'){
-    //   color='rgb(230, 234, 237)'
-    // }
-    // if(THEME==='purple'){
-    //   color='white'
-    // }
-    // if(THEME==='green'){
-    //   color=' rgb(236, 230, 230); '
-    // }
-
+  
     themeSwitch({
       type: "LIGHT",
       payload: { mode: THEME, sidebar: "default" },
     });
     localStorage.setItem("mode", THEME);
-    // localStorage.setItem("color", color);
     console.log(theme);
   };
 
@@ -43,6 +32,16 @@ export const AccountSettings = () => {
     });
     localStorage.setItem("sidebar", color);
   };
+
+  const handlePasswordChange= (e)=>{
+    e.preventDefault();
+if(changePassword.newPassword.value!==changePassword.repeatNewPassword.value){
+  setChangePassword({...changePassword,errorMessage:'repeated password does not match the new password.'})
+}
+if(!changePassword.oldPassword.value||!changePassword.newPassword.value||!changePassword.repeatNewPassword.value){
+  setChangePassword({...changePassword,errorMessage:'All fields need to be filled'})
+}
+  }
 
   return (
     <div className="accountSettings">
@@ -57,25 +56,23 @@ export const AccountSettings = () => {
               </div>
              
                   <div className="changePasswordDataWrapper-item">
-               
                     <span>old password</span>
-              
-               
-                    <input type="text" onChange={(e)=>{e.preventDefault; setChangePassword({...changePassword,oldPassword:e.target.value})}} />
-                    <button className="unhidePassword">See</button>
+                
+                    <input type="text" onChange={(e)=>{e.preventDefault; setChangePassword({...changePassword,oldPassword:{...changePassword.oldPassword,value:e.target.value}})}} />
+                    <VisibilityOutlinedIcon onClick={(e)=> setChangePassword({...changePassword,oldPassword:{...changePassword.oldPassword,isHidden:false}})} className="unhidePassword"/>
                   </div>
                   <div className="changePasswordDataWrapper-item">
                     <span>new password</span>
-                    <input type="text" onChange={(e)=>{e.preventDefault; setChangePassword({...changePassword,newPassword:e.target.value})}} />
-                    <button className="unhidePassword">See</button>
+                    <input type="text" onChange={(e)=>{e.preventDefault; setChangePassword({...changePassword,newPassword:{...changePassword.newPassword,value:e.target.value}})}} />
+                    <VisibilityOutlinedIcon className="unhidePassword"/>
                   </div>
                   <div className="changePasswordDataWrapper-item">
                     <span>repeat new password</span>
-                    <input type="text"onChange={(e)=>{e.preventDefault();setChangePassword({...changePassword,repeatNewPassword:e.target.value})}} />
-                    <button className="unhidePassword">See</button>
+                    <input type="text"onChange={(e)=>{e.preventDefault();setChangePassword({...changePassword,repeatNewPassword:{...changePassword.repeatNewPassword,value:e.target.value}})}} />
+                    <VisibilityOutlinedIcon className="unhidePassword"/>
                   </div>
                   <div className="changePasswordButtonsWrapper">
-                    <button>save</button>
+                    <button onClick={(e)=>handlePasswordChange(e)}>save</button>
                
                   </div>
             

@@ -72,7 +72,7 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   
 }
-#dark .active {
+#dark .settingsNavLink.active {
   background-color: var(--dark-third);
 
 }
@@ -85,7 +85,7 @@
   box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   border-radius: 6px;
 }
-#purple .active {
+#purple .settingsNavLink.active {
   background:var(--purple-primary-linear);
 }
 
@@ -95,6 +95,6 @@
   background-color:var(--green-secondary);
   color: rgb(243, 243, 248);
 }
-#green .active {
+#green .settingsNavLink.active {
   background-color:var(--green-third);
 }

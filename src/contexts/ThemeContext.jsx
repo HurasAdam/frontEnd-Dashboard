@@ -7,10 +7,14 @@ export const ThemeContextProvider=({children})=>{
 
 useEffect(()=>{
 const mode = localStorage.getItem('mode')
-const color = localStorage.getItem('color')
+const sidebar = localStorage.getItem('sidebar')
+
 
 if(mode){
-    dispatch({ type: "LIGHT", payload: {mode:mode,color:color} });
+    dispatch({ type: "LIGHT", payload: {mode:mode} });
+}
+if(sidebar){
+    dispatch({type:'DARK',payload:{mode:state.mode,sidebar:sidebar}})
 }
 },[])
 

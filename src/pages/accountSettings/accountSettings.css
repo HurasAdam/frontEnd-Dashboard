@@ -26,7 +26,7 @@
   border-radius: 10px;
   box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   padding: 40px;
-
+  min-height: 60vh;
 }
 
 .accountSettings-right form {
@@ -42,19 +42,62 @@
   /* border: 2px solid orange; */
   display: flex;
   flex-direction: column;
-  padding: 40px;
+  padding: 35px;
   border: 2px solid #e7e7ea;
   border-radius: 10px;
   box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
-
-
 }
+
 
 .accountSettings-right-item {
-  display: flex;
-  justify-content: center;
-  padding: 35px 0px;
+display: flex;
+flex-direction: column;
+gap:15px;
 }
+.changePasswordDataWrapper-item{
+ 
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px;
+  position: relative;
+  gap:4px;
+}
+.changePasswordDataWrapper-item span{
+flex:1;
+font-size: 14px;
+}
+.changePasswordDataWrapper-item input{
+  padding: 4px;
+  border-radius: 5px;
+  border: none;
+
+flex:2;
+}
+.unhidePassword{
+  position: absolute;
+  top:50%;
+  right:0;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+}
+.changePasswordButtonsWrapper{
+  
+  display: flex;
+  margin-top: 40px;
+  justify-content: flex-end;
+}
+.changePasswordButtonsWrapper button{
+padding: 3px 12px;
+border: none;
+border-radius: 2px;
+font-weight: 600;
+background-color: green;
+color:white;
+}
+
+
+
 @media screen and (max-width: 1250px) {
   .accountSettings-right-item {
     display: flex;
@@ -65,6 +108,8 @@
     width: 100%;
     padding: 10px;
   }
+
+
   .accountSettings-right form {
     padding: 0;
   }
@@ -94,7 +139,6 @@
 .accountSettings-left-item {
   /* flex-direction: column; */
   display: flex;
-
   padding: 35px 0px;
 }
 .accountSettings-left-item span {
@@ -110,6 +154,7 @@
   flex-wrap: wrap;
   display: flex;
   gap: 10px;
+
   /* justify-content: space-around; */
 }
 .themeOptionsWrapper ul li {
@@ -124,32 +169,34 @@
   /* border: 2px solid yellow; */
 }
 
-.themeOptionsWrapper ul li span.dark {
+.themeOptionsWrapper ul li span.theme-dark {
   background-color: rgb(21, 25, 41);
 }
-.themeOptionsWrapper ul li span.dark.active {
-  border: 3px solid white;
+.themeOptionsWrapper ul li span.theme-dark.active {
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
 }
-.themeOptionsWrapper ul li span.light {
+.themeOptionsWrapper ul li span.theme-light {
   background-color: rgb(230, 226, 226);
 }
-.themeOptionsWrapper ul li span.light.active {
-  border: 3px solid black;
-  outline: 2px solid;
+.themeOptionsWrapper ul li span.theme-light.active {
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
 }
-.themeOptionsWrapper ul li span.purple {
+.themeOptionsWrapper ul li span.theme-purple {
   background-color: rgb(122, 23, 179);
 }
-.themeOptionsWrapper ul li span.purple.active {
-  border: 2px solid rgb(218, 212, 212);
+.themeOptionsWrapper ul li span.theme-purple.active {
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
 }
-.themeOptionsWrapper ul li span.green {
+.themeOptionsWrapper ul li span.theme-green {
   background-color: rgb(25, 66, 43);
 }
-.themeOptionsWrapper ul li span.orange.active {
-  border: 2px solid black;
+.themeOptionsWrapper ul li span.theme-green.active{
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
 }
-
 
 @keyframes fade-in {
   from {
@@ -160,8 +207,6 @@
   }
 }
 
-
-
 .themeOptionsWrapper .customize-sidebar {
   animation-name: fade-in;
   animation-duration: 1s;
@@ -170,27 +215,100 @@
   opacity: 0;
 }
 
-
-.themeOptionsWrapper .customize-sidebar li{
-
+.themeOptionsWrapper .customize-sidebar li span {
+  border: 1px solid black;
+  /* CUSTHOM SIDEBARDS FOR LIGHT THEME  */
 }
-.themeOptionsWrapper .customize-sidebar li .lightblue{
-  background:linear-gradient(to bottom right, #1e3c72, #2a5298);
-}
-.themeOptionsWrapper .customize-sidebar li .bluegreeny{
-  background:linear-gradient(to bottom right, #283c86, #45a247);
-}
-.themeOptionsWrapper .customize-sidebar li .moon{
-background-color: yellow;
-}
-.themeOptionsWrapper .customize-sidebar li .darksea{
-  background:linear-gradient(to bottom right, #1c2331, #384a5d);
-
-}
-.themeOptionsWrapper .customize-sidebar li .default{
-  background:linear-gradient(to bottom right, #2b2d42, #1c1e2e);
+.themeOptionsWrapper .customize-sidebar li span.active {
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
 }
 
+.themeOptionsWrapper .customize-sidebar li .light-two {
+  background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+}
+.themeOptionsWrapper .customize-sidebar li .light-four {
+  background: linear-gradient(to bottom right, #a65929, #161616);
+}
+.themeOptionsWrapper .customize-sidebar li .moon {
+  background-color: yellow;
+}
+.themeOptionsWrapper .customize-sidebar li .light-three {
+  background: linear-gradient(to bottom right, #1c2331, #384a5d);
+}
+.themeOptionsWrapper .customize-sidebar li .light-default {
+  background: linear-gradient(to bottom right, #2b2d42, #1c1e2e);
+}
+
+/* CURSTOM SIDEBARDS FOR DARK THEME  */
+
+.themeOptionsWrapper .customize-sidebar li .dark-default {
+  background: var(--dark-secondary);
+}
+
+.themeOptionsWrapper .customize-sidebar li .dark-two {
+  background-image: linear-gradient(45deg, #0a2c5a, #121212, rgba(18, 18, 18, 0));
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.themeOptionsWrapper .customize-sidebar li .dark-three {
+  background: rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(60deg, rgba(77, 182, 172, 0.3), rgba(0, 0, 0, 0.4), rgba(0, 150, 136, 0.6));
+}
+
+.themeOptionsWrapper .customize-sidebar li .dark-four {
+  background: linear-gradient(
+    to bottom right,
+    #001b1f,
+    #264653,
+    #2a2d34,
+    #000000
+  );
+}
+
+/* CUSTOM SIDEBAR FOR PURPLE THEME */
+
+.themeOptionsWrapper .customize-sidebar li .purple-default {
+  background: var(--dark-secondary);
+}
+
+.themeOptionsWrapper .customize-sidebar li .purple-two {
+  background: linear-gradient(
+    to bottom right,
+    #000000,
+    #1e1a2e,
+    #634173,
+    #8b62a7,
+    #634173,
+    #1e1a2e
+  );
+  background-color: #3f3d56;
+  background-blend-mode: multiply;
+}
+
+.themeOptionsWrapper .customize-sidebar li .purple-three {
+  background: linear-gradient(
+    to bottom left,
+    #131313 0%,
+    #3c2d4d 10%,
+    #131313 15%,
+    #503e77 30%,
+    #131313 35%,
+    #4f4d77 45%,
+    #131313 50%,
+    #3c2d4d 65%,
+    #131313 70%,
+    #503e77 80%,
+    #131313 85%,
+    #3c2d4d 90%,
+    #131313 100%
+  );
+}
+
+.themeOptionsWrapper .customize-sidebar li .purple-four {
+  background: linear-gradient(to bottom, #1d1337 0%, #654ea3 100%);
+}
 
 /* THEMES */
 
@@ -212,9 +330,16 @@ background-color: yellow;
   border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 }
 
+#dark .themeOptionsWrapper .customize-sidebar li span {
+  border: 2px solid rgb(116, 121, 133);
+}
+#dark .themeOptionsWrapper .customize-sidebar li span.active {
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
+}
+
 #purple .accountSettings {
   color: var(--purple-color);
-  
 }
 
 #purple .accountSettings-right {
@@ -222,7 +347,6 @@ background-color: yellow;
   border: 1px solid rgba(255, 255, 255, 0.144);
   border-right: 1px solid rgba(255, 255, 255, 0.068);
   border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-  
 }
 #purple .accountSettings-left {
   background: var(--purple-six-linear);
@@ -230,7 +354,15 @@ background-color: yellow;
   border-right: 1px solid rgba(255, 255, 255, 0.068);
   border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 }
+#purple .themeOptionsWrapper .customize-sidebar li span {
+  border: 2px solid rgb(84, 80, 86);
+}
+#purple .themeOptionsWrapper .customize-sidebar li span.active {
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
+}
 
+/* GREEN */
 #green .accountSettings {
   color: var(--green-color);
 }
@@ -246,4 +378,11 @@ background-color: yellow;
   border: 1px solid rgba(255, 255, 255, 0.144);
   border-right: 1px solid rgba(255, 255, 255, 0.068);
   border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+#green .themeOptionsWrapper .customize-sidebar li span {
+  border: 2px solid rgb(81, 84, 81);
+}
+#green .themeOptionsWrapper .customize-sidebar li span.active {
+  outline: 2px solid #007bff; /* kolor ramki */
+  outline-offset: 2px; /* odstęp między ramką a elementem */
 }

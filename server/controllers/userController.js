@@ -31,7 +31,13 @@ const loginUser = async (req, res) => {
       const token = createToken(user._id);
       res
         .status(200)
-        .json({userId:user._id,email, token, role: user.role, userAvatar: user.userAvatar });
+        .json({
+          userId: user._id,
+          email,
+          token,
+          role: user.role,
+          userAvatar: user.userAvatar,
+        });
     }
   } catch (Error) {
     console.log(Error);
@@ -130,7 +136,6 @@ const getUserData = async (req, res) => {
 const getUserList = async (req, res) => {
   const allUserList = await User.find({});
 
-
   //return list of all users as select options for new project
   if (
     !req.query.settings &&
@@ -209,19 +214,19 @@ const getUserList = async (req, res) => {
 
   //return list of users that are not asigned yet to the current project
   if (req.query.project) {
-    const projectId = req.query.project
+    const projectId = req.query.project;
     const project = await Project.find({ _id: projectId });
 
     //get ID of users asigned to the project
-    const contributorsListId = project
-      .map((ob) => ob.contributors)
-      .flat();
+    const contributorsListId = project.map((ob) => ob.contributors).flat();
 
     //get full list of Users
     const userList = await User.find({});
 
     //filter and return users that are not asigned to current project
-const filteredUserList = userList.filter((user)=>!contributorsListId.includes(user._id.toString()))
+    const filteredUserList = userList.filter(
+      (user) => !contributorsListId.includes(user._id.toString())
+    );
 
     const result = filteredUserList.map((user) => {
       return {
@@ -230,8 +235,8 @@ const filteredUserList = userList.filter((user)=>!contributorsListId.includes(us
         surname: user.surname,
         email: user.email,
         role: user.role,
-        gender:user.gender,
-        userAvatar:user.userAvatar
+        gender: user.gender,
+        userAvatar: user.userAvatar,
       };
     });
     return res.status(200).json(result);
@@ -256,24 +261,49 @@ const filteredUserList = userList.filter((user)=>!contributorsListId.includes(us
 };
 
 const updateUserData = async (req, res) => {
-  let { name, surname, email, adress, phone } = req.body;
+  let { name, surname, email, adress, phone, _id } = req.body;
 
-  const id = req.query.id || req.user._id;
+  const dbUser = await User.findOne({ _id: _id });
 
-  const updateUser = await User.findOneAndUpdate(
-    { _id: id },
-    {
-      $set: {
-        phone: phone,
-        surname: surname,
-        email: email,
-        adress: adress,
-        name: name,
-      },
+  try {
+    if (
+      req.user._id.toString() !== dbUser._id.toString() &&
+      req.user.role !== "admin"
+    ) {
+      throw Error("You dont have permissions to do this");
     }
-  );
+    if ((!name, !surname, !email)) {
+      throw Error("All fields need to be filled");
+    }
 
-  res.status(200).json();
+    const updateUser = await User.findOneAndUpdate(
+      { _id: dbUser._id },
+      {
+        $set: {
+          phone: phone,
+          surname: surname,
+          email: email,
+          adress: adress,
+          name: name,
+        },
+      }
+    );
+    res.status(200).json();
+
+    if (email !== dbUser.email) {
+      const updateUserEmail = await User.findOneAndUpdate(
+        { _id: dbUser._id },
+        {
+          $set: {
+            email: email,
+          },
+        }
+      );
+    }
+  } catch (Error) {
+    console.log(Error.message);
+    res.status(400).json(Error.message);
+  }
 };
 
 const updateUserRole = async (req, res) => {

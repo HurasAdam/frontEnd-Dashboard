@@ -46,7 +46,7 @@ export const User = ({ isEditLocked }) => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${user.token}`,
               },
-              body: JSON.stringify(userData),
+              body: JSON.stringify({...userData,_id:userId}),
         })
     }
 

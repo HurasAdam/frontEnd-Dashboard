@@ -2,7 +2,12 @@ import "./settingsPage.css";
 import { NavLink, Outlet } from "react-router-dom";
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { useFetch } from "../../hooks/useFetch";
+
 export const SettingsPage = () => {
+
+  const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
+
   return (
     <div className="settingsPage">
       <nav>

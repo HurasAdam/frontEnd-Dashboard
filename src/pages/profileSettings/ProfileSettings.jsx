@@ -25,6 +25,7 @@ useEffect(()=>{
 check()
 },[])
 
+
 const check = ()=>{
   const avatar = localStorage.getItem("userAvatar")
   if(avatar){
@@ -41,7 +42,10 @@ e.preventDefault()
             "Content-Type": "application/json",
             Authorization: `Bearer ${user.token}`,
           },
-          body: JSON.stringify(userSettings),
+          body: JSON.stringify({
+            name:userSettings.name,
+            surname:userSettings.surname
+          }),
         
     })
     if(response.ok){

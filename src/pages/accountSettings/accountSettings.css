@@ -25,13 +25,13 @@
   border: 2px solid #e7e7ea;
   border-radius: 10px;
   box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
-  padding: 40px;
+  padding: 20px 40px;
   min-height: 60vh;
 }
 
 .accountSettings-right form {
   /* border: 2px solid white; */
-  padding: 0px 30px;
+  padding: 0px 10px;
 
   display: flex;
   flex-direction: column;
@@ -49,27 +49,63 @@
 }
 
 
+.sectionToggleContainer{
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 40px;
+  gap:50px;
+  padding: 0px 20px;
+}
+.changePasswordTitleWrapper{
+
+  margin-bottom: 25px;
+}
+.sectionToggleContainer button{
+border: none;
+background:#345495;
+flex:1;
+font-weight: 600;
+color:var(--dark-color);
+text-align: center;
+padding: 5px;
+border-radius: 5px;
+border: 1px solid #666363;
+cursor: pointer;
+
+}
+.sectionToggleContainer button.active{
+  background:#5e80b7;
+  border: 1px solid transparent;
+  }
 .accountSettings-right-item {
 display: flex;
 flex-direction: column;
-gap:15px;
+
+gap:10px;
+
+/* border: 2px solid red; */
 }
 .changePasswordDataWrapper-item{
  
   display: flex;
   flex-direction: column;
-  padding: 20px 30px;
+  padding: 10px 35px;
+
   position: relative;
   gap:4px;
+
+  /* border: 2px solid red; */
 }
 .changePasswordDataWrapper-item span{
 flex:1;
 font-size: 14px;
 }
 .changePasswordDataWrapper-item input{
-  padding: 4px;
+  padding: 5px;
   border-radius: 5px;
-  border: none;
+ border: 1px solid rgb(212, 208, 208);
+ background:rgb(249, 248, 248);
+
 
 flex:2;
 }
@@ -80,10 +116,9 @@ flex:2;
   width: 20px;
   height: 20px;
   cursor: pointer;
-  
 }
 .unhidePassword:hover{
-color:rgb(13, 107, 107);
+color:rgb(155, 74, 193);
 transition: all 0.2s ease-in-out;
 }
 .changePasswordButtonsWrapper{
@@ -93,14 +128,27 @@ transition: all 0.2s ease-in-out;
   justify-content: flex-end;
 }
 .changePasswordButtonsWrapper button{
-padding: 3px 12px;
+padding: 6px 24px;
 border: none;
-border-radius: 2px;
+border-radius: 5px;
 font-weight: 600;
-background-color: green;
+background:rgb(33, 111, 33);
 color:white;
 }
 
+.handleChangePassworErrorWrapper{
+
+  display: flex;
+  justify-content: flex-start;
+  padding: 0px 30px;
+ 
+}
+.handleChangePassworError{
+  text-align: center;
+  font-size: 12px;
+  color:rgb(171, 70, 182);
+  font-weight: 600;
+}
 
 
 @media screen and (max-width: 1250px) {
@@ -342,6 +390,66 @@ color:white;
   outline: 2px solid #007bff; /* kolor ramki */
   outline-offset: 2px; /* odstęp między ramką a elementem */
 }
+#dark .changePasswordDataWrapper-item span{
+  flex:1;
+  font-size: 14px;
+  }
+  #dark .changePasswordDataWrapper-item input{
+    padding: 4px;
+    border-radius: 5px;
+    border: none;
+  
+  flex:2;
+  }
+  #dark .unhidePassword{
+    position: absolute;
+    top:50%;
+    right:0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  #dark .unhidePassword:hover{
+  color:rgb(13, 107, 107);
+  transition: all 0.2s ease-in-out;
+  }
+  #dark .changePasswordButtonsWrapper{
+    
+    display: flex;
+    margin-top: 40px;
+    justify-content: flex-end;
+  }
+  #dark .changePasswordButtonsWrapper button{
+  padding: 6px 24px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  background:var(--dark-third);
+  color:var(--dark-color);
+  }
+  
+  #dark .handleChangePassworErrorWrapper{
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 30px;
+   
+  }
+  #dark .handleChangePassworError{
+    text-align: center;
+    font-size: 12px;
+    color:rgb(67, 161, 144)
+  }
+
+
+
+
+
+
+
+
+
+
+/* PURPLE */
 
 #purple .accountSettings {
   color: var(--purple-color);
@@ -367,6 +475,61 @@ color:white;
   outline-offset: 2px; /* odstęp między ramką a elementem */
 }
 
+#purple .changePasswordDataWrapper-item span{
+  flex:1;
+  font-size: 14px;
+  }
+  #purple .changePasswordDataWrapper-item input{
+    padding: 4px;
+    border-radius: 5px;
+    border: none;
+  
+  flex:2;
+  }
+  #purple .unhidePassword{
+    position: absolute;
+    top:50%;
+    right:0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  #purple .unhidePassword:hover{
+  color:rgb(182, 112, 47);
+  transition: all 0.2s ease-in-out;
+  }
+  #purple .changePasswordButtonsWrapper{
+    
+    display: flex;
+    margin-top: 40px;
+    justify-content: flex-end;
+  }
+  #purple .changePasswordButtonsWrapper button{
+  padding: 6px 24px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  background:var(--purple-primary-radial);
+  color:var(--dark-color);
+  }
+  
+  #purple .handleChangePassworErrorWrapper{
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 30px;
+   
+  }
+  #purple .handleChangePassworError{
+    text-align: center;
+    font-size: 12px;
+    color:rgb(165, 139, 38)
+  }
+
+
+
+
+
+
 /* GREEN */
 #green .accountSettings {
   color: var(--green-color);
@@ -391,3 +554,54 @@ color:white;
   outline: 2px solid #007bff; /* kolor ramki */
   outline-offset: 2px; /* odstęp między ramką a elementem */
 }
+#green .changePasswordDataWrapper-item span{
+  flex:1;
+  font-size: 14px;
+  }
+  #green .changePasswordDataWrapper-item input{
+    padding: 4px;
+    border-radius: 5px;
+    border: none;
+  
+  flex:2;
+  }
+  #green .unhidePassword{
+    position: absolute;
+    top:50%;
+    right:0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  #green .unhidePassword:hover{
+  color:rgb(190, 181, 19);
+  transition: all 0.2s ease-in-out;
+  }
+  #green .changePasswordButtonsWrapper{
+    
+    display: flex;
+    margin-top: 40px;
+    justify-content: flex-end;
+    
+  }
+  #green .changePasswordButtonsWrapper button{
+  padding: 6px 24px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  background:rgb(11, 110, 135);
+  color:var(--green-color);
+  }
+  
+  #green .handleChangePassworErrorWrapper{
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 30px;
+   
+  }
+  #green .handleChangePassworError{
+    text-align: center;
+    font-size: 12px;
+    color:rgb(209, 186, 54)
+  }
+

@@ -6,7 +6,7 @@ import { settLocalStorage } from "../../utils/SettlocalStorage"
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { ThemeContext } from '../../contexts/ThemeContext'
 import { Link,Outlet } from "react-router-dom"
-export const ProfileSettings=()=>{
+export const ProfileSettings=({updateUserData,uploadUserAvatar})=>{
 
 const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
 const [userSettings,setUserSettings]=useState({})
@@ -34,51 +34,6 @@ const check = ()=>{
  
 }
 
-const updateUserData=async(e)=>{
-e.preventDefault()
-    const response = await fetch(`http://127.0.0.1:3000/api/user/`,{
-        method:"PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify({
-            name:userSettings.name,
-            surname:userSettings.surname
-          }),
-        
-    })
-    if(response.ok){
-     setIsEdited(false)
-    }
-}
-
-const uploadUserAvatar = async (e) => {
-    e.preventDefault()
-    const file = new FormData();
-    file.append("file", selectedFile);
-
-    const response = await fetch(`http://127.0.0.1:3000/api/user/upload?id=${user.userId}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-      body:
-        file
-        
-      
-    });
-    if(response.ok){
-const json = await response.json()
-
-
-
-
-
-localStorage.setItem('userAvatar',json.data)
-// localStorage.setItem('user', JSON.stringify(updatedUser))
-}
-  };
 
     return(
 

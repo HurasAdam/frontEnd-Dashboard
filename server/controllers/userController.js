@@ -261,50 +261,64 @@ const getUserList = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
-  let { name, surname, email, adress, phone, _id } = req.body;
+  let { name, surname, adress, phone } = req.body;
 
-  const dbUser = await User.findOne({ _id: _id });
+  const user = req.user
 
-  try {
-    if (
-      req.user._id.toString() !== dbUser._id.toString() &&
-      req.user.role !== "admin"
-    ) {
-      throw Error("You dont have permissions to do this");
-    }
-    if ((!name, !surname, !email)) {
-      throw Error("All fields need to be filled");
-    }
+//  const doesEmailExist=  await User.find({email:email})
 
-    const updateUser = await User.findOneAndUpdate(
-      { _id: dbUser._id },
-      {
-        $set: {
-          phone: phone,
-          surname: surname,
-          email: email,
-          adress: adress,
-          name: name,
-        },
-      }
-    );
-    res.status(200).json();
+  const updatedFields= {};
+  try{
 
-    if (email !== dbUser.email) {
-      const updateUserEmail = await User.findOneAndUpdate(
-        { _id: dbUser._id },
-        {
-          $set: {
-            email: email,
-          },
-        }
-      );
-    }
-  } catch (Error) {
-    console.log(Error.message);
-    res.status(400).json(Error.message);
-  }
+
+
+if(name&&!validator.isAlpha(name)){
+  throw Error('Name should only contain letters')
+}
+if( surname&&!validator.isAlpha(surname)){
+  throw Error('Name should only contain letters')
+}
+
+// if(email && !validator.isEmail(email)){
+//   throw Error('Invalid email format ')
+// }
+// if(email && doesEmailExist.length>0){
+//   throw Error('Email already in use ')
+// }
+if(name&&!validator.isLength(name,{max:20})){
+  throw Error('Name is to long')
+}
+if(surname&&!validator.isLength(surname,{max:20})){
+  throw Error('Surname is to long')
+}
+
+
+
+  if(name&&name!==user.name) updatedFields.name=name;
+  if(surname&&surname!==user.surname) updatedFields.surname=surname;
+  if(phone&&phone!==user.phone) updatedFields.phone=phone;
+  if(adress&&adress!==user.adress) updatedFields.adress=adress;
+  // if(email&&email!==user.email) updatedFields.email=email;
+
+  
+  const updateUserData= await User.findOneAndUpdate({_id:req.user._id},{
+    $set:updatedFields},
+    {new:true}
+  )
+return res.status(200).json(updateUserData)
+}
+catch(Error){
+return res.status(400).json(Error.message)
+}
+
 };
+
+
+
+
+
+
+
 
 const updateUserRole = async (req, res) => {
   const { selectedUser, role } = req.body;

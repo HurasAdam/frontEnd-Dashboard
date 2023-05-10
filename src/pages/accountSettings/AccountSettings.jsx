@@ -6,7 +6,7 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import { useContext, useState } from "react";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-export const AccountSettings = () => {
+export const AccountSettings = ({triggerCredentials,fire}) => {
 
  
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
@@ -17,30 +17,6 @@ export const AccountSettings = () => {
     repeatNewPassword: { value: "", isHidden: true },
     errorMessage: { value: "" },
   });
-
-
-
-const updateUserData=async(e)=>{
-e.preventDefault()
-    const response = await fetch(`http://127.0.0.1:3000/api/user/`,{
-        method:"PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify({
-            name:userSettings.name,
-            surname:userSettings.surname
-          }),
-        
-    })
-    if(response.ok){
-     setIsEdited(false)
-    }
-}
-
-
-
 
 
 
@@ -281,40 +257,16 @@ e.preventDefault()
                 <div className="changePasswordDataWrapper-item">
                   <span>new email</span>
                   <input
-                    type={
-                      changePassword.newPassword.isHidden ? "password" : "text"
-                    }
-                    onChange={(e) => {
-                      e.preventDefault;
-                      setChangePassword({
-                        ...changePassword,
-                        newPassword: {
-                          ...changePassword.newPassword,
-                          value: e.target.value,
-                        },
-                      });
-                    }}
+                    type="email" name="email" placeholder="type in new email"
+                  onChange={(e)=>triggerCredentials('email','newEmail',e.target.value)}
                   />
                 
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new email</span>
                   <input
-                    type={
-                      changePassword.repeatNewPassword.isHidden
-                        ? "password"
-                        : "text"
-                    }
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setChangePassword({
-                        ...changePassword,
-                        repeatNewPassword: {
-                          ...changePassword.repeatNewPassword,
-                          value: e.target.value,
-                        },
-                      });
-                    }}
+                    type="email" name='email'placeholder="repeat new email"
+                   onChange={(e)=>triggerCredentials('email','repeatNewEmail',e.target.value)}
                   />
                  
                 </div>
@@ -326,7 +278,7 @@ e.preventDefault()
                   </div>
                 ) : null}
                 <div className="changePasswordButtonsWrapper">
-                  <button onClick={(e) => handlePasswordChange(e)}>save</button>
+                  <button onClick={(e)=>{e.preventDefault(); fire()}}>save</button>
                 </div>
               </div>
             </form>

@@ -6,33 +6,33 @@ import { settLocalStorage } from "../../utils/SettlocalStorage"
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { ThemeContext } from '../../contexts/ThemeContext'
 import { Link,Outlet } from "react-router-dom"
-export const ProfileSettings=({updateUserData,uploadUserAvatar})=>{
+export const ProfileSettings=({updateUserData,uploadUserAvatar,data,handleInputUpdate,trigger})=>{
 
-const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
+// const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
 const [userSettings,setUserSettings]=useState({})
 const [selectedFile, setSelectedFile] = useState();
 const [isEdited,setIsEdited]=useState(false)
 const {user}=useContext(AuthContext)
 const {theme}=useContext(ThemeContext)
 const [checker,setChecker]=useState({})
-useEffect(()=>{
-    if(data){
-        setUserSettings(data)
-    }
-},[data])
+// useEffect(()=>{
+//     if(data){
+//         setUserSettings(data)
+//     }
+// },[data])
 
-useEffect(()=>{
-check()
-},[])
+// useEffect(()=>{
+// check()
+// },[])
 
 
-const check = ()=>{
-  const avatar = localStorage.getItem("userAvatar")
-  if(avatar){
-    setChecker(avatar)
-  }
+// const check = ()=>{
+//   const avatar = localStorage.getItem("userAvatar")
+//   if(avatar){
+//     setChecker(avatar)
+//   }
  
-}
+// }
 
 
     return(
@@ -41,40 +41,40 @@ const check = ()=>{
 
 <span className="profileSettingsTitle"><PeopleAltOutlinedIcon/> Profile Settings</span>
 
-          <form className="profileSettingsForm" id={theme.mode}>
+          {data&&<form className="profileSettingsForm" id={theme.mode}>
             <div className="profileSettingsItem">
               <label>Username</label>
-              <input disabled={!isEdited} type="text" defaultValue={userSettings.name}  onChange={(e)=>setUserSettings({...userSettings, name:e.target.value})}/>
+              <input disabled={!isEdited} type="text" defaultValue={data.name}  onChange={(e)=>handleInputUpdate('name',e.target.value)}/>
             </div>
             <div className="profileSettingsItem">
               <label>Surname</label>
-              <input disabled={!isEdited} type="text" defaultValue={userSettings.surname} onChange={(e)=>setUserSettings({...userSettings, surname:e.target.value})}/>
+              <input disabled={!isEdited} type="text" defaultValue={data.surname} onChange={(e)=>handleInputUpdate('surname',e.target.value)}/>
             </div>
             <div className="profileSettingsItem">
               <label>Email</label>
-              <input disabled={!isEdited} type="email" defaultValue={userSettings.email} onChange={(e)=>setUserSettings({...userSettings, email:e.target.value})} />
+              <input disabled={true} type="email" defaultValue={data.email} />
             </div>
         
             <div className="profileSettingsItem">
               <label>Phone</label>
-              <input disabled={!isEdited} type="number" defaultValue={userSettings.phone} onChange={(e)=>setUserSettings({...userSettings, phone:e.target.value})}/>
+              <input disabled={!isEdited} type="number" defaultValue={data.phone} onChange={(e)=>handleInputUpdate('phone',e.target.value)}/>
             </div>
             <div className="profileSettingsItem">
               <label>Adress</label>
-              <input disabled={!isEdited} type="text" defaultValue={userSettings.adress} onChange={(e)=>setUserSettings({...userSettings, adress:e.target.value})} />
+              <input disabled={!isEdited} type="text" defaultValue={data.adress} onChange={(e)=>handleInputUpdate('adress',e.target.value)} />
             </div>
             <div className="profileSettingsItem">
               <label>Birthday</label>
-              <input disabled={true} type="text" defaultValue={userSettings.birthDay} />
+              <input disabled={true} type="text" defaultValue={data.birthDay} />
             </div>
             <div className="profileSettingsItem">
               <label>Account created</label>
               {userSettings.createdAt&&<input disabled={true} type="text" 
-              defaultValue={`${userSettings.createdAt.Day}/${userSettings.createdAt.Month}/${userSettings.createdAt.Year}`}/>}
+              defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}/>}
             </div>
             <div className="profileSettingsItem">
               <label>Account role</label>
-              <input disabled={true} type="text" defaultValue={userSettings.role}  />
+              <input disabled={true} type="text" defaultValue={data.role}  />
             </div>
             <div className="profileSettingsItem">
               <label>Gender</label>
@@ -94,10 +94,10 @@ const check = ()=>{
           <button onClick={uploadUserAvatar}>Save</button>
             </div>
             <div className="profileSettingsButtonContainer">
-            {isEdited?(<button className="profileSettingsButton" onClick={updateUserData}>Update</button>):
+            {isEdited?(<button className="profileSettingsButton" onClick={(e)=>trigger(e)}>Update</button>):
             (<button onClick={(e)=>{e.preventDefault();setIsEdited(true)}} className="profileSettingsButton">Edit</button>)}
             </div>
-          </form>
+          </form>}
 
         </div>
     )

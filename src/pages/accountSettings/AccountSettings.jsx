@@ -1,25 +1,16 @@
 import "../accountSettings/accountSettings.css";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import AlternateEmailOutlinedIcon from "@mui/icons-material/AlternateEmailOutlined";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import { useContext, useState } from "react";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-export const AccountSettings = ({triggerCredentials,fire}) => {
-
- 
+export const AccountSettings = ({ triggerCredentials, fire,userData }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
-  const [changePassword, setChangePassword] = useState({
-    oldPassword: { value: "", isHidden: true },
-    newPassword: { value: "", isHidden: true },
-    repeatNewPassword: { value: "", isHidden: true },
-    errorMessage: { value: "" },
-  });
 
-
-
+  console.log(userData)
   const toggleTheme = (e, THEME) => {
     themeSwitch({
       type: "LIGHT",
@@ -67,218 +58,112 @@ export const AccountSettings = ({triggerCredentials,fire}) => {
       <div className="accountSettingsContent">
         <div className="accountSettings-right">
           <div className="sectionToggleContainer">
-          <button 
-          className={`toggleSectionBtn ${!toggleTab?'active':''}`}
-        disabled={!toggleTab?true:false}
-            onClick={(e) => {
-              e.preventDefault;
-              setToggleTab(!toggleTab);
-            }}
-          >
-            Password
-          </button>
-          <button
-          className={`toggleSectionBtn ${toggleTab?'active':''}`}
-          disabled={toggleTab?true:false}
-            onClick={(e) => {
-              e.preventDefault;
-              setToggleTab(!toggleTab);
-            }}
-          >
-            Email
-          </button>
+            <button
+              className={`toggleSectionBtn ${!toggleTab ? "active" : ""}`}
+              disabled={!toggleTab ? true : false}
+              onClick={(e) => {
+                e.preventDefault;
+                setToggleTab(!toggleTab);
+              }}
+            >
+              Password
+            </button>
+            <button
+              className={`toggleSectionBtn ${toggleTab ? "active" : ""}`}
+              disabled={toggleTab ? true : false}
+              onClick={(e) => {
+                e.preventDefault;
+                setToggleTab(!toggleTab);
+              }}
+            >
+              Email
+            </button>
           </div>
           {!toggleTab ? (
-            
             <form>
               <div className="accountSettings-right-item">
                 <div className="changePasswordTitleWrapper">
-                <LockOpenOutlinedIcon/><span>Change Password</span>
+                  <LockOpenOutlinedIcon />
+                  <span>Change Password</span>
                 </div>
 
                 <div className="changePasswordDataWrapper-item">
                   <span>current password</span>
 
-                  <input
-                    type={
-                      changePassword.oldPassword.isHidden ? "password" : "text"
-                    }
-                    onChange={(e) => {
-                      e.preventDefault;
-                      setChangePassword({
-                        ...changePassword,
-                        oldPassword: {
-                          ...changePassword.oldPassword,
-                          value: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                  {changePassword.oldPassword.isHidden ? (
-                    <VisibilityOutlinedIcon
-                      onClick={(e) =>
-                        setChangePassword({
-                          ...changePassword,
-                          oldPassword: {
-                            ...changePassword.oldPassword,
-                            isHidden: false,
-                          },
-                        })
-                      }
-                      className="unhidePassword"
-                    />
-                  ) : (
-                    <VisibilityOffOutlinedIcon
-                      className="unhidePassword"
-                      onClick={(e) =>
-                        setChangePassword({
-                          ...changePassword,
-                          oldPassword: {
-                            ...changePassword.oldPassword,
-                            isHidden: true,
-                          },
-                        })
-                      }
-                    />
-                  )}
+                  <input type="text" />
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>new password</span>
-                  <input
-                    type={
-                      changePassword.newPassword.isHidden ? "password" : "text"
-                    }
-                    onChange={(e) => {
-                      e.preventDefault;
-                      setChangePassword({
-                        ...changePassword,
-                        newPassword: {
-                          ...changePassword.newPassword,
-                          value: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                  {changePassword.newPassword.isHidden ? (
-                    <VisibilityOutlinedIcon
-                      className="unhidePassword"
-                      onClick={(e) =>
-                        setChangePassword({
-                          ...changePassword,
-                          newPassword: {
-                            ...changePassword.newPassword,
-                            isHidden: false,
-                          },
-                        })
-                      }
-                    />
-                  ) : (
-                    <VisibilityOffOutlinedIcon
-                      className="unhidePassword"
-                      onClick={(e) =>
-                        setChangePassword({
-                          ...changePassword,
-                          newPassword: {
-                            ...changePassword.newPassword,
-                            isHidden: true,
-                          },
-                        })
-                      }
-                    />
-                  )}
+                  <input type="text" />
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new password</span>
-                  <input
-                    type={
-                      changePassword.repeatNewPassword.isHidden
-                        ? "password"
-                        : "text"
-                    }
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setChangePassword({
-                        ...changePassword,
-                        repeatNewPassword: {
-                          ...changePassword.repeatNewPassword,
-                          value: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                  {changePassword.repeatNewPassword.isHidden ? (
-                    <VisibilityOutlinedIcon
-                      className="unhidePassword"
-                      onClick={(e) =>
-                        setChangePassword({
-                          ...changePassword,
-                          repeatNewPassword: {
-                            ...changePassword.repeatNewPassword,
-                            isHidden: false,
-                          },
-                        })
-                      }
-                    />
-                  ) : (
-                    <VisibilityOffOutlinedIcon
-                      className="unhidePassword"
-                      onClick={(e) =>
-                        setChangePassword({
-                          ...changePassword,
-                          repeatNewPassword: {
-                            ...changePassword.repeatNewPassword,
-                            isHidden: true,
-                          },
-                        })
-                      }
-                    />
-                  )}
+                  <input type="text" />
                 </div>
-                {changePassword.errorMessage.value !== "" ? (
-                  <div className="handleChangePassworErrorWrapper">
-                    <p className="handleChangePassworError">
-                      {changePassword.errorMessage}
-                    </p>
-                  </div>
-                ) : null}
+
                 <div className="changePasswordButtonsWrapper">
                   <button onClick={(e) => handlePasswordChange(e)}>save</button>
                 </div>
               </div>
             </form>
           ) : (
+            // EMAIL SECTION
             <form>
               <div className="accountSettings-right-item">
                 <div className="changePasswordTitleWrapper">
-                <AlternateEmailOutlinedIcon/><span>Change Email</span>
+                  <AlternateEmailOutlinedIcon />
+                  <span>Change Email</span>
+                </div>
+                <div className="changePasswordDataWrapper-item">
+                  <span>current email</span>
+                  <input
+                  disabled={true}
+                    type="email"
+                    name="email"
+                    value={userData.data.email}
+                 
+                  />
                 </div>
 
-         
                 <div className="changePasswordDataWrapper-item">
                   <span>new email</span>
                   <input
-                    type="email" name="email" placeholder="type in new email"
-                  onChange={(e)=>triggerCredentials('email','newEmail',e.target.value)}
+                    type="email"
+                    name="email"
+                    placeholder="type in new email"
+                    onChange={(e) =>
+                      triggerCredentials("email", "newEmail", e.target.value)
+                    }
                   />
-                
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new email</span>
                   <input
-                    type="email" name='email'placeholder="repeat new email"
-                   onChange={(e)=>triggerCredentials('email','repeatNewEmail',e.target.value)}
+                    type="email"
+                    name="email"
+                    placeholder="repeat new email"
+                    onChange={(e) =>
+                      triggerCredentials(
+                        "email",
+                        "repeatNewEmail",
+                        e.target.value
+                      )
+                    }
                   />
-                 
                 </div>
-                {changePassword.errorMessage.value !== "" ? (
-                  <div className="handleChangePassworErrorWrapper">
-                    <p className="handleChangePassworError">
-                      {changePassword.errorMessage}
-                    </p>
-                  </div>
-                ) : null}
+                <div className="statusMessageContainer">
+              <span>{userData.userCredentials.email.error}</span>
+              </div>
                 <div className="changePasswordButtonsWrapper">
-                  <button onClick={(e)=>{e.preventDefault(); fire()}}>save</button>
+                  <button
+                  disabled={userData.userCredentials.email.newEmail===''||userData.userCredentials.email.repeatNewPassword===''?true:false}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      fire();
+                    }}
+                  >
+                    save
+                  </button>
                 </div>
               </div>
             </form>

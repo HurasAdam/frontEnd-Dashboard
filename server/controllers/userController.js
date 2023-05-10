@@ -261,11 +261,11 @@ const getUserList = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
-  let { name, surname, adress, phone } = req.body;
+  let { name, surname, adress, phone,email } = req.body;
 
   const user = req.user
-
-//  const doesEmailExist=  await User.find({email:email})
+console.log(req.body)
+ const doesEmailExist=  await User.find({email:email})
 
   const updatedFields= {};
   try{
@@ -279,12 +279,12 @@ if( surname&&!validator.isAlpha(surname)){
   throw Error('Name should only contain letters')
 }
 
-// if(email && !validator.isEmail(email)){
-//   throw Error('Invalid email format ')
-// }
-// if(email && doesEmailExist.length>0){
-//   throw Error('Email already in use ')
-// }
+if(email && !validator.isEmail(email)){
+  throw Error('Invalid email format ')
+}
+if(email && doesEmailExist.length>0){
+  throw Error('Email already in use ')
+}
 if(name&&!validator.isLength(name,{max:20})){
   throw Error('Name is to long')
 }
@@ -298,14 +298,14 @@ if(surname&&!validator.isLength(surname,{max:20})){
   if(surname&&surname!==user.surname) updatedFields.surname=surname;
   if(phone&&phone!==user.phone) updatedFields.phone=phone;
   if(adress&&adress!==user.adress) updatedFields.adress=adress;
-  // if(email&&email!==user.email) updatedFields.email=email;
+  if(email&&email!==user.email) updatedFields.email=email;
 
   
   const updateUserData= await User.findOneAndUpdate({_id:req.user._id},{
     $set:updatedFields},
     {new:true}
   )
-return res.status(200).json(updateUserData)
+return res.status(200).json({data:updateUserData,message:'updated successfully'})
 }
 catch(Error){
 return res.status(400).json(Error.message)

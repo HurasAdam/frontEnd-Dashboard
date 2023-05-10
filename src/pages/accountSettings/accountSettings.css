@@ -48,6 +48,11 @@
   box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
 }
 
+.statusMessageContainer{
+  padding: 5px 30px;
+  font-size: 14px;
+  color:orange
+}
 
 .sectionToggleContainer{
   display: flex;
@@ -136,7 +141,7 @@ background:rgb(33, 111, 33);
 color:white;
 }
 
-.handleChangePassworErrorWrapper{
+/* .handleChangePassworErrorWrapper{
 
   display: flex;
   justify-content: flex-start;
@@ -148,7 +153,7 @@ color:white;
   font-size: 12px;
   color:rgb(171, 70, 182);
   font-weight: 600;
-}
+} */
 
 
 @media screen and (max-width: 1250px) {
@@ -428,17 +433,6 @@ color:white;
   color:var(--dark-color);
   }
   
-  #dark .handleChangePassworErrorWrapper{
-    display: flex;
-    justify-content: flex-start;
-    padding: 0px 30px;
-   
-  }
-  #dark .handleChangePassworError{
-    text-align: center;
-    font-size: 12px;
-    color:rgb(67, 161, 144)
-  }
 
 
 
@@ -513,18 +507,6 @@ color:white;
   color:var(--dark-color);
   }
   
-  #purple .handleChangePassworErrorWrapper{
-    display: flex;
-    justify-content: flex-start;
-    padding: 0px 30px;
-   
-  }
-  #purple .handleChangePassworError{
-    text-align: center;
-    font-size: 12px;
-    color:rgb(165, 139, 38)
-  }
-
 
 
 
@@ -593,15 +575,3 @@ color:white;
   color:var(--green-color);
   }
   
-  #green .handleChangePassworErrorWrapper{
-    display: flex;
-    justify-content: flex-start;
-    padding: 0px 30px;
-   
-  }
-  #green .handleChangePassworError{
-    text-align: center;
-    font-size: 12px;
-    color:rgb(209, 186, 54)
-  }
-

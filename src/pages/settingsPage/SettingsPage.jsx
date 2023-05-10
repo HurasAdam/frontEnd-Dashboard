@@ -8,6 +8,10 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const SettingsPage = () => {
+  const [toggleSection, setToggleSection] = useState(false);
+  const [data, isLoading, error] = useFetch(
+    "http://127.0.0.1:3000/api/user?settings=user"
+  );
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState({
     data: {},
@@ -15,45 +19,59 @@ export const SettingsPage = () => {
       email: {
         newEmail: "",
         repeatNewEmail: "",
+        error: "",
       },
       password: {
         currentPassword: "",
         newPassword: "",
         repeatNewPassword: "",
+        error: "",
       },
     },
   });
 
+  const triggerCredentials = (credential, key, e) => {
+    setUserData({
+      ...userData,
+      userCredentials: {
+        ...userData.userCredentials,
+        [credential]: { ...userData.userCredentials[credential], [key]: e },
+      },
+    });
+  };
 
+  ///////////////////////////////////////////////////////////
 
-  const triggerCredentials=(credential,key,e)=>{
+  const fire = async (e, credential) => {
 
-    setUserData({...userData,userCredentials:
-      {...userData.userCredentials,[credential]:{...userData.userCredentials[credential],[key]:e}}})
+      if (userData.userCredentials.email.newEmail !==userData.userCredentials.email.repeatNewEmail){
+       return  setUserData({...userData,userCredentials:{...userData.userCredentials,email:{...userData.userCredentials.email,error:'new email and repeated email are not the same !'}}})
+      } 
 
-  }
+      const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          email: userData.userCredentials.email.newEmail,
+        }),
+      });
+  
+      const json = await response.json()
+      if(!response.ok){
+        setUserData({...userData,userCredentials:{...userData.userCredentials,email:{...userData.userCredentials.email,error:json}}})
+      }
+    
+      if(response.ok){
+        setUserData({...userData,userCredentials:{...userData.userCredentials,email:{...userData.userCredentials.email,error:json.message}}})
+        
+      }
+ 
+  };
 
-  const fire= (e,credential)=>{
-
-try{
-
- if(userData.userCredentials.email.newEmail!==userData.userCredentials.email.repeatNewEmail){
-  throw Error('new email and repeated email are not the same')
- }
- console.log('gitara')
-
-
-
-}
-catch(Error){
-console.log(erro)
-}
-  }
-
-  const [toggleSection, setToggleSection] = useState(false);
-  const [data, isLoading, error] = useFetch(
-    "http://127.0.0.1:3000/api/user?settings=user"
-  );
+  //////////////////////////////////////
 
   useEffect(() => {
     data && setUserData({ ...userData, data: data });
@@ -152,11 +170,10 @@ console.log(erro)
           trigger={trigger}
           handleInputUpdate={handleInputUpdate}
           data={data}
-       
           uploadUserAvatar={uploadUserAvatar}
         />
       ) : (
-        <AccountSettings  triggerCredentials={triggerCredentials} fire={fire} />
+        <AccountSettings triggerCredentials={triggerCredentials} fire={fire} userData={userData} />
       )}
     </div>
   );

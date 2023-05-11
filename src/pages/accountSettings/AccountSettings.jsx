@@ -10,7 +10,7 @@ export const AccountSettings = ({ triggerCredentials, fire,userData }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
 
-  console.log(userData)
+ 
   const toggleTheme = (e, THEME) => {
     themeSwitch({
       type: "LIGHT",
@@ -87,22 +87,20 @@ export const AccountSettings = ({ triggerCredentials, fire,userData }) => {
                   <span>Change Password</span>
                 </div>
 
-                <div className="changePasswordDataWrapper-item">
-                  <span>current password</span>
-
-                  <input type="text" />
-                </div>
+            
                 <div className="changePasswordDataWrapper-item">
                   <span>new password</span>
-                  <input type="text" />
+                  <input type="text" onChange={(e)=>triggerCredentials('password','newPassword',e.target.value)} />
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new password</span>
-                  <input type="text" />
+                  <input type="text" onChange={(e)=>triggerCredentials('password','repeatNewPassword',e.target.value)} />
                 </div>
-
+                <div className="statusMessageContainer">
+              <span>{userData.userCredentials.password.error}</span>
+              </div>
                 <div className="changePasswordButtonsWrapper">
-                  <button onClick={(e) => handlePasswordChange(e)}>save</button>
+                  <button onClick={(e) =>{e.preventDefault();fire('password','newPassword','repeatNewPassword','error') }}>save</button>
                 </div>
               </div>
             </form>
@@ -159,7 +157,7 @@ export const AccountSettings = ({ triggerCredentials, fire,userData }) => {
                   disabled={userData.userCredentials.email.newEmail===''||userData.userCredentials.email.repeatNewPassword===''?true:false}
                     onClick={(e) => {
                       e.preventDefault();
-                      fire();
+                      fire('email','newEmail','repeatNewEmail','error');
                     }}
                   >
                     save

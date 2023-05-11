@@ -22,11 +22,16 @@ export const SettingsPage = () => {
         error: "",
       },
       password: {
-        currentPassword: "",
+        
         newPassword: "",
         repeatNewPassword: "",
         error: "",
       },
+      isHidden:{
+        currentPassword:true,
+        newPassword:true,
+        repeatNewPassword:true
+      }
     },
   });
 
@@ -42,12 +47,15 @@ export const SettingsPage = () => {
 
   ///////////////////////////////////////////////////////////
 
-  const fire = async (e, credential) => {
+  const fire = async ( credential,newKey,repeatedNewKey,errorKey) => {
 
-      if (userData.userCredentials.email.newEmail !==userData.userCredentials.email.repeatNewEmail){
-       return  setUserData({...userData,userCredentials:{...userData.userCredentials,email:{...userData.userCredentials.email,error:'new email and repeated email are not the same !'}}})
+      if (userData.userCredentials[credential][newKey] !==userData.userCredentials[credential][repeatedNewKey]){
+       return  setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],[errorKey]:`${newKey} and ${repeatedNewKey} are not the same !`}}})
       } 
-
+let updatedData= {}
+      
+updatedData= userData.userCredentials[credential][newKey]
+console.log(updatedData)
       const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
         method: "PATCH",
         headers: {
@@ -55,13 +63,13 @@ export const SettingsPage = () => {
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          email: userData.userCredentials.email.newEmail,
+          [credential ==='password'?'password':credential]:updatedData
         }),
       });
   
       const json = await response.json()
       if(!response.ok){
-        setUserData({...userData,userCredentials:{...userData.userCredentials,email:{...userData.userCredentials.email,error:json}}})
+        setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],error:json}}})
       }
     
       if(response.ok){

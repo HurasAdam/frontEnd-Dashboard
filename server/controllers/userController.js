@@ -261,7 +261,7 @@ const getUserList = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
-  let { name, surname, adress, phone,email } = req.body;
+  let { name, surname, adress, phone,email,password } = req.body;
 
   const user = req.user
 console.log(req.body)
@@ -291,6 +291,12 @@ if(name&&!validator.isLength(name,{max:20})){
 if(surname&&!validator.isLength(surname,{max:20})){
   throw Error('Surname is to long')
 }
+if(password&& !validator.isStrongPassword(password)){
+  throw Error('Password is not strong enough')
+}
+
+const salt = await bcrypt.genSalt(10);
+
 
 
 
@@ -299,6 +305,10 @@ if(surname&&!validator.isLength(surname,{max:20})){
   if(phone&&phone!==user.phone) updatedFields.phone=phone;
   if(adress&&adress!==user.adress) updatedFields.adress=adress;
   if(email&&email!==user.email) updatedFields.email=email;
+  if(password){
+    const hashNewPassword = await bcrypt.hash(password, salt);
+    updatedFields.password= hashNewPassword;
+  }
 
   
   const updateUserData= await User.findOneAndUpdate({_id:req.user._id},{

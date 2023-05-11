@@ -73,7 +73,7 @@ console.log(updatedData)
       }
     
       if(response.ok){
-        setUserData({...userData,userCredentials:{...userData.userCredentials,email:{...userData.userCredentials.email,error:json.message}}})
+        setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],error:json.message}}})
         
       }
  

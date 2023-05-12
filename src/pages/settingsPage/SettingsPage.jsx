@@ -27,11 +27,7 @@ export const SettingsPage = () => {
         repeatNewPassword: "",
         error: "",
       },
-      isHidden:{
-        currentPassword:true,
-        newPassword:true,
-        repeatNewPassword:true
-      }
+     
     },
   });
 

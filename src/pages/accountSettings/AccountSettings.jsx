@@ -9,7 +9,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 export const AccountSettings = ({ triggerCredentials, fire,userData }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
-
+const [isPasswordHidden,setIsPasswordHidden]=useState(false);
  
   const toggleTheme = (e, THEME) => {
     themeSwitch({
@@ -90,11 +90,14 @@ export const AccountSettings = ({ triggerCredentials, fire,userData }) => {
             
                 <div className="changePasswordDataWrapper-item">
                   <span>new password</span>
-                  <input type="text" onChange={(e)=>triggerCredentials('password','newPassword',e.target.value)} />
+                  <input type={!isPasswordHidden?'password':'text'} onChange={(e)=>triggerCredentials('password','newPassword',e.target.value)} />
+                  {!isPasswordHidden?(<VisibilityOutlinedIcon onClick={(e)=> setIsPasswordHidden(true)} className="unhidePassword"/>):
+                  <VisibilityOffOutlinedIcon onClick={(e)=>setIsPasswordHidden(false)} className="unhidePassword"/>}
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new password</span>
-                  <input type="text" onChange={(e)=>triggerCredentials('password','repeatNewPassword',e.target.value)} />
+                  <input type={!isPasswordHidden?'password':'text'} onChange={(e)=>triggerCredentials('password','repeatNewPassword',e.target.value)} />
+          
                 </div>
                 <div className="statusMessageContainer">
               <span>{userData.userCredentials.password.error}</span>

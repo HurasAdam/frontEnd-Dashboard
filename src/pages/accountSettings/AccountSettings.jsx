@@ -6,11 +6,11 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import { useContext, useState } from "react";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-export const AccountSettings = ({ triggerCredentials, fire,userData }) => {
+export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
-const [isPasswordHidden,setIsPasswordHidden]=useState(false);
- 
+  const [isPasswordHidden, setIsPasswordHidden] = useState(false);
+
   const toggleTheme = (e, THEME) => {
     themeSwitch({
       type: "LIGHT",
@@ -87,23 +87,66 @@ const [isPasswordHidden,setIsPasswordHidden]=useState(false);
                   <span>Change Password</span>
                 </div>
 
-            
                 <div className="changePasswordDataWrapper-item">
                   <span>new password</span>
-                  <input type={!isPasswordHidden?'password':'text'} onChange={(e)=>triggerCredentials('password','newPassword',e.target.value)} />
-                  {!isPasswordHidden?(<VisibilityOutlinedIcon onClick={(e)=> setIsPasswordHidden(true)} className="unhidePassword"/>):
-                  <VisibilityOffOutlinedIcon onClick={(e)=>setIsPasswordHidden(false)} className="unhidePassword"/>}
+                  <input
+                    type={!isPasswordHidden ? "password" : "text"}
+                    onChange={(e) =>
+                      triggerCredentials(
+                        "password",
+                        "newPassword",
+                        e.target.value
+                      )
+                    }
+                  />
+                  {!isPasswordHidden ? (
+                    <VisibilityOutlinedIcon
+                      onClick={(e) => setIsPasswordHidden(true)}
+                      className="unhidePassword"
+                    />
+                  ) : (
+                    <VisibilityOffOutlinedIcon
+                      onClick={(e) => setIsPasswordHidden(false)}
+                      className="unhidePassword"
+                    />
+                  )}
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new password</span>
-                  <input type={!isPasswordHidden?'password':'text'} onChange={(e)=>triggerCredentials('password','repeatNewPassword',e.target.value)} />
-          
+                  <input
+                    type={!isPasswordHidden ? "password" : "text"}
+                    onChange={(e) =>
+                      triggerCredentials(
+                        "password",
+                        "repeatNewPassword",
+                        e.target.value
+                      )
+                    }
+                  />
                 </div>
                 <div className="statusMessageContainer">
-              <span>{userData.userCredentials.password.error}</span>
-              </div>
+                  <span>{userData.userCredentials.password.error}</span>
+                </div>
                 <div className="changePasswordButtonsWrapper">
-                  <button onClick={(e) =>{e.preventDefault();fire('password','newPassword','repeatNewPassword','error') }}>save</button>
+                  <button
+                    disabled={
+                      userData.userCredentials.password.newPassword === "" ||
+                      userData.userCredentials.email.repeatNewPassword === ""
+                        ? true
+                        : false
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      fire(
+                        "password",
+                        "newPassword",
+                        "repeatNewPassword",
+                        "error"
+                      );
+                    }}
+                  >
+                    save
+                  </button>
                 </div>
               </div>
             </form>
@@ -118,11 +161,10 @@ const [isPasswordHidden,setIsPasswordHidden]=useState(false);
                 <div className="changePasswordDataWrapper-item">
                   <span>current email</span>
                   <input
-                  disabled={true}
+                    disabled={true}
                     type="email"
                     name="email"
                     value={userData.data.email}
-                 
                   />
                 </div>
 
@@ -153,14 +195,19 @@ const [isPasswordHidden,setIsPasswordHidden]=useState(false);
                   />
                 </div>
                 <div className="statusMessageContainer">
-              <span>{userData.userCredentials.email.error}</span>
-              </div>
+                  <span>{userData.userCredentials.email.error}</span>
+                </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
-                  disabled={userData.userCredentials.email.newEmail===''||userData.userCredentials.email.repeatNewPassword===''?true:false}
+                    disabled={
+                      userData.userCredentials.email.newEmail === "" ||
+                      userData.userCredentials.email.repeatNewEmail === ""
+                        ? true
+                        : false
+                    }
                     onClick={(e) => {
                       e.preventDefault();
-                      fire('email','newEmail','repeatNewEmail','error');
+                      fire("email", "newEmail", "repeatNewEmail", "error");
                     }}
                   >
                     save

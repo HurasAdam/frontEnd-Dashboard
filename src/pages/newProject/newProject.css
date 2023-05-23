@@ -3,19 +3,22 @@
   flex: 5;
   width: 100%;
   padding: 20px 30px;
-  height: calc(100vh-50px);
+  height: max-content;
 margin:0px 22px;
+
+
 }
 
 
 .newProjectConent {
   padding: 5px 30px;
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-height: auto;
+height:100vh;
 overflow-y: auto;
 border-radius: 10px;
-}
 
+
+}
 
 
 
@@ -23,6 +26,7 @@ border-radius: 10px;
   padding: 18px 0px;
   display: flex;
   justify-content: space-between;
+
 }
 
 /* MUI SELECT */
@@ -30,11 +34,13 @@ border-radius: 10px;
 .newProjectTop span {
   font-size: 24px;
   font-weight: 600;
+  
 }
 
 .newProjectContentTopButton {
   display: flex;
   justify-content: flex-end;
+
 
   padding: 2px 0px;
 }
@@ -47,6 +53,7 @@ border-radius: 10px;
   cursor: pointer;
   border-radius: 5px;
   font-weight: 600;
+ 
   
 }
 
@@ -63,6 +70,7 @@ border-radius: 10px;
   flex-direction: column;
   gap:10px;
   padding: 20px 0px;
+  
 }
 
 .newProjectItem {
@@ -70,37 +78,47 @@ border-radius: 10px;
   height: 100px;
   display: flex;
   flex-direction: column;
+ 
 
 }
 
 .multiselect {
   width: 20px;
+
 }
 
 .newProjectItemLabel {
   font-size: 14px;
   color: grey;
   margin-bottom: 5px;
+   
 }
 .newProjectItem input {
   height: 35px;
   border: none;
-  border-bottom: 1px solid grey;
+  border-radius: 5px;
+  background: var(--light-input);
+  border: 1px solid rgb(180, 171, 171);
 }
 .newProjectItemDescripion {
   padding: 0px 15px;
   height: 260px;
   display: flex;
   flex-direction: column;
+  
 }
 .newProjectItemDescripion textarea {
   resize: none;
   width: 100%;
+  border-radius: 5px;
+  background: var(--light-input);
+  border: 1px solid rgb(180, 171, 171);
 }
 
 .newProjectAction {
   display: flex;
   justify-content: flex-end;
+  margin-top: 80px;
 }
 .newProjectAction button {
   margin-left: 30px;

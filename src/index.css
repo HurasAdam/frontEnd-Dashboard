@@ -7,7 +7,7 @@
 --light-primary-linear:linear-gradient(to bottom right, #2b2d42, #1c1e2e);
 --light-primary-color:rgb(236, 230, 230);
 --light-secondary:#3c3f5a;
-
+--light-input:rgb(238, 240, 240);
   /* dark theme */
   --dark-primary: rgb(21, 25, 41);
   --dark-secondary: rgb(28, 36, 56);

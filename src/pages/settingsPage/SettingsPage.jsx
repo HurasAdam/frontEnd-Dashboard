@@ -153,7 +153,7 @@ console.log(updatedData)
       <nav>
         <button
           disabled={!toggleSection ? true : false}
-          className="settingsNavLink"
+          className={`settingsNavLink ${!toggleSection?'active':''}`}
           onClick={toggleForm}
         >
           <PermIdentityOutlinedIcon className="settingsPageIcon" />
@@ -162,7 +162,7 @@ console.log(updatedData)
 
         <button
           disabled={toggleSection ? true : false}
-          className="settingsNavLink"
+          className={`settingsNavLink ${toggleSection?'active':''}`}
           onClick={toggleForm}
         >
           <SettingsOutlinedIcon />

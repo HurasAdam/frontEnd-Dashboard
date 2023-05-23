@@ -2,32 +2,21 @@
 
 .settingsPage {
   flex: 6;
+
 }
 
 .settingsPage nav {
   padding: 30px 50px 10px 50px;
+
+display: flex;
+justify-content: space-around;
+gap:40px;
 }
 
-.settingsPage nav ul {
-  display: flex;
-  justify-content: center;
-  gap: 90px;
-  list-style: none;
 
-  flex-wrap: wrap;
-}
 
-.settingsPage nav ul li {
-  padding: 0px 20px;
 
-  text-align: center;
-  display: flex;
-  align-items: center;
 
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 10px;
-}
 
 .settingsPageIcon {
   font-size: 28px !important;
@@ -35,11 +24,23 @@
 .settingsNavLink {
 
   text-decoration: none;
-
+  cursor: pointer;
   padding: 20px 40px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  border-radius: 10px;
+  align-items: center;
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+border-right: 1px solid rgba(255, 255, 255, 0.068);
+border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  background-color: var(--dark-color);
  
 }
-
+.settingsNavLink.active {
+  box-shadow: 0 0 5px blue;
+}
 
 @media screen and (max-width: 1200px) {
   .settingsPage nav ul {

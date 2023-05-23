@@ -11,6 +11,36 @@ export const NewProject = () => {
   const [newProject, setNewProject] = useState({});
   const [userList, setUserList] = useState([]);
   
+
+
+
+
+
+
+
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor:'rgb(238, 240, 240)',
+     
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor:  'rgb(238, 240, 240)' ,
+    }),
+  };
+
+
+
+
+
+
+
+
+
+
+
+
   //select state
   const [selecedtUsers, setSelecedtUsers] = useState([]);
   const navigate = useNavigate();
@@ -109,7 +139,7 @@ console.log(result)
               options={userList}
               isMulti
               isSearchable
-              
+              styles={customStyles}
               onChange={setSelecedtUsers}
             ></Select>
           </div>

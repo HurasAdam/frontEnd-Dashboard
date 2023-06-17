@@ -1,10 +1,10 @@
 
 import '../PaginationNavbar/paginationNavbar.css'
 
-export const PaginationNavbar=({pageState,handleSelectPage,theme})=>{
-
-    const prev = pageState.page <= 1 || pageState.total <= 1;
-    const next = pageState.total <= 1 || pageState.page === pageState.total;
+export const PaginationNavbar=({pageState,handleSelectPage,theme,max})=>{
+console.log(max)
+    const prev = pageState.page <= 1 || max <= 1;
+    const next = max <= 1 || pageState.page === max;
   
 
     return(

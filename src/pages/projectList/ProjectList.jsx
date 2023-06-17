@@ -52,7 +52,7 @@ console.log(user.token)
   // }, [data]);
 // REACT QUERY//
 const {isLoading,isError,error,
-data:projects,}=useQuery("projects",()=>getProjectList(user.token),{
+data:projects,}=useQuery(["projects",pageState.page],()=>getProjectList(user.token,`?page=${pageState.page}`),{
 
 })
 
@@ -125,7 +125,7 @@ data:projects,}=useQuery("projects",()=>getProjectList(user.token),{
          
         />
       )}
-      <PaginationNavbar pageState={pageState} handleSelectPage={handleSelectPage} theme={theme}/>
+      <PaginationNavbar pageState={pageState} max={projects?.total} handleSelectPage={handleSelectPage} theme={theme}/>
     </div>
   );
 };

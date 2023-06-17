@@ -14,6 +14,9 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext } from '../../contexts/ThemeContext'
+import { useQuery,useMutation,useQueryClient } from "react-query";
+import { getProject } from "../../features/projectApi/projectApi";
+import axios from 'axios';
 export const ProjectDetails = () => {
   const { projectId } = useParams();
   const [updateError, setUpdateError] = useState(null);
@@ -26,11 +29,11 @@ export const ProjectDetails = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [check, setCheck] = useState();
-  const [data, isLoading, error] = useFetch(
-    `http://localhost:3000/api/projects/${projectId}/`
-  );
+//   const [data, isLoading, error] = useFetch(
+//     `http://localhost:3000/api/projects/${projectId}/`
+//   );
 
-console.log(check&&check)
+// console.log(check&&check)
 
   const [projectData, setProjectData] = useState({});
  
@@ -45,7 +48,10 @@ console.log(check&&check)
     getUserList();
   }, []);
 
- 
+  const {isLoading,isError,error,
+    data}=useQuery(["projects"],()=>getProject(user.token,projectId),{
+    
+    })
 
 
   //get list of users for change PM select

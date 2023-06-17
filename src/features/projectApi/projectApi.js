@@ -14,4 +14,12 @@ export const getProjectList=(token,query)=>{
     })
 }
 
+export const getProject=(token,query)=>{
+return new Promise((resolve,reject)=>{
+    const respinse = projectApi.get(`projects/${query}`,{
+        headers:{'Authorization':`Bearer ${token}`}
+    }).then((res)=>resolve(res.data))
+})
+}
+
 export default projectApi;

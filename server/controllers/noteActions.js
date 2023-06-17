@@ -41,7 +41,7 @@ module.exports = {
   //podbieranie noatek
   async getAllNotes(req, res) {
     const page = Number(req.query.page);
-    let size = 15;
+    let size = 14;
     const limit = parseInt(size);
     const skip = (page - 1) * size;
 
@@ -68,7 +68,7 @@ module.exports = {
 
   async getArchived(req,res){
     const page = Number(req.query.page);
-    let size = 15;
+    let size = 14;
     const limit = parseInt(size);
     const skip = (page - 1) * size;
 

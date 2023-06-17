@@ -103,7 +103,7 @@ export const ArchiveList = () => {
           hideFooterSelectedRowCount={true}
           rows={pageState.tickets}
           columns={columns}
-          pageSize={15}
+          pageSize={14}
           rowsPerPageOptions={[10]}
           checkboxSelection={false}
           disableSelectionOnClick

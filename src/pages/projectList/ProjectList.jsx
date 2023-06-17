@@ -1,6 +1,5 @@
 import { DataGrid } from "@mui/x-data-grid";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { useQuery,useMutation } from "@tanstack/react-query";
 import "./projectList.css";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
@@ -8,6 +7,12 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
+
+import { useQuery,useMutation,useQueryClient } from "react-query";
+import axios from 'axios';
+import {getProjectList} from "../../features/projectApi/projectApi"
+
+
 export const ProjectsList = () => {
   const [pageState, setPageState] = useState({
     page: 1,
@@ -21,31 +26,35 @@ export const ProjectsList = () => {
   const prev = pageState.page <= 1 || pageState.total <= 1;
   const next = pageState.total <= 1 || pageState.page === pageState.total;
 
-  const [data, isLoading, error] = useFetch(
-    `http://127.0.0.1:3000/api/projects?page=${pageState.page}`
-  );
+  // const [data, isLoading, error] = useFetch(
+  //   `http://127.0.0.1:3000/api/projects?page=${pageState.page}`
+  // );
   const { user } = useContext(AuthContext);
 const {theme}=useContext(ThemeContext)
-
+const queryClient=useQueryClient()
 
 const handleSelectPage = (e, action) => {
   e.preventDefault();
   setPageState({ ...pageState, page: action });
 };
 
+console.log(user.token)
+  
+  // useEffect(() => {
+  //   if (data) {
+  //     setPageState({
+  //       ...pageState,
+  //       total: data.total,
+  //       pageSize: data.pageSize,
+  //       projects: data.projects
+  //     });
+  //   }
+  // }, [data]);
+// REACT QUERY//
+const {isLoading,isError,error,
+data:projects,}=useQuery("projects",()=>getProjectList(user.token),{
 
-  console.log(data);
-  useEffect(() => {
-    if (data) {
-      setPageState({
-        ...pageState,
-        total: data.total,
-        pageSize: data.pageSize,
-        projects: data.projects
-      });
-    }
-  }, [data]);
-
+})
 
 
   const columns = [
@@ -97,20 +106,20 @@ const handleSelectPage = (e, action) => {
       </div>
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}
-      {data && (
+      {projects && (
         <DataGrid 
         
         
           className="DataGrid"
           id={theme.mode}
           autoHeight={false}
-          rowHeight={45}
-          rows={data.projects}
+          rowHeight={40}
+          rows={projects.projects}
           columns={columns}
           checkboxSelection={false}
           disableSelectionOnClick
           hideFooter={true}
-          pageSize={15}
+          pageSize={14}
           rowsPerPageOptions={[10]}
      
          

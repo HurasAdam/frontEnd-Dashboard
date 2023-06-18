@@ -13,15 +13,19 @@ import { useFetch } from "../../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ThemeContext } from '../../contexts/ThemeContext'
-import { useQuery,useMutation,useQueryClient } from "react-query";
-import { getProject } from "../../features/projectApi/projectApi";
-import axios from 'axios';
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import {
+  getProject,
+  deleteProject,
+} from "../../features/projectApi/projectApi";
+import axios from "axios";
+import { QueryClient } from "@tanstack/react-query";
 export const ProjectDetails = () => {
   const { projectId } = useParams();
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
-  const {theme}=useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const [userList, setUserList] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -29,14 +33,15 @@ export const ProjectDetails = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [check, setCheck] = useState();
-//   const [data, isLoading, error] = useFetch(
-//     `http://localhost:3000/api/projects/${projectId}/`
-//   );
+  const token = user.token;
+  //   const [data, isLoading, error] = useFetch(
+  //     `http://localhost:3000/api/projects/${projectId}/`
+  //   );
 
-// console.log(check&&check)
+  // console.log(check&&check)
 
   const [projectData, setProjectData] = useState({});
- 
+
   const handleChange = (selectedOption) => {
     setProjectData({
       ...projectData,
@@ -48,11 +53,33 @@ export const ProjectDetails = () => {
     getUserList();
   }, []);
 
-  const {isLoading,isError,error,
-    data}=useQuery(["projects"],()=>getProject(user.token,projectId),{
+  const { isLoading, isError, error, data } = useQuery(
+    ["projects"],
+    () => getProject(user.token, projectId),
+    {
     
-    })
+    }
+  );
 
+
+ 
+  const deleteMutation = useMutation(() => deleteProject(token, projectId), {
+    onSuccess: () => {
+
+      setFetchError("");
+      navigate("/projects");
+      QueryClient.invalidateQueries(["projects"]);
+    },
+    onError: (error) => {
+    if(error.response.status === 409){
+      setFetchError('Cannot delete the project. There are tickets associated with the project you want to delete.')
+    }
+    else{
+      setFetchError(error.message)
+    }
+
+    },
+  });
 
   //get list of users for change PM select
   const getAllUsers = async () => {
@@ -62,27 +89,28 @@ export const ProjectDetails = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       }
     );
-    
+
     const json = await response.json();
-    console.log(json)
+    console.log(json);
     const arr = json.map((user) => {
-      return { value: user._id, name: user.name+' '+user.surname};
+      return { value: user._id, name: user.name + " " + user.surname };
     });
     setCheck(arr);
   };
-
 
   useEffect(() => {
     if (data) {
       setProjectData({
         ...projectData,
         projectTitle: data.projectTitle,
-        projectLeader: {id:data.projectLeader.projectLeaderId,name:data.projectLeader.name +' '+data.projectLeader.surname},
+        projectLeader: {
+          id: data.projectLeader.projectLeaderId,
+          name: data.projectLeader.name + " " + data.projectLeader.surname,
+        },
         _id: data.projectId,
         contributors: data.contributors,
         createdAt: data.createdAt,
         description: data.description,
-       
       });
     }
   }, [data]);
@@ -101,7 +129,7 @@ export const ProjectDetails = () => {
 
   const kekw = (confirm) => {
     if (confirm === "delete") {
-      handleDelete();
+      deleteMutation.mutate();
     } else {
       setFetchError("inncorect command");
     }
@@ -132,14 +160,17 @@ export const ProjectDetails = () => {
     }
   };
 
-const handleSelectChange=(event)=>{
-const selectedOptionIndex = event.target.selectedIndex;
-const selectedOptionValue = event.target.value;
-const selectedOptionLabel = event.target.options[selectedOptionIndex].textContent
+  const handleSelectChange = (event) => {
+    const selectedOptionIndex = event.target.selectedIndex;
+    const selectedOptionValue = event.target.value;
+    const selectedOptionLabel =
+      event.target.options[selectedOptionIndex].textContent;
 
-setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:selectedOptionLabel}})
-
-}
+    setProjectData({
+      ...projectData,
+      projectLeader: { id: selectedOptionValue, name: selectedOptionLabel },
+    });
+  };
 
   const handleDataUpdate = async (e) => {
     const response = await fetch(
@@ -151,7 +182,10 @@ setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:select
           Authorization: `Bearer ${user.token}`,
         },
 
-        body: JSON.stringify({...projectData,projectLeader:projectData.projectLeader?.id}),
+        body: JSON.stringify({
+          ...projectData,
+          projectLeader: projectData.projectLeader?.id,
+        }),
       }
     );
     if (response.ok) {
@@ -206,89 +240,100 @@ setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:select
             <form action="">
               <div className="projectDataBottomItemsWrapper">
                 <div className="projectDataBottomItemsLeft">
-              <div className="projectDataBottomItem">
-                <label htmlFor="">Project title :</label>
-                {data && (
-                  <input
-                    type="text"
-                    required
-                    defaultValue={projectData.projectTitle}
-                    onChange={(e) =>
-                      setProjectData({
-                        ...projectData,
-                        projectTitle: e.target.value,
-                      })
-                    }
-                    disabled={isDisabled}
-                  />
-                )}
-              </div>
-              <div className="projectDataBottomItem">
-                <label htmlFor="">Project Description</label>
-                {data && (
-                  <textarea
-                    defaultValue={projectData.description}
-                    disabled={isDisabled}
-                    onChange={(e) =>
-                      setProjectData({
-                        ...projectData,
-                        description: e.target.value,
-                      })
-                    }
-                  ></textarea>
-                )}
-              </div>
+                  <div className="projectDataBottomItem">
+                    <label htmlFor="">Project title :</label>
+                    {data && (
+                      <input
+                        type="text"
+                        required
+                        defaultValue={projectData.projectTitle}
+                        onChange={(e) =>
+                          setProjectData({
+                            ...projectData,
+                            projectTitle: e.target.value,
+                          })
+                        }
+                        disabled={isDisabled}
+                      />
+                    )}
+                  </div>
+                  <div className="projectDataBottomItem">
+                    <label htmlFor="">Project Description</label>
+                    {data && (
+                      <textarea
+                        defaultValue={projectData.description}
+                        disabled={isDisabled}
+                        onChange={(e) =>
+                          setProjectData({
+                            ...projectData,
+                            description: e.target.value,
+                          })
+                        }
+                      ></textarea>
+                    )}
+                  </div>
+                </div>
+                <div className="projectDataBottomItemsRight">
+                  <div className="projectDataBottomItem">
+                    <label htmlFor="">Project leader</label>
+                    {data && (
+                      <img
+                        className="projectDataBottomItem-img"
+                        src={data.projectLeader.userAvatar}
+                        alt=""
+                      />
+                    )}
+                    {data && (
+                      <select
+                        defaultValue={projectData.projectLeader?.name}
+                        disabled={isDisabled}
+                        // onChange={(e) =>
+                        //   setProjectData({
+                        //     ...projectData,
+                        //     projectLeader: e.target.dataset
 
-       
-              </div>
-              <div className="projectDataBottomItemsRight">
-              <div className="projectDataBottomItem">
-                <label htmlFor="">Project leader</label>
-                {data&&<img className="projectDataBottomItem-img" src={data.projectLeader.userAvatar} alt="" />}
-                {data&&(
-                  <select
-                   defaultValue={projectData.projectLeader?.name}
-                    disabled={isDisabled}
-                    // onChange={(e) =>
-                    //   setProjectData({
-                    //     ...projectData,
-                    //     projectLeader: e.target.dataset
-
-                    //   })
-                    // }
-                    onChange={handleSelectChange}
-                  >
-                    <option selected hidden={!isDisabled}>
-                     {`${projectData.projectLeader?.name}`}
-                    </option>
-                    {check
-                      ? check.map((user) =>{
-                          
-                          return (
-                            <option value={user.value} key={user.value} data-name={`${user.name}`} disabled={user.value===projectData.projectLeader.id} selected={user.value===projectData.projectLeader.id}>
-                              {user.name}
-                            </option>
-                          );
-                        })
-                      : null}
-                  </select>
-                )}
-               
-              </div>
-              { <div className="projectDataBottomItem">
-                <label htmlFor="">Created At :</label>
-                {data && (
-                  <input
-                    type="text"
-                    defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
-                    disabled={true}
-                  />
-                 
-                )}
-                
-              </div>}
-   
-              </div>
+                        //   })
+                        // }
+                        onChange={handleSelectChange}
+                      >
+                        <option selected hidden={!isDisabled}>
+                          {`${projectData.projectLeader?.name}`}
+                        </option>
+                        {check
+                          ? check.map((user) => {
+                              return (
+                                <option
+                                  value={user.value}
+                                  key={user.value}
+                                  data-name={`${user.name}`}
+                                  disabled={
+                                    user.value === projectData.projectLeader.id
+                                  }
+                                  selected={
+                                    user.value === projectData.projectLeader.id
+                                  }
+                                >
+                                  {user.name}
+                                </option>
+                              );
+                            })
+                          : null}
+                      </select>
+                    )}
+                  </div>
+                  {
+                    <div className="projectDataBottomItem">
+                      <label htmlFor="">Created At :</label>
+                      {data && (
+                        <input
+                          type="text"
+                          defaultValue={`${data.createdAt.Day}/${data.createdAt.Month}/${data.createdAt.Year}`}
+                          disabled={true}
+                        />
+                      )}
+                    </div>
+                  }
+                </div>
               </div>
               <div className="projectDataBottomItem">
                 {projectData.contributors && (
@@ -304,14 +349,12 @@ setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:select
                     checkboxSelection={false}
                     disableSelectionOnClick
                     hideFooter={true}
-                    
                   />
                 )}
               </div>
               <div className="projectDataBottomItem">
                 <label>Add member</label>
                 <Select
-                
                   isDisabled={isDisabled}
                   className="selectList"
                   options={userList}
@@ -337,7 +380,7 @@ setProjectData({...projectData,projectLeader:{id:selectedOptionValue,name:select
                   <button
                     onClick={(e) => {
                       e.preventDefault();
-                      kekw(confirmDelete);
+                      kekw(confirmDelete, user.token, projectId);
                     }}
                   >
                     Confirm

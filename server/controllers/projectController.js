@@ -152,20 +152,21 @@ const deleteProject = async (req, res) => {
   const tickets = await Note.find({});
 
   const result = tickets.filter(
-    (ticket) => ticket.project._id.toString() === id
+    (ticket) => ticket.project === id
   );
+console.log(result)
+ 
+ try{
+if(result.length>0){
+throw Error( 'NIE MOZNA USUNAC PROJEKTU. ISTNIEJA TICKETY W RAMACH PROJEKTU KTORY CHCESZ USUNAC')
+}
 
-  try {
-    if (result.length > 0) {
-      throw Error(
-        "Can not delete project due to other references.Check ticket list"
-      );
-    }
     const currentProject = await Project.findOneAndDelete({ _id: id });
-    res.status(200).json();
-  } catch (Error) {
-    res.status(409).json(Error.message);
-  }
+   res.status(200).json('DELETED SCUESSFULLY');
+ }
+ catch(error){
+  res.status(409).json(error.message)
+ }
 };
 
 module.exports = {

@@ -18,6 +18,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   getProject,
   deleteProject,
+  updateProject,
 } from "../../features/projectApi/projectApi";
 import axios from "axios";
 import { QueryClient } from "@tanstack/react-query";
@@ -56,30 +57,40 @@ export const ProjectDetails = () => {
   const { isLoading, isError, error, data } = useQuery(
     ["projects"],
     () => getProject(user.token, projectId),
-    {
-    
-    }
+    {}
   );
 
-
- 
   const deleteMutation = useMutation(() => deleteProject(token, projectId), {
     onSuccess: () => {
-
       setFetchError("");
       navigate("/projects");
       QueryClient.invalidateQueries(["projects"]);
     },
     onError: (error) => {
-    if(error.response.status === 409){
-      setFetchError('Cannot delete the project. There are tickets associated with the project you want to delete.')
-    }
-    else{
-      setFetchError(error.message)
-    }
-
+      if (error.response.status === 409) {
+        setIsDeleted(false);
+        setFetchError(
+          "Cannot delete the project. There are tickets associated with the project you want to delete."
+        );
+      } else {
+        setFetchError(error.message);
+      }
     },
   });
+
+  const updateMutation = useMutation(() =>
+    updateProject(token, projectId, {
+      ...projectData,
+      projectLeader: projectData.projectLeader?.id,
+    }),{
+      onSuccess:()=>{
+        setFetchError('Updated Sucessfully')
+      },
+      onError:(error)=>{
+        setFetchError(error.message)
+      }
+    }
+  );
 
   //get list of users for change PM select
   const getAllUsers = async () => {
@@ -172,26 +183,26 @@ export const ProjectDetails = () => {
     });
   };
 
-  const handleDataUpdate = async (e) => {
-    const response = await fetch(
-      `http://127.0.0.1:3000/api/projects/${projectId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
+  // const handleDataUpdate = async (e) => {
+  //   const response = await fetch(
+  //     `http://127.0.0.1:3000/api/projects/${projectId}`,
+  //     {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
 
-        body: JSON.stringify({
-          ...projectData,
-          projectLeader: projectData.projectLeader?.id,
-        }),
-      }
-    );
-    if (response.ok) {
-      navigate("/projects");
-    }
-  };
+  //       body: JSON.stringify({
+  //         ...projectData,
+  //         projectLeader: projectData.projectLeader?.id,
+  //       }),
+  //     }
+  //   );
+  //   if (response.ok) {
+  //     navigate("/projects");
+  //   }
+  // };
 
   const columns = [
     { field: "name", headerName: "Name", width: 200, flex: 0.7 },
@@ -394,7 +405,6 @@ export const ProjectDetails = () => {
                   >
                     Cancel
                   </button>
-                  {fetchError && <span className="error">{fetchError}</span>}
                 </div>
               ) : (
                 <div className="projectDataBottomItem-Btns">
@@ -429,6 +439,7 @@ export const ProjectDetails = () => {
                   </button>
                 </div>
               )}
+              {fetchError && <span className="error">{fetchError}</span>}
             </form>
           </div>
           <div>

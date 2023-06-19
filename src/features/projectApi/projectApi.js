@@ -26,14 +26,16 @@ export const getProject = (token, query) => {
   });
 };
 
-export const updateProject = (token, id, { data }) => {
+export const updateProject = (token, id, data) => {
   return new Promise((resolve, reject) => {
-    const response = projectApi.patch(`projects${id}`, {
+    console.log(data)
+    const response = projectApi.patch(`projects/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         data,
       }),
-    });
+    }).then((res)=>resolve(res.data))
+    .catch((error)=>reject(error));
   });
 };
 

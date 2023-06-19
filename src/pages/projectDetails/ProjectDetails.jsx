@@ -79,10 +79,7 @@ export const ProjectDetails = () => {
   });
 
   const updateMutation = useMutation(() =>
-    updateProject(token, projectId, {
-      ...projectData,
-      projectLeader: projectData.projectLeader?.id,
-    }),{
+    updateProject(token, projectId, {...projectData}),{
       onSuccess:()=>{
         setFetchError('Updated Sucessfully')
       },
@@ -145,31 +142,31 @@ export const ProjectDetails = () => {
       setFetchError("inncorect command");
     }
   };
-  const handleDelete = async () => {
-    const response = await fetch(
-      `http://127.0.0.1:3000/api/projects/${projectId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
-    try {
-      if (response.status === 409) {
-        throw Error(
-          "Can not delete project due to other references.Check ticket list "
-        );
-      }
-      if (response.ok) {
-        setFetchError("");
-        navigate("/projects");
-      }
-    } catch (Error) {
-      setFetchError(Error.message);
-    }
-  };
+  // const handleDelete = async () => {
+  //   const response = await fetch(
+  //     `http://127.0.0.1:3000/api/projects/${projectId}`,
+  //     {
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //     }
+  //   );
+  //   try {
+  //     if (response.status === 409) {
+  //       throw Error(
+  //         "Can not delete project due to other references.Check ticket list "
+  //       );
+  //     }
+  //     if (response.ok) {
+  //       setFetchError("");
+  //       navigate("/projects");
+  //     }
+  //   } catch (Error) {
+  //     setFetchError(Error.message);
+  //   }
+  // };
 
   const handleSelectChange = (event) => {
     const selectedOptionIndex = event.target.selectedIndex;
@@ -422,7 +419,7 @@ export const ProjectDetails = () => {
                     <button
                       onClick={(e) => {
                         e.preventDefault();
-                        handleDataUpdate();
+                        updateMutation.mutate()
                         setIsDisabled(!isDisabled);
                       }}
                     >

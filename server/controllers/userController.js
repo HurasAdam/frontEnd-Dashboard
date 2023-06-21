@@ -169,18 +169,19 @@ const getUserList = async (req, res) => {
       return filteredList;
     });
 
-    return res.status(200).json(
-      allUsers.map((u) => {
-        return {
-          name: u.name,
-          surname: u.surname,
-          email: u.email,
-          role: u.role,
-          gender: u.gender,
-          _id: u._id,
-        };
-      })
-    );
+    console.log('ops')
+    // return res.status(200).json(
+    //   allUsers.map((u) => {
+    //     return {
+    //       name: u.name,
+    //       surname: u.surname,
+    //       email: u.email,
+    //       role: u.role,
+    //       gender: u.gender,
+    //       _id: u._id,
+    //     };
+    //   })
+    // );
   }
 
   //return paginated list of all users

@@ -5,20 +5,26 @@ const userApi = axios.create({
   });
 
 
-  export const getAllUsers=(pmEmail,id)=>{
+  export const getUserList=(token,pmEmail,id)=>{
 
+    console.log(token)
+    console.log(pmEmail)
     new Promise((resolve,reject)=>{
-        const response = userApi.get(`user?PM=${pmEmail}&&project=${id}`)
+        const response = userApi.get(`user?=${pmEmail}`,{
+            headers:{"Authorization": `Bearer ${token}`}
+        })
         .then((res)=>resolve(res))
         .catch((error)=>reject(error))
     })
   }
 
 
-  export const getProjectAsignedUsers=(id)=>{
+  export const getProjectContributorList=(id)=>{
     new Promise ((resolve,reject)=>{
         const response = userApi.get(`user?=${id}`)
         .then((res)=>resolve(res))
         .catch((error)=>reject(error))
     })
   }
+
+  export default userApi;

@@ -40,7 +40,7 @@ export const ProjectDetails = () => {
   const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(user.token, projectId),{
   
   })
-  const {data:users}=useQuery(["List"],()=>getProjectContributorList(user.token,user.userId))
+  const {data:contributorList}=useQuery(["contributorList"],()=>getProjectContributorList(user.token,user.userId))
 
 // useEffect(()=>{
 //   if(users&&users){

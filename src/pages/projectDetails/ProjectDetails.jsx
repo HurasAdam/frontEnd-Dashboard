@@ -20,6 +20,7 @@ import {
   deleteProject,
   updateProject,
 } from "../../features/projectApi/projectApi";
+
 import { getUserList,getProjectContributorList } from "../../features/userApi/userApi";
 import axios from "axios";
 import { QueryClient } from "@tanstack/react-query";
@@ -36,13 +37,19 @@ export const ProjectDetails = () => {
   const [fetchError, setFetchError] = useState("");
   const [check, setCheck] = useState();
 
-
   const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(user.token, projectId),{
-    
+  
   })
+  const {data:users}=useQuery(["List"],()=>getProjectContributorList(user.token,user.userId))
 
+// useEffect(()=>{
+//   if(users&&users){
+//     setUserList(users)
+//   }
 
-  console.log( data);
+// },[])
+
+console.log(users)
 
 
   //   const [data, isLoading, error] = useFetch(
@@ -51,7 +58,7 @@ export const ProjectDetails = () => {
 
 
 
-  // const [projectData, setProjectData] = useState({});
+  const [projectData, setProjectData] = useState({});
 
   // const handleChange = (selectedOption) => {
   //   setProjectData({
@@ -217,6 +224,15 @@ export const ProjectDetails = () => {
   //   }
   // };
 
+
+function handleContributorRemove(e){
+e.preventDefault();
+console.log('dziala')
+  setProjectData({
+    ...data
+  })
+}
+
   const columns = [
     { field: "name", headerName: "Name", width: 200, flex: 0.7 },
     { field: "surname", headerName: "Surname", width: 200, flex: 0.7 },
@@ -230,17 +246,9 @@ export const ProjectDetails = () => {
         return (
           <>
             <button
+            className="contributorRemoveBtn"
               disabled={isDisabled}
-              onClick={(e) =>
-                setProjectData({
-                  ...projectData,
-                  contributors: [
-                    ...projectData.contributors.filter(
-                      (user) => user.contributorId !== params.id
-                    ),
-                  ],
-                })
-              }
+              onClick={(e) =>handleContributorRemove(e)}
             >
               Remove
             </button>
@@ -249,9 +257,6 @@ export const ProjectDetails = () => {
       },
     },
   ];
-
-
-
 
   return (
      <div className="projectDetails">

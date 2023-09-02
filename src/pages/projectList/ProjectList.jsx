@@ -38,7 +38,7 @@ const handleSelectPage = (e, action) => {
   setPageState({ ...pageState, page: action });
 };
 
-console.log(user.token)
+
   
   // useEffect(() => {
   //   if (data) {
@@ -52,9 +52,12 @@ console.log(user.token)
   // }, [data]);
 // REACT QUERY//
 const {isLoading,isError,error,
-data:projects,}=useQuery(["projects",pageState.page],()=>getProjectList(user.token,`?page=${pageState.page}`),{
+data:projects}=useQuery(["projects",pageState.page],()=>getProjectList(user.token,pageState.page),{
 
 })
+
+
+console.log(projects&&projects)
 
 
   const columns = [

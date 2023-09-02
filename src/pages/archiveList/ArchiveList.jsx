@@ -25,7 +25,7 @@ export const ArchiveList = () => {
   const [data, isLoading, error] = useFetch(
     "http://127.0.0.1:3000/api/notes/archived"
   );
-  console.log(data);
+
   useEffect(() => {
     if (data) {
       setPageState(data);

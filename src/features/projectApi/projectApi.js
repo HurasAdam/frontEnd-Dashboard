@@ -4,21 +4,21 @@ const projectApi = axios.create({
   baseURL: "http://127.0.0.1:3000/api/",
 });
 
-export const getProjectList = (token, query) => {
+export const getProjectList = (token, page) => {
   return new Promise((resolve, reject) => {
     // console.log(token)
     const response = projectApi
-      .get(`projects${query}`, {
+      .get(`projects?page=${page}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => resolve(res.data));
   });
 };
 
-export const getProject = (token, query) => {
+export const getProject = (token, projectId) => {
   return new Promise((resolve, reject) => {
-    const respinse = projectApi
-      .get(`projects/${query}`, {
+    const response = projectApi
+      .get(`projects/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => resolve(res.data))
@@ -28,7 +28,7 @@ export const getProject = (token, query) => {
 
 export const updateProject = (token, id, data) => {
   return new Promise((resolve, reject) => {
-    console.log(data)
+   
     const response = projectApi.patch(`projects/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify({
@@ -41,7 +41,7 @@ export const updateProject = (token, id, data) => {
 
 export const deleteProject = (token, id) => {
   return new Promise((resolve, reject) => {
-    console.log(id);
+
     const response = projectApi
       .delete(`projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` },

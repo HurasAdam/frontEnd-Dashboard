@@ -7,8 +7,7 @@ const userApi = axios.create({
 
   export const getUserList=(token,pmEmail,id)=>{
 
-    console.log(token)
-    console.log(pmEmail)
+
     new Promise((resolve,reject)=>{
         const response = userApi.get(`user?=${pmEmail}`,{
             headers:{"Authorization": `Bearer ${token}`}

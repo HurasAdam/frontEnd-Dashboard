@@ -7,7 +7,7 @@ const WidgetLarge=({data})=>{
 
 const {theme}=useContext(ThemeContext)
 
-console.log(data)
+
 const calculateTimeDifference = (date) => {
     const difference = new Date() - new Date(date);
     const units = {

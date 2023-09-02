@@ -37,7 +37,10 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
 //Get All Projects
 const getProjectList = async (req, res) => {
   // const page = req.query.page||0
+
+ 
   const { id: userId } = req.user;
+  console.log(userId)
   const { role } = req.role;
   const page = Number(req.query.page);
 

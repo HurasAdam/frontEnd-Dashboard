@@ -134,6 +134,7 @@ const getUserData = async (req, res) => {
 };
 
 const getUserList = async (req, res) => {
+
   const allUserList = await User.find({});
 
   //return list of all users as select options for new project
@@ -141,7 +142,8 @@ const getUserList = async (req, res) => {
     !req.query.settings &&
     !req.query.project &&
     !req.query.page &&
-    !req.query.changePM
+    !req.query.changePM&&
+    !req.query.contributors
   ) {
     const result = allUserList.map((user) => {
       return {
@@ -156,6 +158,11 @@ const getUserList = async (req, res) => {
     });
     return res.status(200).json(result);
   }
+
+if(req.query.contributors){
+  console.log('GIGAROBO')
+  return res.status(200).json("JEST W PYTE")
+}
 
   if (req.query.changePM) {
     const allUsers = await User.find({});
@@ -215,6 +222,7 @@ const getUserList = async (req, res) => {
 
   //return list of users that are not asigned yet to the current project
   if (req.query.project) {
+    console.log('GRA GITARA')
     const projectId = req.query.project;
     const project = await Project.find({ _id: projectId });
 

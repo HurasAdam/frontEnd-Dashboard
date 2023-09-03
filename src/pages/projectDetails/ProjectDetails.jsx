@@ -36,20 +36,23 @@ export const ProjectDetails = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [check, setCheck] = useState();
+  const [projectData, setProjectData] = useState({
+    projectId:"",
+    projectTitle:"",
+    description:"",
+    contributors:[],
+    projectLeader:"",
 
-  const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(user.token, projectId),{
-  
-  })
-  const {data:contributorList}=useQuery(["contributorList"],()=>getProjectContributorList(user.token,user.userId))
+  });
+  const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(user.token, projectId))
+  const {data:contributorList}=useQuery(["contributorList"],()=>getProjectContributorList(user.token,projectId))
 
-// useEffect(()=>{
-//   if(users&&users){
-//     setUserList(users)
-//   }
 
-// },[])
 
-console.log(users)
+  console.log(contributorList&&contributorList)
+
+
+
 
 
   //   const [data, isLoading, error] = useFetch(
@@ -58,18 +61,18 @@ console.log(users)
 
 
 
-  const [projectData, setProjectData] = useState({});
 
-  // const handleChange = (selectedOption) => {
-  //   setProjectData({
-  //     ...projectData,
-  //     contributors: [...projectData.contributors, selectedOption],
-  //   });
-  //   setUserList(userList.filter((user) => user !== selectedOption));
-  // };
-  // // useEffect(() => {
-  // //   getUserList();
-  // // }, []);
+
+  const handleChange = (selectedOption) => {
+    // setProjectData({
+    //   ...projectData,
+    //   contributors: [...projectData.contributors, selectedOption],
+    // });
+    // setUserList(userList.filter((user) => user !== selectedOption));
+ setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption._id]})
+
+  };
+
 
   // const { isLoading, isError, error, data } = useQueries([
   //   {
@@ -81,36 +84,6 @@ console.log(users)
   // ]);
 
 
-
-  // const deleteMutation = useMutation(() => deleteProject(token, projectId), {
-  //   onSuccess: () => {
-  //     setFetchError("");
-  //     navigate("/projects");
-  //     QueryClient.invalidateQueries(["projects"]);
-  //   },
-  //   onError: (error) => {
-  //     if (error.response.status === 409) {
-  //       setIsDeleted(false);
-  //       setFetchError(
-  //         "Cannot delete the project. There are tickets associated with the project you want to delete."
-  //       );
-  //     } else {
-  //       setFetchError(error.message);
-  //     }
-  //   },
-  // });
-
-  // const updateMutation = useMutation(
-  //   () => updateProject(token, projectId, { ...projectData }),
-  //   {
-  //     onSuccess: () => {
-  //       setFetchError("Updated Sucessfully");
-  //     },
-  //     onError: (error) => {
-  //       setFetchError(error.message);
-  //     },
-  //   }
-  // );
 
   //get list of users for change PM select
   // const getAllUsers = async () => {
@@ -390,12 +363,13 @@ console.log('dziala')
                <Select
                    isDisabled={isDisabled}
                    className="selectList"
-                   options={userList}
+                   options={contributorList&&contributorList}
                    isSearchable
                    getOptionLabel={(option) =>
                      `${option.name} ${option.surname}`
                    }
                    getOptionValue={(option) => option._id}
+                   onChange={handleChange}
                
                  />
               </div>
@@ -434,6 +408,7 @@ console.log('dziala')
                      <button
                        onClick={(e) => {
                          e.preventDefault();
+                      
                          setIsDisabled(false);
                          getAllUsers();
                        }}

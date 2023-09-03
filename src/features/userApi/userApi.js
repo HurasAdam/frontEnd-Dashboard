@@ -19,12 +19,14 @@ const userApi = axios.create({
 
 
   export const getProjectContributorList=(token,id)=>{
-    new Promise ((resolve,reject)=>{
+   return new Promise ((resolve,reject)=>{
         const response = userApi.get(`user?=${id}`,{
           headers:{"Authorization":`Bearer ${token}`}
         })
-        .then((res)=>resolve(res))
+        .then((res)=>resolve(res.data))
+        
         .catch((error)=>reject(error))
+      
     })
   }
 

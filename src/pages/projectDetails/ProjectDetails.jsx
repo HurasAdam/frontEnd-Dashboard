@@ -45,11 +45,14 @@ export const ProjectDetails = () => {
 
   });
   const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(user.token, projectId))
-  const {data:contributorList}=useQuery(["contributorList"],()=>getProjectContributorList(user.token,projectId))
+  const {data:contributorList}=useQuery(["contributorList"],()=>getProjectContributorList(),{
+    refetchOnWindowFocus:false,
+    enabled:false
+  })
 
 
 
-  console.log(contributorList&&contributorList)
+
 
 
 
@@ -363,7 +366,7 @@ console.log('dziala')
                <Select
                    isDisabled={isDisabled}
                    className="selectList"
-                   options={contributorList&&contributorList}
+                   options={projectData&&projectData.contributors}
                    isSearchable
                    getOptionLabel={(option) =>
                      `${option.name} ${option.surname}`
@@ -408,10 +411,13 @@ console.log('dziala')
                      <button
                        onClick={(e) => {
                          e.preventDefault();
-                      
+                         getProjectContributorList(user.token,projectId)
+                         .then((updatedContributorList) => {
+                          // Zaktualizuj stan komponentu z nową listą kontrybutorów
+                         setProjectData({...projectData,contributors:[...updatedContributorList]})
                          setIsDisabled(false);
-                         getAllUsers();
-                       }}
+                         
+                       })}}
                    >
                        Edit
                      </button>
@@ -420,6 +426,7 @@ console.log('dziala')
                       onClick={(e) => {
                          e.preventDefault();
                          updateMutation.mutate();
+                        
                        setIsDisabled(!isDisabled);
                      }}
                     >

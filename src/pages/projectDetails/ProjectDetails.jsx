@@ -30,30 +30,33 @@ export const ProjectDetails = () => {
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
-  const [userList, setUserList] = useState([]);
+
   const [isDeleted, setIsDeleted] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [check, setCheck] = useState();
-  const [projectData, setProjectData] = useState({
-    projectId:"",
-    projectTitle:"",
-    description:"",
-    contributors:[],
-    projectLeader:"",
-
-  });
+  const [projectTitle, setProjectTitle] = useState('');
+  const [projectDescription,setProjectDescription]=useState('');
+  const [projectContributors,setProjectContributors]=useState([]);
+  const [projectLeader,setProjectLeader]=useState('');
+  const [userList,setUserList]=useState([]);
   const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(user.token, projectId))
-  const {data:contributorList}=useQuery(["contributorList"],()=>getProjectContributorList(),{
+  const {data:users}=useQuery(["contributorList"],()=>getProjectContributorList(),{
     refetchOnWindowFocus:false,
     enabled:false
   })
 
+useEffect(()=>{
+setProjectTitle(data?.projectTitle);
+setProjectDescription(data?.projectDescription);
+setProjectContributors(data?.contributors);
+setProjectLeader(data?.projectLeader)
+
+},[data])
 
 
-
-
+console.log(users)
 
 
 
@@ -72,8 +75,8 @@ export const ProjectDetails = () => {
     //   contributors: [...projectData.contributors, selectedOption],
     // });
     // setUserList(userList.filter((user) => user !== selectedOption));
- setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption._id]})
-
+//  setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption._id]})
+console.log(selectedOption._id)
   };
 
 
@@ -204,9 +207,7 @@ export const ProjectDetails = () => {
 function handleContributorRemove(e){
 e.preventDefault();
 console.log('dziala')
-  setProjectData({
-    ...data
-  })
+
 }
 
   const columns = [
@@ -257,10 +258,7 @@ console.log('dziala')
                          required
                      defaultValue={data?.projectTitle}
                         onChange={(e) =>
-                          setProjectData({
-                            ...projectData,
-                           projectTitle: e.target.value,
-                           })
+                          setProjectTitle( e.target.value,)
                        }
                          disabled={isDisabled}
                        />
@@ -273,10 +271,9 @@ console.log('dziala')
                          defaultValue={data?.description}
                          disabled={isDisabled}
                          onChange={(e) =>
-                          setProjectData({
-                            ...data,
-                           description: e.target.value,
-                           })
+                          setProjectDescription(
+                           e.target.value,
+                           )
                          }
                      ></textarea>
                      )}
@@ -366,7 +363,7 @@ console.log('dziala')
                <Select
                    isDisabled={isDisabled}
                    className="selectList"
-                   options={projectData&&projectData.contributors}
+                   options={userList&&userList}
                    isSearchable
                    getOptionLabel={(option) =>
                      `${option.name} ${option.surname}`
@@ -414,7 +411,7 @@ console.log('dziala')
                          getProjectContributorList(user.token,projectId)
                          .then((updatedContributorList) => {
                           // Zaktualizuj stan komponentu z nową listą kontrybutorów
-                         setProjectData({...projectData,contributors:[...updatedContributorList]})
+                         setUserList(updatedContributorList)
                          setIsDisabled(false);
                          
                        })}}

@@ -136,7 +136,7 @@ const getUserData = async (req, res) => {
 const getUserList = async (req, res) => {
 
   const allUserList = await User.find({});
-
+console.log(req.query)
   //return list of all users as select options for new project
   if (
     !req.query.settings &&
@@ -144,6 +144,7 @@ const getUserList = async (req, res) => {
     !req.query.page &&
     !req.query.changePM&&
     !req.query.contributors
+    
   ) {
     const result = allUserList.map((user) => {
       return {

@@ -1,6 +1,20 @@
 import projectApi from "../axios/axios"
 
 
+
+export const createProject= (data)=>{
+  return new Promise((resolve,reject)=>{
+    const rersponse = projectApi.post("projects",{
+      body:JSON.stringify({
+        data
+      })
+    })
+    .then((res)=>resolve(res.data))
+    .catch((error)=>reject(error))
+  })
+}
+
+
 export const getProjectList = (page) => {
   return new Promise((resolve, reject) => {
 
@@ -19,13 +33,12 @@ export const getProject = (projectId) => {
   });
 };
 
-export const updateProject = (token, id, data) => {
+export const updateProject = (id, data) => {
   return new Promise((resolve, reject) => {
    
-    const response = projectApi.patch(`projects/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        data,
+    const response = projectApi.patch(`projects/${id}`, 
+    { body: JSON.stringify({
+      data,
       }),
     }).then((res)=>resolve(res.data))
     .catch((error)=>reject(error));

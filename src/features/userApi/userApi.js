@@ -1,25 +1,21 @@
-import projectApi from "../axios/axios"
+import projectApi from "../axios/axios";
 
+export const getProjectContributorList = (id) => {
+  return new Promise((resolve, reject) => {
+    const response = projectApi
+      .get(`user?=${id}`)
+      .then((res) => resolve(res.data))
 
-   export const getUserList=(token,pmEmail,id)=>{
+      .catch((error) => reject(error));
+  });
+};
 
+export const getUsers = () => {
+  return new Promise((resolve, reject) => {
+    const response = projectApi
+      .get("user")
+      .then((res) => resolve(res.data))
 
-    return new Promise((resolve,reject)=>{
-        const response = projectApi.get(`user?=${pmEmail}`)
-        .then((res)=>resolve(res))
-        .catch((error)=>reject(error))
-    })
-  }
-
-
-    export const getProjectContributorList=(id)=>{
-   return new Promise ((resolve,reject)=>{
-  console.log('TEST531')
-        const response = projectApi.get(`user?=${id}`)
-        .then((res)=>resolve(res.data))
-        
-        .catch((error)=>reject(error))
-      
-    })
-  }
-
+      .catch((error) => reject(error));
+  });
+};

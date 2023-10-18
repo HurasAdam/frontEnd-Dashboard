@@ -6,14 +6,19 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 import Select from "react-select";
 import { ThemeContext } from '../../contexts/ThemeContext'
-
+import {createProject} from "../../features/projectApi/projectApi"
+import { getUsers } from "../../features/userApi/userApi";
+import { useQuery } from "react-query";
 export const NewProject = () => {
   const [newProject, setNewProject] = useState({});
   const [userList, setUserList] = useState([]);
   
+  const {isLoading,isError,error,data:users,refetch}=useQuery(["people"],()=>getUsers(),{
+    refetchOnWindowFocus:false,
+    enabled:false
+  })
 
-
-
+console.log(users&&users)
 
 
 
@@ -58,24 +63,24 @@ export const NewProject = () => {
 const result = selecedtUsers.map(({value})=>(value))
 console.log(result)
 
-  useEffect(() => {
-    getUserList();
-  }, []);
+  // useEffect(() => {
+  //   getUserList();
+  // }, []);
 
   //get list of users 
-  const getUserList = async () => {
-    const response = await fetch("http://127.0.0.1:3000/api/user/",{
-      headers:{'Authorization': `Bearer ${user.token}`},
-    });
+  // const getUserList = async () => {
+  //   const response = await fetch("http://127.0.0.1:3000/api/user/",{
+  //     headers:{'Authorization': `Bearer ${user.token}`},
+  //   });
 
-    const json = await response.json();
+  //   const json = await response.json();
 
-    const arr = json.map((user) => {
-      return { value: user._id, label: user.email };
-    });
+  //   const arr = json.map((user) => {
+  //     return { value: user._id, label: user.email };
+  //   });
 
-    setUserList(arr);
-  };
+  //   setUserList(arr);
+  // };
 
   //Add new project 
   const handleAddProject = async () => {
@@ -136,16 +141,22 @@ console.log(result)
             <Select 
              
             className="newProjectMemberSelect"
-              options={userList}
+              options={users&&users}
               isMulti
               isSearchable
               styles={customStyles}
               onChange={setSelecedtUsers}
+              onFocus={refetch}
+              getOptionLabel={(option) =>
+                `${option.name} ${option.surname}`
+              }
+              getOptionValue={(option) => option._id}
+          
             ></Select>
           </div>
         </div>
         <div className="newProjectAction">
-          <button className="newProjectSave" onClick={handleAddProject}>
+          <button className="newProjectSave" onClick={createProject}>
             Save
           </button>
           <button

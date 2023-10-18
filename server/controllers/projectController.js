@@ -143,7 +143,9 @@ const convertTypeContributorsId= projectContributors.map((contributor)=>contribu
     description:description,
     projectLeaderId:findProjectLeader._id,
     contributors:convertTypeContributorsId
-  }})
+  }},{
+    runValidators:true,
+  })
 
 
   res.status(200).json(updateProject);

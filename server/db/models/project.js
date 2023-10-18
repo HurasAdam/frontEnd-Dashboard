@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const projectSchema = new Schema({
   projectTitle: {
     type: String,
-    required: true,
+    required: [true, "Please enter the project name"],
   },
   description: {
     type: String,
@@ -12,11 +12,11 @@ const projectSchema = new Schema({
   },
   contributors:{
     type:Array,
-    required:true
+    required:[true, "Please asign atelast ONE project member"]
   },
   projectLeaderId:{
     type:String,
-    required:true
+    required:[true, "Please choose a Project Leader"]
   },
   projectLeader:{
     type:Object,

@@ -6,10 +6,15 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const { convertDate } = require("../utils/dateConvert");
 
-const createToken = (id) => {
+const createAccessToken = (id) => {
   const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
   return token;
 };
+const createRefreshToken = (id) => {
+  const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
+  return token;
+};
+
 
 // login a user
 const loginUser = async (req, res) => {
@@ -28,13 +33,15 @@ const loginUser = async (req, res) => {
     if (!matchPassword) {
       throw Error("Inncorect Password");
     } else {
-      const token = createToken(user._id);
+      const accessToken = createAccessToken(user._id);
+      const refreshToken = createRefreshToken(user._id);
       res
         .status(200)
         .json({
           userId: user._id,
           email,
-          token,
+          accessToken,
+          refreshToken,
           role: user.role,
           userAvatar: user.userAvatar,
         });
@@ -95,13 +102,15 @@ const signupUser = async (req, res) => {
         adress: adress || "",
         createdAt: convertDate(),
       });
-      const token = createToken(user._id);
+      const accessToken = createAccessToken(user._id);
+      const refreshToken= createRefreshToken(user._id);
 
       res.status(200).json({
         name,
         surname,
         email,
-        token,
+        accessToken,
+        refreshToken,
         role,
         userAvatar,
         phone,

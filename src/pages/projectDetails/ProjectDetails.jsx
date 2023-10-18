@@ -21,7 +21,7 @@ import {
   updateProject,
 } from "../../features/projectApi/projectApi";
 
-import { getUserList,getProjectContributorList } from "../../features/userApi/userApi";
+import {getProjectContributorList} from "../../features/userApi/userApi"
 import axios from "axios";
 import { QueryClient } from "@tanstack/react-query";
 export const ProjectDetails = () => {
@@ -41,8 +41,8 @@ export const ProjectDetails = () => {
   const [projectContributors,setProjectContributors]=useState([]);
   const [projectLeader,setProjectLeader]=useState('');
   const [userList,setUserList]=useState([]);
-  const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(user.token, projectId))
-  const {data:users}=useQuery(["contributorList"],()=>getProjectContributorList(),{
+  const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(projectId))
+  const {data:users,refetch}=useQuery(["contributorList"],()=>getProjectContributorList(projectId),{
     refetchOnWindowFocus:false,
     enabled:false
   })
@@ -56,7 +56,6 @@ setProjectLeader(data?.projectLeader)
 },[data])
 
 
-console.log(users)
 
 
 
@@ -76,7 +75,8 @@ console.log(users)
     // });
     // setUserList(userList.filter((user) => user !== selectedOption));
 //  setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption._id]})
-console.log(selectedOption._id)
+console.log('refetched here')
+
   };
 
 
@@ -363,13 +363,15 @@ console.log('dziala')
                <Select
                    isDisabled={isDisabled}
                    className="selectList"
-                   options={userList&&userList}
+                   options={users&&users}
                    isSearchable
                    getOptionLabel={(option) =>
                      `${option.name} ${option.surname}`
                    }
                    getOptionValue={(option) => option._id}
-                   onChange={handleChange}
+                  //  onChange={handleChange}
+                   onFocus={()=>{refetch()}}
+               
                
                  />
               </div>
@@ -408,13 +410,13 @@ console.log('dziala')
                      <button
                        onClick={(e) => {
                          e.preventDefault();
-                         getProjectContributorList(user.token,projectId)
-                         .then((updatedContributorList) => {
-                          // Zaktualizuj stan komponentu z nową listą kontrybutorów
-                         setUserList(updatedContributorList)
+                        //  getProjectContributorList(user.token,projectId)
+                        //  .then((updatedContributorList) => {
+                        //   // Zaktualizuj stan komponentu z nową listą kontrybutorów
+                        //  setUserList(updatedContributorList)
                          setIsDisabled(false);
                          
-                       })}}
+                       }}
                    >
                        Edit
                      </button>

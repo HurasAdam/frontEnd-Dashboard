@@ -1,26 +1,19 @@
-import axios from "axios";
+import projectApi from "../axios/axios"
 
-const projectApi = axios.create({
-  baseURL: "http://127.0.0.1:3000/api/",
-});
 
-export const getProjectList = (token, page) => {
+export const getProjectList = (page) => {
   return new Promise((resolve, reject) => {
-    // console.log(token)
+
     const response = projectApi
-      .get(`projects?page=${page}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`projects?page=${page}`)
       .then((res) => resolve(res.data));
   });
 };
 
-export const getProject = (token, projectId) => {
+export const getProject = (projectId) => {
   return new Promise((resolve, reject) => {
     const response = projectApi
-      .get(`projects/${projectId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`projects/${projectId}`)
       .then((res) => resolve(res.data))
       .catch((error) => reject(error));
   });
@@ -51,4 +44,4 @@ export const deleteProject = (token, id) => {
   });
 };
 
-export default projectApi;
+

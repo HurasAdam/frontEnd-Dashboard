@@ -12,14 +12,29 @@ const requireAuth = async (req, res, next) => {
   const token = authorization.split(" ")[1];
   try {
     const { id } = jwt.verify(token, process.env.SECRET);
-   const decoded= jwt.verify(token, process.env.SECRET);
+   const decoded= jwt.verify(token, process.env.SECRET)
   
     req.user = await User.findOne({ _id: id });
     req.role = await User.findOne({ _id: id }).select("role");
+
+
+const timestamp = decoded.exp;
+const expirationDate = new Date(timestamp*1000);
+
+
+
+
+if(Date.now()>=expirationDate){
+  throw new Error("EXPIRED")
+}
+
     next();
   } catch (error) {
     console.log(error);
-    res.status(401).json({ error: "Request is not authorized" });
+    if(error.message==="jwt expired"){
+      return res.status(401).json({message:"Token Expired"})
+    }
+    return res.status(403).json({message:"Invalid Token"})
   }
 };
 

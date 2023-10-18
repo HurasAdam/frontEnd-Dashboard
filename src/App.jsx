@@ -54,7 +54,7 @@ function App() {
       mediaQuery.removeEventListener("change", handleMediaQueryChange);
     };
   }, [mediaQuery]);
-
+console.log(user?.role)
   return (
     <BrowserRouter>
       <Topbar isMenuActive={isMenuActive} setIsMenuActive={setIsMenuActive} />

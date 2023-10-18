@@ -1,28 +1,21 @@
-import axios from "axios";
-
-const userApi = axios.create({
-    baseURL: "http://127.0.0.1:3000/api/",
-  });
+import projectApi from "../axios/axios"
 
 
-  export const getUserList=(token,pmEmail,id)=>{
+   export const getUserList=(token,pmEmail,id)=>{
 
 
-    new Promise((resolve,reject)=>{
-        const response = userApi.get(`user?=${pmEmail}`,{
-            headers:{"Authorization": `Bearer ${token}`}
-        })
+    return new Promise((resolve,reject)=>{
+        const response = projectApi.get(`user?=${pmEmail}`)
         .then((res)=>resolve(res))
         .catch((error)=>reject(error))
     })
   }
 
 
-  export const getProjectContributorList=(token,id)=>{
+    export const getProjectContributorList=(id)=>{
    return new Promise ((resolve,reject)=>{
-        const response = userApi.get(`user?=${id}`,{
-          headers:{"Authorization":`Bearer ${token}`}
-        })
+  console.log('TEST531')
+        const response = projectApi.get(`user?=${id}`)
         .then((res)=>resolve(res.data))
         
         .catch((error)=>reject(error))
@@ -30,4 +23,3 @@ const userApi = axios.create({
     })
   }
 
-  export default userApi;

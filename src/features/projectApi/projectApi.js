@@ -2,13 +2,10 @@ import projectApi from "../axios/axios"
 
 
 
-export const createProject= (data)=>{
+export const createProject= (projectData)=>{
+
   return new Promise((resolve,reject)=>{
-    const rersponse = projectApi.post("projects",{
-      body:JSON.stringify({
-        data
-      })
-    })
+    const response = projectApi.post("projects",projectData)
     .then((res)=>resolve(res.data))
     .catch((error)=>reject(error))
   })

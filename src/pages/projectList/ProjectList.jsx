@@ -61,7 +61,7 @@ console.log(projects&&projects)
 
 
   const columns = [
-    { field: "projectTitle", headerName: "Title", width: 300, flex: 0.4 },
+    { field: "title", headerName: "Title", width: 300, flex: 0.4 },
     {field:"projectLeader",headerName:'PM',width:300,renderCell:(params)=>{
       return(
         <>

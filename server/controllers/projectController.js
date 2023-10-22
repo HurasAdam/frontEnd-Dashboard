@@ -5,21 +5,22 @@ const { ObjectId } = require("mongodb");
 const { convertDate } = require("../utils/dateConvert");
 //Create Projet
 const createProject = async (req, res) => {
-  const { projectTitle, description, contributors, projectLeader } = req.body;
+  const { title, description, contributors, } = req.body;
+
   try {
-    if (!projectTitle || !description || !contributors) {
+    if (!title || !description) {
       throw Error("All fields have to be filled");
     }
 
     //Find contributors in DB
     const projectContributor = (await User.find({ _id: { $in: contributors } }).select("_id"))
-    const projectManager = await User.findOne({ email: projectLeader });
-
+    const projectManager = await User.findOne({ email: req.user.email });
+ 
 const projectContributorListId= projectContributor.map((contributor)=>contributor._id.toString())
 
 
     const project = await Project.create({
-      projectTitle,
+      title,
       description,
      
       contributors: projectContributorListId,
@@ -32,6 +33,7 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
     console.log(Error.message);
     res.status(400).json(Error.message);
   }
+
 };
 
 //Get All Projects

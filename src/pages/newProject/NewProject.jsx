@@ -10,8 +10,9 @@ import {createProject} from "../../features/projectApi/projectApi"
 import { getUsers } from "../../features/userApi/userApi";
 import { useQuery } from "react-query";
 export const NewProject = () => {
-  const [newProject, setNewProject] = useState({});
-  const [userList, setUserList] = useState([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription]=useState('');
+  const [contributors, setContributors] = useState([]);
   
   const {isLoading,isError,error,data:users,refetch}=useQuery(["people"],()=>getUsers(),{
     refetchOnWindowFocus:false,
@@ -20,7 +21,12 @@ export const NewProject = () => {
 
 console.log(users&&users)
 
+// const objectToSend = {
+//   projectTitle,
+//   description:projectDescription,
+//   contributors: projectContributorList.map((contributor)=>contributor._id)
 
+// }
 
 
   const customStyles = {
@@ -53,15 +59,14 @@ console.log(users&&users)
   const {theme}=useContext(ThemeContext)
 
   //handle new project inputs
-  const handleNewProject = (e, prop) => {
-    const value = e.target.value;
-    newProject[prop] = value;
-    console.log(newProject);
-  };
+  // const handleNewProject = (e, prop) => {
+  //   const value = e.target.value;
+  //   newProject[prop] = value;
+  //   console.log(newProject);
+  // };
 
 
-const result = selecedtUsers.map(({value})=>(value))
-console.log(result)
+
 
   // useEffect(() => {
   //   getUserList();
@@ -88,13 +93,9 @@ console.log(result)
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${user.token}`
+        'Authorization': `Bearer ${user.accessToken}`
       },
-      body: JSON.stringify({
-        ...newProject,
-        projectLeader: user.email,
-        contributors: selecedtUsers.map(({value})=>value),
-      }),
+      body: JSON.stringify(objectToSend),
     });
     if (response.ok) {
       navigate("/projects");
@@ -120,7 +121,7 @@ console.log(result)
             <label className="newProjectItemLabel" htmlFor="">
               Project Title
             </label>
-            <input type="text" onChange={(e) => handleNewProject(e, "projectTitle")} />
+            <input type="text" onChange={(e)=>setTitle(e.target.value)} />
           </div>
 
           <div className="newProjectItemDescripion">
@@ -131,7 +132,7 @@ console.log(result)
               name=""
               id=""
               rows={25}
-              onChange={(e) => handleNewProject(e, "description")}
+              onChange={(e) =>setDescription(e.target.value)}
             ></textarea>
           </div>
           <div className="newProjectItem">
@@ -145,7 +146,7 @@ console.log(result)
               isMulti
               isSearchable
               styles={customStyles}
-              onChange={setSelecedtUsers}
+              onChange={setContributors}
               onFocus={refetch}
               getOptionLabel={(option) =>
                 `${option.name} ${option.surname}`
@@ -156,7 +157,10 @@ console.log(result)
           </div>
         </div>
         <div className="newProjectAction">
-          <button className="newProjectSave" onClick={createProject}>
+          <button
+          
+          onClick={()=>createProject({title,description})}
+          className="newProjectSave">
             Save
           </button>
           <button

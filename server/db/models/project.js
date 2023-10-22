@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 const projectSchema = new Schema({
-  projectTitle: {
+  title: {
     type: String,
-    required: [true, "Please enter the project name"],
+    required:true
   },
   description: {
     type: String,
@@ -12,11 +12,11 @@ const projectSchema = new Schema({
   },
   contributors:{
     type:Array,
-    required:[true, "Please asign atelast ONE project member"]
+    required:true
   },
   projectLeaderId:{
     type:String,
-    required:[true, "Please choose a Project Leader"]
+    required:true
   },
   projectLeader:{
     type:Object,

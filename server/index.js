@@ -11,7 +11,7 @@ require('./db/mongoose');
 //parsers
 //Content-type:Aplication-Json
 app.use(express.json());
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 //routes
 const apiRouter= require('./routes/api');

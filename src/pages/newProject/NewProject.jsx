@@ -8,7 +8,7 @@ import Select from "react-select";
 import { ThemeContext } from '../../contexts/ThemeContext'
 import {createProject} from "../../features/projectApi/projectApi"
 import { getUsers } from "../../features/userApi/userApi";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 export const NewProject = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription]=useState('');
@@ -19,14 +19,22 @@ export const NewProject = () => {
     enabled:false
   })
 
-console.log(users&&users)
+  const mutation = useMutation(createProject,{
+    onSuccess:(error,variables,context)=>{
+      console.log(context)
+    }
+  })
+  
 
-// const objectToSend = {
-//   projectTitle,
-//   description:projectDescription,
-//   contributors: projectContributorList.map((contributor)=>contributor._id)
 
-// }
+
+  const handleCreateProject=(e)=>{
+e.preventDefault();
+mutation.mutate({title,description})
+
+  }
+
+
 
 
   const customStyles = {
@@ -159,7 +167,7 @@ console.log(users&&users)
         <div className="newProjectAction">
           <button
           
-          onClick={()=>createProject({title,description})}
+          onClick={handleCreateProject}
           className="newProjectSave">
             Save
           </button>

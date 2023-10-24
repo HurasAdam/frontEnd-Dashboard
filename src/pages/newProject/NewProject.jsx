@@ -20,8 +20,10 @@ export const NewProject = () => {
   })
 
   const mutation = useMutation(createProject,{
-    onSuccess:(error,variables,context)=>{
-      console.log(context)
+    onSuccess:(data)=>{
+      navigate(`/projects/${data.id}`)
+      console.log(data.id)
+    
     }
   })
   

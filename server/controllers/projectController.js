@@ -20,9 +20,8 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
 
 
     const project = await Project.create({
-      title,
+      title:title,
       description,
-     
       contributors: projectContributorListId,
       projectLeaderId:projectManager._id,
       createdAt: convertDate(),
@@ -105,7 +104,7 @@ const contributorsList = contributors.map((contributor)=>{
 
 const singleProject = {
   projectId:project._id,
-  projectTitle:project.projectTitle,
+  title:project.title,
   description:project.description,
 contributors:contributorsList,
   projectLeader:{
@@ -129,9 +128,9 @@ createdAt:project.createdAt
 
 const updateProject = async (req, res) => {
   const { id } = req.params;
-  const { projectTitle, description, projectLeader, contributors } = req.body;
+  const { title, description, projectLeader, contributors } = req.body;
   const updates = req.body;
-  
+  console.log(req.body)
   const findProjectLeader= await User.findOne({_id:projectLeader})
   const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
   const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
@@ -140,17 +139,17 @@ const convertTypeContributorsId= projectContributors.map((contributor)=>contribu
 
 
 
-  const updateProject = await Project.findOneAndUpdate({_id:id},{$set:{
-    projectTitle:projectTitle,
-    description:description,
-    projectLeaderId:findProjectLeader._id,
-    contributors:convertTypeContributorsId
-  }},{
-    runValidators:true,
-  })
+  // const updateProject = await Project.findOneAndUpdate({_id:id},{$set:{
+  //   title,
+  //   description,
+  //   projectLeaderId:findProjectLeader._id,
+  //   contributors:convertTypeContributorsId
+  // }},{
+  //   runValidators:true,
+  // })
 
 
-  res.status(200).json(updateProject);
+  res.status(200).json("OKERAJO");
 };
 
 const deleteProject = async (req, res) => {

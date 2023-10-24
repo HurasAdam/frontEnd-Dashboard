@@ -24,6 +24,7 @@ import {
 import {getProjectContributorList} from "../../features/userApi/userApi"
 import axios from "axios";
 import { QueryClient } from "@tanstack/react-query";
+import { Description } from "@mui/icons-material";
 export const ProjectDetails = () => {
   const { projectId } = useParams();
   const [updateError, setUpdateError] = useState(null);
@@ -36,10 +37,10 @@ export const ProjectDetails = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [check, setCheck] = useState();
-  const [projectTitle, setProjectTitle] = useState('');
-  const [projectDescription,setProjectDescription]=useState('');
-  const [projectContributors,setProjectContributors]=useState([]);
-  const [projectLeader,setProjectLeader]=useState('');
+  const [title, setTitle] = useState('');
+  const [description,setDescription]=useState('');
+  const [contributors,setContributors]=useState([]);
+  const [leader,setLeader]=useState('');
   const [userList,setUserList]=useState([]);
   const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(projectId))
   const {data:users,refetch}=useQuery(["contributorList"],()=>getProjectContributorList(projectId),{
@@ -47,14 +48,22 @@ export const ProjectDetails = () => {
     enabled:false
   })
 
+  const mutation = useMutation(updateProject)
+
+const handleUpdateProject =(e)=>{
+e.preventDefault();
+mutation.mutate({projectId,title,description,contributors,leader})
+}
+
 useEffect(()=>{
-setProjectTitle(data?.projectTitle);
-setProjectDescription(data?.projectDescription);
-setProjectContributors(data?.contributors);
-setProjectLeader(data?.projectLeader)
+setTitle(data?.title);
+setDescription(data?.description);
+setContributors(data?.contributors);
+setLeader(data?.projectLeader)
 
 },[data])
 
+console.log(data)
 
 
 
@@ -256,9 +265,10 @@ console.log('dziala')
                     <input
                       type="text"
                          required
-                     defaultValue={data?.projectTitle}
+                         value={title}
+                    
                         onChange={(e) =>
-                          setProjectTitle( e.target.value,)
+                          setTitle( e.target.value,)
                        }
                          disabled={isDisabled}
                        />
@@ -268,10 +278,10 @@ console.log('dziala')
                    <label htmlFor="">Project Description</label>
                      {data && (
                        <textarea
-                         defaultValue={data?.description}
+                         value={description}
                          disabled={isDisabled}
                          onChange={(e) =>
-                          setProjectDescription(
+                          setDescription(
                            e.target.value,
                            )
                          }
@@ -330,13 +340,7 @@ console.log('dziala')
                   {
                      <div className="projectDataBottomItem">
                        <label htmlFor="">Created At :</label>
-                       {data &&data[0]&& (
-                         <input
-                           type="text"
-                           defaultValue={`${data[0].createdAt.Day}/${data[0].createdAt.Month}/${data.createdAt.Year}`}
-                           disabled={true}
-                         />
-                       )}
+                      <label htmlFor="">{data.createdAt}</label>
                      </div>
                    }
                  </div>
@@ -422,12 +426,7 @@ console.log('dziala')
                      </button>
                    ) : (
                      <button
-                      onClick={(e) => {
-                         e.preventDefault();
-                         updateMutation.mutate();
-                        
-                       setIsDisabled(!isDisabled);
-                     }}
+                      onClick={handleUpdateProject}
                     >
                      Save
                     </button>

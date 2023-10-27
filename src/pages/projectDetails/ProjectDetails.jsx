@@ -340,7 +340,7 @@ console.log('dziala')
                   {
                      <div className="projectDataBottomItem">
                        <label htmlFor="">Created At :</label>
-                      <label htmlFor="">{data.createdAt}</label>
+                      <label htmlFor="">{data?.createdAt}</label>
                      </div>
                    }
                  </div>

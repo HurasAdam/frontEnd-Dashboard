@@ -10,16 +10,15 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  contributors: {
-    type: Array,
+  contributors: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"User",
     required: true,
-  },
-  projectLeaderId: {
-    type: String,
-    required: true,
-  },
+  }],
+
   projectLeader: {
-    type: Object,
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"User",
     required: false,
   },
   createdAt: {

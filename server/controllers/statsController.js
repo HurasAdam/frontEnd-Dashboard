@@ -8,7 +8,7 @@ const kek = await Note.find({status:'Open'})
 
 const lol = kek.sort((a,b)=> new Date(b.createdAt)- new Date(a.createdAt))
 const cut = lol.slice(Math.max(kek.length-7,0),kek.length)
-console.log(cut)
+
 const notes=await Note.find({}).select("status")
 const xd = await Note.find({})
 const result = {amount:projects.length}

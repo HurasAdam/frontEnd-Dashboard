@@ -3,6 +3,7 @@ const User = require("../db/models/user");
 const Note = require("../db/models/note");
 const { ObjectId } = require("mongodb");
 const { convertDate } = require("../utils/dateConvert");
+const { default: mongoose } = require("mongoose");
 //Create Projet
 const createProject = async (req, res) => {
   const { title, description, contributors, } = req.body;
@@ -14,8 +15,8 @@ const createProject = async (req, res) => {
 
     //Find contributors in DB
     const projectContributor = (await User.find({ _id: { $in: contributors } }).select("_id"))
-    const projectManager = await User.findOne({ email: req.user.email });
- 
+    const projectLeader = await User.findOne({ email: req.user.email });
+ const projectLeaderObjectId = mongoose.Types.ObjectId(projectLeader)
 const projectContributorListId= projectContributor.map((contributor)=>contributor._id.toString())
 
 
@@ -23,7 +24,7 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
       title:title,
       description,
       contributors: projectContributorListId,
-      projectLeaderId:projectManager._id,
+      projectLeader:projectLeaderObjectId,
       createdAt: convertDate(),
     });
 
@@ -35,13 +36,13 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
 
 };
 
-//Get All Projects
+//Get All limitedArrayOfProjects
 const getProjectList = async (req, res) => {
   // const page = req.query.page||0
 
  
   const { id: userId } = req.user;
-  console.log(userId)
+ 
   const { role } = req.role;
   const page = Number(req.query.page);
 
@@ -49,17 +50,20 @@ const getProjectList = async (req, res) => {
   const limit = parseInt(size);
   const skip = (page - 1) * size;
   const allProjects = await Project.find({});
-  const projects = await Project.find({}).skip(skip).limit(limit);
-const projectLeaderList = await Promise.all((projects.map((p)=> User.findOne({_id:p.projectLeaderId})))) 
+  const limitedArrayOfProjects = await Project.find({}).skip(skip).limit(limit);
 
- const result = projects.map((proj)=>{
-  const projectLeader = projectLeaderList.find((pl)=>pl._id.toString()===proj.projectLeaderId)
-  proj["projectLeader"]=projectLeader
-  return proj
- })
+const projectLeaderList = await Promise.all(limitedArrayOfProjects.map((p)=> User.findById(p.projectLeader)))
 
-  const { projects: queryString } = req.query;
-  const userProjects = allProjects.filter((project)=>project.contributors.includes(userId))
+
+
+const updatedProjectList = limitedArrayOfProjects.map((project)=>{
+  const projectLeader = projectLeaderList.find((person)=>person._id.toString()===project.projectLeader.toString())
+project["projectLeader"]=projectLeader
+return project
+})
+ 
+  const { limitedArrayOfProjects: queryString } = req.query;
+  const userlimitedArrayOfProjects = allProjects.filter((project)=>project.contributors.includes(userId))
   if (!queryString && typeof page === "number") {
     res
       .status(200)
@@ -67,16 +71,16 @@ const projectLeaderList = await Promise.all((projects.map((p)=> User.findOne({_i
         pageSize: size,
         total: Math.ceil(allProjects.length / size),
         page: page,
-        projects: result,
+        limitedArrayOfProjects:updatedProjectList,
       });
   }
   //project list that user belongs to as select opions
-  if (queryString === "userProjects" && role === "admin") {
+  if (queryString === "userlimitedArrayOfProjects" && role === "admin") {
     res.status(200).json(allProjects);
   }
   //all project as select options - only for admin role
-  else if (queryString === "userProjects" && role !== "admin") {
-    res.status(200).json(userProjects);
+  else if (queryString === "userlimitedArrayOfProjects" && role !== "admin") {
+    res.status(200).json(userlimitedArrayOfProjects);
   }
 };
 
@@ -130,7 +134,7 @@ const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, projectLeader, contributors } = req.body;
   const updates = req.body;
-  console.log(req.body)
+
   const findProjectLeader= await User.findOne({_id:projectLeader})
   const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
   const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
@@ -160,7 +164,7 @@ const deleteProject = async (req, res) => {
   const result = tickets.filter(
     (ticket) => ticket.project === id
   );
-console.log(result)
+
  
  try{
 if(result.length>0){

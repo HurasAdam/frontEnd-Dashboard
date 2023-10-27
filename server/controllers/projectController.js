@@ -92,7 +92,7 @@ const getSingleProject = async (req, res) => {
   const project = await Project.findOne({ _id: id });
 
   const contributors = await User.find({ _id: project.contributors });
-  const projectLeader = await User.findOne({ _id: project.projectLeaderId });
+  const projectLeader = await User.findOne({ _id: project.projectLeader });
 const contributorsList = contributors.map((contributor)=>{
   return {
     contributorId:contributor._id.toString(),
@@ -107,12 +107,12 @@ const contributorsList = contributors.map((contributor)=>{
 })
 
 const singleProject = {
-  projectId:project._id,
+  projectId:project.id,
   title:project.title,
   description:project.description,
 contributors:contributorsList,
   projectLeader:{
-    projectLeaderId:projectLeader._id.toString(),
+    id:projectLeader._id,
     name:projectLeader.name,
     surname:projectLeader.surname,
     email:projectLeader.email,
@@ -123,7 +123,7 @@ contributors:contributorsList,
 createdAt:project.createdAt
 }
 
-
+console.log(singleProject)
 
 
   res.status(200).json(singleProject);

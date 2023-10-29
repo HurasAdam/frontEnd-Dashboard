@@ -1,7 +1,7 @@
 
-const convertDate=()=>{
+const convertDate=(date)=>{
 
-   const date = new Date();
+  
    const options = { 
      year: 'numeric', 
      month: '2-digit', 
@@ -11,7 +11,9 @@ const convertDate=()=>{
      hour12: false 
    };
    const now =  date.toLocaleString('pl-PL', options);
+   console.log(now)
    return now
+
   }
   
  module.exports = {

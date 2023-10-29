@@ -25,7 +25,7 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
       description,
       contributors: projectContributorListId,
       projectLeader:projectLeaderObjectId,
-      createdAt: convertDate(),
+      createdAt: new Date(),
     });
 
     res.status(201).json(project);
@@ -57,9 +57,20 @@ const projectLeaderList = await Promise.all(limitedArrayOfProjects.map((p)=> Use
 
 
 const updatedProjectList = limitedArrayOfProjects.map((project)=>{
+  
   const projectLeader = projectLeaderList.find((person)=>person._id.toString()===project.projectLeader.toString())
-project["projectLeader"]=projectLeader
-return project
+
+p = {
+_id:project._id,
+title:project.title,
+description:project.description,
+contributor:project.contributors,
+projectLeader:projectLeader,
+createdAt:convertDate(project.createdAt)
+}
+
+console.log(p)
+return p
 })
  
   const { limitedArrayOfProjects: queryString } = req.query;
@@ -120,7 +131,7 @@ contributors:contributorsList,
     gender:projectLeader.gender,
     userAvatar:projectLeader.userAvatar,
   },
-createdAt:project.createdAt
+createdAt:convertDate(project.createdAt)
 }
 
 

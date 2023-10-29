@@ -22,7 +22,8 @@ const projectSchema = new Schema({
     required: false,
   },
   createdAt: {
-    type: Object,
+    type: Date, 
+    default:Date.now()
   },
 });
 

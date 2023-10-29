@@ -63,7 +63,6 @@ setLeader(data?.projectLeader)
 
 },[data])
 
-console.log(data)
 
 
 
@@ -78,13 +77,10 @@ console.log(data)
 
 
   const handleChange = (selectedOption) => {
-    // setProjectData({
-    //   ...projectData,
-    //   contributors: [...projectData.contributors, selectedOption],
-    // });
-    // setUserList(userList.filter((user) => user !== selectedOption));
+setContributors(selectedOption._id)
+//     setUserList(userList.filter((user) => user !== selectedOption));
 //  setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption._id]})
-console.log('refetched here')
+
 
   };
 
@@ -368,12 +364,13 @@ console.log('dziala')
                    isDisabled={isDisabled}
                    className="selectList"
                    options={users&&users}
+                  
                    isSearchable
                    getOptionLabel={(option) =>
                      `${option.name} ${option.surname}`
                    }
                    getOptionValue={(option) => option._id}
-                  //  onChange={handleChange}
+                   onChange={handleChange}
                    onFocus={()=>{refetch()}}
                
                

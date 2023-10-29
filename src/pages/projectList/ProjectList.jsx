@@ -59,11 +59,12 @@ export const ProjectsList = () => {
     {}
   );
 
+  
   const columns = [
     { field: "title", headerName: "Title", width: 300, flex: 0.4 },
     {
       field: "projectLeader",
-      headerName: "PM",
+      headerName: "PL",
       width: 300,
       renderCell: (params) => {
         return (
@@ -101,7 +102,7 @@ export const ProjectsList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/projects/${params.row.id}/`}>
+            <Link to={`/projects/${params.row._id}/`}>
               <VisibilityOutlinedIcon className="TicketListActionIcon" />
             </Link>
           </>
@@ -128,6 +129,7 @@ export const ProjectsList = () => {
         <DataGrid
           className="DataGrid"
           id={theme.mode}
+          getRowId={(row)=>row._id}
           autoHeight={false}
           rowHeight={40}
           rows={projects.limitedArrayOfProjects}

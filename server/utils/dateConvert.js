@@ -1,21 +1,34 @@
+const convertDate = ({date,includeHrs}) => {
+   const newD = new Date(date);
+ console.log(includeHrs)
 
-const convertDate=(date)=>{
+const options= {}
 
+ switch(includeHrs){
+   case true:
+      
+         options.year= 'numeric',
+         options.month= 'numeric',
+         options.day= 'numeric',
+         options.hour='numeric',
+         options.minute='numeric'
+         options.hour12= false;   
+ break;
+
+ case false:
+   options.year= 'numeric',
+   options.month= 'numeric',
+   options.day= 'numeric',
+   options.hour12= false;
+break
+      
+   }
+
+   const now = newD.toLocaleString(undefined, options);
   
-   const options = { 
-     year: 'numeric', 
-     month: '2-digit', 
-     day: '2-digit', 
-     hour: 'numeric',
-     minute: 'numeric',
-     hour12: false 
-   };
-   const now =  date.toLocaleString('pl-PL', options);
-   console.log(now)
-   return now
-
-  }
-  
+   return now;
+ }
+ 
  module.exports = {
-    convertDate
+   convertDate
  }

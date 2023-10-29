@@ -65,7 +65,7 @@ title:project.title,
 description:project.description,
 contributor:project.contributors,
 projectLeader:projectLeader,
-createdAt:convertDate(project.createdAt)
+createdAt:convertDate({date:project.createdAt,includeHrs:false})
 }
 
 console.log(p)
@@ -130,7 +130,7 @@ contributors:contributorsList,
     gender:projectLeader.gender,
     userAvatar:projectLeader.userAvatar,
   },
-createdAt:convertDate(project.createdAt)
+createdAt:convertDate({date:project.createdAt,includeHrs:true})
 }
 
 

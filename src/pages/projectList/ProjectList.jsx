@@ -91,8 +91,8 @@ export const ProjectsList = () => {
       headerName: "Date",
       width: 140,
       flex: 0.5,
-      valueFormatter: ({ value }) =>
-        `${value.Day}/${value.Month}/${value.Year}`,
+      valueFormatter: ( {value} ) =>
+   value
     },
 
     {

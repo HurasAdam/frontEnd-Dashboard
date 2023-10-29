@@ -25,7 +25,6 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
       description,
       contributors: projectContributorListId,
       projectLeader:projectLeaderObjectId,
-      createdAt: new Date(),
     });
 
     res.status(201).json(project);

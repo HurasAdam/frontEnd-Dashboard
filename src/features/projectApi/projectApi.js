@@ -32,8 +32,8 @@ export const getProject = (projectId) => {
 
 export const updateProject = (data) => {
   return new Promise((resolve, reject) => {
-   console.log(data.id)
-    const response = projectApi.patch(`projects/${data.id}`,data)
+
+    const response = projectApi.patch(`projects/${data.projectId}`,data)
    .then((res)=>resolve(res.data))
     .catch((error)=>reject(error));
   });

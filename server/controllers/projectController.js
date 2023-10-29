@@ -123,7 +123,7 @@ contributors:contributorsList,
 createdAt:project.createdAt
 }
 
-console.log(singleProject)
+
 
 
   res.status(200).json(singleProject);
@@ -132,28 +132,21 @@ console.log(singleProject)
 
 const updateProject = async (req, res) => {
   const { id } = req.params;
-  const { title, description, projectLeader, contributors } = req.body;
-  const updates = req.body;
+  const { title, description, leader, contributors } = req.body;
+  
 
-  const findProjectLeader= await User.findOne({_id:projectLeader})
+  const currentProjectLeader= await User.findOne({_id:leader.id})
   const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
   const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
 const convertTypeContributorsId= projectContributors.map((contributor)=>contributor._id.toString())
 
+console.log(currentProjectLeader)
+const updates = {title,description,contributors,currentProjectLeader}
+
+  const updateProject = await Project.findOneAndUpdate({_id:id},{$set:updates})
 
 
-
-  // const updateProject = await Project.findOneAndUpdate({_id:id},{$set:{
-  //   title,
-  //   description,
-  //   projectLeaderId:findProjectLeader._id,
-  //   contributors:convertTypeContributorsId
-  // }},{
-  //   runValidators:true,
-  // })
-
-
-  res.status(200).json("OKERAJO");
+  res.status(200).json('Updated Sucessfull');
 };
 
 const deleteProject = async (req, res) => {

@@ -136,16 +136,17 @@ const updateProject = async (req, res) => {
   
 
   const currentProjectLeader= await User.findOne({_id:leader.id})
+  const currentProjectLeaderId= currentProjectLeader.id
   const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
   const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
 const convertTypeContributorsId= projectContributors.map((contributor)=>contributor._id.toString())
 
-console.log(currentProjectLeader)
-const updates = {title,description,contributors,currentProjectLeader}
+
+const updates = {title,description,contributors,currentProjectLeaderId}
 
   const updateProject = await Project.findOneAndUpdate({_id:id},{$set:updates})
 
-
+console.log(updates)
   res.status(200).json('Updated Sucessfull');
 };
 

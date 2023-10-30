@@ -15,7 +15,7 @@ const options= {}
          options.hour12= false;   
  break;
 
- case false:
+ case false||undefined:
    options.year= 'numeric',
    options.month= 'numeric',
    options.day= 'numeric',

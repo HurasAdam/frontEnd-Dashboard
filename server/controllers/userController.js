@@ -231,8 +231,8 @@ if(req.query.contributors){
   }
 
   //return list of users that are not asigned yet to the current project
-  if (req.query.project) {
-    console.log('GRA GITARA')
+  if (req.query.project&& req.query.contributor==="false") {
+ console.log("GO GO POWER ")
     const projectId = req.query.project;
     const project = await Project.find({ _id: projectId });
 

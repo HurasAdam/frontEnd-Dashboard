@@ -9,7 +9,7 @@ const createProject = async (req, res) => {
   const { title, description, contributors, } = req.body;
 
   try {
-    if (!title || !description) {
+    if (!title || !description||!contributors) {
       throw Error("All fields have to be filled");
     }
 
@@ -18,7 +18,7 @@ const createProject = async (req, res) => {
     const projectLeader = await User.findOne({ email: req.user.email });
  const projectLeaderObjectId = mongoose.Types.ObjectId(projectLeader)
 const projectContributorListId= projectContributor.map((contributor)=>contributor._id.toString())
-
+console.log(projectContributor)
 
     const project = await Project.create({
       title:title,
@@ -105,7 +105,7 @@ const getSingleProject = async (req, res) => {
   const projectLeader = await User.findOne({ _id: project.projectLeader });
 const contributorsList = contributors.map((contributor)=>{
   return {
-    contributorId:contributor._id.toString(),
+    id:contributor._id,
     name:contributor.name,
     surname:contributor.surname,
     email:contributor.email,

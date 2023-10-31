@@ -32,7 +32,7 @@ export const NewProject = () => {
 
   const handleCreateProject=(e)=>{
 e.preventDefault();
-mutation.mutate({title,description})
+mutation.mutate({title,description,contributors})
 
   }
 
@@ -57,7 +57,10 @@ mutation.mutate({title,description})
 
 
 
-
+  const handleChange = (selectedOptions) => {
+const selectedUsers=selectedOptions.map((option)=>option._id)
+    setContributors(selectedUsers)
+      };
 
 
 
@@ -156,7 +159,7 @@ mutation.mutate({title,description})
               isMulti
               isSearchable
               styles={customStyles}
-              onChange={setContributors}
+              onChange={handleChange}
               onFocus={refetch}
               getOptionLabel={(option) =>
                 `${option.name} ${option.surname}`

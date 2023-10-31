@@ -40,12 +40,19 @@ export const ProjectDetails = () => {
   const [title, setTitle] = useState('');
   const [description,setDescription]=useState('');
   const [contributors,setContributors]=useState([]);
+  const [avalibleContributors,setAvalibleContributors]=useState([])
   const [leader,setLeader]=useState('');
   const [userList,setUserList]=useState([]);
   const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(projectId))
   const {data:users,refetch}=useQuery(["contributorList"],()=>getProjectContributorList(projectId),{
     refetchOnWindowFocus:false,
-    enabled:false
+    enabled:false,
+    onSuccess:(data)=>{
+      const availableContributors = data.filter((user) => !contributors.some((contributor) => contributor.id === user._id));
+
+
+      setAvalibleContributors(availableContributors)
+    }
   })
 
   const mutation = useMutation(updateProject)
@@ -56,11 +63,14 @@ mutation.mutate({projectId,title,description,contributors,leader})
 }
 
 useEffect(()=>{
+
+ if(data){
 setTitle(data?.title);
 setDescription(data?.description);
 setContributors(data?.contributors);
 setLeader(data?.projectLeader)
 
+}
 },[data])
 
 
@@ -77,10 +87,19 @@ setLeader(data?.projectLeader)
 
 
   const handleChange = (selectedOption) => {
-setContributors(selectedOption._id)
+
+    const isUserAlreadyContributor = contributors.some((user) => user.id === selectedOption.id);
+    const availableContributors = avalibleContributors.filter((user) => !contributors.some((contributor) => contributor.id === user._id));
+if(!isUserAlreadyContributor){
+  setContributors([...contributors,selectedOption])
+  .then(()=>setAvalibleContributors(availableContributors))
+}
+
+
 //     setUserList(userList.filter((user) => user !== selectedOption));
 //  setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption._id]})
-
+// const updatedAvalibleUserList = avalibleContributors.filter((user)=>user.id!==selectedOption._id)
+// setAvalibleContributors(updatedAvalibleUserList)
 
   };
 
@@ -209,9 +228,16 @@ setContributors(selectedOption._id)
   // };
 
 
-function handleContributorRemove(e){
+function handleContributorRemove(e,selectedUser){
 e.preventDefault();
-console.log('dziala')
+console.log(selectedUser.id)
+
+
+const updatedContributorList = contributors.filter((user)=>user.id!==selectedUser.id)
+
+setContributors(updatedContributorList)
+  
+
 
 }
 
@@ -230,7 +256,7 @@ console.log('dziala')
             <button
             className="contributorRemoveBtn"
               disabled={isDisabled}
-              onClick={(e) =>handleContributorRemove(e)}
+              onClick={(e) =>handleContributorRemove(e,params)}
             >
               Remove
             </button>
@@ -342,13 +368,13 @@ console.log('dziala')
                  </div>
                </div>
                <div className="projectDataBottomItem">
-                 {data?.contributors && (
+                 {contributors.length>0&& (
                    <DataGrid
                      className="DataGrid"
                      autoHeight={true}
-                     getRowId={(row) => row.contributorId}
+                     getRowId={(row) => row.id||row._id}
                      rowHeight={40}
-                     rows={data?.contributors}
+                     rows={contributors}
                      columns={columns}
                      pageSize={5}
                      rowsPerPageOptions={[10]}
@@ -363,7 +389,7 @@ console.log('dziala')
                <Select
                    isDisabled={isDisabled}
                    className="selectList"
-                   options={users&&users}
+                   options={avalibleContributors}
                   
                    isSearchable
                    getOptionLabel={(option) =>

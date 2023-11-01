@@ -21,7 +21,7 @@ import {
   updateProject,
 } from "../../features/projectApi/projectApi";
 
-import {getProjectContributorList} from "../../features/userApi/userApi"
+import { getProjectContributorList } from "../../features/userApi/userApi";
 import axios from "axios";
 import { QueryClient } from "@tanstack/react-query";
 import { Description } from "@mui/icons-material";
@@ -37,209 +37,71 @@ export const ProjectDetails = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [check, setCheck] = useState();
-  const [title, setTitle] = useState('');
-  const [description,setDescription]=useState('');
-  const [contributors,setContributors]=useState([]);
-  const [avalibleContributors,setAvalibleContributors]=useState([])
-  const [leader,setLeader]=useState('');
-  const [userList,setUserList]=useState([]);
-  const {isLoading,isError,error,data}=useQuery(["project"],()=>getProject(projectId))
-  const {data:users,refetch}=useQuery(["contributorList"],()=>getProjectContributorList(projectId),{
-    refetchOnWindowFocus:false,
-    enabled:false,
-    onSuccess:(data)=>{
-      const availableContributors = data.filter((user) => !contributors.some((contributor) => contributor.id === user._id));
-
-
-      setAvalibleContributors(availableContributors)
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [contributors, setContributors] = useState([]);
+  const [avalibleContributors, setAvalibleContributors] = useState([]);
+  const [leader, setLeader] = useState("");
+  const [userList, setUserList] = useState([]);
+  const { isLoading, isError, error, data } = useQuery(["project"], () =>
+    getProject(projectId)
+  );
+  const { data: users, refetch } = useQuery(
+    ["contributorList"],
+    () => getProjectContributorList(projectId),
+    {
+      refetchOnWindowFocus: false,
+      enabled: false,
+      onSuccess: (userList) => {
+        const avalibleContributorList = userList.filter(
+          (user) => !contributors.some((c) => user._id === c.id)
+        );
+        setAvalibleContributors(avalibleContributorList);
+      },
     }
-  })
+  );
 
-  const mutation = useMutation(updateProject)
+  const mutation = useMutation(updateProject);
 
-const handleUpdateProject =(e)=>{
-e.preventDefault();
-mutation.mutate({projectId,title,description,contributors,leader})
-}
+  const handleUpdateProject = (e) => {
+    e.preventDefault();
+    mutation.mutate({ projectId, title, description, contributors, leader });
+  };
 
-useEffect(()=>{
-
- if(data){
-setTitle(data?.title);
-setDescription(data?.description);
-setContributors(data?.contributors);
-setLeader(data?.projectLeader)
-
-}
-},[data])
-
-
-
-
-
+  useEffect(() => {
+    if (data) {
+      setTitle(data?.title);
+      setDescription(data?.description);
+      setContributors(data?.contributors);
+      setLeader(data?.projectLeader);
+    }
+  }, [data]);
 
   //   const [data, isLoading, error] = useFetch(
   //     `http://localhost:3000/api/projects/${projectId}/`
   //   );
 
+  const handleChange = (selectedOption, callback) => {
+    setContributors([...contributors, selectedOption]);
 
-
-
-
-  const handleChange = (selectedOption) => {
-
-    const isUserAlreadyContributor = contributors.some((user) => user.id === selectedOption.id);
-    const availableContributors = avalibleContributors.filter((user) => !contributors.some((contributor) => contributor.id === user._id));
-if(!isUserAlreadyContributor){
-  setContributors([...contributors,selectedOption])
-  .then(()=>setAvalibleContributors(availableContributors))
-}
-
-
-//     setUserList(userList.filter((user) => user !== selectedOption));
-//  setProjectData({...projectData,contributors:[...projectData.contributors,selectedOption._id]})
-// const updatedAvalibleUserList = avalibleContributors.filter((user)=>user.id!==selectedOption._id)
-// setAvalibleContributors(updatedAvalibleUserList)
-
+    callback(selectedOption);
   };
 
+  const handleUpdateSelectList = (selectedUser) => {
+    // setAvalibleContributors(avalibleContributors.filter((avc)=>!contributors.some((cont)=>avc._id===cont.id)))
+  setAvalibleContributors(avalibleContributors.filter((user)=>user._id!==selectedUser._id))
+    console.log(selectedUser);
+  };
 
-  // const { isLoading, isError, error, data } = useQueries([
-  //   {
-  //     queryKey: "project",
-  //     queryFn: () => getProject(user.token, projectId),
-  //   },
+  function handleContributorRemove(e, selectedUser) {
+    e.preventDefault();
 
+    const updatedContributorList = contributors.filter(
+      (user) => user.id !== selectedUser.id
+    );
 
-  // ]);
-
-
-
-  //get list of users for change PM select
-  // const getAllUsers = async () => {
-  //   const response = await fetch(
-  //     `http://127.0.0.1:3000/api/user?changePM&&project=${projectId}`,
-  //     {
-  //       headers: { Authorization: `Bearer ${user.token}` },
-  //     }
-  //   );
-
-  //   const json = await response.json();
-  //   console.log(json);
-  //   const arr = json.map((user) => {
-  //     return { value: user._id, name: user.name + " " + user.surname };
-  //   });
-  //   setCheck(arr);
-  // };
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setProjectData({
-  //       ...projectData,
-  //       projectTitle: data.projectTitle,
-  //       projectLeader: {
-  //         id: data.projectLeader.projectLeaderId,
-  //         name: data.projectLeader.name + " " + data.projectLeader.surname,
-  //       },
-  //       _id: data.projectId,
-  //       contributors: data.contributors,
-  //       createdAt: data.createdAt,
-  //       description: data.description,
-  //     });
-  //   }
-  // }, [data]);
-
-  // const getUserList = async () => {
-  //   const response = await fetch(
-  //     `http://127.0.0.1:3000/api/user?project=${projectId}`,
-  //     {
-  //       headers: { Authorization: `Bearer ${user.token}` },
-  //     }
-  //   );
-
-  //   const json = await response.json();
-  //   setUserList(json);
-  // };
-
-  // const kekw = (confirm) => {
-  //   if (confirm === "delete") {
-  //     deleteMutation.mutate();
-  //   } else {
-  //     setFetchError("inncorect command");
-  //   }
-  // };
-  // const handleDelete = async () => {
-  //   const response = await fetch(
-  //     `http://127.0.0.1:3000/api/projects/${projectId}`,
-  //     {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     }
-  //   );
-  //   try {
-  //     if (response.status === 409) {
-  //       throw Error(
-  //         "Can not delete project due to other references.Check ticket list "
-  //       );
-  //     }
-  //     if (response.ok) {
-  //       setFetchError("");
-  //       navigate("/projects");
-  //     }
-  //   } catch (Error) {
-  //     setFetchError(Error.message);
-  //   }
-  // };
-
-  // const handleSelectChange = (event) => {
-  //   const selectedOptionIndex = event.target.selectedIndex;
-  //   const selectedOptionValue = event.target.value;
-  //   const selectedOptionLabel =
-  //     event.target.options[selectedOptionIndex].textContent;
-
-  //   setProjectData({
-  //     ...projectData,
-  //     projectLeader: { id: selectedOptionValue, name: selectedOptionLabel },
-  //   });
-  // };
-
-  // const handleDataUpdate = async (e) => {
-  //   const response = await fetch(
-  //     `http://127.0.0.1:3000/api/projects/${projectId}`,
-  //     {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-
-  //       body: JSON.stringify({
-  //         ...projectData,
-  //         projectLeader: projectData.projectLeader?.id,
-  //       }),
-  //     }
-  //   );
-  //   if (response.ok) {
-  //     navigate("/projects");
-  //   }
-  // };
-
-
-function handleContributorRemove(e,selectedUser){
-e.preventDefault();
-console.log(selectedUser.id)
-
-
-const updatedContributorList = contributors.filter((user)=>user.id!==selectedUser.id)
-
-setContributors(updatedContributorList)
-  
-
-
-}
+    setContributors(updatedContributorList);
+  }
 
   const columns = [
     { field: "name", headerName: "Name", width: 200, flex: 0.7 },
@@ -254,9 +116,9 @@ setContributors(updatedContributorList)
         return (
           <>
             <button
-            className="contributorRemoveBtn"
+              className="contributorRemoveBtn"
               disabled={isDisabled}
-              onClick={(e) =>handleContributorRemove(e,params)}
+              onClick={(e) => handleContributorRemove(e, params)}
             >
               Remove
             </button>
@@ -267,211 +129,199 @@ setContributors(updatedContributorList)
   ];
 
   return (
-     <div className="projectDetails">
-       <div className="projectHeaderContainer">
+    <div className="projectDetails">
+      <div className="projectHeaderContainer">
         <span className="projectHeaderIcon">
           <AssessmentOutlinedIcon className="headerIcon" />
         </span>
         <h3 className="projecttHeaderTitle">Project Details</h3>
-       </div>
+      </div>
       <div className="projectDataContainer">
         <div className="projectDataContainerLeft" id={theme.mode}>
-           <div className="projectDataContainerTop"></div>
-           <div className="projecttDataBottom">
-             <form action="">
-               <div className="projectDataBottomItemsWrapper">
-                 <div className="projectDataBottomItemsLeft">
-                   <div className="projectDataBottomItem">
+          <div className="projectDataContainerTop"></div>
+          <div className="projecttDataBottom">
+            <form action="">
+              <div className="projectDataBottomItemsWrapper">
+                <div className="projectDataBottomItemsLeft">
+                  <div className="projectDataBottomItem">
                     <label htmlFor="">Project title :</label>
-                   {data && (
-                    <input
-                      type="text"
-                         required
-                         value={title}
-                    
-                        onChange={(e) =>
-                          setTitle( e.target.value,)
-                       }
-                         disabled={isDisabled}
-                       />
-                     )}
-                   </div>
-                   <div className="projectDataBottomItem">
-                   <label htmlFor="">Project Description</label>
-                     {data && (
-                       <textarea
-                         value={description}
-                         disabled={isDisabled}
-                         onChange={(e) =>
-                          setDescription(
-                           e.target.value,
-                           )
-                         }
-                     ></textarea>
-                     )}
-                   </div>
-                 </div>
-                 <div className="projectDataBottomItemsRight">
-                   <div className="projectDataBottomItem">
-                     <label htmlFor="">Project leader</label>
-                     {data && (
-                       <img
-                         className="projectDataBottomItem-img"
-                         src={data.projectLeader.userAvatar}
-                         alt=""
-                       />
-                     )}
-                     {data && (
-                       <select
-                         defaultValue={data?.projectLeader?.name}
-                         disabled={isDisabled}
-                         // onChange={(e) =>
-                         //   setProjectData({
-                         //     ...projectData,
-                         //     projectLeader: e.target.dataset
+                    {data && (
+                      <input
+                        type="text"
+                        required
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        disabled={isDisabled}
+                      />
+                    )}
+                  </div>
+                  <div className="projectDataBottomItem">
+                    <label htmlFor="">Project Description</label>
+                    {data && (
+                      <textarea
+                        value={description}
+                        disabled={isDisabled}
+                        onChange={(e) => setDescription(e.target.value)}
+                      ></textarea>
+                    )}
+                  </div>
+                </div>
+                <div className="projectDataBottomItemsRight">
+                  <div className="projectDataBottomItem">
+                    <label htmlFor="">Project leader</label>
+                    {data && (
+                      <img
+                        className="projectDataBottomItem-img"
+                        src={data.projectLeader.userAvatar}
+                        alt=""
+                      />
+                    )}
+                    {data && (
+                      <select
+                        defaultValue={data?.projectLeader?.name}
+                        disabled={isDisabled}
+                        // onChange={(e) =>
+                        //   setProjectData({
+                        //     ...projectData,
+                        //     projectLeader: e.target.dataset
 
-                         //   })
-                         // }
-                     
-                       >
-                         <option selected hidden={!isDisabled}>
-                           {`${data?.projectLeader?.name}`}
-                         </option>
-                         {check
-                           ? check.map((user) => {
-                               return (
-                                 <option
-                                   value={user.value}
-                                   key={user.value}
-                                   data-name={`${user.name}`}
-                                   disabled={
-                                     user.value === projectData.projectLeader.id
-                                 }
-                                   selected={
-                                     user.value === projectData.projectLeader.id
-                                   }
-                                 >
-                                   {user.name}
-                                 </option>
-                               );
-                             })
-                           : null}
-                       </select>
-                   )}
-                   </div>
+                        //   })
+                        // }
+                      >
+                        <option selected hidden={!isDisabled}>
+                          {`${data?.projectLeader?.name}`}
+                        </option>
+                        {check
+                          ? check.map((user) => {
+                              return (
+                                <option
+                                  value={user.value}
+                                  key={user.value}
+                                  data-name={`${user.name}`}
+                                  disabled={
+                                    user.value === projectData.projectLeader.id
+                                  }
+                                  selected={
+                                    user.value === projectData.projectLeader.id
+                                  }
+                                >
+                                  {user.name}
+                                </option>
+                              );
+                            })
+                          : null}
+                      </select>
+                    )}
+                  </div>
                   {
-                     <div className="projectDataBottomItem">
-                       <label htmlFor="">Created At :</label>
+                    <div className="projectDataBottomItem">
+                      <label htmlFor="">Created At :</label>
                       <label htmlFor="">{data?.createdAt}</label>
-                     </div>
-                   }
-                 </div>
-               </div>
-               <div className="projectDataBottomItem">
-                 {contributors.length>0&& (
-                   <DataGrid
-                     className="DataGrid"
-                     autoHeight={true}
-                     getRowId={(row) => row.id||row._id}
-                     rowHeight={40}
-                     rows={contributors}
-                     columns={columns}
-                     pageSize={5}
-                     rowsPerPageOptions={[10]}
-                     checkboxSelection={false}
-                     disableSelectionOnClick
-                     hideFooter={true}
+                    </div>
+                  }
+                </div>
+              </div>
+              <div className="projectDataBottomItem">
+                {contributors.length > 0 && (
+                  <DataGrid
+                    className="DataGrid"
+                    autoHeight={true}
+                    getRowId={(row) => row.id || row._id}
+                    rowHeight={40}
+                    rows={contributors}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[10]}
+                    checkboxSelection={false}
+                    disableSelectionOnClick
+                    hideFooter={true}
                   />
-                 )}
-               </div>
-               <div className="projectDataBottomItem">
-                 <label>Add member</label>
-               <Select
-                   isDisabled={isDisabled}
-                   className="selectList"
-                   options={avalibleContributors}
-                  
-                   isSearchable
-                   getOptionLabel={(option) =>
-                     `${option.name} ${option.surname}`
-                   }
-                   getOptionValue={(option) => option._id}
-                   onChange={handleChange}
-                   onFocus={()=>{refetch()}}
-               
-               
-                 />
+                )}
+              </div>
+              <div className="projectDataBottomItem">
+                <label>Add member</label>
+                <Select
+                  isDisabled={isDisabled}
+                  className="selectList"
+                  options={avalibleContributors}
+                  isSearchable
+                  getOptionLabel={(option) =>
+                    `${option.name} ${option.surname}`
+                  }
+                  getOptionValue={(option) => option._id}
+                  onChange={(selectedOption) =>
+                    handleChange(selectedOption, handleUpdateSelectList)
+                  }
+                  onFocus={() => {
+                    refetch();
+                  }}
+                />
               </div>
 
-               {isDeleted ? (
-               <div>
-                   <p>
-                     Are your sure you want to delete this project? Insert Delete
-                     to confirm
-                   </p>
-                   <input
-                     onChange={(e) => setConfirmDelete(e.target.value)}
-                     type="text"
-                   />
-                   <button
-                     onClick={(e) => {
-                       e.preventDefault();
-                       kekw(confirmDelete, user.token, projectId);
-                     }}
-                   >
-                     Confirm
-                   </button>
-                 <button
-                     onClick={(e) => {
-                       e.preventDefault();
-                       setIsDeleted(false);
-                       setFetchError(false);
-                     }}
-                   >
-                     Cancel
-                   </button>
-                 </div>
-               ) : (
-                 <div className="projectDataBottomItem-Btns">
-                   {isDisabled ? (
-                     <button
-                       onClick={(e) => {
-                         e.preventDefault();
+              {isDeleted ? (
+                <div>
+                  <p>
+                    Are your sure you want to delete this project? Insert Delete
+                    to confirm
+                  </p>
+                  <input
+                    onChange={(e) => setConfirmDelete(e.target.value)}
+                    type="text"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      kekw(confirmDelete, user.token, projectId);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsDeleted(false);
+                      setFetchError(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <div className="projectDataBottomItem-Btns">
+                  {isDisabled ? (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
                         //  getProjectContributorList(user.token,projectId)
                         //  .then((updatedContributorList) => {
                         //   // Zaktualizuj stan komponentu z nową listą kontrybutorów
                         //  setUserList(updatedContributorList)
-                         setIsDisabled(false);
-                         
-                       }}
-                   >
-                       Edit
-                     </button>
-                   ) : (
-                     <button
-                      onClick={handleUpdateProject}
+                        setIsDisabled(false);
+                      }}
                     >
-                     Save
+                      Edit
                     </button>
-                 )}
-                 <button
-                   onClick={(e) => {
-                     e.preventDefault();
-                     setIsDeleted(true);
-                  }}
-                >
-                 Delete
-                 </button>
-               </div>
-             )}
+                  ) : (
+                    <button onClick={handleUpdateProject}>Save</button>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsDeleted(true);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
               {fetchError && <span className="error">{fetchError}</span>}
             </form>
           </div>
-         <div>
-           <Outlet />
-           </div>
-       </div>
+          <div>
+            <Outlet />
+          </div>
+        </div>
       </div>
-   </div>
-   );
+    </div>
+  );
 };

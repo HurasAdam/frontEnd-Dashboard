@@ -4,6 +4,12 @@ const Note = require("../db/models/note");
 const { ObjectId } = require("mongodb");
 const { convertDate } = require("../utils/dateConvert");
 const { default: mongoose } = require("mongoose");
+
+const {setupChangeStream} = require('../events/collectionEventStream')
+
+
+
+
 //Create Projet
 const createProject = async (req, res) => {
   const { title, description, contributors, } = req.body;
@@ -18,7 +24,7 @@ const createProject = async (req, res) => {
     const projectLeader = await User.findOne({ email: req.user.email });
  const projectLeaderObjectId = mongoose.Types.ObjectId(projectLeader)
 const projectContributorListId= projectContributor.map((contributor)=>contributor._id.toString())
-console.log(projectContributor)
+
 
     const project = await Project.create({
       title:title,
@@ -68,7 +74,7 @@ projectLeader:projectLeader,
 createdAt:convertDate({date:project.createdAt})
 }
 
-console.log(p)
+
 return p
 })
  
@@ -105,7 +111,7 @@ const getSingleProject = async (req, res) => {
   const projectLeader = await User.findOne({ _id: project.projectLeader });
 const contributorsList = contributors.map((contributor)=>{
   return {
-    id:contributor._id,
+    _id:contributor._id,
     name:contributor.name,
     surname:contributor.surname,
     email:contributor.email,
@@ -122,7 +128,7 @@ const singleProject = {
   description:project.description,
 contributors:contributorsList,
   projectLeader:{
-    id:projectLeader._id,
+    _id:projectLeader._id,
     name:projectLeader.name,
     surname:projectLeader.surname,
     email:projectLeader.email,
@@ -143,9 +149,10 @@ createdAt:convertDate({date:project.createdAt,includeHrs:true})
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, leader, contributors } = req.body;
-  
 
-  const currentProjectLeader= await User.findOne({_id:leader.id})
+  const io = req.app.get("socketio");
+  
+  const currentProjectLeader= await User.findOne({_id:leader._id})
   const currentProjectLeaderId= currentProjectLeader.id
   const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
   const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
@@ -156,8 +163,9 @@ const updates = {title,description,contributors,currentProjectLeaderId}
 
   const updateProject = await Project.findOneAndUpdate({_id:id},{$set:updates})
 
-console.log(updates)
+io.sockets.emit("CollectionUpdateEvent","UPDATED Z SUKCESEM")
   res.status(200).json('Updated Sucessfull');
+
 };
 
 const deleteProject = async (req, res) => {

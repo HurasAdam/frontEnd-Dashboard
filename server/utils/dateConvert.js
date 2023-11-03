@@ -1,6 +1,6 @@
 const convertDate = ({ date, includeHrs }) => {
   const newD = new Date(date);
-  console.log(includeHrs);
+ 
 
   const options = {};
 

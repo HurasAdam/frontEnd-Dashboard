@@ -4,6 +4,7 @@ const app = express();
 const {port}=require('./config/config');
 const bodyParser= require('body-parser');
 const cors= require('cors')
+const {Server}= require('socket.io')
 
 //db connection
 require('./db/mongoose');
@@ -26,9 +27,17 @@ app.use('/api/stats',statsRoutes)
 app.use('/api/posts',postsRoutes)
 
 //server
-app.listen(port,function(){
+const server= app.listen(port,function(){
     console.log(`server listen at 127.0.0.1:${port}`);
 });
 
 
+const io = new Server(server,{
+    cors:"http://localhost:3000",
+    methods:["GET","POST","PATCH","DELETE"],
+})
 
+io.on("connection",(socket)=>{
+    console.log(`CONNECTED SocketID:${socket.id}`)
+})
+app.set("socketio", io);

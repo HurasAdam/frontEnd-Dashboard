@@ -3,7 +3,7 @@ import projectApi from "../axios/axios";
 export const getProjectContributorList = (id) => {
   return new Promise((resolve, reject) => {
     const response = projectApi
-      .get(`user?=${id}`)
+      .get(`user?project=${id}&contributor=false`)
       .then((res) => resolve(res.data))
 
       .catch((error) => reject(error));

@@ -4,17 +4,25 @@ import Chart from "../../components/chart/Chart";
 import { CircleChart } from "../../components/circleChart/CircleChart";
 import { circleChartdata } from "../../dummyData";
 import reportData from "../../dummyData";
+import { io } from "socket.io-client";
+import projectApi from "../../features/axios/axios";
 import {Donut} from '../../components/donutChart/Donut'
 import WidgetSmall from "../../components/widgetSmall/WidgetSmall";
 import WidgetLarge from "../../components/widgetLarge/WidgetLarge";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useContext, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
+
 const Home = () => {
+ const socket = io("http://localhost:3000")
+//  const socket  = io(projectApi.baseURL)
   const [data, isLoading, Error] = useFetch("http://127.0.0.1:3000/api/stats");
   const [stats, setStats] = useState();
   const { theme, dispatch } = useContext(ThemeContext);
 
+  socket.off("CollectionUpdateEvent").on("CollectionUpdateEvent", (msgObj) => {
+    console.log(msgObj)
+  })
 
   useEffect(() => {
     if (data) {

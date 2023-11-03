@@ -44,7 +44,10 @@ export const ProjectDetails = () => {
   const [leader, setLeader] = useState("");
   const [userList, setUserList] = useState([]);
   const { isLoading, isError, error, data } = useQuery(["project"], () =>
-    getProject(projectId)
+    getProject(projectId),
+    // {
+    //   refetchInterval:5000
+    // }
   );
   const { data: users, refetch } = useQuery(
     ["contributorList"],
@@ -97,7 +100,7 @@ export const ProjectDetails = () => {
     e.preventDefault();
 
     const updatedContributorList = contributors.filter(
-      (user) => user.id !== selectedUser.id
+      (user) => user._id !== selectedUser.id
     );
 
     setContributors(updatedContributorList);

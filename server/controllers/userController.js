@@ -145,7 +145,7 @@ const getUserData = async (req, res) => {
 const getUserList = async (req, res) => {
 
   const allUserList = await User.find({});
-console.log(req.query)
+
   //return list of all users as select options for new project
   if (
     !req.query.settings &&
@@ -170,8 +170,8 @@ console.log(req.query)
   }
 
 if(req.query.contributors){
-  console.log('GIGAROBO')
-  return res.status(200).json("JEST W PYTE")
+  console.log('test')
+  return res.status(200).json("test")
 }
 
   if (req.query.changePM) {
@@ -232,24 +232,24 @@ if(req.query.contributors){
 
   //return list of users that are not asigned yet to the current project
   if (req.query.project&& req.query.contributor==="false") {
- console.log("GO GO POWER ")
+
     const projectId = req.query.project;
     const project = await Project.find({ _id: projectId });
-
+   
     //get ID of users asigned to the project
     const contributorsListId = project.map((ob) => ob.contributors).flat();
-
+    
     //get full list of Users
     const userList = await User.find({});
 
     //filter and return users that are not asigned to current project
-    const filteredUserList = userList.filter(
-      (user) => !contributorsListId.includes(user._id.toString())
-    );
+    const filteredUserList = userList.filter((user)=>!contributorsListId.some((contributor)=>user._id.equals(contributor)));
+
+
 
     const result = filteredUserList.map((user) => {
       return {
-        contributorId: user._id,
+        _id: user._id,
         name: user.name,
         surname: user.surname,
         email: user.email,
@@ -283,7 +283,7 @@ const updateUserData = async (req, res) => {
   let { name, surname, adress, phone,email,password } = req.body;
 
   const user = req.user
-console.log(req.body)
+
  const doesEmailExist=  await User.find({email:email})
 
   const updatedFields= {};

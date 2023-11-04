@@ -56,7 +56,7 @@ export const ProjectDetails = () => {
     getProject(projectId),{
       refetchOnWindowFocus:false
     })
-    const useSocketListen=({event:"CollectionUpdateEvent",projectId:projectId})
+    const useSocketListen=({event:"collectionUpdate",projectId:projectId})
 
   const { data: users, refetch } = useQuery(
     ["contributorList"],
@@ -73,14 +73,34 @@ export const ProjectDetails = () => {
     }
   );
 
+
+
+// const stan = contributors.map((cont)=>cont._id)
+// const dane = data?.contributors.map((user)=>user._id);
+
+
+// const isEqual = stan.every((id)=>dane.includes(id))
+// console.log(isEqual)
+  // console.log(`stan:${{...contributors}}`)
+  // console.log(`fetch:${data}`)
   const mutation = useMutation(updateProject,
     {onSuccess:data=>{
      queryClient.invalidateQueries(["project"])
     }});
 
-  const handleUpdateProject = (e) => {
+  const handleUpdateProject = (e,{data,title,description,contributors}) => {
     e.preventDefault();
-    mutation.mutate({ projectId, title, description, contributors, leader });
+const {title:dataTitle,description:dataDescription,contributors:dataContributors}= data 
+const dataContributorList = dataContributors.map((user)=>user._id)
+const stateContributorList= contributors.map((user)=>user._id)
+const isArrayEqual = dataContributorList.every((id)=>stateContributorList.includes(id)&&dataContributorList.length===stateContributorList.length)
+
+ if(title===dataTitle&&description===dataDescription&&isArrayEqual){
+  alert("No changes have been made. Please make changes before clicking the SAVE button")
+ }
+ else{
+  mutation.mutate({ projectId, title, description, contributors, leader });
+ }
   };
 
   useEffect(() => {
@@ -314,7 +334,7 @@ export const ProjectDetails = () => {
                       Edit
                     </button>
                   ) : (
-                    <button onClick={handleUpdateProject}>Save</button>
+                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors})}>Save</button>
                   )}
                   <button
                     onClick={(e) => {

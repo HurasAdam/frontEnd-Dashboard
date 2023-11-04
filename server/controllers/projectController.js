@@ -148,9 +148,7 @@ createdAt:convertDate({date:project.createdAt,includeHrs:true})
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, leader, contributors } = req.body;
-
   const io = req.app.get("socketio");
-  
   const currentProjectLeader= await User.findOne({_id:leader._id})
   const currentProjectLeaderId= currentProjectLeader.id
   const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
@@ -162,26 +160,21 @@ const updates = {title,description,contributors,currentProjectLeaderId}
 
   const updateProject = await Project.findOneAndUpdate({_id:id},{$set:updates})
 
-io.sockets.emit("CollectionUpdateEvent",{id:updateProject._id,status:"update"})
+io.sockets.emit("collectionUpdate",{id:updateProject._id,status:"update"})
   res.status(200).json('Updated Sucessfull');
 
 };
 
 const deleteProject = async (req, res) => {
   const { id } = req.params;
-
   const tickets = await Note.find({});
-
   const result = tickets.filter(
     (ticket) => ticket.project === id
   );
-
- 
  try{
 if(result.length>0){
 throw Error( 'NIE MOZNA USUNAC PROJEKTU. ISTNIEJA TICKETY W RAMACH PROJEKTU KTORY CHCESZ USUNAC')
 }
-
     const currentProject = await Project.findOneAndDelete({ _id: id });
    res.status(200).json('DELETED SCUESSFULLY');
  }

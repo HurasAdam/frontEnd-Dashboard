@@ -22,7 +22,7 @@ import {
   deleteProject,
   updateProject,
 } from "../../features/projectApi/projectApi";
-
+import { handleUpdateProject } from "../../shared/handleUpdateProject";
 import { getProjectContributorList } from "../../features/userApi/userApi";
 import axios from "axios";
 import { Description } from "@mui/icons-material";
@@ -88,20 +88,7 @@ export const ProjectDetails = () => {
      queryClient.invalidateQueries(["project"])
     }});
 
-  const handleUpdateProject = (e,{data,title,description,contributors}) => {
-    e.preventDefault();
-const {title:dataTitle,description:dataDescription,contributors:dataContributors}= data 
-const dataContributorList = dataContributors.map((user)=>user._id)
-const stateContributorList= contributors.map((user)=>user._id)
-const isArrayEqual = dataContributorList.every((id)=>stateContributorList.includes(id)&&dataContributorList.length===stateContributorList.length)
 
- if(title===dataTitle&&description===dataDescription&&isArrayEqual){
-  alert("No changes have been made. Please make changes before clicking the SAVE button")
- }
- else{
-  mutation.mutate({ projectId, title, description, contributors, leader });
- }
-  };
 
   useEffect(() => {
     if (data) {
@@ -334,7 +321,7 @@ const isArrayEqual = dataContributorList.every((id)=>stateContributorList.includ
                       Edit
                     </button>
                   ) : (
-                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors})}>Save</button>
+                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},mutation)}>Save</button>
                   )}
                   <button
                     onClick={(e) => {

@@ -43,7 +43,7 @@ const ManageUsers = ({ setUserData }) => {
     setData(data.filter((item) => item.id !== id));
   };
 
-  console.log(data);
+
   const columns = [
     { field: "_id", headerName: "ID", width: 70, flex: 1 },
     {

@@ -5,7 +5,6 @@ const { ObjectId } = require("mongodb");
 const { convertDate } = require("../utils/dateConvert");
 const { default: mongoose } = require("mongoose");
 
-const {setupChangeStream} = require('../events/collectionEventStream')
 
 
 
@@ -163,7 +162,7 @@ const updates = {title,description,contributors,currentProjectLeaderId}
 
   const updateProject = await Project.findOneAndUpdate({_id:id},{$set:updates})
 
-io.sockets.emit("CollectionUpdateEvent","UPDATED Z SUKCESEM")
+io.sockets.emit("CollectionUpdateEvent",{id:updateProject._id,status:"update"})
   res.status(200).json('Updated Sucessfull');
 
 };

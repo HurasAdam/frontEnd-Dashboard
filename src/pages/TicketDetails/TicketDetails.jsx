@@ -32,7 +32,7 @@ setIsScrollale(contentHeight>windowHeight)
   },[domReference.current])
   
 
-console.log(iseScrollable)
+
 
 
   const handleDelete = async () => {

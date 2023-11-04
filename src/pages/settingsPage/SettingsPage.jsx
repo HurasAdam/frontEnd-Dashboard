@@ -51,7 +51,7 @@ export const SettingsPage = () => {
 let updatedData= {}
       
 updatedData= userData.userCredentials[credential][newKey]
-console.log(updatedData)
+
       const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
         method: "PATCH",
         headers: {

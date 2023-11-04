@@ -113,7 +113,7 @@ export const Donut = ({ data, theme }) => {
     },
     series: [],
   });
-  // console.log({...state.options})
+
   return (
     <div className={`donut ${state.series.length>0?'':'hidden'}`}>
       {state.series.length > 0 ? (

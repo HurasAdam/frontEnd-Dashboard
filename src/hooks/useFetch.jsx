@@ -12,7 +12,7 @@ const {user,dispatch}=useContext(AuthContext)
     getData(url)
     }
   }, [url,user]);
-console.log(user.token)
+
   
   const getData = (url) => {
     fetch(url,{

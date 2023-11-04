@@ -16,7 +16,7 @@ export const NewTicket = () => {
   const [data, isLoading, error] = useFetch(
     "http://127.0.0.1:3000/api/projects?projects=userProjects"
   );
-  console.log(data);
+ 
 
   const { user } = useContext(AuthContext);
 const {theme}=useContext(ThemeContext)

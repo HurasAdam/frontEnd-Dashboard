@@ -12,7 +12,7 @@ const {user}=useContext(AuthContext)
 const {theme,dispatch}=useContext(ThemeContext)
 
 
-console.log(theme)
+
 
   return (
 

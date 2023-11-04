@@ -35,7 +35,7 @@ export const ProjectsList = () => {
     setPageState({ ...pageState, page: action });
   };
 
-  console.log(user);
+
 
   // useEffect(() => {
   //   if (data) {

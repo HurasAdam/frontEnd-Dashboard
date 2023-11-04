@@ -29,7 +29,7 @@ export const UserList = () => {
   const [data, error, isLoading] = useFetch(
     `http://127.0.0.1:3000/api/user?page=${pageState.page}`
   );
-  console.log(data)
+
   useEffect(() => {
     if (data) {
       setPageState({
@@ -45,7 +45,7 @@ export const UserList = () => {
     setData(data.filter((item) => item.id !== id));
   };
 
-  console.log(data);
+
   const columns = [
   
     {

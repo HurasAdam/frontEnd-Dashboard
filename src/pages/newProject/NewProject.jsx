@@ -22,7 +22,7 @@ export const NewProject = () => {
   const mutation = useMutation(createProject,{
     onSuccess:(data)=>{
       navigate(`/projects/${data.id}`)
-      console.log(data.id)
+    
     
     }
   })

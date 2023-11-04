@@ -1,3 +1,4 @@
+
 import "./projectDetails.css";
 import { NavLink } from "react-router-dom";
 import Select from "react-select";
@@ -5,6 +6,7 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
+import {useSocketListen} from "../../hooks/useSocketListen";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
@@ -23,10 +25,17 @@ import {
 
 import { getProjectContributorList } from "../../features/userApi/userApi";
 import axios from "axios";
-import { QueryClient } from "@tanstack/react-query";
 import { Description } from "@mui/icons-material";
 export const ProjectDetails = () => {
   const { projectId } = useParams();
+  const queryClient= useQueryClient()  
+
+
+
+
+
+
+
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
@@ -44,11 +53,11 @@ export const ProjectDetails = () => {
   const [leader, setLeader] = useState("");
   const [userList, setUserList] = useState([]);
   const { isLoading, isError, error, data } = useQuery(["project"], () =>
-    getProject(projectId),
-    // {
-    //   refetchInterval:5000
-    // }
-  );
+    getProject(projectId),{
+      refetchOnWindowFocus:false
+    })
+    const useSocketListen=({event:"CollectionUpdateEvent",projectId:projectId})
+
   const { data: users, refetch } = useQuery(
     ["contributorList"],
     () => getProjectContributorList(projectId),
@@ -64,7 +73,10 @@ export const ProjectDetails = () => {
     }
   );
 
-  const mutation = useMutation(updateProject);
+  const mutation = useMutation(updateProject,
+    {onSuccess:data=>{
+     queryClient.invalidateQueries(["project"])
+    }});
 
   const handleUpdateProject = (e) => {
     e.preventDefault();
@@ -80,9 +92,6 @@ export const ProjectDetails = () => {
     }
   }, [data]);
 
-  //   const [data, isLoading, error] = useFetch(
-  //     `http://localhost:3000/api/projects/${projectId}/`
-  //   );
 
   const handleChange = (selectedOption, callback) => {
     setContributors([...contributors, selectedOption]);
@@ -93,7 +102,7 @@ export const ProjectDetails = () => {
   const handleUpdateSelectList = (selectedUser) => {
     // setAvalibleContributors(avalibleContributors.filter((avc)=>!contributors.some((cont)=>avc._id===cont.id)))
   setAvalibleContributors(avalibleContributors.filter((user)=>user._id!==selectedUser._id))
-    console.log(selectedUser);
+  
   };
 
   function handleContributorRemove(e, selectedUser) {

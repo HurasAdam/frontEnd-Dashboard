@@ -159,8 +159,9 @@ const convertTypeContributorsId= projectContributors.map((contributor)=>contribu
 const updates = {title,description,contributors,currentProjectLeaderId}
 
   const updateProject = await Project.findOneAndUpdate({_id:id},{$set:updates})
+const eventStreamObject = {id:updateProject._id,status:"update"}
 
-io.sockets.emit("collectionUpdate",{id:updateProject._id,status:"update"})
+io.sockets.emit("CollectionUpdate",eventStreamObject)
   res.status(200).json('Updated Sucessfull');
 
 };

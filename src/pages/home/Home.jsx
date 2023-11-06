@@ -13,6 +13,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { useContext, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 
+
 const Home = () => {
 
   const [data, isLoading, Error] = useFetch("http://127.0.0.1:3000/api/stats");

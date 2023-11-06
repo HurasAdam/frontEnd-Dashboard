@@ -1,15 +1,13 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient, useQueries } from "react-query";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+const socket = io("http://127.0.0.1:3000");
 
-export const useSocketListen = ({ event, projectId }) => {
+export const useSocketListen = ({ id, event, queryKey }) => {
   const queryClient = useQueryClient();
-
-  socket.on(`${event}`, ({ id, status }) => {
-    if (id === projectId && status === "update") {
-      queryClient.invalidateQueries(["project"]);
-    }
+  socket.on(event, (eObject) => {
+    console.log(id);
+    if (eObject.id===id && eObject.status === "update") queryClient.invalidateQueries([`${queryKey}`]);
   });
-  return popupMessage;
 };
+

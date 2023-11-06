@@ -6,7 +6,7 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-import {useSocketListen} from "../../hooks/useSocketListen";
+import { useSocketListen } from "../../hooks/useSocketListen";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
@@ -25,16 +25,23 @@ import {
 import { handleUpdateProject } from "../../shared/handleUpdateProject";
 import { getProjectContributorList } from "../../features/userApi/userApi";
 import axios from "axios";
+import { io } from "socket.io-client";
 import { Description } from "@mui/icons-material";
 export const ProjectDetails = () => {
   const { projectId } = useParams();
   const queryClient= useQueryClient()  
 
+useSocketListen(
+  {
+    id:projectId,
+    event:"CollectionUpdate",
+    queryKey:"project"
+  }
+)
+   
 
 
-
-
-
+  //  handleEventlisten("CollectionUpdate")
 
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
@@ -56,7 +63,13 @@ export const ProjectDetails = () => {
     getProject(projectId),{
       refetchOnWindowFocus:false
     })
-    const useSocketListen=({event:"collectionUpdate",projectId:projectId})
+
+
+
+   
+
+
+
 
   const { data: users, refetch } = useQuery(
     ["contributorList"],
@@ -98,6 +111,12 @@ export const ProjectDetails = () => {
       setLeader(data?.projectLeader);
     }
   }, [data]);
+
+const updateData=(e)=>{
+e.preventDefault()
+console.log("ZAKTUALIZOWANO DANE POMYSLNIE")
+mutation.mutate({ projectId, title, description, contributors,leader });
+}
 
 
   const handleChange = (selectedOption, callback) => {
@@ -321,7 +340,7 @@ export const ProjectDetails = () => {
                       Edit
                     </button>
                   ) : (
-                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},mutation)}>Save</button>
+                    <button onClick={(e)=>updateData(e)}>Save</button>
                   )}
                   <button
                     onClick={(e) => {

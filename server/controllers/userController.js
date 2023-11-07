@@ -143,110 +143,19 @@ const getUserData = async (req, res) => {
 };
 
 const getUserList = async (req, res) => {
+const {role,project,contributor}=req.query
 
-  const allUserList = await User.find({});
-
-  //return list of all users as select options for new project
-  if (
-    !req.query.settings &&
-    !req.query.project &&
-    !req.query.page &&
-    !req.query.changePM&&
-    !req.query.contributors
-    
-  ) {
-    const result = allUserList.map((user) => {
-      return {
-        _id: user._id,
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        role: user.role,
-        userAvatar: user.userAvatar,
-        createdAt: user.createdAt,
-      };
-    });
-    return res.status(200).json(result);
-  }
-
-if(req.query.contributors){
-  console.log('test')
-  return res.status(200).json("test")
-}
-
-  if (req.query.changePM) {
-    const allUsers = await User.find({});
-
-    const queryString = req.query.changePM;
-    const currentPM = await User.findOne({ email: queryString });
-    const pmID = currentPM._id.toString();
-
-    const filter = allUsers.filter((user) => {
-      const filteredList = user._id.toString() !== pmID;
-      return filteredList;
-    });
-
-    console.log('ops')
-    // return res.status(200).json(
-    //   allUsers.map((u) => {
-    //     return {
-    //       name: u.name,
-    //       surname: u.surname,
-    //       email: u.email,
-    //       role: u.role,
-    //       gender: u.gender,
-    //       _id: u._id,
-    //     };
-    //   })
-    // );
-  }
-
-  //return paginated list of all users
-  if (req.query.page) {
-    const allUserList = await User.find({});
-    const page = Number(req.query.page);
-    let size = 10;
-    const limit = parseInt(size);
-    const skip = (page - 1) * size;
-
-    const userList = await User.find({}).skip(skip).limit(limit);
-    const UserList = userList.map((user) => {
-      return {
-        _id: user._id,
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        role: user.role,
-        userAvatar: user.userAvatar,
-        createdAt: user.createdAt,
-      };
-    });
-
-    return res.status(200).json({
-      pageSize: size,
-      page: page,
-      total: Math.ceil(allUserList.length / size),
-      users: UserList,
-    });
-  }
-
+// -------------------------------CONTRIBUTORS--------------------------------------//
   //return list of users that are not asigned yet to the current project
   if (req.query.project&& req.query.contributor==="false") {
-
     const projectId = req.query.project;
     const project = await Project.find({ _id: projectId });
-   
     //get ID of users asigned to the project
     const contributorsListId = project.map((ob) => ob.contributors).flat();
-    
     //get full list of Users
     const userList = await User.find({});
-
     //filter and return users that are not asigned to current project
     const filteredUserList = userList.filter((user)=>!contributorsListId.some((contributor)=>user._id.equals(contributor)));
-
-
-
     const result = filteredUserList.map((user) => {
       return {
         _id: user._id,
@@ -261,22 +170,33 @@ if(req.query.contributors){
     return res.status(200).json(result);
   }
 
-  //return user account data
-  if (req.query.settings) {
-    return res.status(200).json({
-      _id: req.user._id,
-      name: req.user.name,
-      surname: req.user.surname,
-      email: req.user.email,
-      role: req.user.role,
-      userAvatar: req.user.userAvatar,
-      phone: req.user.phone,
-      birthDay: req.user.birthDay,
-      createdAt: req.user.createdAt,
-      adress: req.user.adress,
-      gender: req.user.gender,
-    });
+  if(role){
+    const adminList = await User.find({role})
+  const xd = adminList.map(({_id,name,surname,email,role,gender,userAvatar})=>{
+    return {_id,name,surname,email,role,gender,userAvatar}
+  })
+    res.status(200).json(xd)
   }
+  else{
+    
+  const allUserList = await User.find({});
+  //return list of all users as select options for new project
+    const result = allUserList.map((user) => {
+      return {
+        _id: user._id,
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        role: user.role,
+        userAvatar: user.userAvatar,
+        createdAt: user.createdAt,
+      };
+    });
+    return res.status(200).json(result);
+  
+  }
+
+
 };
 
 const updateUserData = async (req, res) => {

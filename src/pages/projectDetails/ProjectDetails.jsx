@@ -24,6 +24,7 @@ import {
 } from "../../features/projectApi/projectApi";
 import { handleUpdateProject } from "../../shared/handleUpdateProject";
 import { getProjectContributorList } from "../../features/userApi/userApi";
+import { getProjectLeaders } from "../../features/userApi/userApi";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Description } from "@mui/icons-material";
@@ -38,11 +39,6 @@ useSocketListen(
     queryKey:"project"
   }
 )
-   
-
-
-  //  handleEventlisten("CollectionUpdate")
-
   const [updateError, setUpdateError] = useState(null);
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
@@ -64,13 +60,6 @@ useSocketListen(
       refetchOnWindowFocus:false
     })
 
-
-
-   
-
-
-
-
   const { data: users, refetch } = useQuery(
     ["contributorList"],
     () => getProjectContributorList(projectId),
@@ -86,22 +75,18 @@ useSocketListen(
     }
   );
 
+const {data:projectLeaderList,refetch:refetchPM}=useQuery(["projectLeaderList"],()=>getProjectLeaders(),
+{refetchOnWindowFocus:false,
+onSuccess:(projectLeader)=>{
+  console.log(projectLeader)
+}})
 
 
-// const stan = contributors.map((cont)=>cont._id)
-// const dane = data?.contributors.map((user)=>user._id);
 
-
-// const isEqual = stan.every((id)=>dane.includes(id))
-// console.log(isEqual)
-  // console.log(`stan:${{...contributors}}`)
-  // console.log(`fetch:${data}`)
-  const mutation = useMutation(updateProject,
+const mutation = useMutation(updateProject,
     {onSuccess:data=>{
      queryClient.invalidateQueries(["project"])
     }});
-
-
 
   useEffect(() => {
     if (data) {
@@ -112,21 +97,13 @@ useSocketListen(
     }
   }, [data]);
 
-const updateData=(e)=>{
-e.preventDefault()
-console.log("ZAKTUALIZOWANO DANE POMYSLNIE")
-mutation.mutate({ projectId, title, description, contributors,leader });
-}
-
 
   const handleChange = (selectedOption, callback) => {
     setContributors([...contributors, selectedOption]);
-
     callback(selectedOption);
   };
 
   const handleUpdateSelectList = (selectedUser) => {
-    // setAvalibleContributors(avalibleContributors.filter((avc)=>!contributors.some((cont)=>avc._id===cont.id)))
   setAvalibleContributors(avalibleContributors.filter((user)=>user._id!==selectedUser._id))
   
   };
@@ -218,6 +195,7 @@ mutation.mutate({ projectId, title, description, contributors,leader });
                       <select
                         defaultValue={data?.projectLeader?.name}
                         disabled={isDisabled}
+                        onChange={refetchPM}
                         // onChange={(e) =>
                         //   setProjectData({
                         //     ...projectData,
@@ -229,10 +207,12 @@ mutation.mutate({ projectId, title, description, contributors,leader });
                         <option selected hidden={!isDisabled}>
                           {`${data?.projectLeader?.name}`}
                         </option>
+                        <option value="xddddd">DDSDSDS</option>
                         {check
                           ? check.map((user) => {
                               return (
                                 <option
+                               
                                   value={user.value}
                                   key={user.value}
                                   data-name={`${user.name}`}
@@ -245,7 +225,9 @@ mutation.mutate({ projectId, title, description, contributors,leader });
                                 >
                                   {user.name}
                                 </option>
+                                
                               );
+                              
                             })
                           : null}
                       </select>
@@ -340,7 +322,7 @@ mutation.mutate({ projectId, title, description, contributors,leader });
                       Edit
                     </button>
                   ) : (
-                    <button onClick={(e)=>updateData(e)}>Save</button>
+                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},mutation)}>Save</button>
                   )}
                   <button
                     onClick={(e) => {

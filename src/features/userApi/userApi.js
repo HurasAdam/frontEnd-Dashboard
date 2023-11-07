@@ -19,3 +19,11 @@ export const getUsers = () => {
       .catch((error) => reject(error));
   });
 };
+
+export const getProjectLeaders= async()=>{
+
+  const reponse = await projectApi.get("user?role=admin")
+  .then((res)=>res.data)
+  .catch((error)=>error)
+
+}

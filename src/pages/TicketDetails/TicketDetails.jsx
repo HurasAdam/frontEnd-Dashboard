@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CommentBox } from "../../components/commentBox/CommentBox";
 import { ThemeContext } from '../../contexts/ThemeContext'
+import { useQuery } from "react-query";
 import {ObjectDateToString} from '../../utils/ObjectDateToString'
+import { getTicket } from "../../features/ticketApi/ticketApi";
+
+
 export const TicketDetails = () => {
   const { ticketId } = useParams();
   const domReference = useRef(null);
@@ -18,16 +22,35 @@ export const TicketDetails = () => {
   const [newComment, setNewComment] = useState("");
   const [editedCommentTextContent, setEditedCommentTextContent] = useState("");
   
-  
-  const { isLoading, isError, error, data } = useQuery(["project"], () =>
-  getProject(projectId),{
-    refetchOnWindowFocus:false
-  })
 
+  const [title,setTitle]=useState('')
+  const [description,setDescription]=useState('')
+  const [status,setStatus]=useState('')
+  const [priority,setPriority]=useState('');
+  const [type,setType]=useState('')
+
+
+  
+  const { isLoading, isError, error, data } = useQuery(["ticket"], () =>
+  getTicket(ticketId),{
+    refetchOnWindowFocus:false,
+    onSuccess:(data)=>{
+setTitle(data?.title);
+setDescription(data?.description);
+setStatus(data?.status);
+setPriority(data?.priority);
+setType(data?.type);
+
+    }
+  })
+ 
 
   // const [data, isLoading, error] = useFetch(
   //   `http://localhost:3000/api/notes/${ticketId}`
   // );
+
+
+
   const [ticketData, setTicketData] = useState({});
   const { user } = useContext(AuthContext);
   const {theme}=useContext(ThemeContext)
@@ -39,159 +62,159 @@ const windowHeight = window.innerHeight;
 setIsScrollale(contentHeight>windowHeight)
   },[domReference.current])
   
+  console.log(title)
 
 
 
+  // const handleDelete = async () => {
+  //   const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${user.token}`,
+  //     },
+  //   });
+  //   if (respone.ok) {
+  //     navigate("/tickets");
+  //   }
+  // };
 
-  const handleDelete = async () => {
-    const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    if (respone.ok) {
-      navigate("/tickets");
-    }
-  };
-
-  useEffect(() => {
-    if (data) {
-      setTicketData({
-        ...ticketData,
-        ticketAuthor: data.author,
-        title: data.title,
-        status: data.status,
-        _id: data.ticketId,
-        priority: data.priority,
-        type: data.type,
-        description: data.description,
-        project: data.project,
-        fullAccess: data.fullAccess,
-        contributorAccess: data.contributorAccess,
-      });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setTicketData({
+  //       ...ticketData,
+  //       ticketAuthor: data.author,
+  //       title: data.title,
+  //       status: data.status,
+  //       _id: data.ticketId,
+  //       priority: data.priority,
+  //       type: data.type,
+  //       description: data.description,
+  //       project: data.project,
+  //       fullAccess: data.fullAccess,
+  //       contributorAccess: data.contributorAccess,
+  //     });
+  //   }
+  // }, [data]);
 
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions = ["Open", "Closed"];
 
-  useEffect(() => {
-    renderPosts();
-  }, []);
-  const renderPosts = async () => {
-    const response = await fetch(
-      `http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
-    const json = await response.json();
-    const initialPostState = json.map((post) => {
-      return { ...post, contentEditable: false, buttonDisabled: false };
-    });
-    if (initialPostState.length > 0) {
-      setTicketData({
-        ...ticketData,
-        comments: initialPostState,
-      });
-    }
-  };
+  // useEffect(() => {
+  //   renderPosts();
+  // }, []);
+  // const renderPosts = async () => {
+  //   const response = await fetch(
+  //     `http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //     }
+  //   );
+  //   const json = await response.json();
+  //   const initialPostState = json.map((post) => {
+  //     return { ...post, contentEditable: false, buttonDisabled: false };
+  //   });
+  //   if (initialPostState.length > 0) {
+  //     setTicketData({
+  //       ...ticketData,
+  //       comments: initialPostState,
+  //     });
+  //   }
+  // };
 
-  const handleEditComment = (id, commentList) => {
-    const index = commentList.findIndex((comment) => comment.id === id);
-    const rest = commentList.filter((comment) => comment.id !== id);
-    if (index === -1) {
-      console.log("comment not found");
-      return;
-    }
+  // const handleEditComment = (id, commentList) => {
+  //   const index = commentList.findIndex((comment) => comment.id === id);
+  //   const rest = commentList.filter((comment) => comment.id !== id);
+  //   if (index === -1) {
+  //     console.log("comment not found");
+  //     return;
+  //   }
 
-    const uneditableCommentList = commentList.map((com) => {
-      return { ...com, buttonDisabled: !com.buttonDisabled };
-    });
-    const updatedComment = {
-      ...commentList[index],
-      contentEditable: !commentList[index].contentEditable,
-      buttonDisabled: !commentList[index].buttonDisabled,
-    };
-    const updatedComments = [...uneditableCommentList];
-    updatedComments[index] = updatedComment;
+  //   const uneditableCommentList = commentList.map((com) => {
+  //     return { ...com, buttonDisabled: !com.buttonDisabled };
+  //   });
+  //   const updatedComment = {
+  //     ...commentList[index],
+  //     contentEditable: !commentList[index].contentEditable,
+  //     buttonDisabled: !commentList[index].buttonDisabled,
+  //   };
+  //   const updatedComments = [...uneditableCommentList];
+  //   updatedComments[index] = updatedComment;
 
-    setTicketData({ ...ticketData, comments: updatedComments });
-  };
+  //   setTicketData({ ...ticketData, comments: updatedComments });
+  // };
 
-  const handleUpdateCommnet = async (id, commentList) => {
-    if (setEditedCommentTextContent.length > 0) {
-      const response = await fetch(`http://127.0.0.1:3000/api/posts/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer' ${user.token}`,
-        },
-        body: JSON.stringify({ editedComment: editedCommentTextContent }),
-      });
-      if (response.ok) {
-        handleEditComment(id, commentList);
-        setEditedCommentTextContent("");
-        renderPosts();
-      }
-    }
-  };
+  // const handleUpdateCommnet = async (id, commentList) => {
+  //   if (setEditedCommentTextContent.length > 0) {
+  //     const response = await fetch(`http://127.0.0.1:3000/api/posts/${id}`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer' ${user.token}`,
+  //       },
+  //       body: JSON.stringify({ editedComment: editedCommentTextContent }),
+  //     });
+  //     if (response.ok) {
+  //       handleEditComment(id, commentList);
+  //       setEditedCommentTextContent("");
+  //       renderPosts();
+  //     }
+  //   }
+  // };
 
-  const addComment = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify({ newComment }),
-        }
-      );
-      const json = await response.json();
-      if (response.ok) {
-        setNewComment("");
-        renderPosts();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const addComment = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await fetch(
+  //       `http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${user.token}`,
+  //         },
+  //         body: JSON.stringify({ newComment }),
+  //       }
+  //     );
+  //     const json = await response.json();
+  //     if (response.ok) {
+  //       setNewComment("");
+  //       renderPosts();
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const handleEditTextContent = (el) => {
-    setEditedComment(el);
-  };
+  // const handleEditTextContent = (el) => {
+  //   setEditedComment(el);
+  // };
 
-  const handleDataUpdate = async () => {
-    const response = await fetch(
-      `http://127.0.0.1:3000/api/notes/${ticketId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          title: ticketData.title,
-          priority: ticketData.priority,
-          status: ticketData.status,
-          description: ticketData.description,
-        }),
-      }
-    );
+  // const handleDataUpdate = async () => {
+  //   const response = await fetch(
+  //     `http://127.0.0.1:3000/api/notes/${ticketId}`,
+  //     {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //       body: JSON.stringify({
+  //         title: ticketData.title,
+  //         priority: ticketData.priority,
+  //         status: ticketData.status,
+  //         description: ticketData.description,
+  //       }),
+  //     }
+  //   );
 
-    if (response.ok) {
-      navigate("/tickets");
-    }
-  };
+  //   if (response.ok) {
+  //     navigate("/tickets");
+  //   }
+  // };
 
   return (
     <div className="ticketDetails" id={theme.mode} ref={domReference}>
@@ -359,14 +382,14 @@ setIsScrollale(contentHeight>windowHeight)
           </div>
           <CommentBox
             posts={ticketData.comments}
-            addComment={addComment}
+            // addComment={addComment}
             setNewComment={setNewComment}
-            newComment={newComment}
+            // newComment={newComment}
             fullAccess={ticketData.fullAccess}
             contributorAccess={ticketData.contributorAccess}
-            onEditComment={handleEditComment}
-            onUpdateComment={handleUpdateCommnet}
-            onEditTextContent={setEditedCommentTextContent}
+            // onEditComment={handleEditComment}
+            // onUpdateComment={handleUpdateCommnet}
+            // onEditTextContent={setEditedCommentTextContent}
             
           />
         </div>

@@ -59,7 +59,13 @@ useSocketListen(
  const [leaderList,setLeaderList]=useState([])
   const { isLoading, isError, error, data } = useQuery(["project"], () =>
     getProject(projectId),{
-      refetchOnWindowFocus:false
+      refetchOnWindowFocus:false,
+      onSuccess:(data)=>{
+        setTitle(data?.title);
+        setDescription(data?.description);
+        setContributors(data?.contributors);
+        setLeader(data?.projectLeader);
+      }
     })
 
   const { data: users, refetch } = useQuery(
@@ -91,16 +97,6 @@ const xd = leaderList.filter((user)=>user._id!==leader._id)
 
 const updateMutation=mutationHandler(updateProject,()=>queryClient.invalidateQueries(["project"]))
 const deleteMutation= mutationHandler(deleteProject,()=>navigate("/projects"))
-
-  useEffect(() => {
-    if (data) {
-      setTitle(data?.title);
-      setDescription(data?.description);
-      setContributors(data?.contributors);
-      setLeader(data?.projectLeader);
-    }
-  }, [data]);
-
 
   const handleChange = (selectedOption, callback) => {
     setContributors([...contributors, selectedOption]);
@@ -208,7 +204,7 @@ setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
                     )}
                     {data && (
                       <select
-                        defaultValue={data?.projectLeader?.name}
+                        value={data?.projectLeader?.name}
                         disabled={isDisabled}
                    onChange={(e)=>test(e)}
                 onFocus={refetchPmList}

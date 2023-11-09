@@ -6,6 +6,6 @@ export const getTicketList = async () => {
 };
 
 export const getTicket = async (id) => {
-  const response = await projectApi.get(`"notes/${id}`);
+  const response = await projectApi.get(`notes/${id}`);
   return response.data;
 };

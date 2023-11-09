@@ -108,57 +108,61 @@ console.log(result)
 
   //podbieranie noatki
   async getNote(req, res) {
-    const userId = req.user._id.toString();
+    const userId = req.user._id
 
-    const id = req.params.id;
+    const {id} = req.params
+
     const note = await Note.findOne({ _id: id });
+ 
+    const ticketAuthor = await User.findOne({ _id: note.author },"name surname email role gender userAvatar")
 
-    const ticketAuthor = await User.findOne({ _id: note.author });
-    const project = await Project.findOne({ _id: note.project });
-    const conctibutorsList = project.contributors;
-    const contributorAccess =
-      conctibutorsList.includes(userId) || req.user.role === "admin";
+   
+    const project = await Project.findOne({});
+    console.log(project)
+    // const conctibutorsList = project.contributors;
+    // const contributorAccess =
+    //   conctibutorsList.includes(userId) || req.user.role === "admin";
 
-    const projectLeader = await User.findOne({ _id: project.projectLeaderId });
-    const fullAccess =
-      ticketAuthor.author === req.user._id.toString() ||
-      req.user.role === "admin";
+    // const projectLeader = await User.findOne({ _id: project.projectLeaderId });
+    // const fullAccess =
+    //   ticketAuthor.author === req.user._id.toString() ||
+    //   req.user.role === "admin";
 
-    const xd = {
-      ticketId: note._id,
-      title: note.title,
-      status: note.status,
-      priority: note.priority,
-      type: note.type,
-      author: {
-        id: ticketAuthor._id,
-        name: ticketAuthor.name,
-        surname: ticketAuthor.surname,
-        email: ticketAuthor.email,
-        role: ticketAuthor.role,
-        gender: ticketAuthor.gender,
-        userAvatar: ticketAuthor.userAvatar,
-      },
-      description: note.description,
-      createdAt: note.createdAt,
-      project: {
-        id: project._id.toString(),
-        projectTitle: project.projectTitle,
-        description: project.description,
-        projectLeader: {
-          id: projectLeader._id,
-          name: projectLeader.name,
-          surname: projectLeader.surname,
-          email: projectLeader.email,
-          role: projectLeader.role,
-          gender: projectLeader.gender,
-          userAvatar: projectLeader.userAvatar,
-        },
-      },
-      fullAccess: fullAccess,
-      contributorAccess: contributorAccess,
-    };
-    res.status(200).json(xd);
+    // const xd = {
+    //   ticketId: note._id,
+    //   title: note.title,
+    //   status: note.status,
+    //   priority: note.priority,
+    //   type: note.type,
+    //   author: {
+    //     id: ticketAuthor._id,
+    //     name: ticketAuthor.name,
+    //     surname: ticketAuthor.surname,
+    //     email: ticketAuthor.email,
+    //     role: ticketAuthor.role,
+    //     gender: ticketAuthor.gender,
+    //     userAvatar: ticketAuthor.userAvatar,
+    //   },
+    //   description: note.description,
+    //   createdAt: note.createdAt,
+    //   project: {
+    //     id: project._id.toString(),
+    //     projectTitle: project.projectTitle,
+    //     description: project.description,
+    //     projectLeader: {
+    //       id: projectLeader._id,
+    //       name: projectLeader.name,
+    //       surname: projectLeader.surname,
+    //       email: projectLeader.email,
+    //       role: projectLeader.role,
+    //       gender: projectLeader.gender,
+    //       userAvatar: projectLeader.userAvatar,
+    //     },
+    //   },
+    //   fullAccess: fullAccess,
+    //   contributorAccess: contributorAccess,
+    // };
+    res.status(200).json("JABADABADU");
   },
 
   //aktualizowanie notatki

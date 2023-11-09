@@ -40,30 +40,27 @@ module.exports = {
 
   //podbieranie noatek
   async getAllNotes(req, res) {
-    const page = Number(req.query.page);
-    let size = 14;
-    const limit = parseInt(size);
-    const skip = (page - 1) * size;
 
-    let notes;
-    let allNotesCount;
-    try {
-      allNotesCount = await Note.countDocuments();
-      // console.log(typeof allNotesCount);
-      notes = await Note.find({Archivized:false})
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
+    const notes = await Note.find({Archivized:false})
+    // const page = Number(req.query.page);
+    // let size = 14;
+    // const limit = parseInt(size);
+    // const skip = (page - 1) * size;
 
-    res.status(200).json({
-      page: page,
-      pageSize: size,
-      total: Math.ceil(allNotesCount / size),
-      tickets: notes,
-    });
+    // let notes;
+    // let allNotesCount;
+    // try {
+    //   allNotesCount = await Note.countDocuments();
+    //   // console.log(typeof allNotesCount);
+    //   notes = await Note.find({Archivized:false})
+    //     .sort({ createdAt: -1 })
+    //     .skip(skip)
+    //     .limit(limit);
+    // } catch (err) {
+    //   return res.status(500).json({ error: err.message });
+    // }
+
+    res.status(200).json(notes);
   },
 
   async getArchived(req,res){

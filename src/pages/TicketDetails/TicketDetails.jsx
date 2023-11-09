@@ -17,9 +17,17 @@ export const TicketDetails = () => {
   const [updateError, setUpdateError] = useState(null);
   const [newComment, setNewComment] = useState("");
   const [editedCommentTextContent, setEditedCommentTextContent] = useState("");
-  const [data, isLoading, error] = useFetch(
-    `http://localhost:3000/api/notes/${ticketId}`
-  );
+  
+  
+  const { isLoading, isError, error, data } = useQuery(["project"], () =>
+  getProject(projectId),{
+    refetchOnWindowFocus:false
+  })
+
+
+  // const [data, isLoading, error] = useFetch(
+  //   `http://localhost:3000/api/notes/${ticketId}`
+  // );
   const [ticketData, setTicketData] = useState({});
   const { user } = useContext(AuthContext);
   const {theme}=useContext(ThemeContext)

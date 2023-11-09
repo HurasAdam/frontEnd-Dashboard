@@ -38,7 +38,6 @@ export const ProjectDetails = () => {
 
 useSocketListen(
   {
-    id:projectId,
     event:"CollectionUpdate",
     queryKey:"project"
   }

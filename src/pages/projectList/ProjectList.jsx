@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
-
+import { useSocketListen } from "../../hooks/useSocketListen";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { getProjectList } from "../../features/projectApi/projectApi";
@@ -58,6 +58,15 @@ export const ProjectsList = () => {
     () => getProjectList(pageState.page),
     {}
   );
+
+
+  useSocketListen(
+    {
+      event:"CollectionUpdate",
+      queryKey:"projects"
+    }
+  )
+
 
   
   const columns = [

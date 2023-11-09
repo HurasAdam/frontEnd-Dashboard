@@ -9,7 +9,7 @@ router.use(requireAuth)
 // router.use(requireMembership)
 //patches
 //pobieranie notatek
-router.get('/',noteActions.getAllNotes);
+router.get('/',requireAuth,noteActions.getAllNotes);
 router.get('/archived',requireAuth,noteActions.getArchived)
 //pobieranie notatki
 router.get('/:id',requireAuth,noteActions.getNote);

@@ -1,4 +1,3 @@
-
 import "./projectDetails.css";
 import { NavLink } from "react-router-dom";
 import Select from "react-select";
@@ -25,9 +24,13 @@ import {
 import { handleUpdateProject } from "../../shared/handleUpdateProject";
 import { getProjectContributorList } from "../../features/userApi/userApi";
 import { getAdminUsers } from "../../features/userApi/userApi";
+import { mutationHandler } from "../../shared/mutationHandler";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Description } from "@mui/icons-material";
+// ----------------------------------IMPORTS-------------------------//
+
+
 export const ProjectDetails = () => {
   const { projectId } = useParams();
   const queryClient= useQueryClient()  
@@ -43,7 +46,6 @@ useSocketListen(
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
-
   const [isDeleted, setIsDeleted] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
@@ -75,7 +77,6 @@ useSocketListen(
     }
   );
 
-
 const {data:pmList,refetch:refetchPmList}=useQuery(["pmList"],()=>getAdminUsers(),
 {
   refetchOnWindowFocus: false,
@@ -86,13 +87,10 @@ const {data:pmList,refetch:refetchPmList}=useQuery(["pmList"],()=>getAdminUsers(
 }
 )
 
-
 const xd = leaderList.filter((user)=>user._id!==leader._id)
 
-const mutation = useMutation(updateProject,
-    {onSuccess:data=>{
-     queryClient.invalidateQueries(["project"])
-    }});
+const updateMutation=mutationHandler(updateProject,()=>queryClient.invalidateQueries(["project"]))
+
 
   useEffect(() => {
     if (data) {
@@ -326,7 +324,7 @@ setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
                       Edit
                     </button>
                   ) : (
-                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},mutation,projectId)}>Save</button>
+                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},updateMutation,projectId)}>Save</button>
                   )}
                   <button
                     onClick={(e) => {

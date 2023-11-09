@@ -40,16 +40,10 @@ console.log(update)
   });
 };
 
-export const deleteProject = (token, id) => {
-  return new Promise((resolve, reject) => {
+export const deleteProject = async(id) => {
 
-    const response = projectApi
-      .delete(`projects/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => resolve(res.data))
-      .catch((error) => reject(error));
-  });
+  const response = await projectApi.delete(`projects/${id}`)
+  return response.data
 };
 
 

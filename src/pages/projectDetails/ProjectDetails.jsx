@@ -25,6 +25,7 @@ import { handleUpdateProject } from "../../shared/handleUpdateProject";
 import { getProjectContributorList } from "../../features/userApi/userApi";
 import { getAdminUsers } from "../../features/userApi/userApi";
 import { mutationHandler } from "../../shared/mutationHandler";
+import { handleDeleteProject } from "../../shared/handleDeleteProject";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Description } from "@mui/icons-material";
@@ -90,7 +91,7 @@ const {data:pmList,refetch:refetchPmList}=useQuery(["pmList"],()=>getAdminUsers(
 const xd = leaderList.filter((user)=>user._id!==leader._id)
 
 const updateMutation=mutationHandler(updateProject,()=>queryClient.invalidateQueries(["project"]))
-
+const deleteMutation= mutationHandler(deleteProject,()=>navigate("/projects"))
 
   useEffect(() => {
     if (data) {
@@ -293,7 +294,7 @@ setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
                   <button
                     onClick={(e) => {
                       e.preventDefault();
-                      kekw(confirmDelete, user.token, projectId);
+                    handleDeleteProject(projectId,deleteMutation,confirmDelete)
                     }}
                   >
                     Confirm

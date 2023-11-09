@@ -1,14 +1,51 @@
-export const handleUpdateProject = (e,{data,title,description,contributors,leader},mutation) => {
-    e.preventDefault();
-const {projectId,title:dataTitle,description:dataDescription,contributors:dataContributors}= data 
-const dataContributorList = dataContributors.map((user)=>user._id)
-const stateContributorList= contributors.map((user)=>user._id)
-const isArrayEqual = dataContributorList.every((id)=>stateContributorList.includes(id)&&dataContributorList.length===stateContributorList.length)
+import { handleArrayCompare } from "./handleArrayCompare";
+export const handleUpdateProject = (
+  e,
+  { data, title, description, contributors, leader },
+  mutation,
+  id
+) => {
+  e.preventDefault();
+  const updateObj = {};
+  const {
+    projectId,
+    title: dataTitle,
+    description: dataDescription,
+    contributors: dataContributors,
+    projectLeader: dataLeader,
+  } = data;
 
- if(title===dataTitle&&description===dataDescription&&isArrayEqual){
-  alert("No changes have been made. Please make changes before clicking the SAVE button")
- }
- else{
-  mutation.mutate({ projectId, title, description, contributors,leader });
- }
-  };
+  const isContributorListChanged = !handleArrayCompare(
+    dataContributors,
+    contributors
+  );
+  const isLeaderChanged = !handleArrayCompare([dataLeader], [leader]);
+  console.log(isLeaderChanged);
+
+  if (
+    title === dataTitle &&
+    description === dataDescription &&
+    !isContributorListChanged &&
+    !isLeaderChanged
+  ) {
+    alert(
+      "No changes have been made. Please make changes before clicking the SAVE button"
+    );
+  } else {
+    if (title !== dataTitle) {
+      updateObj.title = title;
+    }
+    if (description !== dataDescription) {
+      updateObj.description = description;
+    }
+    if (isContributorListChanged) {
+      updateObj.contributors = contributors;
+    }
+    if (isLeaderChanged) {
+      updateObj.leader = leader;
+    }
+
+    console.log(updateObj);
+    mutation.mutate({ id, update: updateObj });
+  }
+};

@@ -30,10 +30,11 @@ export const getProject = (projectId) => {
   });
 };
 
-export const updateProject = (data) => {
+export const updateProject = ({id,update}) => {
   return new Promise((resolve, reject) => {
-
-    const response = projectApi.patch(`projects/${data.projectId}`,data)
+console.log(`ID:${id}`)
+console.log(update)
+    const response = projectApi.patch(`projects/${id}`,update)
    .then((res)=>resolve(res.data))
     .catch((error)=>reject(error));
   });

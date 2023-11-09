@@ -144,27 +144,39 @@ createdAt:convertDate({date:project.createdAt,includeHrs:true})
   res.status(200).json(singleProject);
 };
 
-
+// ---------UPDATE PROJECT--------------//
 const updateProject = async (req, res) => {
   const { id } = req.params;
   const { title, description, leader, contributors } = req.body;
   const io = req.app.get("socketio");
-  const currentProjectLeader= await User.findOne({_id:leader._id})
-  const currentProjectLeaderId= currentProjectLeader.id
-  const getContributorsId = contributors.map((contributor)=>contributor.contributorId)
-  const projectContributors= await User.find( { _id : { $in : getContributorsId } } ).select("_id")
-const convertTypeContributorsId= projectContributors.map((contributor)=>contributor._id.toString())
+const changes = {}  
 
+  if(title){
+    changes.title=title
+  }
+  if(description)changes.description=description
+  if(leader){
+    const currentProjectLeader= await User.findOne({_id:leader})
+    const currentProjectLeaderId= currentProjectLeader._id
+    changes.projectLeader=currentProjectLeaderId
+  }
+  if(contributors){
+    const contributorId = contributors.map((contributor)=>contributor._id)
+    const projectContributors= await User.find( { _id : { $in : contributorId } } ).select("_id")
+    console.log(projectContributors)
+  changes.contributors=projectContributors
+  }
 
-const updates = {title,description,contributors,currentProjectLeaderId}
-
-  const updateProject = await Project.findOneAndUpdate({_id:id},{$set:updates})
+  const updateProject = await Project.findOneAndUpdate({_id:id},{$set:changes})
 const eventStreamObject = {id:updateProject._id,status:"update"}
 
 io.sockets.emit("CollectionUpdate",eventStreamObject)
   res.status(200).json('Updated Sucessfull');
-
 };
+
+
+
+// --------DELETE PROJECT--------------//
 
 const deleteProject = async (req, res) => {
   const { id } = req.params;

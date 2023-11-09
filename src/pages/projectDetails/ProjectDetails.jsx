@@ -24,7 +24,7 @@ import {
 } from "../../features/projectApi/projectApi";
 import { handleUpdateProject } from "../../shared/handleUpdateProject";
 import { getProjectContributorList } from "../../features/userApi/userApi";
-import { getProjectLeaders } from "../../features/userApi/userApi";
+import { getAdminUsers } from "../../features/userApi/userApi";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Description } from "@mui/icons-material";
@@ -54,7 +54,7 @@ useSocketListen(
   const [contributors, setContributors] = useState([]);
   const [avalibleContributors, setAvalibleContributors] = useState([]);
   const [leader, setLeader] = useState("");
-  const [userList, setUserList] = useState([]);
+ const [leaderList,setLeaderList]=useState([])
   const { isLoading, isError, error, data } = useQuery(["project"], () =>
     getProject(projectId),{
       refetchOnWindowFocus:false
@@ -75,13 +75,19 @@ useSocketListen(
     }
   );
 
-const {data:projectLeaderList,refetch:refetchPM}=useQuery(["projectLeaderList"],()=>getProjectLeaders(),
-{refetchOnWindowFocus:false,
-onSuccess:(projectLeader)=>{
-  console.log(projectLeader)
-}})
+
+const {data:pmList,refetch:refetchPmList}=useQuery(["pmList"],()=>getAdminUsers(),
+{
+  refetchOnWindowFocus: false,
+  enabled: false,
+  onSuccess: (userList) => {
+    setLeaderList(userList)
+  },
+}
+)
 
 
+const xd = leaderList.filter((user)=>user._id!==leader._id)
 
 const mutation = useMutation(updateProject,
     {onSuccess:data=>{
@@ -117,6 +123,17 @@ const mutation = useMutation(updateProject,
 
     setContributors(updatedContributorList);
   }
+
+  const test=(event)=>{
+    const selectedOptionIndex = event.target.selectedIndex;
+    const selectedOptionValue = event.target.value;
+    const selectedOptionLabel = event.target.options[selectedOptionIndex].textContent
+    
+setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
+    
+    }
+
+
 
   const columns = [
     { field: "name", headerName: "Name", width: 200, flex: 0.7 },
@@ -195,33 +212,20 @@ const mutation = useMutation(updateProject,
                       <select
                         defaultValue={data?.projectLeader?.name}
                         disabled={isDisabled}
-                        onChange={refetchPM}
-                        // onChange={(e) =>
-                        //   setProjectData({
-                        //     ...projectData,
-                        //     projectLeader: e.target.dataset
-
-                        //   })
-                        // }
+                   onChange={(e)=>test(e)}
+                onFocus={refetchPmList}
                       >
                         <option selected hidden={!isDisabled}>
-                          {`${data?.projectLeader?.name}`}
+                          {`${leader.name}`}
                         </option>
-                        <option value="xddddd">DDSDSDS</option>
-                        {check
-                          ? check.map((user) => {
+                        
+                        {leaderList
+                          ? xd.map((user) =>  {
                               return (
                                 <option
-                               
-                                  value={user.value}
-                                  key={user.value}
-                                  data-name={`${user.name}`}
-                                  disabled={
-                                    user.value === projectData.projectLeader.id
-                                  }
-                                  selected={
-                                    user.value === projectData.projectLeader.id
-                                  }
+                                  value={user._id}
+                                  key={user._id}
+                                 dataset={user.name}
                                 >
                                   {user.name}
                                 </option>
@@ -322,7 +326,7 @@ const mutation = useMutation(updateProject,
                       Edit
                     </button>
                   ) : (
-                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},mutation)}>Save</button>
+                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},mutation,projectId)}>Save</button>
                   )}
                   <button
                     onClick={(e) => {

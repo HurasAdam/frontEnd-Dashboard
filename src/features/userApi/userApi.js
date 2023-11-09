@@ -1,29 +1,24 @@
 import projectApi from "../axios/axios";
 
-export const getProjectContributorList = (id) => {
-  return new Promise((resolve, reject) => {
-    const response = projectApi
+export const getProjectContributorList = async(id) => {
+  
+    const response = await projectApi
       .get(`user?project=${id}&contributor=false`)
-      .then((res) => resolve(res.data))
+  return response.data
 
-      .catch((error) => reject(error));
-  });
 };
 
-export const getUsers = () => {
-  return new Promise((resolve, reject) => {
-    const response = projectApi
+export const getUsers = async() => {
+ 
+    const response = await projectApi
       .get("user")
-      .then((res) => resolve(res.data))
-
-      .catch((error) => reject(error));
-  });
+return response.data
 };
 
-export const getProjectLeaders= async()=>{
+export const getAdminUsers= async()=>{
 
-  const reponse = await projectApi.get("user?role=admin")
-  .then((res)=>res.data)
-  .catch((error)=>error)
 
+  const  response = await projectApi
+  .get("user?role=admin")
+return response.data
 }

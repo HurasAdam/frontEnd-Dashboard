@@ -31,11 +31,16 @@ export const NewTicket = () => {
   })
 
 
-const handleCreate=(e,{selectedProject,title,priority,type,description},mutation)=>{
+const handleCreateTicket=(e,{selectedProject,title,priority,type,description},mutation)=>{
   e.preventDefault();
 const {value:project,label}=selectedProject
-mutation.mutate({project,title,priority,type,description})
 
+if(!selectedProject||!title||!priority||!type||!description){
+  alert("All fields need to be filled")
+}
+else{
+  mutation.mutate({project,title,priority,type,description})
+}
 }
 
 
@@ -148,7 +153,7 @@ const {theme}=useContext(ThemeContext)
         <div className="newTicketAction">
           <button 
           className="newTicketSave" 
-          onClick={(e)=>handleCreate(e,{selectedProject,title,priority,type,description},createMutation)}
+          onClick={(e)=>handleCreateTicket(e,{selectedProject,title,priority,type,description},createMutation)}
           
           >
             Save

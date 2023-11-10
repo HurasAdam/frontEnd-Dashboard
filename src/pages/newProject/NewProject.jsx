@@ -19,18 +19,19 @@ export const NewProject = () => {
     enabled:false
   })
 
-  const mutation = useMutation(createProject,{
+  const createMutation = useMutation(createProject,{
     onSuccess:(data)=>{
       navigate(`/projects`)
-    
     }
   })
   
 
 
 
-  const handleCreateProject=(e)=>{
+  const handleCreateProject=(e,{title,description,contributors},mutation)=>{
 e.preventDefault();
+
+
 mutation.mutate({title,description,contributors})
 
   }
@@ -171,7 +172,7 @@ const selectedUsers=selectedOptions.map((option)=>option._id)
         <div className="newProjectAction">
           <button
           
-          onClick={handleCreateProject}
+          onClick={(e)=>handleCreateProject(e,{title,description,contributors},createMutation)}
           className="newProjectSave">
             Save
           </button>

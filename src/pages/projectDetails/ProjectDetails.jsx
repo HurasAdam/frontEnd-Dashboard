@@ -104,7 +104,7 @@ const deleteMutation= mutationHandler(deleteProject,()=>navigate("/projects"))
   };
 
   const handleUpdateSelectList = (selectedUser) => {
-  setAvalibleContributors(avalibleContributors.filter((user)=>user._id!==selectedUser._id))
+  setAvalibleContributors(avalibleContributors.filter((user)=>user.id!==selectedUser.id))
   
   };
 
@@ -112,7 +112,7 @@ const deleteMutation= mutationHandler(deleteProject,()=>navigate("/projects"))
     e.preventDefault();
 
     const updatedContributorList = contributors.filter(
-      (user) => user._id !== selectedUser.id
+      (user) => user.id !== selectedUser.id
     );
 
     setContributors(updatedContributorList);

@@ -14,12 +14,18 @@ export const createProject= (projectData)=>{
 
 export const getProjectList = (page) => {
   return new Promise((resolve, reject) => {
-
     const response = projectApi
       .get(`projects?page=${page}`)
       .then((res) => resolve(res.data));
   });
 };
+
+
+export const getProjectListByMembership=async()=>{
+  const response = await projectApi.get("projects?membership=true")
+  return response.data
+}
+
 
 export const getProject = (projectId) => {
   return new Promise((resolve, reject) => {

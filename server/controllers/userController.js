@@ -150,6 +150,7 @@ const {role,project,contributor}=req.query
   if (req.query.project&& req.query.contributor==="false") {
     const projectId = req.query.project;
     const project = await Project.find({ _id: projectId });
+    console.log(project)
     //get ID of users asigned to the project
     const contributorsListId = project.map((ob) => ob.contributors).flat();
     //get full list of Users
@@ -158,7 +159,7 @@ const {role,project,contributor}=req.query
     const filteredUserList = userList.filter((user)=>!contributorsListId.some((contributor)=>user._id.equals(contributor)));
     const result = filteredUserList.map((user) => {
       return {
-        _id: user._id,
+        id: user._id,
         name: user.name,
         surname: user.surname,
         email: user.email,

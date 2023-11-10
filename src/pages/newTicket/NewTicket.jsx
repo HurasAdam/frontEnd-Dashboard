@@ -7,15 +7,26 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { ThemeContext } from '../../contexts/ThemeContext'
-
+import { useQuery } from "react-query";
+import { getProjectListByMembership } from "../../features/projectApi/projectApi";
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
   const [choseProject,setChoseProject]=useState()
  
+  const {
+    isLoading,
+    isError,
+    error,
+    data,
+  } = useQuery(["userProjects"], getProjectListByMembership, {});
+
+  console.log(data)
+
+
   const navigate = useNavigate();
-  const [data, isLoading, error] = useFetch(
-    "http://127.0.0.1:3000/api/projects?projects=userProjects"
-  );
+  // const [data, isLoading, error] = useFetch(
+  //   "http://127.0.0.1:3000/api/projects?projects=userProjects"
+  // );
  
 
   const { user } = useContext(AuthContext);
@@ -28,20 +39,20 @@ const {theme}=useContext(ThemeContext)
   };
 
 
-  const handleAddTicket = async () => {
-    const response = await fetch("http://127.0.0.1:3000/api/notes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-      body: JSON.stringify({ ...newTicket, author: user.email,project:choseProject.value }),
-    });
+  // const handleAddTicket = async () => {
+  //   const response = await fetch("http://127.0.0.1:3000/api/notes", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${user.token}`,
+  //     },
+  //     body: JSON.stringify({ ...newTicket, author: user.email,project:choseProject.value }),
+  //   });
 
-    if (response.ok) {
-      navigate("/tickets");
-    }
-  };
+  //   if (response.ok) {
+  //     navigate("/tickets");
+  //   }
+  // };
 
   return (
     <div className="newTicket" id={theme.mode}>
@@ -61,7 +72,7 @@ const {theme}=useContext(ThemeContext)
               <Select
               onChange={setChoseProject}
                 options={data.map((ob) => {
-                  return { value: ob.id, label: ob.projectTitle };
+                  return { value: ob.id, label: ob.title };
                 })}
               ></Select>
             )}
@@ -118,7 +129,7 @@ const {theme}=useContext(ThemeContext)
           </div>
         </div>
         <div className="newTicketAction">
-          <button className="newTicketSave" onClick={handleAddTicket}>
+          <button className="newTicketSave" >
             Save
           </button>
           <button

@@ -10,32 +10,34 @@ const { convertDate } = require("../utils/dateConvert");
 module.exports = {
   //Zapisywanie notatki
   async saveNote(req, res) {
-    const title = req.body.title;
-    const project = req.body.project;
-    const status = "Open";
-    const date = req.body.date;
-    const priority = req.body.priority;
-    const author = req.body.author;
-    const description = req.body.description;
-    const type = req.body.type;
 
-    const projectAsigned = await Project.findOne({ _id: project });
-    const ticketAuthor = await await User.findOne({ email: author });
-
+    const {project,title,priority,type,description,}=req.body
+const {_id:authorId}=req.user
+//     const title = req.body.title;
+//     const project = req.body.project;
+//     const status = "Open";
+//     const date = req.body.date;
+//     const priority = req.body.priority;
+//     const author = req.user
+//     const description = req.body.description;
+//     const type = req.body.type;
+// console.log("TRIGER")
+    const projectAsignedId = await Project.findOne({ _id: project }).select('_id');
+    console.log(authorId)
+//    
     const newNote = new Note({
-      project: projectAsigned._id,
+      project: projectAsignedId,
       title: title,
-      status: status,
-      date: date,
       priority: priority,
-      author: ticketAuthor._id.toString(),
+      author: authorId,
       description: description,
       type: type,
       createdAt: new Date()
     });
 
+
     await newNote.save();
-    res.status(201).json(newNote.body);
+    res.status(201).json("KAPPA");
   },
 
   //podbieranie noatek

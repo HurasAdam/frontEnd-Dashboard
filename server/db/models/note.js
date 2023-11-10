@@ -13,6 +13,7 @@ const TicketSchema = new Schema({
   status: {
     type: String,
     required: true,
+    default:"Open"
   },
   priority: {
     type: String,
@@ -32,6 +33,7 @@ const TicketSchema = new Schema({
   },
   createdAt: {
     type: Object,
+    default:new Date()
   },
   closedAt: {
     type: Object,

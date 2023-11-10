@@ -9,9 +9,15 @@ import { useFetch } from "../../hooks/useFetch";
 import { ThemeContext } from '../../contexts/ThemeContext'
 import { useQuery } from "react-query";
 import { getProjectListByMembership } from "../../features/projectApi/projectApi";
+import { mutationHandler } from "../../shared/mutationHandler";
+import { createTicket } from "../../features/ticketApi/ticketApi";
 export const NewTicket = () => {
   const [newTicket, setNewTicket] = useState({});
-  const [choseProject,setChoseProject]=useState()
+  const [selectedProject,setSelectedProject]=useState('');
+  const [title,setTitle]=useState('');
+  const [priority,setPriority]=useState('');
+  const [type,setType]=useState('');
+  const [description,setDescription]=useState('');
  
   const {
     isLoading,
@@ -20,7 +26,18 @@ export const NewTicket = () => {
     data,
   } = useQuery(["userProjects"], getProjectListByMembership, {});
 
-  console.log(data)
+  const createMutation=mutationHandler(createTicket,()=>{
+    navigate('/tickets')
+  })
+
+
+const handleCreate=(e,{selectedProject,title,priority,type,description},mutation)=>{
+  e.preventDefault();
+const {value:project,label}=selectedProject
+mutation.mutate({project,title,priority,type,description})
+
+}
+
 
 
   const navigate = useNavigate();
@@ -70,7 +87,7 @@ const {theme}=useContext(ThemeContext)
             <label htmlFor="">Choose project</label>
             {data && (
               <Select
-              onChange={setChoseProject}
+              onChange={setSelectedProject}
                 options={data.map((ob) => {
                   return { value: ob.id, label: ob.title };
                 })}
@@ -81,7 +98,7 @@ const {theme}=useContext(ThemeContext)
             <label className="newTicketItemLabel" htmlFor="">
               Title
             </label>
-            <input type="text" minLength={5} maxLength={50} onChange={(e) => handleNewTicket(e, "title")} />
+            <input type="text" minLength={5} maxLength={50} onChange={(e)=>setTitle(e.target.value)} />
           </div>
           <div className="newTicketItem">
             <div className="newTicketItemWrapper">
@@ -90,7 +107,7 @@ const {theme}=useContext(ThemeContext)
               Priority
             </label>
         
-          <select  onChange={(e)=>handleNewTicket(e,'priority')}>
+          <select  onChange={(e)=>setPriority(e.target.value)}>
           <option value="" disabled selected>None</option>
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -102,7 +119,7 @@ const {theme}=useContext(ThemeContext)
               Type
             </label>
             <select 
-            onChange={(e)=>handleNewTicket(e,'type')}
+            onChange={(e)=>setType(e.target.value)}
             >
               <option value="" disabled selected>None</option>
 <option value="Bug">Bug</option>
@@ -121,7 +138,7 @@ const {theme}=useContext(ThemeContext)
               name=""
               id=""
               rows={25}
-              onChange={(e) => handleNewTicket(e, "description")}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
             
           </div>
@@ -129,7 +146,11 @@ const {theme}=useContext(ThemeContext)
           </div>
         </div>
         <div className="newTicketAction">
-          <button className="newTicketSave" >
+          <button 
+          className="newTicketSave" 
+          onClick={(e)=>handleCreate(e,{selectedProject,title,priority,type,description},createMutation)}
+          
+          >
             Save
           </button>
           <button

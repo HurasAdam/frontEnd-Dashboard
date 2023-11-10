@@ -1,5 +1,5 @@
 const ObjectId = require("mongodb").ObjectID;
-const {scheduleTicketArchiving} = require('../utils/scheduleTicketArchiving')
+const { scheduleTicketArchiving } = require("../utils/scheduleTicketArchiving");
 const Note = require("../db/models/note");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
@@ -10,21 +10,12 @@ const { convertDate } = require("../utils/dateConvert");
 module.exports = {
   //Zapisywanie notatki
   async saveNote(req, res) {
+    const { project, title, priority, type, description } = req.body;
+    const { _id: authorId } = req.user;
+    const projectAsignedId = await Project.findOne({ _id: project }).select(
+      "_id"
+    );
 
-    const {project,title,priority,type,description,}=req.body
-const {_id:authorId}=req.user
-//     const title = req.body.title;
-//     const project = req.body.project;
-//     const status = "Open";
-//     const date = req.body.date;
-//     const priority = req.body.priority;
-//     const author = req.user
-//     const description = req.body.description;
-//     const type = req.body.type;
-// console.log("TRIGER")
-    const projectAsignedId = await Project.findOne({ _id: project }).select('_id');
-    console.log(authorId)
-//    
     const newNote = new Note({
       project: projectAsignedId,
       title: title,
@@ -32,9 +23,8 @@ const {_id:authorId}=req.user
       author: authorId,
       description: description,
       type: type,
-      createdAt: new Date()
+      createdAt: new Date(),
     });
-
 
     await newNote.save();
     res.status(201).json("KAPPA");
@@ -42,8 +32,7 @@ const {_id:authorId}=req.user
 
   //podbieranie noatek
   async getAllNotes(req, res) {
-
-    const notes = await Note.find({Archivized:false})
+    const notes = await Note.find({ Archivized: false });
     // const page = Number(req.query.page);
     // let size = 14;
     // const limit = parseInt(size);
@@ -65,7 +54,7 @@ const {_id:authorId}=req.user
     res.status(200).json(notes);
   },
 
-  async getArchived(req,res){
+  async getArchived(req, res) {
     const page = Number(req.query.page);
     let size = 14;
     const limit = parseInt(size);
@@ -74,25 +63,27 @@ const {_id:authorId}=req.user
     let notes;
     let allNotesCount;
     // try {
-      allNotesCount = await Note.countDocuments();
-      notes = await Note.find({Archivized:true})
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit);
+    allNotesCount = await Note.countDocuments();
+    notes = await Note.find({ Archivized: true })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
+    const ticketList = await Promise.all(
+      notes.map((t) => User.findOne({ _id: t.closedBy }))
+    );
 
-        const ticketList = await Promise.all((notes.map((t)=> User.findOne({_id:t.closedBy})))) 
+    const result = notes.map((note) => {
+      const ticketClosedBy = ticketList.find(
+        (pl) => pl._id.toString() === note.closedBy.toString()
+      );
 
+      note["closedBy"] = ticketClosedBy;
 
-        const result = notes.map((note)=>{
-         const ticketClosedBy = ticketList.find((pl)=>pl._id.toString()===note.closedBy.toString())
-       
-         note["closedBy"]=ticketClosedBy
-         
-         return note
-        })
+      return note;
+    });
 
-console.log(result)
+    console.log(result);
 
     // } catch (err) {
     //   return res.status(500).json({ error: err.message });
@@ -104,23 +95,23 @@ console.log(result)
       total: Math.ceil(allNotesCount / size),
       tickets: result,
     });
-  
-
   },
 
   //podbieranie noatki
   async getNote(req, res) {
-    const userId = req.user._id
+    const userId = req.user._id;
 
-    const {id} = req.params
+    const { id } = req.params;
 
     const note = await Note.findOne({ _id: id });
- 
-    const ticketAuthor = await User.findOne({ _id: note.author },"name surname email role gender userAvatar")
 
-   
+    const ticketAuthor = await User.findOne(
+      { _id: note.author },
+      "name surname email role gender userAvatar"
+    );
+
     const project = await Project.findOne({});
-    console.log(project)
+    console.log(project);
     // const conctibutorsList = project.contributors;
     // const contributorAccess =
     //   conctibutorsList.includes(userId) || req.user.role === "admin";
@@ -171,32 +162,32 @@ console.log(result)
   async updateNote(req, res) {
     const id = req.params.id;
     const updates = req.body;
-const {status}=req.body
-const {_id:user}=req.user
+    const { status } = req.body;
+    const { _id: user } = req.user;
 
-const {status:ticketStatus}=await Note.findOne({_id:id})
+    const { status: ticketStatus } = await Note.findOne({ _id: id });
     const currentTicket = await Note.findOne({ _id: id });
 
     const isAuthor = currentTicket.author === req.user._id.toString();
 
     try {
-      if (!isAuthor || req.user.role!=='admin') {
+      if (!isAuthor || req.user.role !== "admin") {
         throw Error("You dont have permissions to edit this ticket");
       }
 
-    if (ticketStatus!=='Open') {
-      throw Error("Ticket status is already set as closed, You can not edit closed tickets");
-    }
-    
+      if (ticketStatus !== "Open") {
+        throw Error(
+          "Ticket status is already set as closed, You can not edit closed tickets"
+        );
+      }
 
-
-      let finalUpdates = {...updates};
-      if(status==='Closed'){
-        finalUpdates={
+      let finalUpdates = { ...updates };
+      if (status === "Closed") {
+        finalUpdates = {
           ...updates,
-          closedAt:new Date(),
-          closedBy:user
-        }
+          closedAt: new Date(),
+          closedBy: user,
+        };
       }
       const note = await Note.findOneAndUpdate(
         { _id: id },
@@ -204,9 +195,9 @@ const {status:ticketStatus}=await Note.findOne({_id:id})
       );
 
       return res.status(201).json(note);
-      }catch(Error){
-        res.status(400).json(Error.message);
-      }
+    } catch (Error) {
+      res.status(400).json(Error.message);
+    }
   },
 
   //usuwanie notatki
@@ -217,9 +208,3 @@ const {status:ticketStatus}=await Note.findOne({_id:id})
     res.status(204).send("status code of 200");
   },
 };
-
-
-
-
-
-

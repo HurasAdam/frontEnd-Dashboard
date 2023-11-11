@@ -19,6 +19,8 @@ import { useQueryClient } from "react-query";
 import { handleCreatePost } from "../../shared/handleCreatePost";
 import { editTicketPost } from "../../features/ticketApi/ticketApi";
 import { handleEditPost } from "../../shared/handleEditPost";
+import { deleteTicketPost } from "../../features/ticketApi/ticketApi";
+import { handleDeletePost } from "../../shared/handleDeletePost";
 export const TicketDetails = () => {
 
   useSocketListen({
@@ -64,13 +66,10 @@ setType(data?.type);
     }
   })
 
-const createPostMutation = mutationHandler(createTicketPost,()=>queryClient.invalidateQueries(["posts"]))
+const createPostMutation = mutationHandler(createTicketPost)
 const editPostMutation= mutationHandler(editTicketPost,()=>{
-  setEditedPost(null);
-  queryClient.invalidateQueries(["posts"]
-
-)})
-
+  setEditedPost(null);})
+const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("USUNIETO")})
   
  
 
@@ -403,8 +402,11 @@ const editPostMutation= mutationHandler(editTicketPost,()=>{
             setShowSection={setShowSection}
             handleCreatePost={handleCreatePost}
             handleEditPost={handleEditPost}
+            handleDeletePost={handleDeletePost}
             createPostMutation={createPostMutation}
             editPostMutation={editPostMutation}
+            deletePostMutation={deletePostMutation}
+
             postContent={postContent}
          setPostContent={setPostContent}
          editedPost={editedPost}

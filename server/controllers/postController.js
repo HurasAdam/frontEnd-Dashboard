@@ -98,8 +98,24 @@ catch(error){
   res.status(403).json(error.message)
 }
 
+}
 
+ const deletePost= async (req,res)=>{
+  const io = req.app.get("socketio");
+const {id}=req.params
+const {_id:userId}=req.user;
+const userIdString = userId.toString()
+const post = await Post.findOne({_id:id})
+const postAuthorId = post.CreatedBy
+
+if(userIdString===postAuthorId){
+ const deletePost = await Post.findOneAndDelete({_id:id})
+ const eventStreamObject = {id:id,status:"update"}
+ io.sockets.emit("postCollectionUpdate",eventStreamObject)
+ res.status(200).json("Post has been deleted successfully")
+}
 }
 
 
-module.exports = [createPost, getAllPosts,updatePost];
+
+module.exports = [createPost, getAllPosts,updatePost,deletePost];

@@ -1,6 +1,7 @@
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
 import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
@@ -13,8 +14,10 @@ export const CommentBox = ({
   setShowSection,
   handleCreatePost,
   handleEditPost,
+  handleDeletePost,
   createPostMutation,
   editPostMutation,
+  deletePostMutation,
   postContent,
   setPostContent,
   fullAccess,
@@ -78,13 +81,17 @@ export const CommentBox = ({
                 <span className="comment-actionContainer-Date">
                   {calculateTimeDifference(comment.CreatedAt)}
                 </span>
-                <span className="comment-actionContainer-Buttons">
+                {comment.CreatedBy.id===user.userId?
+                (<span className="comment-actionContainer-Buttons">
                   {editedPost!==comment.id ? (
+                    <>
                     <CreateOutlinedIcon
                       disabled={true}
                       className="editCommentIcon"
                       onClick={() => handleEditClick(comment.id)}
                     ></CreateOutlinedIcon>
+                    <DeleteOutlinedIcon onClick={()=>handleDeletePost(comment.id,deletePostMutation)}/>
+                  </>
                   ) :
           
                    ( <div className="confirmCancelButtonWrapper">
@@ -100,7 +107,7 @@ export const CommentBox = ({
                       ></ClearOutlinedIcon>
                     </div>
                   ) }
-                </span>
+                </span>):null}
               </div>
             </div>
             {

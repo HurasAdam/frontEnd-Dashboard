@@ -5,8 +5,10 @@ const Project = require("../db/models/project");
 
 //Add Post
 const createPost = async (req, res) => {
-  const { newComment } = req.body;
+  const { content } = req.body;
+
   const { ticketId } = req.query;
+console.log(content)
   const user = req.user;
 
   const currentTicket = await Note.findOne({ _id: ticketId });
@@ -19,11 +21,12 @@ const createPost = async (req, res) => {
 //check if usesr role is admin or is he a member of project
   if (isContributor || user.role === "admin") {
     const newPost = await Post.create({
+      content,
       ticketId: currentTicket._id.toString(),
       CreatedBy: user._id.toString(),
-      Content: newComment,
+      
     });
-    return res.status(200).json(newPost);
+    return res.status(200).json("Post has been added successfully");
   } else {
     return res.status(400).json("Forrbiden access");
   }
@@ -36,7 +39,7 @@ const getAllPosts = async (req, res) => {
   const postAuthorList = await Promise.all(
     postList.map((p) => User.findOne({ _id: p.CreatedBy }))
   );
-
+console.log(ticketId)
   const result = postList.map((post) => {
     const postAuthor = postAuthorList.find(
       (author) => author._id.toString() === post.CreatedBy

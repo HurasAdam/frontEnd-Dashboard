@@ -7,25 +7,26 @@ import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext } from '../../contexts/ThemeContext'
 export const CommentBox = ({
+  id,
   posts,
-  addComment,
-  setNewComment,
+  showSection,
+  setShowSection,
+  handleCreatePost,
+  createPostMutation,
+  postContent,
+  setPostContent,
   fullAccess,
   contributorAccess,
   onEditComment,
   onUpdateComment,
   onEditTextContent,
-  newComment,
+  
   
 }) => {
   const { user } = useContext(AuthContext);
   const {theme}=useContext(ThemeContext)
-  const [visible, setVisible] = useState(false)
-  
 
-  const handleEditComment = (id) => {
-    onEditComment(id,posts)
-  };
+  
 
 
   const calculateTimeDifference = (date) => {
@@ -86,30 +87,30 @@ export const CommentBox = ({
             className={`commentFocus commentFocus-${comment.contentEditable}`}
            
             
-              defaultValue={comment.Content}
+              defaultValue={comment.content}
               onInput={(e) => {
                 e.preventDefault();
                 onEditTextContent(e.target.innerHTML);
               }}
               contentEditable={comment.contentEditable}
             >
-              {comment.Content}
+              {comment.content}
             </p>
           </div>
         ))}
 <div className='toggleNewCommentForm'>
-<div onClick={()=>setVisible(!visible)} className='toggleNewCommentForm-action'>Add comment </div>
+<div onClick={()=>setShowSection(prevState=>!prevState)} className='toggleNewCommentForm-action'>Add comment </div>
 </div>
-      {visible &&contributorAccess&& (
-        <form className='newCommentForm' onSubmit={addComment}>
+    {showSection?(
+        <form className='newCommentForm' onSubmit={(e)=>handleCreatePost(e,postContent,createPostMutation,id)}>
           <div className="newCommentContainer">
             <label htmlFor="comment">Comment:</label>
             <textarea
               id="comment"
               maxLength={4000}
-              onChange={(event) => setNewComment(event.target.value)}
+              onChange={(e) => setPostContent(e.target.value)}
               required
-              value={newComment}
+              value={postContent}
             ></textarea>
           </div>
           <div className="file-input-container">
@@ -122,10 +123,10 @@ export const CommentBox = ({
           <label htmlFor="file" className="file-input-label"></label>
         </div>
           <div className='addNewCommentButtonContainer'>
-            <button type="submit">Add comment</button>
+            <button  type="submit">Add comment</button>
           </div>
         </form>
-      )}
+      ):null}
     </div>
   );
 };

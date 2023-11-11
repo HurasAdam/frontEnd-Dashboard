@@ -16,7 +16,7 @@ CreatedAt:{
     required:true,
     default:Date.now
 },
-Content:{
+content:{
     type:String,
     required:true,
 }

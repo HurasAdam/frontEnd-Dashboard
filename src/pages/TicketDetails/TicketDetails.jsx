@@ -11,17 +11,21 @@ import { ThemeContext } from '../../contexts/ThemeContext'
 import { useQuery } from "react-query";
 import {ObjectDateToString} from '../../utils/ObjectDateToString'
 import { getTicket } from "../../features/ticketApi/ticketApi";
-
-
+import { getTicketPosts } from "../../features/ticketApi/ticketApi";
+import { createTicketPost } from "../../features/ticketApi/ticketApi";
+import {mutationHandler} from "../../shared/mutationHandler"
+import { useQueryClient } from "react-query";
+import { handleCreatePost } from "../../shared/handleCreatePost";
 export const TicketDetails = () => {
   const { ticketId } = useParams();
   const domReference = useRef(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [iseScrollable,setIsScrollale]=useState(false);
   const [updateError, setUpdateError] = useState(null);
-  const [newComment, setNewComment] = useState("");
+  const [postContent, setPostContent] = useState("");
   const [editedCommentTextContent, setEditedCommentTextContent] = useState("");
   
+  const [showSection,setShowSection]=useState(false)
 
   const [title,setTitle]=useState('')
   const [description,setDescription]=useState('')
@@ -29,6 +33,7 @@ export const TicketDetails = () => {
   const [priority,setPriority]=useState('');
   const [type,setType]=useState('')
 
+  const queryClient=useQueryClient()
 
   
   const { isLoading, isError, error, data } = useQuery(["ticket"], () =>
@@ -43,6 +48,13 @@ setType(data?.type);
 
     }
   })
+  const { data:posts } = useQuery(["posts"], () =>
+  getTicketPosts(ticketId))
+
+const createPostMutation = mutationHandler(createTicketPost,()=>queryClient.invalidateQueries(["posts"]))
+
+
+  
  
 
   // const [data, isLoading, error] = useFetch(
@@ -56,13 +68,13 @@ setType(data?.type);
   const {theme}=useContext(ThemeContext)
   const navigate = useNavigate();
 
-  useLayoutEffect(()=>{
-const contentHeight= domReference.current.offsetHeight;
-const windowHeight = window.innerHeight;
-setIsScrollale(contentHeight>windowHeight)
-  },[domReference.current])
+//   useLayoutEffect(()=>{
+// const contentHeight= domReference.current.offsetHeight;
+// const windowHeight = window.innerHeight;
+// setIsScrollale(contentHeight>windowHeight)
+//   },[domReference.current])
   
-  console.log(title)
+ 
 
 
 
@@ -99,6 +111,11 @@ setIsScrollale(contentHeight>windowHeight)
 
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions = ["Open", "Closed"];
+
+
+
+
+
 
   // useEffect(() => {
   //   renderPosts();
@@ -380,11 +397,17 @@ setIsScrollale(contentHeight>windowHeight)
             )}
             <div className="ticektDataContainerTop-right"></div>
           </div>
+       
+        
           <CommentBox
-            posts={ticketData.comments}
-            // addComment={addComment}
-            setNewComment={setNewComment}
-            // newComment={newComment}
+          id={ticketId}
+            posts={posts}
+            showSection={showSection}
+            setShowSection={setShowSection}
+            handleCreatePost={handleCreatePost}
+            createPostMutation={createPostMutation}
+            postContent={postContent}
+         setPostContent={setPostContent}
             fullAccess={ticketData.fullAccess}
             contributorAccess={ticketData.contributorAccess}
             // onEditComment={handleEditComment}
@@ -392,6 +415,7 @@ setIsScrollale(contentHeight>windowHeight)
             // onEditTextContent={setEditedCommentTextContent}
             
           />
+
         </div>
       </div>
     </div>

@@ -104,22 +104,44 @@ module.exports = {
     const { id } = req.params;
 
     const note = await Note.findOne({ _id: id });
-
+const {_id,title,description,projectLeader} = await Project.findOne({_id:note.project})
     const ticketAuthor = await User.findOne(
       { _id: note.author },
       "name surname email role gender userAvatar"
     );
+   
+  
+    const pLeader = await User.findOne({_id:projectLeader}).select('name surname role geneder userAvatar')
+console.log(pLeader)
 
-    const project = await Project.findOne({});
-    console.log(project);
-    // const conctibutorsList = project.contributors;
+  const returnObj = {
+ 
+    id: note._id,
+    title:note.title,
+    description:note.description,
+    type:note.type,
+    priority:note.priority,
+    author:ticketAuthor,
+    createdAt:note.createdAt,
+project:{
+  id:_id,
+  title:title,
+  description:description,
+  projectLeader:pLeader
+
+  }
+}
+ 
+  
+
+    
     // const contributorAccess =
     //   conctibutorsList.includes(userId) || req.user.role === "admin";
 
-    // const projectLeader = await User.findOne({ _id: project.projectLeaderId });
     // const fullAccess =
-    //   ticketAuthor.author === req.user._id.toString() ||
-    //   req.user.role === "admin";
+    // req.user._id.toString()===ticketAuthor._id.toString() ||
+    // req.user._id.toString()===projectLeader._id.toString()||
+    // req.user.role === "admin";
 
     // const xd = {
     //   ticketId: note._id,
@@ -155,7 +177,7 @@ module.exports = {
     //   fullAccess: fullAccess,
     //   contributorAccess: contributorAccess,
     // };
-    res.status(200).json("JABADABADU");
+    res.status(200).json(returnObj);
   },
 
   //aktualizowanie notatki

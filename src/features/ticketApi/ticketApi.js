@@ -28,3 +28,7 @@ export const createTicketPost= async ({id,content})=>{
   const response = await projectApi.post(`posts?ticketId=${id}`,{content})
   return response.data
 }
+
+export const editTicketPost = async ({id,content})=>{
+  const response = await projectApi.put(`posts?ticketId=${id}`,{content})
+}

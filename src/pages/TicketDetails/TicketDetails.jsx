@@ -17,6 +17,8 @@ import { createTicketPost } from "../../features/ticketApi/ticketApi";
 import {mutationHandler} from "../../shared/mutationHandler"
 import { useQueryClient } from "react-query";
 import { handleCreatePost } from "../../shared/handleCreatePost";
+import { editTicketPost } from "../../features/ticketApi/ticketApi";
+import { handleEditPost } from "../../shared/handleEditPost";
 export const TicketDetails = () => {
 
   useSocketListen({
@@ -30,7 +32,7 @@ export const TicketDetails = () => {
   const [iseScrollable,setIsScrollale]=useState(false);
   const [updateError, setUpdateError] = useState(null);
   const [postContent, setPostContent] = useState("");
-  const [editedCommentTextContent, setEditedCommentTextContent] = useState("");
+ 
   
   const [showSection,setShowSection]=useState(false)
 
@@ -39,7 +41,7 @@ export const TicketDetails = () => {
   const [status,setStatus]=useState('')
   const [priority,setPriority]=useState('');
   const [type,setType]=useState('')
-
+const [postList,setPostList]=useState([])
   const queryClient=useQueryClient()
 
   
@@ -56,10 +58,14 @@ setType(data?.type);
     }
   })
   const { data:posts } = useQuery(["posts"], () =>
-  getTicketPosts(ticketId))
+  getTicketPosts(ticketId),{
+    onSuccess:(posts)=>{
+      setPostList(posts)
+    }
+  })
 
 const createPostMutation = mutationHandler(createTicketPost,()=>queryClient.invalidateQueries(["posts"]))
-
+const editPostMutation= mutationHandler(editTicketPost,()=>console.log("POST HAS BEEN UPDATED"))
 
   
  
@@ -149,27 +155,7 @@ const createPostMutation = mutationHandler(createTicketPost,()=>queryClient.inva
   //   }
   // };
 
-  // const handleEditComment = (id, commentList) => {
-  //   const index = commentList.findIndex((comment) => comment.id === id);
-  //   const rest = commentList.filter((comment) => comment.id !== id);
-  //   if (index === -1) {
-  //     console.log("comment not found");
-  //     return;
-  //   }
 
-  //   const uneditableCommentList = commentList.map((com) => {
-  //     return { ...com, buttonDisabled: !com.buttonDisabled };
-  //   });
-  //   const updatedComment = {
-  //     ...commentList[index],
-  //     contentEditable: !commentList[index].contentEditable,
-  //     buttonDisabled: !commentList[index].buttonDisabled,
-  //   };
-  //   const updatedComments = [...uneditableCommentList];
-  //   updatedComments[index] = updatedComment;
-
-  //   setTicketData({ ...ticketData, comments: updatedComments });
-  // };
 
   // const handleUpdateCommnet = async (id, commentList) => {
   //   if (setEditedCommentTextContent.length > 0) {
@@ -408,11 +394,13 @@ const createPostMutation = mutationHandler(createTicketPost,()=>queryClient.inva
         
           <CommentBox
           id={ticketId}
-            posts={posts}
+          postList={postList}
             showSection={showSection}
             setShowSection={setShowSection}
             handleCreatePost={handleCreatePost}
+            handleEditPost={handleEditPost}
             createPostMutation={createPostMutation}
+            editPostMutation={editPostMutation}
             postContent={postContent}
          setPostContent={setPostContent}
             fullAccess={ticketData.fullAccess}

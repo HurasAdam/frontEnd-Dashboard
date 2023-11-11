@@ -21,6 +21,7 @@ import { editTicketPost } from "../../features/ticketApi/ticketApi";
 import { handleEditPost } from "../../shared/handleEditPost";
 import { deleteTicketPost } from "../../features/ticketApi/ticketApi";
 import { handleDeletePost } from "../../shared/handleDeletePost";
+import { MsgPopup } from "../../components/msgPopup/MsgPopup";
 export const TicketDetails = () => {
 
   useSocketListen({
@@ -35,7 +36,10 @@ export const TicketDetails = () => {
   const [updateError, setUpdateError] = useState(null);
   const [postContent, setPostContent] = useState("");
   const [editedPost, setEditedPost] = useState(null);
-  
+  const [showMsgPopup,setShowMsgPopup]=useState({
+    visible:false,
+    message:''
+  })
   const [showSection,setShowSection]=useState(false)
 
   const [title,setTitle]=useState('')
@@ -66,16 +70,28 @@ setType(data?.type);
     }
   })
 
-const createPostMutation = mutationHandler(createTicketPost)
+const createPostMutation = mutationHandler(createTicketPost,(data)=>{
+  setShowSection(false)
+
+  console.log(data)
+
+  handlePopup(showMsgPopup,setShowMsgPopup,data)
+})
 const editPostMutation= mutationHandler(editTicketPost,()=>{
   setEditedPost(null);})
 const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("USUNIETO")})
   
  
+const handlePopup=(state,stateSetter,data)=>{
 
-  // const [data, isLoading, error] = useFetch(
-  //   `http://localhost:3000/api/notes/${ticketId}`
-  // );
+  stateSetter({...state,visible:true,message:data})
+
+  // setTimeout(() => {
+  //   stateSetter({ visible: false, message: '' });
+  // }, 3500);
+
+
+}
 
 
 
@@ -84,150 +100,11 @@ const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("US
   const {theme}=useContext(ThemeContext)
   const navigate = useNavigate();
 
-//   useLayoutEffect(()=>{
-// const contentHeight= domReference.current.offsetHeight;
-// const windowHeight = window.innerHeight;
-// setIsScrollale(contentHeight>windowHeight)
-//   },[domReference.current])
-  
- 
-
-
-
-  // const handleDelete = async () => {
-  //   const respone = await fetch(`http://127.0.0.1:3000/api/notes/${ticketId}`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${user.token}`,
-  //     },
-  //   });
-  //   if (respone.ok) {
-  //     navigate("/tickets");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setTicketData({
-  //       ...ticketData,
-  //       ticketAuthor: data.author,
-  //       title: data.title,
-  //       status: data.status,
-  //       _id: data.ticketId,
-  //       priority: data.priority,
-  //       type: data.type,
-  //       description: data.description,
-  //       project: data.project,
-  //       fullAccess: data.fullAccess,
-  //       contributorAccess: data.contributorAccess,
-  //     });
-  //   }
-  // }, [data]);
 
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions = ["Open", "Closed"];
 
 
-
-
-
-
-  // useEffect(() => {
-  //   renderPosts();
-  // }, []);
-  // const renderPosts = async () => {
-  //   const response = await fetch(
-  //     `http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     }
-  //   );
-  //   const json = await response.json();
-  //   const initialPostState = json.map((post) => {
-  //     return { ...post, contentEditable: false, buttonDisabled: false };
-  //   });
-  //   if (initialPostState.length > 0) {
-  //     setTicketData({
-  //       ...ticketData,
-  //       comments: initialPostState,
-  //     });
-  //   }
-  // };
-
-
-
-  // const handleUpdateCommnet = async (id, commentList) => {
-  //   if (setEditedCommentTextContent.length > 0) {
-  //     const response = await fetch(`http://127.0.0.1:3000/api/posts/${id}`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer' ${user.token}`,
-  //       },
-  //       body: JSON.stringify({ editedComment: editedCommentTextContent }),
-  //     });
-  //     if (response.ok) {
-  //       handleEditComment(id, commentList);
-  //       setEditedCommentTextContent("");
-  //       renderPosts();
-  //     }
-  //   }
-  // };
-
-  // const addComment = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await fetch(
-  //       `http://127.0.0.1:3000/api/posts/?ticketId=${ticketId}`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //         body: JSON.stringify({ newComment }),
-  //       }
-  //     );
-  //     const json = await response.json();
-  //     if (response.ok) {
-  //       setNewComment("");
-  //       renderPosts();
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const handleEditTextContent = (el) => {
-  //   setEditedComment(el);
-  // };
-
-  // const handleDataUpdate = async () => {
-  //   const response = await fetch(
-  //     `http://127.0.0.1:3000/api/notes/${ticketId}`,
-  //     {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //       body: JSON.stringify({
-  //         title: ticketData.title,
-  //         priority: ticketData.priority,
-  //         status: ticketData.status,
-  //         description: ticketData.description,
-  //       }),
-  //     }
-  //   );
-
-  //   if (response.ok) {
-  //     navigate("/tickets");
-  //   }
-  // };
 
   return (
     <div className="ticketDetails" id={theme.mode} ref={domReference}>
@@ -419,6 +296,9 @@ const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("US
             
           />
 
+{showMsgPopup.visible?(<MsgPopup
+showMsgPopup={showMsgPopup}
+/>):null}
         </div>
       </div>
     </div>

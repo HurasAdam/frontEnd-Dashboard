@@ -1,6 +1,6 @@
 
-export const handleEditPost = (content)=>{
+export const handleEditPost = (id,content,mutation)=>{
 
-console.log(content)
+mutation.mutate({id,content})
 
 }

@@ -11,12 +11,19 @@ import { ThemeContext } from '../../contexts/ThemeContext'
 import { useQuery } from "react-query";
 import {ObjectDateToString} from '../../utils/ObjectDateToString'
 import { getTicket } from "../../features/ticketApi/ticketApi";
+import { useSocketListen } from "../../hooks/useSocketListen";
 import { getTicketPosts } from "../../features/ticketApi/ticketApi";
 import { createTicketPost } from "../../features/ticketApi/ticketApi";
 import {mutationHandler} from "../../shared/mutationHandler"
 import { useQueryClient } from "react-query";
 import { handleCreatePost } from "../../shared/handleCreatePost";
 export const TicketDetails = () => {
+
+  useSocketListen({
+    event:"postCollectionUpdate",
+    queryKey:"posts"
+  })
+
   const { ticketId } = useParams();
   const domReference = useRef(null);
   const [isDisabled, setIsDisabled] = useState(true);

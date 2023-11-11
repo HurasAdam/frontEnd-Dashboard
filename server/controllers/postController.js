@@ -6,7 +6,7 @@ const Project = require("../db/models/project");
 //Add Post
 const createPost = async (req, res) => {
   const { content } = req.body;
-
+  const io = req.app.get("socketio");
   const { ticketId } = req.query;
 console.log(content)
   const user = req.user;
@@ -26,6 +26,8 @@ console.log(content)
       CreatedBy: user._id.toString(),
       
     });
+    const eventStreamObject = {id:ticketId._id,status:"update"}
+    io.sockets.emit("postCollectionUpdate",eventStreamObject)
     return res.status(200).json("Post has been added successfully");
   } else {
     return res.status(400).json("Forrbiden access");

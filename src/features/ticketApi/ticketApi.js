@@ -30,5 +30,5 @@ export const createTicketPost= async ({id,content})=>{
 }
 
 export const editTicketPost = async ({id,content})=>{
-  const response = await projectApi.put(`posts?ticketId=${id}`,{content})
+  const response = await projectApi.patch(`posts/${id}`,{content})
 }

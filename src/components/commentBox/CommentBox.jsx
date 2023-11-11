@@ -22,11 +22,13 @@ export const CommentBox = ({
   onEditComment,
   onUpdateComment,
   onEditTextContent,
+  editedPost,
+  setEditedPost
 }) => {
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
-  const [editedPost, setEditedPost] = useState(null);
+
 
   const handleEditClick = (postId) => {
     setEditedPost(postId);
@@ -89,12 +91,12 @@ export const CommentBox = ({
                       <CheckOutlinedIcon
                         className="editConfirmCommentIcon"
                         onClick={() =>
-                          handleEditPost({ ticketId: id, postId: comment.id })
+                          handleEditPost(comment.id,postContent,editPostMutation )
                         }
                       ></CheckOutlinedIcon>
                       <ClearOutlinedIcon
                         className="editCancelCommentIcon"
-                        onClick={() => handleEditComment(comment.id, postList)}
+                        onClick={() => handleEditPost(comment.id,postContent,editPostMutation)}
                       ></ClearOutlinedIcon>
                     </div>
                   ) }
@@ -103,7 +105,10 @@ export const CommentBox = ({
             </div>
             {
               editedPost===comment.id?(
-                <textarea>{comment.content}</textarea>):
+                <textarea
+                onChange={(e)=>setPostContent(e.target.value)}
+                className={`commentFocus commentFocus-${comment.contentEditable}`}
+                >{comment.content}</textarea>):
               <p
                 className={`commentFocus commentFocus-${comment.contentEditable}`}
                 defaultValue={comment.content}

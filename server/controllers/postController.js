@@ -8,7 +8,7 @@ const createPost = async (req, res) => {
   const { content } = req.body;
   const io = req.app.get("socketio");
   const { ticketId } = req.query;
-console.log(content)
+
   const user = req.user;
 
   const currentTicket = await Note.findOne({ _id: ticketId });
@@ -41,7 +41,7 @@ const getAllPosts = async (req, res) => {
   const postAuthorList = await Promise.all(
     postList.map((p) => User.findOne({ _id: p.CreatedBy }))
   );
-console.log(ticketId)
+
   const result = postList.map((post) => {
     const postAuthor = postAuthorList.find(
       (author) => author._id.toString() === post.CreatedBy
@@ -60,24 +60,45 @@ console.log(ticketId)
   res.status(200).json(postList);
 };
 
+
+
+
+
 const updatePost=async(req,res)=>{
-    const {id} = req.params
-const {editedComment}=req.body
-console.log(editedComment)
+  const io = req.app.get("socketio");
+const {id}=req.params
+const {_id}=req.user
+const {content}=req.body
+
+console.log(content)
+const post = await Post.findOne({_id:id})
+const postOwnerId= post.CreatedBy.toString()
+const userId = _id.toString()
+
 try{
-    if(!editedComment){
-throw Error('empty comment')
+
+  if(postOwnerId!==userId){
+    throw new Error("You don't have permission to edit this post.")
     }
-    const userComment= await Post.findOneAndUpdate({_id:id},{$set:{Content:editedComment}})
-   
+    
+    if(!content){
+      throw new Error("Content cannot be empty. Please provide valid content for the comment edit.")
+    }
+    
+    else{
+      const update= await Post.findOneAndUpdate({_id:id},{$set:{content:content}})
+      const eventStreamObject = {id:id,status:"update"}
+      io.sockets.emit("postCollectionUpdate",eventStreamObject)
 
-res.status(200).json({data:null,message:"updated sucessfully"})
+      res.status(200).json("Post has been updated sucessfully")
+    }
+    
 }
-
 catch(error){
-    console.log(error)
-    res.status(204)
+  res.status(403).json(error.message)
 }
+
+
 }
 
 

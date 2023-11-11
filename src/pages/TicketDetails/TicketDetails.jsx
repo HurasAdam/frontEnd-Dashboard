@@ -32,7 +32,7 @@ export const TicketDetails = () => {
   const [iseScrollable,setIsScrollale]=useState(false);
   const [updateError, setUpdateError] = useState(null);
   const [postContent, setPostContent] = useState("");
- 
+  const [editedPost, setEditedPost] = useState(null);
   
   const [showSection,setShowSection]=useState(false)
 
@@ -65,7 +65,11 @@ setType(data?.type);
   })
 
 const createPostMutation = mutationHandler(createTicketPost,()=>queryClient.invalidateQueries(["posts"]))
-const editPostMutation= mutationHandler(editTicketPost,()=>console.log("POST HAS BEEN UPDATED"))
+const editPostMutation= mutationHandler(editTicketPost,()=>{
+  setEditedPost(null);
+  queryClient.invalidateQueries(["posts"]
+
+)})
 
   
  
@@ -403,6 +407,8 @@ const editPostMutation= mutationHandler(editTicketPost,()=>console.log("POST HAS
             editPostMutation={editPostMutation}
             postContent={postContent}
          setPostContent={setPostContent}
+         editedPost={editedPost}
+         setEditedPost={setEditedPost}
             fullAccess={ticketData.fullAccess}
             contributorAccess={ticketData.contributorAccess}
             // onEditComment={handleEditComment}

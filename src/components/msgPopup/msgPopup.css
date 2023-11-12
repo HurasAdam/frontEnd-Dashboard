@@ -8,10 +8,10 @@
     min-width: 200px; /* Minimalna szerokość */
   width: auto; /* Automatyczne dopasowanie szerokości do zawartości */
   min-height: 55px; /* Minimalna wysokość */
-    position: fixed;
-    bottom: 5%;
-    left: 84%;
+    position: absolute;
     padding: 14px;
+    bottom:2%;
+    right:5%
 
 }
 
@@ -23,10 +23,10 @@
   transition: opacity 0.5s;
 
   min-width: 200px; /* Minimalna szerokość */
-width: auto; /* Automatyczne dopasowanie szerokości do zawartości */
+max-width: 300px; /* Automatyczne dopasowanie szerokości do zawartości */
 min-height: 55px; /* Minimalna wysokość */
-  position: fixed;
-  bottom: 5%;
-  left: 84%;
-  padding: 14px;
+position: absolute;
+padding: 14px;
+bottom:2%;
+right:5%
 }

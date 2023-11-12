@@ -84,9 +84,7 @@ const createPostMutation = mutationHandler(createTicketPost,(data)=>{
   }
 else{
   handlePopup(setShowMsgPopup,data)
- 
 }
-
 }
 )
 const editPostMutation= mutationHandler(editTicketPost,()=>{
@@ -94,23 +92,6 @@ const editPostMutation= mutationHandler(editTicketPost,()=>{
 const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("USUNIETO")})
   
  
-// const handlePopup=(stateSetter,data)=>{
-
-//   stateSetter((prevState)=>({
-//     ...prevState,
-//     message:data.message,
-//     success:data.success,
-//     visible:true
-//   }))
-
-//   // setTimeout(() => {
-//   //   stateSetter({ visible: false, message: '' });
-//   // }, 3500);
-
-
-// }
-
-
 
   const [ticketData, setTicketData] = useState({});
   const { user } = useContext(AuthContext);

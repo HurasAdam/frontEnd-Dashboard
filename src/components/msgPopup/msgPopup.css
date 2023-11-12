@@ -1,4 +1,4 @@
-.msgPopup-container{
+.msgPopup-container__success{
     background-color: #4caf50;
     color: #fff; /* Kolor tekstu */
     border-radius: 10px; /* Zaokrąglenie krawędzi */
@@ -13,4 +13,20 @@
     left: 84%;
     padding: 14px;
 
+}
+
+.msgPopup-container__error{
+  background-color: #7a242e;
+  color: #fff; /* Kolor tekstu */
+  border-radius: 10px; /* Zaokrąglenie krawędzi */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień */
+  transition: opacity 0.5s;
+
+  min-width: 200px; /* Minimalna szerokość */
+width: auto; /* Automatyczne dopasowanie szerokości do zawartości */
+min-height: 55px; /* Minimalna wysokość */
+  position: fixed;
+  bottom: 5%;
+  left: 84%;
+  padding: 14px;
 }

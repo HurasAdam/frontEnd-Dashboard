@@ -18,6 +18,12 @@ const createPost = async (req, res) => {
   const isContributor = currentProjectContributorsList.includes(
     user._id.toString()
   );
+
+  if(!content){
+   return res.status(400).json({message:"Post content cannot be empty. Please provide valid content for the post.",success:false})
+  }
+
+try{
 //check if usesr role is admin or is he a member of project
   if (isContributor || user.role === "admin") {
     const newPost = await Post.create({
@@ -28,10 +34,14 @@ const createPost = async (req, res) => {
     });
     const eventStreamObject = {id:ticketId._id,status:"update"}
     io.sockets.emit("postCollectionUpdate",eventStreamObject)
-    return res.status(200).json("Post has been added successfully");
+    return res.status(200).json({message:"Post has been added successfully",success:true});
   } else {
     return res.status(400).json("Forrbiden access");
   }
+}
+catch(error){
+  return res.status(400).json({error})
+}
 };
 
 //Get PostList

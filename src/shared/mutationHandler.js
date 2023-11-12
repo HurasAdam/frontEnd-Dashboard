@@ -4,7 +4,7 @@ export const mutationHandler= (mutationFn,mutationCallback)=>{
 
      const  mutation= useMutation(mutationFn,{
       onSuccess:mutationCallback,
-      onError:(error)=>alert(error.message)
+      onError:({response})=>mutationCallback(response.data)
     },
    )
     return mutation

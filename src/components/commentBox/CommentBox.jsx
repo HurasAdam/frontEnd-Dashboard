@@ -150,7 +150,7 @@ export const CommentBox = ({
               id="comment"
               maxLength={4000}
               onChange={(e) => setPostContent(e.target.value)}
-              required
+             
               value={postContent}
             ></textarea>
           </div>

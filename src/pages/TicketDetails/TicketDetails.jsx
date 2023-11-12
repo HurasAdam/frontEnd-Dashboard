@@ -22,6 +22,7 @@ import { handleEditPost } from "../../shared/handleEditPost";
 import { deleteTicketPost } from "../../features/ticketApi/ticketApi";
 import { handleDeletePost } from "../../shared/handleDeletePost";
 import { MsgPopup } from "../../components/msgPopup/MsgPopup";
+import { handlePopup } from "../../shared/handlePopup";
 export const TicketDetails = () => {
 
   useSocketListen({
@@ -38,7 +39,8 @@ export const TicketDetails = () => {
   const [editedPost, setEditedPost] = useState(null);
   const [showMsgPopup,setShowMsgPopup]=useState({
     visible:false,
-    message:''
+    message:'',
+    success:null
   })
   const [showSection,setShowSection]=useState(false)
 
@@ -70,28 +72,33 @@ setType(data?.type);
     }
   })
 
+
+
+  
 const createPostMutation = mutationHandler(createTicketPost,(data)=>{
   setShowSection(false)
-
-  console.log(data)
-
-  handlePopup(showMsgPopup,setShowMsgPopup,data)
+  handlePopup(setShowMsgPopup,data)
 })
 const editPostMutation= mutationHandler(editTicketPost,()=>{
   setEditedPost(null);})
 const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("USUNIETO")})
   
  
-const handlePopup=(state,stateSetter,data)=>{
+// const handlePopup=(stateSetter,data)=>{
 
-  stateSetter({...state,visible:true,message:data})
+//   stateSetter((prevState)=>({
+//     ...prevState,
+//     message:data.message,
+//     success:data.success,
+//     visible:true
+//   }))
 
-  // setTimeout(() => {
-  //   stateSetter({ visible: false, message: '' });
-  // }, 3500);
+//   // setTimeout(() => {
+//   //   stateSetter({ visible: false, message: '' });
+//   // }, 3500);
 
 
-}
+// }
 
 
 

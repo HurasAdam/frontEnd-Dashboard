@@ -11,6 +11,7 @@ export const handlePopup = (togglePopupSetter, data) => {
         ...prevState,
         visible: false,
         message: '',
+        success:null
       }));
     }, 3500);
   };

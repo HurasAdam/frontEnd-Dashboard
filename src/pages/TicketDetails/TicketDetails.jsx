@@ -77,8 +77,18 @@ setType(data?.type);
   
 const createPostMutation = mutationHandler(createTicketPost,(data)=>{
   setShowSection(false)
+
+  if(data.code){
+    console.log(data.response.data.message)
+    handlePopup(setShowMsgPopup,data.response.data)
+  }
+else{
   handlePopup(setShowMsgPopup,data)
-})
+ 
+}
+
+}
+)
 const editPostMutation= mutationHandler(editTicketPost,()=>{
   setEditedPost(null);})
 const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("USUNIETO")})

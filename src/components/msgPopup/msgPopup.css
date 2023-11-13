@@ -6,7 +6,7 @@
     transition: opacity 0.5s;
   
     min-width: 200px; /* Minimalna szerokość */
-  width: auto; /* Automatyczne dopasowanie szerokości do zawartości */
+    max-width: 300px; /* Automatyczne dopasowanie szerokości do zawartości */
   min-height: 55px; /* Minimalna wysokość */
     position: absolute;
     padding: 14px;

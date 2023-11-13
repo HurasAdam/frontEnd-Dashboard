@@ -166,18 +166,25 @@ io.sockets.emit("CollectionUpdate",eventStreamObject)
 const deleteProject = async (req, res) => {
   const { id } = req.params;
   const tickets = await Note.find({});
+
   const result = tickets.filter(
-    (ticket) => ticket.project === id
+    (ticket) => ticket.project.toString() === id
   );
+
+
+  console.log(result.length)
  try{
 if(result.length>0){
-throw Error( 'NIE MOZNA USUNAC PROJEKTU. ISTNIEJA TICKETY W RAMACH PROJEKTU KTORY CHCESZ USUNAC')
+return res.status(400).json({message:"Cannot delete the project with existing tickets. Please remove the tickets first, and then try again",success:false})
 }
-    const currentProject = await Project.findOneAndDelete({ _id: id });
-   res.status(200).json('DELETED SCUESSFULLY');
+else{
+  const currentProject = await Project.findOneAndDelete({ _id: id });
+  res.status(200).json('DELETED SCUESSFULLY');
+}
+
  }
  catch(error){
-  res.status(409).json(error.message)
+  res.status(409).json(error)
  }
 };
 

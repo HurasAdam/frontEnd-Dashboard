@@ -79,7 +79,7 @@ const createPostMutation = mutationHandler(createTicketPost,(data)=>{
   setShowSection(false)
 
   if(data.code){
-    console.log(data.response.data.message)
+    
     handlePopup(setShowMsgPopup,data.response.data)
   }
 else{

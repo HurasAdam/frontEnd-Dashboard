@@ -29,6 +29,8 @@ import { handleDeleteProject } from "../../shared/handleDeleteProject";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { Description } from "@mui/icons-material";
+import { MsgPopup } from "../../components/msgPopup/MsgPopup";
+import { handlePopup } from "../../shared/handlePopup";
 // ----------------------------------IMPORTS-------------------------//
 
 
@@ -57,6 +59,12 @@ useSocketListen(
   const [avalibleContributors, setAvalibleContributors] = useState([]);
   const [leader, setLeader] = useState("");
  const [leaderList,setLeaderList]=useState([])
+ const [showMsgPopup,setShowMsgPopup]=useState({
+  visible:false,
+  message:'',
+  success:null
+})
+
   const { isLoading, isError, error, data } = useQuery(["project"], () =>
     getProject(projectId),{
       refetchOnWindowFocus:false,
@@ -95,8 +103,25 @@ const {data:pmList,refetch:refetchPmList}=useQuery(["pmList"],()=>getAdminUsers(
 
 const xd = leaderList.filter((user)=>user._id!==leader._id)
 
-const updateMutation=mutationHandler(updateProject,()=>queryClient.invalidateQueries(["project"]))
+const updateMutation=mutationHandler(updateProject,(data)=>{
+  if(data.code){
+    
+    handlePopup(setShowMsgPopup,data.response.data)
+  }
+else{
+  handlePopup(setShowMsgPopup,data)
+}
+
+})
 const deleteMutation= mutationHandler(deleteProject,()=>navigate("/projects"))
+
+
+
+
+
+
+
+
 
   const handleChange = (selectedOption, callback) => {
     setContributors([...contributors, selectedOption]);
@@ -320,7 +345,7 @@ setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
                       Edit
                     </button>
                   ) : (
-                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},updateMutation,projectId)}>Save</button>
+                    <button onClick={(e)=>handleUpdateProject(e,{data,title,description,contributors,leader},updateMutation,projectId,setShowMsgPopup)}>Save</button>
                   )}
                   <button
                     onClick={(e) => {
@@ -336,10 +361,19 @@ setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
             </form>
           </div>
           <div>
-            <Outlet />
+            {/* <Outlet /> */}
+            {
+            showMsgPopup.visible?
+            ( <MsgPopup
+              showMsgPopup={showMsgPopup}
+            />):null}
+           
           </div>
+          
         </div>
+        
       </div>
+   
     </div>
   );
 };

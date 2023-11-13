@@ -12,6 +12,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { getProjectList } from "../../features/projectApi/projectApi";
 
+
 export const ProjectsList = () => {
   const [pageState, setPageState] = useState({
     page: 1,
@@ -155,7 +156,8 @@ export const ProjectsList = () => {
         max={projects?.total}
         handleSelectPage={handleSelectPage}
         theme={theme}
-      />
+      />      
     </div>
+  
   );
 };

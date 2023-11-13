@@ -9,6 +9,8 @@ import { ThemeContext } from '../../contexts/ThemeContext'
 import {createProject} from "../../features/projectApi/projectApi"
 import { getUsers } from "../../features/userApi/userApi";
 import { useMutation, useQuery } from "react-query";
+import {mutationHandler} from "../../shared/mutationHandler"
+
 export const NewProject = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription]=useState('');
@@ -19,11 +21,11 @@ export const NewProject = () => {
     enabled:false
   })
 
-  const createMutation = useMutation(createProject,{
-    onSuccess:(data)=>{
-      navigate(`/projects`)
-    }
-  })
+  // const createMutation = useMutation(createProject,{
+  //   onSuccess:(data)=>{
+  //     navigate(`/projects`)
+  //   }
+  // })
   
 
 
@@ -36,7 +38,9 @@ mutation.mutate({title,description,contributors})
 
   }
 
-
+const createProjectMutation = mutationHandler(createProject,(data)=>{
+  navigate('/projects')
+})
 
 
   const customStyles = {
@@ -172,7 +176,7 @@ const selectedUsers=selectedOptions.map((option)=>option._id)
         <div className="newProjectAction">
           <button
           
-          onClick={(e)=>handleCreateProject(e,{title,description,contributors},createMutation)}
+          onClick={(e)=>handleCreateProject(e,{title,description,contributors},createProjectMutation)}
           className="newProjectSave">
             Save
           </button>
@@ -184,7 +188,7 @@ const selectedUsers=selectedOptions.map((option)=>option._id)
           </button>
         </div>
       </div>
-      
+   
     </div>
   );
 };

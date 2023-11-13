@@ -1,9 +1,10 @@
 import { handleArrayCompare } from "./handleArrayCompare";
+import { handlePopup } from "./handlePopup";
 export const handleUpdateProject = (
   e,
   { data, title, description, contributors, leader },
   mutation,
-  id
+  id,popupSetter
 ) => {
   e.preventDefault();
   const updateObj = {};
@@ -28,9 +29,9 @@ export const handleUpdateProject = (
     !isContributorListChanged &&
     !isLeaderChanged
   ) {
-    alert(
-      "No changes have been made. Please make changes before clicking the SAVE button"
-    );
+  const errorMsgObj = {message:"No changes have been made. Please make changes before clicking the SAVE button",success:true}
+    handlePopup(popupSetter,errorMsgObj)
+
   } else {
     if (title !== dataTitle) {
       updateObj.title = title;

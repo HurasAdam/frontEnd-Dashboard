@@ -156,7 +156,7 @@ const changes = {}
 const eventStreamObject = {id:updateProject._id,status:"update"}
 
 io.sockets.emit("CollectionUpdate",eventStreamObject)
-  res.status(200).json('Updated Sucessfull');
+  res.status(200).json({message:'Updated Sucessfull',success:true});
 };
 
 

@@ -1,32 +1,71 @@
-.msgPopup-container__success{
-    background-color: #4caf50;
-    color: #fff; /* Kolor tekstu */
-    border-radius: 10px; /* Zaokrąglenie krawędzi */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień */
-    transition: opacity 0.5s;
-  
-    min-width: 200px; /* Minimalna szerokość */
-    max-width: 300px; /* Automatyczne dopasowanie szerokości do zawartości */
-  min-height: 55px; /* Minimalna wysokość */
-    position: absolute;
-    padding: 14px;
-    bottom:2%;
-    right:5%
-
-}
-
-.msgPopup-container__error{
-  background-color: #7a242e;
-  color: #fff; /* Kolor tekstu */
-  border-radius: 10px; /* Zaokrąglenie krawędzi */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień */
+.msgPopup-container__success {
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   transition: opacity 0.5s;
 
-  min-width: 200px; /* Minimalna szerokość */
-max-width: 300px; /* Automatyczne dopasowanie szerokości do zawartości */
-min-height: 55px; /* Minimalna wysokość */
-position: absolute;
-padding: 14px;
-bottom:2%;
-right:5%
+  min-width: 250px; 
+  max-width: 300px; 
+  min-height: 55px; 
+  position: absolute;
+
+  bottom: 2%;
+  right: 5%;
+  display: flex;
+  justify-content: space-between;
+}
+.msgPopup-container__success span {
+  padding: 14px;
+  width: 100%;
+}
+.msgPopup-container__error span {
+  padding: 14px;
+}
+
+.msgPopup-container__error {
+  background-color: #7a242e;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.5s;
+
+  min-width: 200px;
+  max-width: 300px;
+  min-height: 55px;
+  position: absolute;
+  display: flex;
+  bottom: 2%;
+  right: 5%;
+}
+
+.progress-bar-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: transparent;
+}
+.progress-bar {
+  height: 100%;
+  width: 100%;
+  background-color: #f0f0f0;
+  animation: progressAnimation 3.5s linear forwards;
+}
+
+
+.popup__btn:hover {
+  background-color: rgb(255, 166, 0);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@keyframes progressAnimation {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
 }

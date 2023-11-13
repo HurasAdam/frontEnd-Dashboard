@@ -1,4 +1,6 @@
 export const handlePopup = (togglePopupSetter, data) => {
+
+
     togglePopupSetter((prevState) => ({
       ...prevState,
       message: data.message,
@@ -6,12 +8,14 @@ export const handlePopup = (togglePopupSetter, data) => {
       visible: true,
     }));
   
-    setTimeout(() => {
-      togglePopupSetter((prevState) => ({
-        ...prevState,
-        visible: false,
-        message: '',
-        success:null
-      }));
-    }, 3500);
+
+
+    // setTimeout(() => {
+    //   togglePopupSetter((prevState) => ({
+    //     ...prevState,
+    //     visible: false,
+    //     message: '',
+    //     success:null
+    //   }));
+    // }, 3500);
   };

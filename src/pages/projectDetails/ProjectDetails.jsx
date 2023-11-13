@@ -113,7 +113,15 @@ else{
 }
 
 })
-const deleteMutation= mutationHandler(deleteProject,()=>navigate("/projects"))
+const deleteMutation= mutationHandler(deleteProject,(data)=>{
+
+  if(data.code){
+    handlePopup(setShowMsgPopup,data.response.data)
+  }
+  else{
+    navigate("/projects")
+  }
+})
 
 
 
@@ -366,6 +374,7 @@ setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
             showMsgPopup.visible?
             ( <MsgPopup
               showMsgPopup={showMsgPopup}
+              setShowMsgPopup={setShowMsgPopup}
             />):null}
            
           </div>

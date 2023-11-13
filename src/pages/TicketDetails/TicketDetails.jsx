@@ -3,18 +3,24 @@ import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { useContext, useEffect, useState,useLayoutEffect,useRef } from "react";
+import {
+  useContext,
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CommentBox } from "../../components/commentBox/CommentBox";
-import { ThemeContext } from '../../contexts/ThemeContext'
+import { ThemeContext } from "../../contexts/ThemeContext";
 import { useQuery } from "react-query";
-import {ObjectDateToString} from '../../utils/ObjectDateToString'
+import { ObjectDateToString } from "../../utils/ObjectDateToString";
 import { getTicket } from "../../features/ticketApi/ticketApi";
 import { useSocketListen } from "../../hooks/useSocketListen";
 import { getTicketPosts } from "../../features/ticketApi/ticketApi";
 import { createTicketPost } from "../../features/ticketApi/ticketApi";
-import {mutationHandler} from "../../shared/mutationHandler"
+import { mutationHandler } from "../../shared/mutationHandler";
 import { useQueryClient } from "react-query";
 import { handleCreatePost } from "../../shared/handleCreatePost";
 import { editTicketPost } from "../../features/ticketApi/ticketApi";
@@ -24,85 +30,76 @@ import { handleDeletePost } from "../../shared/handleDeletePost";
 import { MsgPopup } from "../../components/msgPopup/MsgPopup";
 import { handlePopup } from "../../shared/handlePopup";
 export const TicketDetails = () => {
-
   useSocketListen({
-    event:"postCollectionUpdate",
-    queryKey:"posts"
-  })
+    event: "postCollectionUpdate",
+    queryKey: "posts",
+  });
 
   const { ticketId } = useParams();
   const domReference = useRef(null);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [iseScrollable,setIsScrollale]=useState(false);
+  const [iseScrollable, setIsScrollale] = useState(false);
   const [updateError, setUpdateError] = useState(null);
   const [postContent, setPostContent] = useState("");
   const [editedPost, setEditedPost] = useState(null);
-  const [showMsgPopup,setShowMsgPopup]=useState({
-    visible:false,
-    message:'',
-    success:null
-  })
-  const [showSection,setShowSection]=useState(false)
+  const [showMsgPopup, setShowMsgPopup] = useState({
+    visible: false,
+    message: "",
+    success: null,
+  });
+  const [showSection, setShowSection] = useState(false);
 
-  const [title,setTitle]=useState('')
-  const [description,setDescription]=useState('')
-  const [status,setStatus]=useState('')
-  const [priority,setPriority]=useState('');
-  const [type,setType]=useState('')
-const [postList,setPostList]=useState([])
-  const queryClient=useQueryClient()
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+  const [priority, setPriority] = useState("");
+  const [type, setType] = useState("");
+  const [postList, setPostList] = useState([]);
+  const queryClient = useQueryClient();
 
-  
-  const { isLoading, isError, error, data } = useQuery(["ticket"], () =>
-  getTicket(ticketId),{
-    refetchOnWindowFocus:false,
-    onSuccess:(data)=>{
-setTitle(data?.title);
-setDescription(data?.description);
-setStatus(data?.status);
-setPriority(data?.priority);
-setType(data?.type);
-
+  const { isLoading, isError, error, data } = useQuery(
+    ["ticket"],
+    () => getTicket(ticketId),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        setTitle(data?.title);
+        setDescription(data?.description);
+        setStatus(data?.status);
+        setPriority(data?.priority);
+        setType(data?.type);
+      },
     }
-  })
-  const { data:posts } = useQuery(["posts"], () =>
-  getTicketPosts(ticketId),{
-    onSuccess:(posts)=>{
-      setPostList(posts)
+  );
+  const { data: posts } = useQuery(["posts"], () => getTicketPosts(ticketId), {
+    onSuccess: (posts) => {
+      setPostList(posts);
+    },
+  });
+
+  const createPostMutation = mutationHandler(createTicketPost, (data) => {
+    setShowSection(false);
+
+    if (data.code) {
+      handlePopup(setShowMsgPopup, data.response.data);
+    } else {
+      handlePopup(setShowMsgPopup, data);
     }
-  })
-
-
-
-  
-const createPostMutation = mutationHandler(createTicketPost,(data)=>{
-  setShowSection(false)
-
-  if(data.code){
-    
-    handlePopup(setShowMsgPopup,data.response.data)
-  }
-else{
-  handlePopup(setShowMsgPopup,data)
-}
-}
-)
-const editPostMutation= mutationHandler(editTicketPost,()=>{
-  setEditedPost(null);})
-const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("USUNIETO")})
-  
- 
+  });
+  const editPostMutation = mutationHandler(editTicketPost, () => {
+    setEditedPost(null);
+  });
+  const deletePostMutation = mutationHandler(deleteTicketPost, () => {
+    console.log("USUNIETO");
+  });
 
   const [ticketData, setTicketData] = useState({});
   const { user } = useContext(AuthContext);
-  const {theme}=useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
-
 
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions = ["Open", "Closed"];
-
-
 
   return (
     <div className="ticketDetails" id={theme.mode} ref={domReference}>
@@ -126,7 +123,7 @@ const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("US
 
                         {data && (
                           <input
-                          className="ticketDetails-ticketTitle"
+                            className="ticketDetails-ticketTitle"
                             disabled={isDisabled}
                             type="text"
                             required
@@ -268,11 +265,10 @@ const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("US
             )}
             <div className="ticektDataContainerTop-right"></div>
           </div>
-       
-        
+
           <CommentBox
-          id={ticketId}
-          postList={postList}
+            id={ticketId}
+            postList={postList}
             showSection={showSection}
             setShowSection={setShowSection}
             handleCreatePost={handleCreatePost}
@@ -281,22 +277,23 @@ const deletePostMutation = mutationHandler(deleteTicketPost,()=>{console.log("US
             createPostMutation={createPostMutation}
             editPostMutation={editPostMutation}
             deletePostMutation={deletePostMutation}
-
             postContent={postContent}
-         setPostContent={setPostContent}
-         editedPost={editedPost}
-         setEditedPost={setEditedPost}
+            setPostContent={setPostContent}
+            editedPost={editedPost}
+            setEditedPost={setEditedPost}
             fullAccess={ticketData.fullAccess}
             contributorAccess={ticketData.contributorAccess}
             // onEditComment={handleEditComment}
             // onUpdateComment={handleUpdateCommnet}
             // onEditTextContent={setEditedCommentTextContent}
-            
           />
 
-{showMsgPopup.visible?(<MsgPopup
-showMsgPopup={showMsgPopup}
-/>):null}
+          {showMsgPopup.visible ? (
+            <MsgPopup
+              showMsgPopup={showMsgPopup}
+              setShowMsgPopup={setShowMsgPopup}
+            />
+          ) : null}
         </div>
       </div>
     </div>

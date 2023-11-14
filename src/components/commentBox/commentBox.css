@@ -246,10 +246,13 @@
 }
 #dark .comment p {
   background: var(--dark-primary);
+  font-size: 0.85rem;
+  color:rgb(218, 214, 214);
+  
 }
-#dark .commentFocus-true {
+/* #dark .commentFocus-true {
   border: 2px dotted rgb(177, 163, 163);
-}
+} */
 #dark .toggleNewCommentForm-action {
   display: flex;
   justify-content: center;
@@ -342,4 +345,23 @@
 }
 #purple .file-input-label {
   background: var(--purple-primary-radial);
+}
+.commentBox__editMode{
+  background: var(--dark-primary);
+  min-height: 300px;
+  width: 100%;
+  outline: none;
+  border: none; /* Usuwa domyślny border */
+  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1); /* Dodaje niestandardowy box-shadow (tylko na dolny, prawy i lewy bok) */
+  padding: 8px; /* Dodaje trochę odstępu, aby uniknąć zbyt bliskiego sklejenia tekstu z box-shadow */
+  transition: box-shadow 0.3s ease; /* Dodaje płynne przejścia dla efektu box-shadow */
+border-top: 1px dotted rgb(106, 106, 118);
+color:rgb(218, 214, 214);
+padding: 0.8rem 0.6rem;
+font-size: 0.8rem
+
+ 
+}
+.commentBox__editMode:focus{
+
 }

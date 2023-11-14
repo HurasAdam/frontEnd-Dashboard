@@ -117,7 +117,7 @@ console.log(postContent)
               editedPost===comment.id?(
                 <textarea
                 onChange={(e)=>setPostContent(e.target.value)}
-                className={`commentFocus`}
+                className={`commentBox${editedPost===comment.id?"__editMode":''}`}
                 >{comment.content}</textarea>):
               <p
                 className={`commentFocus commentFocus-${comment.contentEditable}`}

@@ -27,6 +27,8 @@ import { editTicketPost } from "../../features/ticketApi/ticketApi";
 import { handleEditPost } from "../../shared/handleEditPost";
 import { deleteTicketPost } from "../../features/ticketApi/ticketApi";
 import { handleDeletePost } from "../../shared/handleDeletePost";
+import { deleteTicket } from "../../features/ticketApi/ticketApi";
+import { handleDeleteTicket } from "../../shared/handleDeleteTicket";
 import { MsgPopup } from "../../components/msgPopup/MsgPopup";
 import { handlePopup } from "../../shared/handlePopup";
 export const TicketDetails = () => {
@@ -101,6 +103,12 @@ export const TicketDetails = () => {
     }
    
   });
+
+const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
+  console.log(data)
+  navigate('/tickets')
+})
+
   const deletePostMutation = mutationHandler(deleteTicketPost, () => {
     console.log("USUNIETO");
   });
@@ -252,9 +260,9 @@ export const TicketDetails = () => {
                       )}
                     </div>
                   </form>
-                  {ticketData.fullAccess ? (
+                
                     <div className="ticketInfoButtonWrapper">
-                      <button onClick={handleDelete}>Delete</button>
+                      <button onClick={(e)=>handleDeleteTicket(e,{id:ticketId,mutation:deleteTicketMutation})}>Delete</button>
                       {isDisabled ? (
                         <button onClick={() => setIsDisabled(false)}>
                           Edit
@@ -271,7 +279,7 @@ export const TicketDetails = () => {
                         </button>
                       )}
                     </div>
-                  ) : null}
+               
                 </div>
               </div>
             )}

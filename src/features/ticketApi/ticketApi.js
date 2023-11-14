@@ -17,6 +17,12 @@ export const getTicket = async (id) => {
   return response.data;
 };
 
+
+export const deleteTicket = async (id)=>{
+const response = await projectApi.delete(`notes/${id}`);
+return response.data;
+}
+
 export const getTicketPosts= async(id)=>{
 
   const response= await projectApi.get(`posts?ticketId=${id}`)

@@ -8,7 +8,6 @@
   margin: 1rem 0;
   margin-top: 30px;
   height: max-content;
-
 }
 .comment {
   display: flex;
@@ -25,14 +24,7 @@
 .commentFocus {
   outline: none;
   box-sizing: border-box;
-  height: max-content;
 }
-/* .commentFocus {
-  border: 2px dotted black;
-  
-} */
-
-
 
 .comment-userInfo {
   display: flex;
@@ -136,7 +128,6 @@
   background-color: rgb(159, 67, 178);
 }
 
-
 /* NEW COMMENT  */
 .newCommentForm {
   display: flex;
@@ -235,7 +226,6 @@
   background: #273ca8;
 }
 
-
 /* THEMES */
 
 #dark .comment {
@@ -255,7 +245,7 @@
   box-shadow: 0px 0px 5px #060a28;
 }
 #dark .comment p {
-  background:var(--dark-primary)
+  background: var(--dark-primary);
 }
 #dark .commentFocus-true {
   border: 2px dotted rgb(177, 163, 163);
@@ -312,7 +302,7 @@
   box-shadow: 0px 0px 5px #060a28;
 }
 #purple .comment p {
-  background:var(--purple-primary)
+  background: var(--purple-primary);
 }
 #purple .commentFocus-true {
   border: 2px dotted rgb(177, 163, 163);
@@ -345,11 +335,11 @@
   width: 100%;
   min-height: 120px;
   padding: 3px;
-  background-color:var(--purple-primary);
+  background-color: var(--purple-primary);
   color: rgb(243, 243, 248);
   border-color: #66afe9;
-  box-shadow: 0px 0px 5px var(--purple-primary-linear)
+  box-shadow: 0px 0px 5px var(--purple-primary-linear);
 }
-#purple .file-input-label{
-  background:var(--purple-primary-radial)
+#purple .file-input-label {
+  background: var(--purple-primary-radial);
 }

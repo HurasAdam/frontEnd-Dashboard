@@ -94,9 +94,10 @@ export const TicketDetails = () => {
       handlePopup(setShowMsgPopup, data.response.data);
     } 
     else {
-
+      
       setEditedPost(null);
       handlePopup(setShowMsgPopup, data);
+      setPostContent('')
     }
    
   });
@@ -294,6 +295,7 @@ export const TicketDetails = () => {
             setEditedPost={setEditedPost}
             fullAccess={ticketData.fullAccess}
             contributorAccess={ticketData.contributorAccess}
+            setShowMsgPopup={setShowMsgPopup}
             // onEditComment={handleEditComment}
             // onUpdateComment={handleUpdateCommnet}
             // onEditTextContent={setEditedCommentTextContent}

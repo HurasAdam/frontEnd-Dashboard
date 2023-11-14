@@ -25,6 +25,7 @@
 .commentFocus {
   outline: none;
   box-sizing: border-box;
+  height: max-content;
 }
 /* .commentFocus {
   border: 2px dotted black;

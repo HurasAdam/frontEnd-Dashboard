@@ -20,6 +20,7 @@ export const CommentBox = ({
   deletePostMutation,
   postContent,
   setPostContent,
+  setShowMsgPopup,
   fullAccess,
   contributorAccess,
   onEditComment,
@@ -33,13 +34,15 @@ export const CommentBox = ({
 
 
 
-  const handleEditClick = (postId) => {
+  const handleEditClick = (e,postId,value) => {
+    e.preventDefault();
     setEditedPost(postId);
+    setPostContent(value)
     console.log(postId);
   };
 
 
-
+console.log(postContent)
   const calculateTimeDifference = (date) => {
     const difference = new Date() - new Date(date);
     const units = {
@@ -88,7 +91,7 @@ export const CommentBox = ({
                     <CreateOutlinedIcon
                       disabled={true}
                       className="editCommentIcon"
-                      onClick={() => handleEditClick(comment.id)}
+                      onClick={(e) => handleEditClick(e,comment.id,comment.content)}
                     ></CreateOutlinedIcon>
                     <DeleteOutlinedIcon onClick={()=>handleDeletePost(comment.id,deletePostMutation)}/>
                   </>
@@ -98,12 +101,12 @@ export const CommentBox = ({
                       <CheckOutlinedIcon
                         className="editConfirmCommentIcon"
                         onClick={() =>
-                          handleEditPost(comment.id,postContent,editPostMutation )
+                          handleEditPost({postId:comment.id,newContent:postContent,mutation:editPostMutation,postList,setShowMsgPopup })
                         }
                       ></CheckOutlinedIcon>
                       <ClearOutlinedIcon
                         className="editCancelCommentIcon"
-                        onClick={() => handleEditClick(null)}
+                        onClick={(e) => handleEditClick(e,null,'')}
                       ></ClearOutlinedIcon>
                     </div>
                   ) }
@@ -150,7 +153,7 @@ export const CommentBox = ({
               id="comment"
               maxLength={4000}
               onChange={(e) => setPostContent(e.target.value)}
-             
+             required={true}
               value={postContent}
             ></textarea>
           </div>

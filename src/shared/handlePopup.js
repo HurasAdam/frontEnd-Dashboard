@@ -10,12 +10,12 @@ export const handlePopup = (togglePopupSetter, data) => {
   
 
 
-    // setTimeout(() => {
-    //   togglePopupSetter((prevState) => ({
-    //     ...prevState,
-    //     visible: false,
-    //     message: '',
-    //     success:null
-    //   }));
-    // }, 3500);
+    setTimeout(() => {
+      togglePopupSetter((prevState) => ({
+        ...prevState,
+        visible: false,
+        message: '',
+        success:null
+      }));
+    }, 3500);
   };

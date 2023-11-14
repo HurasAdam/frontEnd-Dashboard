@@ -40,7 +40,8 @@ export const TicketDetails = () => {
   const { ticketId } = useParams();
   const domReference = useRef(null);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [iseScrollable, setIsScrollale] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState("");
   const [updateError, setUpdateError] = useState(null);
   const [postContent, setPostContent] = useState("");
   const [editedPost, setEditedPost] = useState(null);
@@ -261,8 +262,8 @@ const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
                     </div>
                   </form>
                 
-                    <div className="ticketInfoButtonWrapper">
-                      <button onClick={(e)=>handleDeleteTicket(e,{id:ticketId,mutation:deleteTicketMutation})}>Delete</button>
+                   { !isDeleted?(<div className="ticketInfoButtonWrapper">
+                      <button onClick={(e)=>setIsDeleted((prev)=>!prev)} >Delete</button>
                       {isDisabled ? (
                         <button onClick={() => setIsDisabled(false)}>
                           Edit
@@ -278,7 +279,14 @@ const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
                           Update
                         </button>
                       )}
-                    </div>
+                    </div>):
+                    <>
+                    <input type="text" onChange={(e)=>setConfirmDelete(e.target.value)} />
+                    <button onClick={(e)=>handleDeleteTicket(e,{id:ticketId,mutation:deleteTicketMutation,confirmationString:confirmDelete})}>Confirm</button>
+                    <button onClick={(e)=>setIsDeleted((prev)=>!prev)}>Cancel</button>
+                    </>
+
+            }
                
                 </div>
               </div>

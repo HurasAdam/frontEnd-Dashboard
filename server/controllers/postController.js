@@ -89,11 +89,11 @@ const userId = _id.toString()
 try{
 
   if(postOwnerId!==userId){
-    throw new Error("You don't have permission to edit this post.")
+    return res.status(403).json({message:"You don't have permission to edit this post.",success:false})
     }
     
     if(!content){
-      throw new Error("Content cannot be empty. Please provide valid content for the comment edit.")
+      return res.status(400).json({message:"Content cannot be empty. Please provide valid content for the comment edit.",success:false})
     }
     
     else{
@@ -101,7 +101,7 @@ try{
       const eventStreamObject = {id:id,status:"update"}
       io.sockets.emit("postCollectionUpdate",eventStreamObject)
 
-      res.status(200).json("Post has been updated sucessfully")
+     return res.status(200).json({message:"Post has been updated successfully",success:true})
     }
     
 }

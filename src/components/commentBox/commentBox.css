@@ -3,12 +3,12 @@
 .comment-box {
   display: flex;
   gap: 15px;
-  flex-direction: column;
+  flex-direction: column-reverse;
   box-sizing: border-box;
   margin: 1rem 0;
   margin-top: 30px;
   height: max-content;
- 
+
 }
 .comment {
   display: flex;
@@ -22,13 +22,14 @@
   border-top-left-radius: 20px;
 }
 
-.commentFocus:focus {
+.commentFocus {
   outline: none;
   box-sizing: border-box;
 }
-.commentFocus-true {
+/* .commentFocus {
   border: 2px dotted black;
-}
+  
+} */
 
 
 

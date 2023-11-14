@@ -31,6 +31,7 @@ export const createTicketPost= async ({id,content})=>{
 
 export const editTicketPost = async ({id,content})=>{
   const response = await projectApi.patch(`posts/${id}`,{content})
+  return response.data
 }
 
 export const deleteTicketPost = async(id)=>{

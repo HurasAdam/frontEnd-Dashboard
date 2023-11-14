@@ -103,7 +103,7 @@ export const CommentBox = ({
                       ></CheckOutlinedIcon>
                       <ClearOutlinedIcon
                         className="editCancelCommentIcon"
-                        onClick={() => handleEditPost(comment.id,postContent,editPostMutation)}
+                        onClick={() => handleEditClick(null)}
                       ></ClearOutlinedIcon>
                     </div>
                   ) }
@@ -114,7 +114,7 @@ export const CommentBox = ({
               editedPost===comment.id?(
                 <textarea
                 onChange={(e)=>setPostContent(e.target.value)}
-                className={`commentFocus commentFocus-${comment.contentEditable}`}
+                className={`commentFocus`}
                 >{comment.content}</textarea>):
               <p
                 className={`commentFocus commentFocus-${comment.contentEditable}`}
@@ -134,7 +134,7 @@ export const CommentBox = ({
           onClick={() => setShowSection((prevState) => !prevState)}
           className="toggleNewCommentForm-action"
         >
-          Add comment{" "}
+          {showSection?"Hide":"Add comment"}
         </div>
       </div>
       {showSection ? (

@@ -86,8 +86,19 @@ export const TicketDetails = () => {
       handlePopup(setShowMsgPopup, data);
     }
   });
-  const editPostMutation = mutationHandler(editTicketPost, () => {
-    setEditedPost(null);
+  const editPostMutation = mutationHandler(editTicketPost, (data) => {
+
+ 
+
+    if (data.code) {
+      handlePopup(setShowMsgPopup, data.response.data);
+    } 
+    else {
+
+      setEditedPost(null);
+      handlePopup(setShowMsgPopup, data);
+    }
+   
   });
   const deletePostMutation = mutationHandler(deleteTicketPost, () => {
     console.log("USUNIETO");

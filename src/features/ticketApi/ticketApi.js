@@ -45,3 +45,8 @@ export const deleteTicketPost = async(id)=>{
   const response = await projectApi.delete(`posts/${id}`)
   return response.data
 }
+
+export const getSelectOptionList = async()=>{
+  const response = await projectApi.get('/options')
+  return response.data
+}

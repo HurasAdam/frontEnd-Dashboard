@@ -16,7 +16,10 @@ import { CommentBox } from "../../components/commentBox/CommentBox";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useQuery } from "react-query";
 import { ObjectDateToString } from "../../utils/ObjectDateToString";
-import { getTicket } from "../../features/ticketApi/ticketApi";
+import {
+  getSelectOptionList,
+  getTicket,
+} from "../../features/ticketApi/ticketApi";
 import { useSocketListen } from "../../hooks/useSocketListen";
 import { getTicketPosts } from "../../features/ticketApi/ticketApi";
 import { createTicketPost } from "../../features/ticketApi/ticketApi";
@@ -42,7 +45,11 @@ export const TicketDetails = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isDeleted, setIsDeleted] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState("");
-  const [updateError, setUpdateError] = useState(null);
+  const [selectOptions, setSelectOptions] = useState({
+    priority: [],
+    status: [],
+  });
+
   const [postContent, setPostContent] = useState("");
   const [editedPost, setEditedPost] = useState(null);
   const [showMsgPopup, setShowMsgPopup] = useState({
@@ -74,11 +81,32 @@ export const TicketDetails = () => {
       },
     }
   );
+
+
+
+
   const { data: posts } = useQuery(["posts"], () => getTicketPosts(ticketId), {
     onSuccess: (posts) => {
       setPostList(posts);
     },
   });
+
+  console.log(selectOptions);
+
+  const handleEditMode = () => {
+    setIsDisabled(false);
+    fetchPriorityOptionList();
+  };
+
+  const { data: selectOptionList, refetch: fetchPriorityOptionList } = useQuery(
+    ["selectOptionList"],
+    getSelectOptionList,
+    {
+      
+      refetchOnWindowFocus: false,
+      enabled: false,
+    }
+  );
 
   const createPostMutation = mutationHandler(createTicketPost, (data) => {
     setShowSection(false);
@@ -90,25 +118,19 @@ export const TicketDetails = () => {
     }
   });
   const editPostMutation = mutationHandler(editTicketPost, (data) => {
-
- 
-
     if (data.code) {
       handlePopup(setShowMsgPopup, data.response.data);
-    } 
-    else {
-      
+    } else {
       setEditedPost(null);
       handlePopup(setShowMsgPopup, data);
-      setPostContent('')
+      setPostContent("");
     }
-   
   });
 
-const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
-  console.log(data)
-  navigate('/tickets')
-})
+  const deleteTicketMutation = mutationHandler(deleteTicket, (data) => {
+    console.log(data);
+    navigate("/tickets");
+  });
 
   const deletePostMutation = mutationHandler(deleteTicketPost, () => {
     console.log("USUNIETO");
@@ -121,6 +143,15 @@ const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
 
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions = ["Open", "Closed"];
+
+
+
+  const lol =selectOptionList&&selectOptionList.filter((option)=>option.value!==priority&&priority)
+  
+console.log(lol)
+
+
+
 
   return (
     <div className="ticketDetails" id={theme.mode} ref={domReference}>
@@ -148,13 +179,8 @@ const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
                             disabled={isDisabled}
                             type="text"
                             required
-                            defaultValue={data.title}
-                            onChange={(e) =>
-                              setTicketData({
-                                ...ticketData,
-                                title: e.target.value,
-                              })
-                            }
+                            value={title && title}
+                            onChange={(e) => setTitle(e.target.value)}
                           />
                         )}
                       </div>
@@ -195,26 +221,17 @@ const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
                             <select
                               disabled={isDisabled}
                               className="selectTicketPriority"
-                              onChange={(e) =>
-                                setTicketData({
-                                  ...ticketData,
-                                  priority: e.target.value,
-                                })
-                              }
-                              value={ticketData.priority}
+                              onChange={(e) => setPriority(e.target.value)}
                             >
-                              <option disabled selected>
-                                {ticketData.priority}
-                              </option>
-
-                              {data &&
-                                priorityOptions
-                                  .filter((o) => o !== ticketData.priority)
-                                  .map((option) => {
-                                    return (
-                                      <option key={option}>{option}</option>
-                                    );
-                                  })}
+                              {selectOptionList &&
+                                selectOptionList
+                                  .map((o) => (
+                                    <option   
+                                    selected={o.value===priority}
+                                    disabled={o?.value === priority}
+                                    value={o?.label} key={o?.value}>{o?.value}
+                                    </option>
+                                  ))}
                             </select>
                           )}
                         </div>
@@ -249,25 +266,21 @@ const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
                       <label htmlFor="">Description</label>
                       {data && (
                         <textarea
-                          onChange={(e) =>
-                            setTicketData({
-                              ...ticketData,
-                              description: e.target.value,
-                            })
-                          }
-                          defaultValue={data.description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          value={description && description}
                           disabled={isDisabled}
                         ></textarea>
                       )}
                     </div>
                   </form>
-                
-                   { !isDeleted?(<div className="ticketInfoButtonWrapper">
-                      <button onClick={(e)=>setIsDeleted((prev)=>!prev)} >Delete</button>
+
+                  {!isDeleted ? (
+                    <div className="ticketInfoButtonWrapper">
+                      <button onClick={(e) => setIsDeleted((prev) => !prev)}>
+                        Delete
+                      </button>
                       {isDisabled ? (
-                        <button onClick={() => setIsDisabled(false)}>
-                          Edit
-                        </button>
+                        <button onClick={handleEditMode}>Edit</button>
                       ) : (
                         <button
                           disabled={isDisabled}
@@ -279,15 +292,29 @@ const deleteTicketMutation= mutationHandler(deleteTicket,(data)=>{
                           Update
                         </button>
                       )}
-                    </div>):
+                    </div>
+                  ) : (
                     <>
-                    <input type="text" onChange={(e)=>setConfirmDelete(e.target.value)} />
-                    <button onClick={(e)=>handleDeleteTicket(e,{id:ticketId,mutation:deleteTicketMutation,confirmationString:confirmDelete})}>Confirm</button>
-                    <button onClick={(e)=>setIsDeleted((prev)=>!prev)}>Cancel</button>
+                      <input
+                        type="text"
+                        onChange={(e) => setConfirmDelete(e.target.value)}
+                      />
+                      <button
+                        onClick={(e) =>
+                          handleDeleteTicket(e, {
+                            id: ticketId,
+                            mutation: deleteTicketMutation,
+                            confirmationString: confirmDelete,
+                          })
+                        }
+                      >
+                        Confirm
+                      </button>
+                      <button onClick={(e) => setIsDeleted((prev) => !prev)}>
+                        Cancel
+                      </button>
                     </>
-
-            }
-               
+                  )}
                 </div>
               </div>
             )}

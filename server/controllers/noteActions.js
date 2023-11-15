@@ -183,6 +183,7 @@ project:{
 
   //aktualizowanie notatki
   async updateNote(req, res) {
+    const io = req.app.get("socketio");
     const id = req.params.id;
     const updates = req.body;
     console.log(updates)
@@ -223,6 +224,9 @@ project:{
         { _id: id },
         { $set: finalUpdates }
       );
+
+      const eventStreamObject = {id:id,status:"update"}
+      io.sockets.emit("ticketCollectionUpdate",eventStreamObject)
 
       return res.status(200).json({message:"Ticket has been updated successfully", success:true});
     } catch (Error) {

@@ -26,9 +26,11 @@
   font-weight: 400;
 }
 .ticketDataContainer {
+
   display: flex;
 }
 .ticketDataContainerWrapper {
+
   display: flex;
 }
 .ticketDataContainerLeft {
@@ -42,11 +44,74 @@
 .ticketDataContainerTop {
   margin-top: 15px;
   flex: 1;
+  
 }
+
+.ticketDataContainerTop__contentHeader{
+
+display: flex;
+
+}
+
+.ticketDataContainerTop__icons{
+display: flex;
+flex:1;
+flex-wrap: wrap;
+gap:0.8rem;
+
+}
+.ticketDataContainerTop__icons .icon{
+  border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.144);
+    border-right: 1px solid rgba(255, 255, 255, 0.068);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+
+font-size: 12px;
+display: flex;
+justify-content: center;
+align-items: center;
+font-weight: 600;
+
+
+width: 70px;
+padding: 4px 0px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+border-radius: 5px;
+}
+.ticketDataContainerTop__icons .icon-type__Question{
+background-color: rgb(212, 76, 212);
+}
+.ticketDataContainerTop__icons .icon-type__BUG{
+  background-color: rgb(128, 0, 51);
+  }
+  .ticketDataContainerTop__icons .icon-type__Enhancement{
+    background-color: rgb(180, 138, 155);
+    }
+
+    .ticketDataContainerTop__icons .icon-priority__Low{
+      background-color: rgb(31, 161, 74);
+      }
+      .ticketDataContainerTop__icons .icon-priority__Medium{
+        background-color: rgb(194, 130, 11)
+        }
+        .ticketDataContainerTop__icons .icon-priority__High{
+          background-color: rgb(203, 8, 54)
+          }
+          .ticketDataContainerTop__icons .icon-status__Open{
+            background-color: rgb(18, 164, 147)
+            }
+            .ticketDataContainerTop__icons .icon-status__Closed{
+              background-color: rgb(69, 70, 77)
+              }
+
 .ticketInfoTopItem {
   flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+gap:0.4rem
 }
 .ticketInfoTopItem.title input:enabled {
   border-bottom: 1px double grey;
@@ -86,6 +151,12 @@
 .ticketDataTopItemWrapper {
   display: flex;
   justify-content: space-around;
+
+}
+.ticketDataTopItemWrapper .title{
+
+margin-top: 40px;
+  
 }
 .ticketDataTopItem {
   display: flex;
@@ -124,12 +195,14 @@
 .ticektDataBottom {
   height: max-content;
   flex-direction: column;
+
 }
 .ticketDataBottomItem {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
   margin-bottom: 25px;
+
 }
 .ticketDataBottomItem-textArea {
   display: flex;
@@ -250,7 +323,9 @@
 .ticketInfoButtonWrapper {
   margin-top: 20px;
   display: flex;
+
   gap: 5px;
+
 }
 
 .ticketInfoButtonWrapper button {

@@ -42,6 +42,11 @@ export const TicketDetails = () => {
     queryKey: "posts",
   });
 
+  useSocketListen({
+    event: "ticketCollectionUpdate",
+    queryKey: "ticket",
+  });
+
   const { ticketId } = useParams();
   const domReference = useRef(null);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -109,10 +114,13 @@ export const TicketDetails = () => {
     }
   });
 
-
-const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
-  handlePopup(setShowMsgPopup, data);
-})
+  const updateTicketMutation = mutationHandler(updateTicket, (data) => {
+    if (data.code) {
+      handlePopup(setShowMsgPopup, data.response.data);
+    } else {
+      handlePopup(setShowMsgPopup, data);
+    }
+  });
 
   const editPostMutation = mutationHandler(editTicketPost, (data) => {
     if (data.code) {
@@ -133,19 +141,15 @@ const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
     console.log("USUNIETO");
   });
 
-
-
   const handleEditMode = () => {
     setIsDisabled(false);
     fetchPriorityOptionList();
   };
 
-
   const [ticketData, setTicketData] = useState({});
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
-
 
   return (
     <div className="ticketDetails" id={theme.mode} ref={domReference}>
@@ -159,8 +163,27 @@ const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
       <div className="ticketDataContainer">
         <div className="ticketDataContainerLeft">
           <div className="ticketDataContainerWrapper">
-            {data && data.project && (
+            {data && (
               <div className="ticketDataContainerTop">
+                <div className="ticketDataContainerTop__contentHeader">
+                  <div className="ticketDataContainerTop__icons">
+                    <div class={`icon icon-type__${data.type}`}>
+                      {data.type}
+                    </div>
+
+                    <div class={`icon icon-priority__${data.priority}`}>
+                      {data.priority}
+                    </div>
+                    <div class={`icon icon-status__${data.status}`}>
+                      {data.status}
+                    </div>
+                  </div>
+                  <div className="ticketInfoTopItem">
+                    <ScheduleOutlinedIcon />
+                    <span>Created:</span>
+                    {data && <span>{ObjectDateToString(data.createdAt)}</span>}
+                  </div>
+                </div>
                 <div className="ticektDataBottom">
                   <form action="">
                     <div className="ticketDataTopItemWrapper">
@@ -178,87 +201,83 @@ const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
                           />
                         )}
                       </div>
-                      <div className="ticketInfoTopItem">
-                        <ScheduleOutlinedIcon />
-                        <span>Created:</span>
-                        {data && (
-                          <span>{ObjectDateToString(data.createdAt)}</span>
-                        )}
-                      </div>
                     </div>
                     <div className="ticketDataBottomItem"></div>
                     <div className="ticketDataTopItemWrapper">
                       <div className="ticketDataTopItem">
-                        <label htmlFor="">CreatedBy</label>
-                        {ticketData.ticketAuthor && (
+                        <label htmlFor="">Author</label>
+                        {data && (
                           <div className="ticketAuthorInfo">
                             {" "}
-                            {`${ticketData.ticketAuthor.name} ${ticketData.ticketAuthor.surname}`}
+                            {`${data?.author?.name} ${data.author.surname}`}
                           </div>
                         )}
                       </div>
                       <div className="ticketDataTopItem">
                         <label htmlFor="">Project</label>
-                        {ticketData.project && (
+                        {data.project && (
                           <div className="projectInfo">
-                            {ticketData.project.projectTitle}
+                            {data?.project?.title}
                           </div>
                         )}
                       </div>
                     </div>
-                    <div className="ticketDataBottomItem">
-                      <div className="ticketDataBottomItemWrapper">
-                        <div className="ticketDataBottomItemWrapper-select">
-                          <label htmlFor="">Priority</label>
+                    {!isDisabled ? (
+                      <div className="ticketDataBottomItem">
+                        <div className="ticketDataBottomItemWrapper">
+                          <div className="ticketDataBottomItemWrapper-select">
+                            <label htmlFor="">Priority</label>
 
-                          {data && (
-                            <select
-                              disabled={isDisabled}
-                              className="selectTicketPriority"
-                              onChange={(e) => setPriority(e.target.value)}
-                            >
-                              {selectOptionList &&
-                                selectOptionList?.priority.map((o) => (
-                                  <option
-                                    selected={o.value === priority}
-                                    disabled={o?.value === priority}
-                                    value={o?.value}
-                                    key={o?.value}
-                                  >
-                                    {o?.label}
-                                  </option>
-                                ))}
-                            </select>
-                          )}
-                        </div>
-                        <div className="ticketDataBottomItemWrapper-select">
-                          <label htmlFor="">Status</label>
-                          {data && (
-                            <select
-                             onChange={(e)=>setStatus(e.target.value)}
-                              className="selectTicketPriority"
-                              disabled={isDisabled}
-                            >
-                              {/* <option disabled selected>
+                            {data && (
+                              <select
+                                disabled={isDisabled}
+                                className="selectTicketPriority"
+                                onChange={(e) => setPriority(e.target.value)}
+                              >
+                                {selectOptionList &&
+                                  selectOptionList?.priority.map((o) => (
+                                    <option
+                                      selected={o.value === priority}
+                                      disabled={o?.value === priority}
+                                      value={o?.value}
+                                      key={o?.value}
+                                    >
+                                      {o?.label}
+                                    </option>
+                                  ))}
+                              </select>
+                            )}
+                          </div>
+                          <div className="ticketDataBottomItemWrapper-select">
+                            <label htmlFor="">Status</label>
+                            {data && (
+                              <select
+                                onChange={(e) => setStatus(e.target.value)}
+                                className="selectTicketPriority"
+                                disabled={isDisabled}
+                              >
+                                {/* <option disabled selected>
                                 {ticketData.status}
                               </option> */}
-                          
 
-                              {selectOptionList &&
-                                selectOptionList?.status.map((option) => {
-                                  return <option 
-                                  selected={option?.value === status}
-                                  disabled={option?.value === status}
-                                  key={option.value}>{option.label}
-                                   
-                                
-                                  </option>;
-                                })}
-                            </select>
-                          )}
+                                {selectOptionList &&
+                                  selectOptionList?.status.map((option) => {
+                                    return (
+                                      <option
+                                        selected={option?.value === status}
+                                        disabled={option?.value === status}
+                                        key={option.value}
+                                      >
+                                        {option.label}
+                                      </option>
+                                    );
+                                  })}
+                              </select>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : null}
                     <div className="ticketDataBottomItem-textArea">
                       <label htmlFor="">Description</label>
                       {data && (
@@ -281,14 +300,22 @@ const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
                       ) : (
                         <button
                           disabled={isDisabled}
-                       onClick={(e)=>handleUpdateTicket(
-                        {id:ticketId,
-                          mutation:updateTicketMutation,
-                          formData:{title,priority,status,description,}},
-                          data,
-                          setShowMsgPopup
-                        
-                        )}
+                          onClick={(e) =>
+                            handleUpdateTicket(
+                              {
+                                id: ticketId,
+                                mutation: updateTicketMutation,
+                                formData: {
+                                  title,
+                                  priority,
+                                  status,
+                                  description,
+                                },
+                              },
+                              data,
+                              setShowMsgPopup
+                            )
+                          }
                         >
                           Update
                         </button>

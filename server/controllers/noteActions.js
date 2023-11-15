@@ -55,46 +55,93 @@ module.exports = {
   },
 
   async getArchived(req, res) {
-    const page = Number(req.query.page);
-    let size = 14;
-    const limit = parseInt(size);
-    const skip = (page - 1) * size;
-
-    let notes;
-    let allNotesCount;
-    // try {
-    allNotesCount = await Note.countDocuments();
-    notes = await Note.find({ Archivized: true })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
-
+  
     const ticketList = await Promise.all(
-      notes.map((t) => User.findOne({ _id: t.closedBy }))
+      (
+        await Note.find({ Archivized: true })
+          .populate('closedBy') // Dodaj to, aby pobrać dane użytkownika
+      ).map(async (ticket) => {
+        // Pobierz dane użytkownika z związku
+        const user = await User.findOne({_id:ticket.closedBy}).select('name surname email role gender userAvatar')
+    
+        // Tutaj możesz dodać inne transformacje, jeśli są potrzebne
+    
+        return {
+          id: ticket._id,
+          title: ticket.title,
+          type: ticket.type,
+          description: ticket.description,
+          closedBy: user,
+        };
+      })
     );
+console.log(ticketList)
 
-    const result = notes.map((note) => {
-      const ticketClosedBy = ticketList.find(
-        (pl) => pl._id.toString() === note.closedBy.toString()
-      );
+res.status(200).json(ticketList)
 
-      note["closedBy"] = ticketClosedBy;
 
-      return note;
-    });
 
-    console.log(result);
 
-    // } catch (err) {
-    //   return res.status(500).json({ error: err.message });
-    // }
 
-    res.status(200).json({
-      page: page,
-      pageSize: size,
-      total: Math.ceil(allNotesCount / size),
-      tickets: result,
-    });
+
+    // const page = Number(req.query.page);
+    // let size = 14;
+    // const limit = parseInt(size);
+    // const skip = (page - 1) * size;
+
+    // let notes;
+    // let allNotesCount;
+    // // try {
+    // allNotesCount = await Note.countDocuments();
+    // notes = await Note.find({ Archivized: true })
+    //   .sort({ createdAt: -1 })
+    //   .skip(skip)
+    //   .limit(limit);
+
+    // const ticketList = await Promise.all(
+    //   (
+    //     await Note.find({ Archivized: true })
+    //   ).map((ticket) => {
+    //     const user = User.findOne({ _id: ticket.closedBy });
+    //     return {
+    //       id: ticket._id,
+    //       title: ticket.title,
+    //       type: ticket.type,
+    //       description: ticket.description,
+    //       closedBy: user,
+    //     };
+    //   })
+    // );
+
+
+
+    //   archiveNotes.map((ticket) => User.findOne({ _id: ticket.closedBy }))
+    // );
+
+    // console.log(ticketList)
+
+    // const result = notes.map((note) => {
+    //   const ticketClosedBy = ticketList.find(
+    //     (pl) => pl._id.toString() === note.closedBy.toString()
+    //   );
+
+    //   note["closedBy"] = ticketClosedBy;
+
+    //   return note;
+    // });
+
+    // console.log(result);
+
+    // // } catch (err) {
+    // //   return res.status(500).json({ error: err.message });
+    // // }
+
+    // res.status(200).json({
+    //   page: page,
+    //   pageSize: size,
+    //   total: Math.ceil(allNotesCount / size),
+    //   tickets: result,
+    // });
   },
 
   //podbieranie noatki
@@ -104,38 +151,36 @@ module.exports = {
     const { id } = req.params;
 
     const note = await Note.findOne({ _id: id });
-const {_id,title,description,projectLeader} = await Project.findOne({_id:note.project})
+    const { _id, title, description, projectLeader } = await Project.findOne({
+      _id: note.project,
+    });
     const ticketAuthor = await User.findOne(
       { _id: note.author },
       "name surname email role gender userAvatar"
     );
-   
-  
-    const pLeader = await User.findOne({_id:projectLeader}).select('name surname role geneder userAvatar')
-console.log(pLeader)
 
-  const returnObj = {
- 
-    id: note._id,
-    title:note.title,
-    description:note.description,
-    type:note.type,
-    priority:note.priority,
-    status:note.status,
-    author:ticketAuthor,
-    createdAt:note.createdAt,
-project:{
-  id:_id,
-  title:title,
-  description:description,
-  projectLeader:pLeader
+    const pLeader = await User.findOne({ _id: projectLeader }).select(
+      "name surname role geneder userAvatar"
+    );
+    console.log(pLeader);
 
-  }
-}
- 
-  
+    const returnObj = {
+      id: note._id,
+      title: note.title,
+      description: note.description,
+      type: note.type,
+      priority: note.priority,
+      status: note.status,
+      author: ticketAuthor,
+      createdAt: note.createdAt,
+      project: {
+        id: _id,
+        title: title,
+        description: description,
+        projectLeader: pLeader,
+      },
+    };
 
-    
     // const contributorAccess =
     //   conctibutorsList.includes(userId) || req.user.role === "admin";
 
@@ -186,30 +231,48 @@ project:{
     const io = req.app.get("socketio");
     const id = req.params.id;
     const updates = req.body;
-    console.log(updates)
-    const { title,priority,status,description } = req.body;
+    console.log(updates);
+    const { title, priority, status, description } = req.body;
     const { _id: user } = req.user;
 
-    const {title:ticketTitle,
-      priority:ticketPriority, 
+    const {
+      title: ticketTitle,
+      priority: ticketPriority,
       status: ticketStatus,
-      description:ticketDescription,
-      author:ticketAuthor} = await Note.findOne({ _id: id });
-      try {
-     if(title===ticketTitle&&priority===ticketPriority&&status===ticketStatus&&description===ticketDescription){
-      return res.status(304).json({message:"NO changes has been made",success:false})
-     }
+      description: ticketDescription,
+      author: ticketAuthor,
+    } = await Note.findOne({ _id: id });
+    try {
+      if (
+        title === ticketTitle &&
+        priority === ticketPriority &&
+        status === ticketStatus &&
+        description === ticketDescription
+      ) {
+        return res
+          .status(304)
+          .json({ message: "NO changes has been made", success: false });
+      }
 
-    const isAuthor = ticketAuthor.toString() === req.user._id.toString();
+      const isAuthor = ticketAuthor.toString() === req.user._id.toString();
 
-
-    
       if (!isAuthor || req.user.role !== "admin") {
-        return res.status(400).json({message:"You dont have permissions to edit this ticket",success:false})
+        return res
+          .status(400)
+          .json({
+            message: "You dont have permissions to edit this ticket",
+            success: false,
+          });
       }
 
       if (ticketStatus !== "Open") {
-        return res.status(400).json({message:"Ticket status is already set as closed, You can not edit closed tickets", success:false})
+        return res
+          .status(400)
+          .json({
+            message:
+              "Ticket status is already set as closed, You can not edit closed tickets",
+            success: false,
+          });
       }
 
       let finalUpdates = { ...updates };
@@ -225,10 +288,15 @@ project:{
         { $set: finalUpdates }
       );
 
-      const eventStreamObject = {id:id,status:"update"}
-      io.sockets.emit("ticketCollectionUpdate",eventStreamObject)
+      const eventStreamObject = { id: id, status: "update" };
+      io.sockets.emit("ticketCollectionUpdate", eventStreamObject);
 
-      return res.status(200).json({message:"Ticket has been updated successfully", success:true});
+      return res
+        .status(200)
+        .json({
+          message: "Ticket has been updated successfully",
+          success: true,
+        });
     } catch (Error) {
       res.status(400).json(Error.message);
     }

@@ -1,12 +1,10 @@
-@import '../../index.css';
+@import "../../index.css";
 .ticketDetails {
   flex: 5;
   padding: 20px;
   height: calc(100vh - 50px);
-  overflow:auto;
+  overflow: auto;
 }
-
-
 
 .ticketHeaderContainer {
   display: flex;
@@ -26,11 +24,9 @@
   font-weight: 400;
 }
 .ticketDataContainer {
-
   display: flex;
 }
 .ticketDataContainerWrapper {
-
   display: flex;
 }
 .ticketDataContainerLeft {
@@ -40,69 +36,63 @@
   padding: 5px 30px;
 }
 
-
 .ticketDataContainerTop {
   margin-top: 15px;
   flex: 1;
-  
 }
 
-.ticketDataContainerTop__contentHeader{
-
-display: flex;
-
+.ticketDataContainerTop__contentHeader {
+  display: flex;
 }
 
-.ticketDataContainerTop__icons{
-display: flex;
-flex:1;
-flex-wrap: wrap;
-gap:0.8rem;
-
+.ticketDataContainerTop__icons {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 }
-.ticketDataContainerTop__icons .icon{
+.ticketDataContainerTop__icons .icon {
   border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.144);
-    border-right: 1px solid rgba(255, 255, 255, 0.068);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  border-right: 1px solid rgba(255, 255, 255, 0.068);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+color:rgba(255, 255, 255, 0.975);
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
 
-font-size: 12px;
-display: flex;
-justify-content: center;
-align-items: center;
-font-weight: 600;
-
-
-width: 70px;
-padding: 4px 0px;
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-border-radius: 5px;
+  width: 70px;
+  padding: 4px 0px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
-.ticketDataContainerTop__icons .icon-type__Question{
-background-color: rgb(212, 76, 212);
+.ticketDataContainerTop__icons .icon-type__Question {
+  background-color: rgb(212, 76, 212);
 }
-.ticketDataContainerTop__icons .icon-type__BUG{
-  background-color: rgb(128, 0, 51);
-  }
-  .ticketDataContainerTop__icons .icon-type__Enhancement{
-    background-color: rgb(180, 138, 155);
-    }
+.ticketDataContainerTop__icons .icon-type__Bug {
+  background-color: rgb(198, 44, 47);
+}
+.ticketDataContainerTop__icons .icon-type__Enhancement {
+  background-color: rgb(180, 138, 155);
+}
 
-    .ticketDataContainerTop__icons .icon-priority__Low{
-      background-color: rgb(31, 161, 74);
-      }
-      .ticketDataContainerTop__icons .icon-priority__Medium{
-        background-color: rgb(194, 130, 11)
-        }
-        .ticketDataContainerTop__icons .icon-priority__High{
-          background-color: rgb(203, 8, 54)
-          }
-          .ticketDataContainerTop__icons .icon-status__Open{
-            background-color: rgb(18, 164, 147)
-            }
-            .ticketDataContainerTop__icons .icon-status__Closed{
-              background-color: rgb(69, 70, 77)
-              }
+.ticketDataContainerTop__icons .icon-priority__Low {
+  background-color: rgb(31, 161, 74);
+}
+.ticketDataContainerTop__icons .icon-priority__Medium {
+  background-color: rgb(194, 130, 11);
+}
+.ticketDataContainerTop__icons .icon-priority__High {
+  background-color: rgb(203, 8, 54);
+}
+.ticketDataContainerTop__icons .icon-status__Open {
+  background-color: rgb(18, 164, 147);
+}
+.ticketDataContainerTop__icons .icon-status__Closed {
+  background-color: rgb(69, 70, 77);
+}
 
 .ticketInfoTopItem {
   flex: 1;
@@ -111,13 +101,11 @@ background-color: rgb(212, 76, 212);
   justify-content: center;
   flex-wrap: wrap;
 
-gap:0.4rem
+  gap: 0.4rem;
 }
 .ticketInfoTopItem.title input:enabled {
   border-bottom: 1px double grey;
 }
-
-
 
 .ticketInfoTopItem.title {
   display: flex;
@@ -130,7 +118,6 @@ gap:0.4rem
   font-size: 14px;
   color: grey;
 }
-
 
 .ticketInfoTopItem.title input {
   border: none;
@@ -147,16 +134,12 @@ gap:0.4rem
   font-size: 14px;
 }
 
-
 .ticketDataTopItemWrapper {
   display: flex;
   justify-content: space-around;
-
 }
-.ticketDataTopItemWrapper .title{
-
-margin-top: 40px;
-  
+.ticketDataTopItemWrapper .title {
+  margin-top: 40px;
 }
 .ticketDataTopItem {
   display: flex;
@@ -195,14 +178,12 @@ margin-top: 40px;
 .ticektDataBottom {
   height: max-content;
   flex-direction: column;
-
 }
 .ticketDataBottomItem {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
   margin-bottom: 25px;
-
 }
 .ticketDataBottomItem-textArea {
   display: flex;
@@ -225,7 +206,6 @@ margin-top: 40px;
   display: flex;
   flex-direction: column;
 }
-
 
 .ticketDataBottomItemWrapper-select label {
   margin-bottom: 5px;
@@ -325,7 +305,6 @@ margin-top: 40px;
   display: flex;
 
   gap: 5px;
-
 }
 
 .ticketInfoButtonWrapper button {
@@ -358,7 +337,7 @@ margin-top: 40px;
   padding: 20px;
   color: var(--dark-color);
   height: calc(100vh - 50px);
-  overflow:auto;
+  overflow: auto;
 }
 
 #dark .ticketDataContainerLeft {
@@ -366,49 +345,48 @@ margin-top: 40px;
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   flex: 3;
   padding: 5px 30px;
-  background-color: var(--dark-secondary)
+  background-color: var(--dark-secondary);
 }
 #dark .ticketInfoTopItem.title input:disabled {
   border-bottom: 1px double grey;
-  color: var(--dark-color)
+  color: var(--dark-color);
 }
 #dark .ticketInfoTopItem.title label {
   margin-bottom: 5px;
   font-size: 14px;
-  color: var(--dark-color)
+  color: var(--dark-color);
 }
-#dark .ticketDetails-ticketTitle{
- color:var(--dark-color);
+#dark .ticketDetails-ticketTitle {
+  color: var(--dark-color);
 }
-#dark .ticketDetails-ticketTitle:enabled{
+#dark .ticketDetails-ticketTitle:enabled {
   background-color: var(--dark-third);
- }
+}
 
 #dark form select:disabled {
   color: rgb(243, 243, 248);
-  background-color:var(--dark-primary);
+  background-color: var(--dark-primary);
 }
 
 #dark form label {
-  color: var(--dark-color)
+  color: var(--dark-color);
 }
 #dark select {
   background-color: var(--dark-third);
-  color: var(--dark-color)
+  color: var(--dark-color);
 }
 #dark .ticketDataBottomItem-textArea textarea {
   resize: none;
   background-color: var(--dark-third);
-  color: var(--dark-color)
+  color: var(--dark-color);
 }
 
 #dark .ticketDataBottomItem-textArea textarea:disabled {
-
   background-color: var(--dark-primary);
-color: var(--dark-color)
+  color: var(--dark-color);
 }
-#dark .ticketInfoButtonWrapper button{
-background-color: var(--dark-third);
+#dark .ticketInfoButtonWrapper button {
+  background-color: var(--dark-third);
 }
 
 /* PURPLE */
@@ -418,7 +396,7 @@ background-color: var(--dark-third);
   padding: 20px;
   color: var(--purple-color);
   height: calc(100vh - 50px);
-  overflow:auto;
+  overflow: auto;
 }
 #purple .ticketDataContainerLeft {
   border: 2px solid #29233d;
@@ -426,50 +404,50 @@ background-color: var(--dark-third);
   box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3);
   flex: 3;
   padding: 5px 30px;
-  background: var(--purple-bg-linear)
+  background: var(--purple-bg-linear);
 }
 #purple .ticketInfoTopItem.title input:disabled {
   /* border-bottom: 1px double grey; */
   background-color: var(--purple-primary);
-  color: var(--purple-color)
+  color: var(--purple-color);
 }
 #purple .ticketInfoTopItem.title label {
   margin-bottom: 5px;
   font-size: 14px;
-  color: var(--purple-color)
+  color: var(--purple-color);
 }
-#purple .ticketDetails-ticketTitle{
- color:var(--purple-color);
+#purple .ticketDetails-ticketTitle {
+  color: var(--purple-color);
 }
-#purple .ticketDetails-ticketTitle:enabled{
+#purple .ticketDetails-ticketTitle:enabled {
   background: var(--dark-primary);
- }
+}
 
 #purple form select:disabled {
   color: rgb(243, 243, 248);
-  background:var(--purple-primary);
+  background: var(--purple-primary);
 }
 
 #purple form label {
-  color: var(--purple-color)
+  color: var(--purple-color);
 }
 #purple select {
   background: var(--dark-primary);
-  color: var(--purple-color)
+  color: var(--purple-color);
 }
 #purple .ticketDataBottomItem-textArea textarea {
   resize: none;
   background: var(--dark-primary);
-  color: var(--purple-color)
+  color: var(--purple-color);
 }
 
 #purple .ticketDataBottomItem-textArea textarea:disabled {
   background: var(--purple-primary);
-color: var(--purple-color)
+  color: var(--purple-color);
 }
-#purple .ticketInfoButtonWrapper button{
+#purple .ticketInfoButtonWrapper button {
   background-color: var(--purple-third);
-  }
+}
 
 /* GREEN */
 #green .ticketDetails {
@@ -477,53 +455,52 @@ color: var(--purple-color)
   padding: 20px;
   color: var(--green-color);
   height: calc(100vh - 50px);
-  overflow:auto;
+  overflow: auto;
 }
 #green .ticketDataContainerLeft {
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   flex: 3;
   padding: 5px 30px;
-  background-color: var(--green-secondary)
+  background-color: var(--green-secondary);
 }
 #green .ticketInfoTopItem.title input:disabled {
   border-bottom: 1px double grey;
   color: var(--green-color);
-
 }
 #green .ticketInfoTopItem.title label {
   margin-bottom: 5px;
   font-size: 14px;
-  color: var(--green-color)
+  color: var(--green-color);
 }
-#green .ticketDetails-ticketTitle{
- color:var(--green-color);
+#green .ticketDetails-ticketTitle {
+  color: var(--green-color);
 }
-#green .ticketDetails-ticketTitle:enabled{
+#green .ticketDetails-ticketTitle:enabled {
   background-color: var(--green-third);
- }
+}
 
 #green form select:disabled {
   color: rgb(243, 243, 248);
-  background-color:var(--green-primary);
+  background-color: var(--green-primary);
 }
 
 #green form label {
-  color: var(--purple-color)
+  color: var(--purple-color);
 }
 #green select {
   background-color: var(--green-third);
-  color: var(--purple-color)
+  color: var(--purple-color);
 }
 #green .ticketDataBottomItem-textArea textarea {
   resize: none;
   background: var(--green-third-linear);
-  color: var(--green-color)
+  color: var(--green-color);
 }
 #green .ticketDataBottomItem-textArea textarea:disabled {
   background-color: var(--green-primary);
-color: var(--green-color)
+  color: var(--green-color);
 }
-#green .ticketInfoButtonWrapper button{
+#green .ticketInfoButtonWrapper button {
   background-color: var(--green-third);
-  }
+}

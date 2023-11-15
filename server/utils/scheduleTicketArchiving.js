@@ -4,7 +4,7 @@ const Note = require('../db/models/note')
 const findAndArchivize = async(req,res)=>{
 
    const xd = await Note.updateMany({status:'Closed'},{$set:{Archivized:true}})
-   console.log('BANG')
+   console.log("BANG")
    
 }
 

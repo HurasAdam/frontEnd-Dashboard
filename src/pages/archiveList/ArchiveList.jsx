@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ObjectDateToString } from "../../utils/ObjectDateToString";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { useQuery } from "react-query";
+import { getArchiveTicketList } from "../../features/ticketApi/ticketApi";
 export const ArchiveList = () => {
   const { theme } = useContext(ThemeContext);
   const [pageState, setPageState] = useState({
@@ -22,15 +24,21 @@ export const ArchiveList = () => {
     setPageState({ ...pageState, page: action });
   };
 
-  const [data, isLoading, error] = useFetch(
-    "http://127.0.0.1:3000/api/notes/archived"
-  );
+  // const [data, isLoading, error] = useFetch(
+  //   "http://127.0.0.1:3000/api/notes/archived"
+  // );
 
-  useEffect(() => {
-    if (data) {
-      setPageState(data);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setPageState(data);
+  //   }
+  // }, [data]);
+
+
+
+const {isLoading,isError,error,data:archiveTicketList}=useQuery(["archiveTicketList"],getArchiveTicketList)
+
+console.log(archiveTicketList)
 
   const columns = [
     { field: "title", headerName: "Title", width: 200, flex: 0.9 },
@@ -69,7 +77,7 @@ export const ArchiveList = () => {
       headerName: "Closed At",
       width: 160,
       flex: 0.4,
-      valueFormatter: ({ value }) => ObjectDateToString(value.split(",")[0]),
+      // valueFormatter: ({ value }) => ObjectDateToString(value.split(",")[0]),
     },
     {
       field: "action",
@@ -95,13 +103,13 @@ export const ArchiveList = () => {
       </div>
       {error && <div>{error}</div>}
       {isLoading && <div>Loading...</div>}
-      {pageState.tickets ? (
+      {archiveTicketList ? (
         <DataGrid
           className="DataGrid"
           autoHeight={false}
           rowHeight={40}
           hideFooterSelectedRowCount={true}
-          rows={pageState.tickets}
+          rows={archiveTicketList}
           columns={columns}
           pageSize={14}
           rowsPerPageOptions={[10]}

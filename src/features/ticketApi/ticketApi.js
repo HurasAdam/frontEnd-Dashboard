@@ -58,3 +58,8 @@ export const getSelectOptionList = async()=>{
   const response = await projectApi.get('/options')
   return response.data
 }
+
+export const getArchiveTicketList= async()=>{
+const reponse = await projectApi.get('/notes/archived')
+return reponse.data
+}

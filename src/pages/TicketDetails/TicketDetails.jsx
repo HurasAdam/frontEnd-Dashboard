@@ -111,7 +111,7 @@ export const TicketDetails = () => {
 
 
 const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
-  console.log(data)
+  handlePopup(setShowMsgPopup, data);
 })
 
   const editPostMutation = mutationHandler(editTicketPost, (data) => {
@@ -283,7 +283,12 @@ const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
                           disabled={isDisabled}
                        onClick={(e)=>handleUpdateTicket(
                         {id:ticketId,
-                          mutation:updateTicketMutation})}
+                          mutation:updateTicketMutation,
+                          formData:{title,priority,status,description,}},
+                          data,
+                          setShowMsgPopup
+                        
+                        )}
                         >
                           Update
                         </button>

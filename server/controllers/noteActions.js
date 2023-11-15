@@ -185,16 +185,24 @@ project:{
   async updateNote(req, res) {
     const id = req.params.id;
     const updates = req.body;
-    const { status } = req.body;
+    console.log(updates)
+    const { title,priority,status,description } = req.body;
     const { _id: user } = req.user;
 
-    const { status: ticketStatus } = await Note.findOne({ _id: id });
-    const currentTicket = await Note.findOne({ _id: id });
-const {_id:authorId} = await User.findOne({_id:currentTicket.author})
-    const isAuthor = authorId.toString() === req.user._id.toString();
-   
+    const {title:ticketTitle,
+      priority:ticketPriority, 
+      status: ticketStatus,
+      description:ticketDescription,
+      author:ticketAuthor} = await Note.findOne({ _id: id });
+      try {
+     if(title===ticketTitle&&priority===ticketPriority&&status===ticketStatus&&description===ticketDescription){
+      return res.status(304).json({message:"NO changes has been made",success:false})
+     }
 
-    try {
+    const isAuthor = ticketAuthor.toString() === req.user._id.toString();
+
+
+    
       if (!isAuthor || req.user.role !== "admin") {
         return res.status(400).json({message:"You dont have permissions to edit this ticket",success:false})
       }

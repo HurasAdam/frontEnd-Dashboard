@@ -24,8 +24,10 @@ return response.data;
 }
 
 
-export const updateTicket= async (id)=>{
-  const response = await projectApi.patch(`notes/${id}`)
+export const updateTicket= async ({id,content})=>{
+  console.log(id)
+  console.log(content)
+  const response = await projectApi.patch(`notes/${id}`,content)
   return response.data
 }
 

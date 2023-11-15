@@ -61,7 +61,7 @@ export const TicketDetails = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("ZIOBRO");
   const [priority, setPriority] = useState("");
   const [type, setType] = useState("");
   const [postList, setPostList] = useState([]);
@@ -84,7 +84,7 @@ export const TicketDetails = () => {
 
 
 
-
+ 
   const { data: posts } = useQuery(["posts"], () => getTicketPosts(ticketId), {
     onSuccess: (posts) => {
       setPostList(posts);
@@ -102,7 +102,6 @@ export const TicketDetails = () => {
     ["selectOptionList"],
     getSelectOptionList,
     {
-      
       refetchOnWindowFocus: false,
       enabled: false,
     }
@@ -143,15 +142,6 @@ export const TicketDetails = () => {
 
   const priorityOptions = ["Low", "Medium", "High"];
   const statusOptions = ["Open", "Closed"];
-
-
-
-  const lol =selectOptionList&&selectOptionList.filter((option)=>option.value!==priority&&priority)
-  
-console.log(lol)
-
-
-
 
   return (
     <div className="ticketDetails" id={theme.mode} ref={domReference}>
@@ -224,14 +214,16 @@ console.log(lol)
                               onChange={(e) => setPriority(e.target.value)}
                             >
                               {selectOptionList &&
-                                selectOptionList
-                                  .map((o) => (
-                                    <option   
-                                    selected={o.value===priority}
+                                selectOptionList?.priority.map((o) => (
+                                  <option
+                                    selected={o.value === priority}
                                     disabled={o?.value === priority}
-                                    value={o?.label} key={o?.value}>{o?.value}
-                                    </option>
-                                  ))}
+                                    value={o?.value}
+                                    key={o?.value}
+                                  >
+                                    {o?.label}
+                                  </option>
+                                ))}
                             </select>
                           )}
                         </div>
@@ -239,23 +231,24 @@ console.log(lol)
                           <label htmlFor="">Status</label>
                           {data && (
                             <select
-                              onChange={(e) =>
-                                setTicketData({
-                                  ...ticketData,
-                                  status: e.target.value,
-                                })
-                              }
-                              value={ticketData.status}
+                             onChange={(e)=>setStatus(e.target.value)}
                               className="selectTicketPriority"
                               disabled={isDisabled}
                             >
-                              <option disabled selected>
+                              {/* <option disabled selected>
                                 {ticketData.status}
-                              </option>
-                              {statusOptions
-                                .filter((o) => o !== ticketData.status)
-                                .map((option) => {
-                                  return <option>{option}</option>;
+                              </option> */}
+                          
+
+                              {selectOptionList &&
+                                selectOptionList?.status.map((option) => {
+                                  return <option 
+                                  selected={option?.value === status}
+                                  disabled={option?.value === status}
+                                  key={option.value}>{option.label}
+                                   
+                                
+                                  </option>;
                                 })}
                             </select>
                           )}

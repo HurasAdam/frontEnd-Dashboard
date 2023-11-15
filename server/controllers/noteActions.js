@@ -121,6 +121,7 @@ console.log(pLeader)
     description:note.description,
     type:note.type,
     priority:note.priority,
+    status:note.status,
     author:ticketAuthor,
     createdAt:note.createdAt,
 project:{

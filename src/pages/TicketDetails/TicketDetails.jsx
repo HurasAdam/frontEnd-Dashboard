@@ -19,6 +19,7 @@ import { ObjectDateToString } from "../../utils/ObjectDateToString";
 import {
   getSelectOptionList,
   getTicket,
+  updateTicket,
 } from "../../features/ticketApi/ticketApi";
 import { useSocketListen } from "../../hooks/useSocketListen";
 import { getTicketPosts } from "../../features/ticketApi/ticketApi";
@@ -34,6 +35,7 @@ import { deleteTicket } from "../../features/ticketApi/ticketApi";
 import { handleDeleteTicket } from "../../shared/handleDeleteTicket";
 import { MsgPopup } from "../../components/msgPopup/MsgPopup";
 import { handlePopup } from "../../shared/handlePopup";
+import { handleUpdateTicket } from "../../shared/handleUpdateTicket";
 export const TicketDetails = () => {
   useSocketListen({
     event: "postCollectionUpdate",
@@ -82,21 +84,11 @@ export const TicketDetails = () => {
     }
   );
 
-
-
- 
   const { data: posts } = useQuery(["posts"], () => getTicketPosts(ticketId), {
     onSuccess: (posts) => {
       setPostList(posts);
     },
   });
-
-  console.log(selectOptions);
-
-  const handleEditMode = () => {
-    setIsDisabled(false);
-    fetchPriorityOptionList();
-  };
 
   const { data: selectOptionList, refetch: fetchPriorityOptionList } = useQuery(
     ["selectOptionList"],
@@ -116,6 +108,12 @@ export const TicketDetails = () => {
       handlePopup(setShowMsgPopup, data);
     }
   });
+
+
+const updateTicketMutation = mutationHandler(updateTicket,(data)=>{
+  console.log(data)
+})
+
   const editPostMutation = mutationHandler(editTicketPost, (data) => {
     if (data.code) {
       handlePopup(setShowMsgPopup, data.response.data);
@@ -135,13 +133,19 @@ export const TicketDetails = () => {
     console.log("USUNIETO");
   });
 
+
+
+  const handleEditMode = () => {
+    setIsDisabled(false);
+    fetchPriorityOptionList();
+  };
+
+
   const [ticketData, setTicketData] = useState({});
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
-  const priorityOptions = ["Low", "Medium", "High"];
-  const statusOptions = ["Open", "Closed"];
 
   return (
     <div className="ticketDetails" id={theme.mode} ref={domReference}>
@@ -277,10 +281,9 @@ export const TicketDetails = () => {
                       ) : (
                         <button
                           disabled={isDisabled}
-                          onClick={() => {
-                            setIsDisabled(true);
-                            handleDataUpdate();
-                          }}
+                       onClick={(e)=>handleUpdateTicket(
+                        {id:ticketId,
+                          mutation:updateTicketMutation})}
                         >
                           Update
                         </button>

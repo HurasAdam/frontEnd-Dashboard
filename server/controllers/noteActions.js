@@ -190,18 +190,17 @@ project:{
 
     const { status: ticketStatus } = await Note.findOne({ _id: id });
     const currentTicket = await Note.findOne({ _id: id });
-
-    const isAuthor = currentTicket.author === req.user._id.toString();
+const {_id:authorId} = await User.findOne({_id:currentTicket.author})
+    const isAuthor = authorId.toString() === req.user._id.toString();
+   
 
     try {
       if (!isAuthor || req.user.role !== "admin") {
-        throw Error("You dont have permissions to edit this ticket");
+        return res.status(400).json({message:"You dont have permissions to edit this ticket",success:false})
       }
 
       if (ticketStatus !== "Open") {
-        throw Error(
-          "Ticket status is already set as closed, You can not edit closed tickets"
-        );
+        return res.status(400).json({message:"Ticket status is already set as closed, You can not edit closed tickets", success:false})
       }
 
       let finalUpdates = { ...updates };
@@ -217,7 +216,7 @@ project:{
         { $set: finalUpdates }
       );
 
-      return res.status(201).json(note);
+      return res.status(200).json({message:"Ticket has been updated successfully", success:true});
     } catch (Error) {
       res.status(400).json(Error.message);
     }

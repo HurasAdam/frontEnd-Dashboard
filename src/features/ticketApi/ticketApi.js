@@ -23,6 +23,12 @@ const response = await projectApi.delete(`notes/${id}`);
 return response.data;
 }
 
+
+export const updateTicket= async (id)=>{
+  const response = await projectApi.patch(`notes/${id}`)
+  return response.data
+}
+
 export const getTicketPosts= async(id)=>{
 
   const response= await projectApi.get(`posts?ticketId=${id}`)

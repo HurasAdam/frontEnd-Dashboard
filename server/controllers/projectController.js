@@ -47,35 +47,27 @@ const getProjectList = async (req, res) => {
   const { role } = req.role;
   const {page,membership}=req.query
   
+ 
   if (page) {
   const pageNumber = Number(req.query.page);
   let size = 13;
   const limit = parseInt(size);
   const skip = (pageNumber - 1) * size;
   const allProjects = await Project.find({});
-  const limitedArrayOfProjects = await Project.find({}).skip(skip).limit(limit);
-const projectLeaderList = await Promise.all(limitedArrayOfProjects.map((p)=> User.findById(p.projectLeader)))
-const updatedProjectList = limitedArrayOfProjects.map((project)=>{
-  const projectLeader = projectLeaderList.find((person)=>person._id.toString()===project.projectLeader.toString())
-p = {
-_id:project._id,
-title:project.title,
-description:project.description,
-contributor:project.contributors,
-projectLeader:projectLeader,
-createdAt:convertDate({date:project.createdAt})
+
+  const limitedProjectList = await Project.find({}).skip(skip).limit(limit).populate({
+    path:'projectLeader',
+    model:'User',
+    select:'_id name surname email role gender userAvatar'
+  })
+
+return res.status(200).json({
+  pageSize: size,
+  total: Math.ceil(allProjects.length / size),
+  page: Number(page),
+  limitedArrayOfProjects:limitedProjectList,
+});
 }
-return p
-})
-  const { limitedArrayOfProjects: queryString } = req.query;
-  const userlimitedArrayOfProjects = allProjects.filter((project)=>project.contributors.includes(userId))
-    res.status(200).json({
-        pageSize: size,
-        total: Math.ceil(allProjects.length / size),
-        page: page,
-        limitedArrayOfProjects:updatedProjectList,
-      });
-    }
 
     if(membership){
       console.log(membership)
@@ -83,15 +75,6 @@ return p
       return res.status(200).json(filteredProjectList)
     }
 
-
-  //project list that user belongs to as select opions
-  // if (queryString === "userlimitedArrayOfProjects" && role === "admin") {
-  //   res.status(200).json(allProjects);
-  // }
-  // //all project as select options - only for admin role
-  // else if (queryString === "userlimitedArrayOfProjects" && role !== "admin") {
-  //   res.status(200).json(userlimitedArrayOfProjects);
-  // }
 };
 
 //Get Sinle Project

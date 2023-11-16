@@ -57,7 +57,9 @@ export const ProjectsList = () => {
   } = useQuery(
     ["projects", pageState.page],
     () => getProjectList(pageState.page),
-    {}
+    {onSuccess:(data)=>{
+      setPageState({page:data.page,total:data.total,pageSize:data.pageSize})
+    }}
   );
 
 
@@ -112,7 +114,7 @@ export const ProjectsList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/projects/${params.row._id}/`}>
+            <Link to={`/projects/${params.row.id}/`}>
               <VisibilityOutlinedIcon className="TicketListActionIcon" />
             </Link>
           </>
@@ -139,7 +141,7 @@ export const ProjectsList = () => {
         <DataGrid
           className="DataGrid"
           id={theme.mode}
-          getRowId={(row)=>row._id}
+          getRowId={(row)=>row.id}
           autoHeight={false}
           rowHeight={40}
           rows={projects.limitedArrayOfProjects}

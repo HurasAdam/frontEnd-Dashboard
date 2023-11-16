@@ -88,7 +88,7 @@ export const TicketDetails = () => {
       },
     }
   );
-
+console.log(data)
   const { data: posts } = useQuery(["posts"], () => getTicketPosts(ticketId), {
     onSuccess: (posts) => {
       setPostList(posts);
@@ -292,11 +292,17 @@ export const TicketDetails = () => {
 
                   {!isDeleted ? (
                     <div className="ticketInfoButtonWrapper">
+                      
                       <button onClick={(e) => setIsDeleted((prev) => !prev)}>
                         Delete
                       </button>
-                      {isDisabled ? (
-                        <button onClick={handleEditMode}>Edit</button>
+                      {isDisabled  ? (
+                        <button 
+                        disabled={data?.Archivized}  
+                        onClick={handleEditMode}
+                        className={data?.Archivized?'btn__disabled':''}
+                        >Edit
+                        </button>
                       ) : (
                         <button
                           disabled={isDisabled}

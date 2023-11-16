@@ -5,7 +5,7 @@ const User = require("../db/models/user");
 const Project = require("../db/models/project");
 const { convertDate } = require("../utils/dateConvert");
 
-// scheduleTicketArchiving()
+scheduleTicketArchiving()
 
 module.exports = {
   //Zapisywanie notatki
@@ -56,28 +56,35 @@ module.exports = {
 
   async getArchived(req, res) {
   
-    const ticketList = await Promise.all(
-      (
-        await Note.find({ Archivized: true })
-          .populate('closedBy') // Dodaj to, aby pobrać dane użytkownika
-      ).map(async (ticket) => {
-        // Pobierz dane użytkownika z związku
-        const user = await User.findOne({_id:ticket.closedBy}).select('name surname email role gender userAvatar')
+//     const ticketList = await Promise.all(
+//       (
+//         await Note.find({ Archivized: true })
+//           .populate('closedBy') // Dodaj to, aby pobrać dane użytkownika
+//       ).map(async (ticket) => {
+//         // Pobierz dane użytkownika z związku
+//         const user = await User.findOne({_id:ticket.closedBy}).select('name surname email role gender userAvatar')
     
-        // Tutaj możesz dodać inne transformacje, jeśli są potrzebne
+//         // Tutaj możesz dodać inne transformacje, jeśli są potrzebne
     
-        return {
-          id: ticket._id,
-          title: ticket.title,
-          type: ticket.type,
-          description: ticket.description,
-          closedBy: user,
-        };
-      })
-    );
-console.log(ticketList)
+//         return {
+//           id: ticket._id,
+//           title: ticket.title,
+//           type: ticket.type,
+//           description: ticket.description,
+//           closedBy: user,
+//         };
+//       })
+//     );
+// console.log(ticketList)
 
-res.status(200).json(ticketList)
+const archived = await Note.find({Archivized:true}).populate({
+  path:'closedBy',
+  model:'User',
+  select:'name surname email userAvatar gender'
+})
+
+
+res.status(200).json(archived)
 
 
 
@@ -162,8 +169,8 @@ res.status(200).json(ticketList)
     const pLeader = await User.findOne({ _id: projectLeader }).select(
       "name surname role geneder userAvatar"
     );
-    console.log(pLeader);
-
+  
+console.log("SPRAWDZAM ENDPOINT")
     const returnObj = {
       id: note._id,
       title: note.title,
@@ -173,6 +180,7 @@ res.status(200).json(ticketList)
       status: note.status,
       author: ticketAuthor,
       createdAt: note.createdAt,
+      Archivized:note.Archivized,
       project: {
         id: _id,
         title: title,
@@ -231,7 +239,7 @@ res.status(200).json(ticketList)
     const io = req.app.get("socketio");
     const id = req.params.id;
     const updates = req.body;
-    console.log(updates);
+
     const { title, priority, status, description } = req.body;
     const { _id: user } = req.user;
 

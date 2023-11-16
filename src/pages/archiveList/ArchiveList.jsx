@@ -24,16 +24,6 @@ export const ArchiveList = () => {
     setPageState({ ...pageState, page: action });
   };
 
-  // const [data, isLoading, error] = useFetch(
-  //   "http://127.0.0.1:3000/api/notes/archived"
-  // );
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setPageState(data);
-  //   }
-  // }, [data]);
-
 
 
 const {isLoading,isError,error,data:archiveTicketList}=useQuery(["archiveTicketList"],getArchiveTicketList)
@@ -77,7 +67,7 @@ console.log(archiveTicketList)
       headerName: "Closed At",
       width: 160,
       flex: 0.4,
-      // valueFormatter: ({ value }) => ObjectDateToString(value.split(",")[0]),
+      valueFormatter: ({ value }) => ObjectDateToString(value.split(",")[0]),
     },
     {
       field: "action",

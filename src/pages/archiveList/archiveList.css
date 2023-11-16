@@ -12,6 +12,20 @@ padding: 0px 20px;
     font-weight: 600;
     font-size: 20px;
 }
+
+
+.archiveList button.Closed{
+    width: 50px;
+    background-color: rgba(24, 125, 13, 0.545);
+    border-radius: 5px;
+color:white;
+    border: 1px solid rgba(255, 255, 255, 0.144);
+    border-right: 1px solid rgba(255, 255, 255, 0.068);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+
+
+
 #dark .archiveListHeaderTitle span{
 
 color:white

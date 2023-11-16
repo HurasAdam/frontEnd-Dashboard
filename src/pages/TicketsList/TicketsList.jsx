@@ -44,17 +44,6 @@ export const TicketsList = () => {
     data:tickets,
   } = useQuery(["tickets"], getTicketList, {});
 
-  console.log(tickets);
-
-  // const [data,isLoading,error]=useFetch(`http://127.0.0.1:3000/api/notes?page=${pageState.page}`)
-  // console.log(data)
-  // useEffect(()=>{
-  //   if(data){
-  //     setPageState(data)
-
-  //   }
-
-  //   },[data])
 
   const columns = [
     { field: "title", headerName: "Title", width: 200, flex: 0.9 },

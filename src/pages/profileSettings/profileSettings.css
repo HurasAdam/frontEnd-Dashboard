@@ -12,34 +12,38 @@
 
 }
 
-.relationshipsHeader{
+.form-section-header{
   display: flex;
   flex-direction: column;
 }
 
-.relationshipsHeader span:first-child{
+.form-section-header span:first-child{
 font-size: 16px;
 font-weight: 600;
 }
 
-.relationshipsHeader span:last-child{
+.form-section-header span:last-child{
   font-size: 12px;
   color:#cfcaca
   }
 
-.relationships{
+.user-details-form{
   display: flex;
   padding: ;
   width: 100%;
   gap:20px;
   flex-wrap: wrap;
-padding: 20px;
-  
+/* padding: 20px; */
+background: var(--dark-primary);
+border-radius: 10px;
+border: 1px solid rgba(255, 255, 255, 0.144);
+border-right: 1px solid rgba(255, 255, 255, 0.068);
+border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 
 }
 
 
-.relationshipsDetails{
+.form-section-details{
 display: flex;
 justify-content: space-around;
 width: 100%;
@@ -47,20 +51,41 @@ gap:20px;
 flex-wrap: wrap;
 padding: 0px 20px;
 
-background: var(--dark-primary);
-border-radius: 10px;
-border: 1px solid rgba(255, 255, 255, 0.144);
-border-right: 1px solid rgba(255, 255, 255, 0.068);
-border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+
 }
 
-.relationships__header{
-  border: 2px solid white;
+.form-section-header{
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid rgb(35, 39, 57);
+  width: 100%;
+  padding: 5px 20px;
+}
+.user-avatar{
+  margin-top: 15px;
+
+width: 100px;
+height: 100px;
 }
 
-.relationships__right{
+.user-avatar input{
+width: 100px;
+text-align: center;
+font-size: 10px;
+height: 20px;
+
+}
+
+.user-avatar img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10%;
+  object-fit: cover;
+ 
+
+
+}
+.user-details-right{
 /* padding: 20px; */
 
 display: flex;
@@ -70,28 +95,28 @@ flex:1;
 padding: 10px;
 
 }
-.relationships__right label{
+.form-field{
 font-size: 14px;
 font-weight: 400;
 }
 
-.relationships__right input{
+.form-field input{
 min-height: 32px;
 border-radius: 6px;
 }
 
-.relationships__right-firstName{
+.form-field{
 gap:6px;
   display: flex;
   flex-direction: column;
 }
-.relationships__right-lastName{
+.form-field{
   gap:6px;
 display: flex;
 flex-direction: column;
 }
 
-.relationships__left{
+.user-details-left{
   /* padding: 20px; */
 
   display: flex;
@@ -100,38 +125,40 @@ gap:25px;
 flex:1;
 padding: 10px;
 }
-.relationships__left label{
+.form-field label{
   font-size: 14px;
   font-weight: 400;
   }
 
-.relationships__left input{
+.form-field input{
   min-height: 30px;
   border-radius: 6px;
   }
 
 
-.relationships__left-middleName{
+.form-field{
   gap:6px;
   display: flex;
   flex-direction: column;
 }
-.relationships__left-gender{
+.form-field{
   gap:6px;
   display: flex;
   flex-direction: column;
 }
 
-.relationships__left-gender select{
+.form-field select{
 width: 100%;
 margin: 0 auto;
-height: 30px;
+height: 25px;
+
 }
 
-.adress{
+.user-relationships{
   flex-wrap: wrap;
   display: flex;
   gap:20px;
+  
   padding: 20px;
   width: 100%;
   border-radius: 10px;
@@ -140,7 +167,7 @@ border-right: 1px solid rgba(255, 255, 255, 0.068);
 border-bottom: 1px solid rgba(255, 255, 255, 0.096);
 width: 100%;
 }
-.adressDetails{
+.relationships-section-details{
   border-top: 1px solid rgba(255, 255, 255, 0.096);
 flex-wrap: wrap;
   display: flex;
@@ -151,38 +178,43 @@ flex-wrap: wrap;
 width: 100%;
 
 }
-.adress-country{
+.relationships__form-field{
 
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding: 10px;
+  gap:5px;
+
 
 }
-.adress-country input{
+.relationships__form-field input{
 height: 30px;
 border-radius: 6px;
 }
-.adress-city{
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 10px;
-}
-.adress-city input{
-  height: 30px;
-  border-radius: 6px;
+
+.relationships__form-field label{
+font-size: 14px
   }
-.adress-zipCode{
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 10px;
-}
-.adress-zipCode input{
-  height: 30px;
-  border-radius: 6px;
+
+
+
+  user-occupation-assigned{
+    background-color: red;
+    border: 2px solid white;
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -200,7 +232,7 @@ border-radius: 6px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     border-radius:5px;
-    padding: 25px 5px;
+    padding: 5px 
   
   }
   @media screen and (max-width: 1000px) {
@@ -307,7 +339,7 @@ cursor: pointer;
   flex:5;
   display: flex;
   flex-direction: column;
-  gap:20px;
+  gap:15px;
   padding: 15px 35px;
   color: var(--dark-color);
 
@@ -323,9 +355,9 @@ cursor: pointer;
   justify-content: center;
   height: max-content;
 
-border: 2px solid red;
+padding: 20px;
+gap:15px
 
-gap:20px
 
 }
 #dark .profileSettingsItem input {

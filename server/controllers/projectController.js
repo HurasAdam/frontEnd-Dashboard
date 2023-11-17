@@ -75,6 +75,12 @@ return res.status(200).json({
 });
 }
 
+if(!page){
+  const allProjects = await Project.find({})
+
+  return res.status(200).json(allProjects)
+}
+
     if(membership){
       console.log(membership)
       const filteredProjectList = await Project.find({contributors:userId}).select("id title")

@@ -112,63 +112,68 @@ export const ProfileSettings = ({
             (<button onClick={(e)=>{e.preventDefault();setIsEdited(true)}} className="profileSettingsButton">Edit</button>)}
             </div> */}
 
-        <div className="relationships">
-          <div className="relationshipsHeader">
-          <span >User details</span>
-          <span >put the user info in</span>
+        <div className="user-details-form">
+          <div className="form-section-header">
+            <span>User details</span>
+            <span>put the user info in</span>
           </div>
-          <div className="relationshipsDetails">
- 
-          <div className="relationships__right">
-            <div className="relationships__right-firstName">
-            <label htmlFor="">First Name</label>
-            <input type="text" />
-            </div>
-           
-            <div className="relationships__right-lastName">
-              <label htmlFor="">Last Name</label>
-              <input type="text" />
-            </div>
-          </div >
-          <div className="relationships__left">
-      
-<div className="relationships__left-gender">
-<label htmlFor="">Gender</label>
 
-<select name="" id="">
-  <option value="male">male</option>
-  <option value="female">female</option>
-</select>
-</div>
-<div className="relationships__left-middleName">
-         <label htmlFor="">BirthDay</label>
-            <input type="date" />
-         </div>
-       
-          </div>
+          <div className="form-section-details">
+            <div className="user-avatar">
+              <img src="/public/img/person2.jpg" alt="" />
+              <input type="file" />
+            </div>
+            <div className="user-details-right">
+              <div className="form-field">
+                <label htmlFor="">First Name</label>
+                <input type="text" />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="">Last Name</label>
+                <input type="text" />
+              </div>
+            </div>
+            <div className="user-details-left">
+              <div className="form-field">
+                <label htmlFor="gender">Gender</label>
+
+                <select name="gender" id="gender">
+                  <option value="male">male</option>
+                  <option value="female">female</option>
+                </select>
+              </div>
+              <div className="form-field">
+                <label htmlFor="birthDate">BirthDay</label>
+                <input type="date" id="birthDate" />
+              </div>
+            </div>
           </div>
         </div>
 
-<div className="adress">
-  <span className="adressHeader">
-    Relationships
-  </span>
-  <div className="adressDetails">
-  <div className="adress-country">
-    <label htmlFor="">City</label>
-    <input type="text" />
-  </div>
-  <div className="adress-city">
-    <label htmlFor="">City</label>
-    <input type="text" />
-  </div>
-  <div className="adress-zipCode">
-    <label htmlFor="">Zip Code</label>
-    <input type="text" />
-  </div>
-  </div>
-</div>
-        
+        <div className="user-relationships">
+          <div className="relationships__form-section-header">
+          <span>Relationships</span>
+          </div>
+          <div className="relationships-section-details">
+            <div className="relationships__form-field">
+              <label htmlFor="">Country</label>
+              <input type="text" />
+            </div>
+            <div className="relationships__form-field">
+              <label htmlFor="">City</label>
+              <input type="text" />
+            </div>
+            <div className="relationships__form-field">
+              <label htmlFor="">Zip Code</label>
+              <input type="text" />
+            </div>
+          </div>
+        </div>
+
+        <div className="user-occupation-assigned">
+sdfsd
+        </div>
       </form>
     </div>
   );

@@ -7,7 +7,8 @@ const {
   getUserList,
   updateUserRole,
   updateUserData,
-  getUserData
+  getUserData,
+  getUserAccount
  
 } = require("../controllers/userController");
 const {uploadAvatar,upload}=require("../middleware/multer")
@@ -21,7 +22,7 @@ router.post("/login", loginUser);
 // signup route
 router.post("/signup", signupUser);
 
-
+router.get("/user-profile",requireAuth,getUserAccount)
 
 router.get("/", requireAuth, getUserList);
 

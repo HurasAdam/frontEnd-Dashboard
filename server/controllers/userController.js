@@ -279,6 +279,28 @@ const updateUserRole = async (req, res) => {
 
   res.status(200);
 };
+
+
+const getUserAccount= async(req,res)=>{
+
+const {_id:userId}=req.user
+
+const userProfile = await User.find({_id:userId}).select('name surname phone birthDay gender')
+
+const projectListAsignedTo = await Project.find({
+  contributors:{$in:[userId]}
+}).populate({
+  path:'contributors',
+  model:'User',
+  select:'name surname '
+
+})
+
+console.log(userId)
+   res.status(200).json({userProfile:userProfile,projectListAsignedTo})
+
+}
+
 module.exports = {
   signupUser,
   loginUser,
@@ -286,4 +308,7 @@ module.exports = {
   getUserList,
   updateUserData,
   updateUserRole,
+  getUserAccount
 };
+
+

@@ -31,9 +31,8 @@ export const ProjectsList = () => {
   const { theme } = useContext(ThemeContext);
   const queryClient = useQueryClient();
 
-  const handleSelectPage = (e, action) => {
-    e.preventDefault();
-    setPageState({ ...pageState, page: action });
+  const handleSelectPage = (action) => {
+    setPageState((prev) => ({ ...prev, page: action }));
   };
 
 
@@ -55,8 +54,8 @@ export const ProjectsList = () => {
     error,
     data: projects,
   } = useQuery(
-    ["projects", pageState.page],
-    () => getProjectList(pageState.page),
+    ["projects", pageState.page,pageState.pageSize],
+    () => getProjectList(pageState.page,pageState.pageSize),
     {onSuccess:(data)=>{
       setPageState({page:data.page,total:data.total,pageSize:data.pageSize})
     }}
@@ -143,14 +142,14 @@ export const ProjectsList = () => {
           id={theme.mode}
           getRowId={(row)=>row.id}
           autoHeight={false}
-          rowHeight={40}
+          rowHeight={38}
           rows={projects.limitedArrayOfProjects}
           columns={columns}
           checkboxSelection={false}
           disableSelectionOnClick
           hideFooter={true}
-          pageSize={14}
-          rowsPerPageOptions={[10]}
+          pageSize={pageState.pageSize}
+          rowsPerPageOptions={[20]}
         />
       )}
       <PaginationNavbar
@@ -158,6 +157,7 @@ export const ProjectsList = () => {
         max={projects?.total}
         handleSelectPage={handleSelectPage}
         theme={theme}
+        setPageState={setPageState}
       />      
     </div>
   

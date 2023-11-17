@@ -12,10 +12,10 @@ export const createProject= (projectData)=>{
 }
 
 
-export const getProjectList = (page) => {
+export const getProjectList = (page,selectedSize) => {
   return new Promise((resolve, reject) => {
     const response = projectApi
-      .get(`projects?page=${page}`)
+      .get(`projects?page=${page}&pageSize=${selectedSize}`)
       .then((res) => resolve(res.data));
   });
 };

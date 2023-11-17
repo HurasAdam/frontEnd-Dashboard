@@ -102,7 +102,7 @@
 .DataGrid {
   border: none !important;
   color: rgb(243, 243, 248);
-  height: calc(100vh - 215px) !important;
+  height: calc(100vh - 208px) !important;
 }
 
 /* THEME */

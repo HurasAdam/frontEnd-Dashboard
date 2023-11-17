@@ -15,6 +15,11 @@ export const getUsers = async() => {
 return response.data
 };
 
+export const getUser= async()=>{
+const response = await projectApi.get('/user')
+return response.data
+}
+
 export const getAdminUsers= async()=>{
 
 

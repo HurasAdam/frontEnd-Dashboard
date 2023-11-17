@@ -13,6 +13,7 @@ import axios from "axios";
 import { getProjectList } from "../../features/projectApi/projectApi";
 
 
+
 export const ProjectsList = () => {
   const [pageState, setPageState] = useState({
     page: 1,
@@ -36,17 +37,6 @@ export const ProjectsList = () => {
   };
 
 
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setPageState({
-  //       ...pageState,
-  //       total: data.total,
-  //       pageSize: data.pageSize,
-  //       projects: data.projects
-  //     });
-  //   }
-  // }, [data]);
   // REACT QUERY//
   const {
     isLoading,
@@ -87,7 +77,7 @@ export const ProjectsList = () => {
                   src={params.row.projectLeader.userAvatar}
                   alt=""
                 />
-              ) : null}
+              ) : <img className="userListUserImg" src="public//img/defaultUserAvatar.png"  alt="" />}
               <span>
                 {" "}
                 {`${params.row.projectLeader.name} ${params.row.projectLeader.surname}`}

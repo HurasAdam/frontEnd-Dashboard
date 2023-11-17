@@ -2,13 +2,16 @@
 .container{
     display: flex;
     position:relative;
+
 }
 
 
 /* THEMES */
 #dark.container{
     display: flex;
-    background: var(--dark-primary)
+    background: var(--dark-primary);
+ 
+ 
 }
 #purple.container{
     display: flex;

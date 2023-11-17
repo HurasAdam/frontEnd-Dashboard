@@ -53,6 +53,10 @@ export const UserList = () => {
 
   return (
     <div className="userList" style={{ height: 400, width: "100%" }}>
+      <div className="userListHeaderWrapper">
+      <span>Users</span>
+      </div>
+
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error: {error.message}</div>}
       {userList && (

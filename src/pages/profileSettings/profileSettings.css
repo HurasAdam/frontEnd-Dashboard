@@ -4,12 +4,187 @@
     flex:5;
     display: flex;
     flex-direction: column;
-    gap:20px;
-    height:auto;
-    padding: 15px 20px;
+
     height: auto;
-height: auto;
+
+
+
+
 }
+
+.relationshipsHeader{
+  display: flex;
+  flex-direction: column;
+}
+
+.relationshipsHeader span:first-child{
+font-size: 16px;
+font-weight: 600;
+}
+
+.relationshipsHeader span:last-child{
+  font-size: 12px;
+  color:#cfcaca
+  }
+
+.relationships{
+  display: flex;
+  padding: ;
+  width: 100%;
+  gap:20px;
+  flex-wrap: wrap;
+padding: 20px;
+  
+
+}
+
+
+.relationshipsDetails{
+display: flex;
+justify-content: space-around;
+width: 100%;
+gap:20px;
+flex-wrap: wrap;
+padding: 0px 20px;
+
+background: var(--dark-primary);
+border-radius: 10px;
+border: 1px solid rgba(255, 255, 255, 0.144);
+border-right: 1px solid rgba(255, 255, 255, 0.068);
+border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+}
+
+.relationships__header{
+  border: 2px solid white;
+  display: flex;
+  flex-direction: column;
+}
+
+.relationships__right{
+/* padding: 20px; */
+
+display: flex;
+flex-direction: column;
+gap:20px;
+flex:1;
+padding: 10px;
+
+}
+.relationships__right label{
+font-size: 14px;
+font-weight: 400;
+}
+
+.relationships__right input{
+min-height: 32px;
+border-radius: 6px;
+}
+
+.relationships__right-firstName{
+gap:6px;
+  display: flex;
+  flex-direction: column;
+}
+.relationships__right-lastName{
+  gap:6px;
+display: flex;
+flex-direction: column;
+}
+
+.relationships__left{
+  /* padding: 20px; */
+
+  display: flex;
+flex-direction: column;
+gap:25px;
+flex:1;
+padding: 10px;
+}
+.relationships__left label{
+  font-size: 14px;
+  font-weight: 400;
+  }
+
+.relationships__left input{
+  min-height: 30px;
+  border-radius: 6px;
+  }
+
+
+.relationships__left-middleName{
+  gap:6px;
+  display: flex;
+  flex-direction: column;
+}
+.relationships__left-gender{
+  gap:6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.relationships__left-gender select{
+width: 100%;
+margin: 0 auto;
+height: 30px;
+}
+
+.adress{
+  flex-wrap: wrap;
+  display: flex;
+  gap:20px;
+  padding: 20px;
+  width: 100%;
+  border-radius: 10px;
+border: 1px solid rgba(255, 255, 255, 0.144);
+border-right: 1px solid rgba(255, 255, 255, 0.068);
+border-bottom: 1px solid rgba(255, 255, 255, 0.096);
+width: 100%;
+}
+.adressDetails{
+  border-top: 1px solid rgba(255, 255, 255, 0.096);
+flex-wrap: wrap;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+
+
+width: 100%;
+
+}
+.adress-country{
+
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 10px;
+
+}
+.adress-country input{
+height: 30px;
+border-radius: 6px;
+}
+.adress-city{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 10px;
+}
+.adress-city input{
+  height: 30px;
+  border-radius: 6px;
+  }
+.adress-zipCode{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 10px;
+}
+.adress-zipCode input{
+  height: 30px;
+  border-radius: 6px;
+  }
+
+
 
 .profileSettingsTitle{
   padding: 5px 15px;
@@ -26,6 +201,7 @@ height: auto;
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     border-radius:5px;
     padding: 25px 5px;
+  
   }
   @media screen and (max-width: 1000px) {
     .profileSettingsForm {
@@ -132,8 +308,10 @@ cursor: pointer;
   display: flex;
   flex-direction: column;
   gap:20px;
-  padding: 15px 20px;
-  color: var(--dark-color)
+  padding: 15px 35px;
+  color: var(--dark-color);
+
+
 }
 #dark .profileSettingsTitle{
   padding: 5px 15px;
@@ -144,10 +322,11 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   height: max-content;
-  border: 1px solid rgba(255, 255, 255, 0.144);
-  border-right: 1px solid rgba(255, 255, 255, 0.068);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.096);
-  background-color:var(--dark-secondary)
+
+border: 2px solid red;
+
+gap:20px
+
 }
 #dark .profileSettingsItem input {
 background-color: var(--dark-primary);

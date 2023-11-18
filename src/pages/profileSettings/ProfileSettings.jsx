@@ -7,7 +7,8 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Link, Outlet } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getUser } from "../../features/userApi/userApi";
+import { getUserProfile } from "../../features/userApi/userApi";
+import { Tooltip } from "react-tooltip";
 export const ProfileSettings = ({
   updateUserData,
   uploadUserAvatar,
@@ -15,14 +16,12 @@ export const ProfileSettings = ({
   handleInputUpdate,
   trigger,
 }) => {
-  // const [data,isLoading,error]=useFetch('http://127.0.0.1:3000/api/user?settings=user')
-
   const {
     isLoading,
     isError,
     error,
     data: userData,
-  } = useQuery(["userData"], getUser, {
+  } = useQuery(["userData"], getUserProfile, {
     onSuccess: (data) => console.log(data),
   });
   const [userSettings, setUserSettings] = useState({});
@@ -31,87 +30,18 @@ export const ProfileSettings = ({
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const [checker, setChecker] = useState({});
-  // useEffect(()=>{
-  //     if(data){
-  //         setUserSettings(data)
-  //     }
-  // },[data])
 
-  // useEffect(()=>{
-  // check()
-  // },[])
-
-  // const check = ()=>{
-  //   const avatar = localStorage.getItem("userAvatar")
-  //   if(avatar){
-  //     setChecker(avatar)
-  //   }
-
-  // }
-
+  const test = userData?.projectListAsignedTo.map((project) => {
+    return project.contributors;
+  });
+  console.log(test);
   return (
     <div className="profileSettings" id={theme.mode}>
-      <span className="profileSettingsTitle">
-        <PeopleAltOutlinedIcon /> Profile Settings
-      </span>
+      <Tooltip id="xd" anchorSelect=".projectMember-avatar" multiline={true} />
+
+      <span className="profileSettingsTitle">Profile Settings</span>
 
       <form className="profileSettingsForm" id={theme.mode}>
-        {/* <div className="profileSettingsItem">
-              <label>Username</label>
-              <input disabled={!isEdited} type="text"   onChange={(e)=>handleInputUpdate('name',e.target.value)}/>
-            </div>
-            <div className="profileSettingsItem">
-              <label>Surname</label>
-              <input disabled={!isEdited} type="text"  onChange={(e)=>handleInputUpdate('surname',e.target.value)}/>
-            </div>
-            <div className="profileSettingsItem">
-              <label>Email</label>
-              <input disabled={true} type="email"  />
-            </div>
-        
-            <div className="profileSettingsItem">
-              <label>Phone</label>
-              <input disabled={!isEdited} type="number"  onChange={(e)=>handleInputUpdate('phone',e.target.value)}/>
-            </div>
-            <div className="profileSettingsItem">
-              <label>Adress</label>
-              <input disabled={!isEdited} type="text"  onChange={(e)=>handleInputUpdate('adress',e.target.value)} />
-            </div>
-            <div className="profileSettingsItem">
-              <label>Birthday</label>
-              <input disabled={true} type="text"  />
-            </div>
-            <div className="profileSettingsItem">
-              <label>Account created</label>
-           
-         
-            </div>
-            <div className="profileSettingsItem">
-              <label>Account role</label>
-              <input disabled={true} type="text" />
-            </div>
-            <div className="profileSettingsItem">
-              <label>Gender</label>
-              <div className="profileSettingsGender">
-                <input disabled={true} type="radio" name="gender" id="male" value="male" checked={userSettings.gender==='male'} />
-                <label for="male">Male</label>
-                <input disabled={true} type="radio" name="gender" id="female" value="female" checked={userSettings.gender==='female'} />
-                <label for="female">Female</label>
-             
-              </div>
-            </div>
-            <div className="profileSettingsItem-inputFile">
-              <label>change photo</label>
-          <input type="file" 
-          onChange={(e) => setSelectedFile(e.target.files[0])}
-          />
-          <button onClick={uploadUserAvatar}>Save</button>
-            </div>
-            <div className="profileSettingsButtonContainer">
-            {isEdited?(<button className="profileSettingsButton" onClick={(e)=>trigger(e)}>Update</button>):
-            (<button onClick={(e)=>{e.preventDefault();setIsEdited(true)}} className="profileSettingsButton">Edit</button>)}
-            </div> */}
-
         <div className="user-details-form">
           <div className="form-section-header">
             <span>User details</span>
@@ -119,33 +49,42 @@ export const ProfileSettings = ({
           </div>
 
           <div className="form-section-details">
-            <div className="user-avatar">
+            <div className="user-avatar" data-tip={"xd"}>
+              <span>{userData?.userProfile.role}</span>
               <img src="/public/img/person2.jpg" alt="" />
               <input type="file" />
             </div>
             <div className="user-details-right">
               <div className="form-field">
                 <label htmlFor="">First Name</label>
-                <input type="text" />
+                <input type="text" value={userData?.userProfile.name} />
               </div>
 
               <div className="form-field">
                 <label htmlFor="">Last Name</label>
-                <input type="text" />
+                <input type="text" value={userData?.userProfile.surname} />
               </div>
             </div>
             <div className="user-details-left">
               <div className="form-field">
                 <label htmlFor="gender">Gender</label>
 
-                <select name="gender" id="gender">
+                <select
+                  name="gender"
+                  id="gender"
+                  value={userData?.userProfile.gender}
+                >
                   <option value="male">male</option>
                   <option value="female">female</option>
                 </select>
               </div>
               <div className="form-field">
                 <label htmlFor="birthDate">BirthDay</label>
-                <input type="date" id="birthDate" />
+                <input
+                  type="date"
+                  id="birthDate"
+                  value={userData?.userProfile.birthDay}
+                />
               </div>
             </div>
           </div>
@@ -153,7 +92,7 @@ export const ProfileSettings = ({
 
         <div className="user-relationships">
           <div className="relationships__form-section-header">
-          <span>Relationships</span>
+            <span>Relationships</span>
           </div>
           <div className="relationships-section-details">
             <div className="relationships__form-field">
@@ -165,14 +104,49 @@ export const ProfileSettings = ({
               <input type="text" />
             </div>
             <div className="relationships__form-field">
-              <label htmlFor="">Zip Code</label>
-              <input type="text" />
+              <label htmlFor="">Phone</label>
+              <input type="number" value={userData?.userProfile.phone} />
             </div>
           </div>
         </div>
 
         <div className="user-occupation-assigned">
-sdfsd
+          {userData?.projectListAsignedTo.map((project, projectIndex) => {
+            return (
+              <div className={`${projectIndex%2?"project-tile-even":"project-tile-odd"}`} >
+                <div className="project-tile-item">
+                  <span>Project:</span>
+                  {project.title}
+                </div>
+             
+                <div className="projectMember-wrapper">
+         
+                  {project?.contributors.slice(0, 3).map((member) => {
+                    return (
+                      <div className="projectMember">
+                        <img
+                          className="projectMember-avatar"
+                          src={
+                            member.userAvatar
+                              ? member.userAvatar
+                              : "/public/img/defaultUserAvatar.png"
+                          }
+                          data-tooltip-html={project?.contributors
+                            .map((member) => `${member.name} ${member.surname}`)
+                            .join("<br/>")}
+                          data-tooltip-variant="info"
+                          data-tooltip-place="right"
+                          place={"bottom-end"}
+                          opacity={0.1}
+                          data-tooltip-float={true}
+                        ></img>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </form>
     </div>

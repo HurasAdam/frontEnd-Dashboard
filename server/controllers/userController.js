@@ -285,19 +285,21 @@ const getUserAccount= async(req,res)=>{
 
 const {_id:userId}=req.user
 
-const userProfile = await User.find({_id:userId}).select('name surname phone birthDay gender')
+const userProfile = await User.find({_id:userId}).select('name surname phone birthDay gender role')
+
+console.log(userProfile[0])
 
 const projectListAsignedTo = await Project.find({
   contributors:{$in:[userId]}
 }).populate({
   path:'contributors',
   model:'User',
-  select:'name surname '
+  select:'name surname userAvatar '
 
 })
 
 console.log(userId)
-   res.status(200).json({userProfile:userProfile,projectListAsignedTo})
+   res.status(200).json({userProfile:userProfile[0],projectListAsignedTo})
 
 }
 

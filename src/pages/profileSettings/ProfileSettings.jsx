@@ -34,7 +34,7 @@ export const ProfileSettings = ({
   const test = userData?.projectListAsignedTo.map((project) => {
     return project.contributors;
   });
-  console.log(test);
+  console.log(userData);
   return (
     <div className="profileSettings" id={theme.mode}>
       <Tooltip id="xd" anchorSelect=".projectMember-avatar" multiline={true} />
@@ -51,7 +51,7 @@ export const ProfileSettings = ({
           <div className="form-section-details">
             <div className="user-avatar" data-tip={"xd"}>
               <span>{userData?.userProfile.role}</span>
-              <img src="/public/img/person2.jpg" alt="" />
+              <img src={userData?.userProfile?.userAvatar?userData.userProfile.userAvatar:'/public/img/defaultUserAvatar.png'} alt="" />
               <input type="file" />
             </div>
             <div className="user-details-right">

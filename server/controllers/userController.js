@@ -285,7 +285,7 @@ const getUserAccount= async(req,res)=>{
 
 const {_id:userId}=req.user
 
-const userProfile = await User.find({_id:userId}).select('name surname phone birthDay gender role')
+const userProfile = await User.find({_id:userId}).select('name surname userAvatar phone birthDay gender role')
 
 console.log(userProfile[0])
 

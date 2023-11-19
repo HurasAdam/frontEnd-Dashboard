@@ -9,6 +9,7 @@ import { Link, Outlet } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getUserProfile } from "../../features/userApi/userApi";
 import { Tooltip } from "react-tooltip";
+import { handleUploadAvatar } from "../../shared/handleUploadAvatar";
 export const ProfileSettings = ({
   updateUserData,
   uploadUserAvatar,
@@ -43,16 +44,35 @@ export const ProfileSettings = ({
 
       <form className="profileSettingsForm" id={theme.mode}>
         <div className="user-details-form">
+     
           <div className="form-section-header">
-            <span>User details</span>
+           <div className="form-section-header-txt">
+           <span>User details</span>
             <span>put the user info in</span>
+           </div>
+       
+      
           </div>
 
           <div className="form-section-details">
             <div className="user-avatar" data-tip={"xd"}>
               <span>{userData?.userProfile.role}</span>
-              <img src={userData?.userProfile?.userAvatar?userData.userProfile.userAvatar:'/public/img/defaultUserAvatar.png'} alt="" />
-              <input type="file" />
+              <img
+                src={
+                  userData?.userProfile?.userAvatar
+                    ? userData.userProfile.userAvatar
+                    : "/public/img/defaultUserAvatar.png"
+                }
+                alt=""
+              />
+              <div className="form-section-avatar">
+              <input
+                onChange={(e) => setSelectedFile(e.target.files[0])}
+                type="file"
+              />
+              <button>Save</button>
+              </div>
+     
             </div>
             <div className="user-details-right">
               <div className="form-field">
@@ -113,14 +133,17 @@ export const ProfileSettings = ({
         <div className="user-occupation-assigned">
           {userData?.projectListAsignedTo.map((project, projectIndex) => {
             return (
-              <div className={`${projectIndex%2?"project-tile-even":"project-tile-odd"}`} >
+              <div
+                className={`${
+                  projectIndex % 2 ? "project-tile-even" : "project-tile-odd"
+                }`}
+              >
                 <div className="project-tile-item">
                   <span>Project:</span>
                   {project.title}
                 </div>
-             
+
                 <div className="projectMember-wrapper">
-         
                   {project?.contributors.slice(0, 3).map((member) => {
                     return (
                       <div className="projectMember">

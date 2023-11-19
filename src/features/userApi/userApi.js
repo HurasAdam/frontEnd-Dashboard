@@ -27,3 +27,10 @@ export const getAdminUsers= async()=>{
   .get("user?role=admin")
 return response.data
 }
+
+
+export const uploadAvatar= async(file)=>{
+
+  const response = await projectApi.patch('/user/upload',file)
+  return response.data
+}

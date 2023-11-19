@@ -50,24 +50,24 @@ export const User = ({ isEditLocked }) => {
         })
     }
 
-    const uploadUserAvatar = async (e) => {
-      e.preventDefault()
-      const file = new FormData();
-      file.append("file", selectedFile);
+    // const uploadUserAvatar = async (e) => {
+    //   e.preventDefault()
+    //   const file = new FormData();
+    //   file.append("file", selectedFile);
   
-      const response = await fetch(`http://127.0.0.1:3000/api/user/upload?id=${userId}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-        body:
-          file
-      });
-      if(response.ok){
-        const json= response.json()
-        localStorage.setItem('userAvatar',json.data)
-      }
-    };
+    //   const response = await fetch(`http://127.0.0.1:3000/api/user/upload?id=${userId}`, {
+    //     method: "PATCH",
+    //     headers: {
+    //       Authorization: `Bearer ${user.token}`,
+    //     },
+    //     body:
+    //       file
+    //   });
+    //   if(response.ok){
+    //     const json= response.json()
+    //     localStorage.setItem('userAvatar',json.data)
+    //   }
+    // };
 
   return (
     <div className="user" id={theme.mode}>

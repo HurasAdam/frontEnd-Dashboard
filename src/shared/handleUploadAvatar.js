@@ -1,10 +1,10 @@
 
-export const handleUploadAvatar=(e,photo)=>{
+export const handleUploadAvatar=(e,photo,mutation)=>{
 
     e.preventDefault()
     const file = new FormData();
     file.append("file", photo);
 
-    console.log(file)
+ mutation.mutate(file)
 
 }

@@ -10,6 +10,8 @@ import { useQuery } from "react-query";
 import { getUserProfile } from "../../features/userApi/userApi";
 import { Tooltip } from "react-tooltip";
 import { handleUploadAvatar } from "../../shared/handleUploadAvatar";
+import { mutationHandler } from "../../shared/mutationHandler";
+import { uploadAvatar } from "../../features/userApi/userApi";
 export const ProfileSettings = ({
   updateUserData,
   uploadUserAvatar,
@@ -25,6 +27,13 @@ export const ProfileSettings = ({
   } = useQuery(["userData"], getUserProfile, {
     onSuccess: (data) => console.log(data),
   });
+
+const updateAvatarMutation = mutationHandler(uploadAvatar,()=>{
+  console.log("AVATAR HAS BEEN UPDATED")
+})
+
+
+
   const [userSettings, setUserSettings] = useState({});
   const [selectedFile, setSelectedFile] = useState();
   const [isEdited, setIsEdited] = useState(false);
@@ -32,10 +41,11 @@ export const ProfileSettings = ({
   const { theme } = useContext(ThemeContext);
   const [checker, setChecker] = useState({});
 
-  const test = userData?.projectListAsignedTo.map((project) => {
-    return project.contributors;
-  });
-  console.log(userData);
+
+
+
+
+
   return (
     <div className="profileSettings" id={theme.mode}>
       <Tooltip id="xd" anchorSelect=".projectMember-avatar" multiline={true} />
@@ -70,7 +80,8 @@ export const ProfileSettings = ({
                 onChange={(e) => setSelectedFile(e.target.files[0])}
                 type="file"
               />
-              <button>Save</button>
+              <button onClick={(e)=>handleUploadAvatar(e,selectedFile,updateAvatarMutation)}>Save</button>
+              {selectedFile?<button onClick={(e)=>setSelectedFile('')}>X</button>:null}
               </div>
      
             </div>

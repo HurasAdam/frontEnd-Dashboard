@@ -64,7 +64,7 @@ console.log(size)
   const limitedProjectList = await Project.find({}).skip(skip).limit(limit).populate({
     path:'projectLeader',
     model:'User',
-    select:'_id name surname email role gender userAvatar'
+    select:'_id name surname email role gender userAvatar.url'
   })
 
 return res.status(200).json({

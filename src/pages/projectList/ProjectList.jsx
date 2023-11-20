@@ -74,7 +74,7 @@ export const ProjectsList = () => {
               {params.row.projectLeader.userAvatar ? (
                 <img
                   className="userListUserImg"
-                  src={params.row.projectLeader.userAvatar}
+                  src={params.row.projectLeader.userAvatar.url}
                   alt=""
                 />
               ) : <img className="userListUserImg" src="public//img/defaultUserAvatar.png"  alt="" />}

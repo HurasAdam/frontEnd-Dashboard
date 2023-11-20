@@ -25,6 +25,8 @@ const handleClick=()=>{
   setIsMenuActive(false)
   // localStorage.clear()
   localStorage.removeItem("role");
+  localStorage.removeItem("accessToken")
+  localStorage.removeItem("refreshToken")
   localStorage.removeItem("userId");
   localStorage.removeItem("email");
   localStorage.removeItem("token");

@@ -38,7 +38,7 @@ const uploadAvatar = async (req, res) => {
 
     const updateUserAvatar = await User.findOneAndUpdate(
       { _id: userId },
-      { $set: { userAvatar: up.secure_url } }
+      { $set: { "userAvatar.url": up.secure_url,"userAvatar.publicId": up.public_id  } }
     );
 
     res

@@ -76,7 +76,7 @@ export const ProfileSettings = ({
               <img
                 src={
                   userData?.userProfile?.userAvatar
-                    ? userData.userProfile.userAvatar
+                    ? userData.userProfile.userAvatar.url
                     : "/public/img/defaultUserAvatar.png"
                 }
                 alt=""
@@ -168,7 +168,7 @@ export const ProfileSettings = ({
                           className="projectMember-avatar"
                           src={
                             member.userAvatar
-                              ? member.userAvatar
+                              ? member.userAvatar.url
                               : "/public/img/defaultUserAvatar.png"
                           }
                           data-tooltip-html={project?.contributors

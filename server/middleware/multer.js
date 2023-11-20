@@ -4,6 +4,8 @@ const User = require("../db/models/user");
 const cloudinary = require("cloudinary").v2;
 const mongoose = require("mongoose");
 
+
+
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const { originalname } = file;
@@ -27,14 +29,25 @@ const upload = multer({
   unique_filename: true,
 });
 
+
+
+
 const uploadAvatar = async (req, res) => {
+  const {_id:userId}=req.user
+const {userAvatar} = await User.findOne({_id:userId})
+
+if(userAvatar.publicId){
+  await cloudinary.uploader.destroy(userAvatar.publicId);
+}
+
+
   try {
     const up = await cloudinary.uploader.upload(req.file.path, {
       folder: "userAvatars",
       resource_type: "auto",
     });
 
-    const { _id: userId } = req.user;
+  
 
     const updateUserAvatar = await User.findOneAndUpdate(
       { _id: userId },
@@ -49,4 +62,25 @@ const uploadAvatar = async (req, res) => {
   }
 };
 
-module.exports = { uploadAvatar, upload };
+
+const removeAvatar = async(req,res)=>{
+  const {_id:userId}=req.user
+  const {userAvatar} = await User.findOne({_id:userId})
+  
+  if(userAvatar.publicId){
+    await cloudinary.uploader.destroy(userAvatar.publicId);
+    const updateUserAvatar = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { "userAvatar.url": "","userAvatar.publicId":"" } },
+      { new: true }
+    );
+
+
+  }
+
+ res.status(200).json("Photo has been removed")
+}
+
+
+
+module.exports = { uploadAvatar, removeAvatar,upload };

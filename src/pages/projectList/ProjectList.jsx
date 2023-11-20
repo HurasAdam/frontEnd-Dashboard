@@ -71,7 +71,7 @@ export const ProjectsList = () => {
         return (
           <>
             <div className="userListUser">
-              {params.row.projectLeader.userAvatar ? (
+              {params.row.projectLeader.userAvatar.url ? (
                 <img
                   className="userListUserImg"
                   src={params.row.projectLeader.userAvatar.url}

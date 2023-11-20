@@ -75,7 +75,7 @@ export const ProfileSettings = ({
               <span>{userData?.userProfile.role}</span>
               <img
                 src={
-                  userData?.userProfile?.userAvatar
+                  userData?.userProfile?.userAvatar?.url
                     ? userData.userProfile.userAvatar.url
                     : "/public/img/defaultUserAvatar.png"
                 }
@@ -167,7 +167,7 @@ export const ProfileSettings = ({
                         <img
                           className="projectMember-avatar"
                           src={
-                            member.userAvatar
+                            member.userAvatar.url
                               ? member.userAvatar.url
                               : "/public/img/defaultUserAvatar.png"
                           }

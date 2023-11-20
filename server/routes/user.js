@@ -11,7 +11,7 @@ const {
   getUserAccount
  
 } = require("../controllers/userController");
-const {uploadAvatar,upload}=require("../middleware/multer")
+const {uploadAvatar,upload,removeAvatar}=require("../middleware/multer")
 const [requireAuth, authRole] = require("../middleware/requireAuth");
 
 const router = express.Router();
@@ -34,5 +34,6 @@ router.patch("/", requireAuth, authRole("admin",'user'), updateUserData);
 
 router.patch("/manageRole",updateUserRole)
 router.patch('/upload',requireAuth,upload.single('file'),uploadAvatar)
+router.delete('/remove-avatar',requireAuth,removeAvatar)
 // router.post('/upload', upload.single("file"),uploadAvatar)
 module.exports = router;

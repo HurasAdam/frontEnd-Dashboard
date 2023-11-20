@@ -3,6 +3,8 @@ import { authReducer } from "../reducers/authReducer";
 
 export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
+
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
@@ -14,6 +16,9 @@ const userAvatar= localStorage.getItem('userAvatar');
     if (accessToken) {
       dispatch({ type: "LOGIN", payload: {accessToken,refreshToken ,email:email,role:role,userId,userAvatar} });
     }
+
+    
+
   }, []);
 
   const [state, dispatch] = useReducer(authReducer, { user: null });

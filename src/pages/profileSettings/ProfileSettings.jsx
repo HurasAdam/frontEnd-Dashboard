@@ -19,6 +19,9 @@ export const ProfileSettings = ({
   handleInputUpdate,
   trigger,
 }) => {
+
+
+
   const {
     isLoading,
     isError,
@@ -28,20 +31,23 @@ export const ProfileSettings = ({
     onSuccess: (data) => console.log(data),
   });
 
-const updateAvatarMutation = mutationHandler(uploadAvatar,()=>{
-  console.log("AVATAR HAS BEEN UPDATED")
-})
+
 
 
 
   const [userSettings, setUserSettings] = useState({});
   const [selectedFile, setSelectedFile] = useState();
   const [isEdited, setIsEdited] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user,dispatch } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const [checker, setChecker] = useState({});
 
+  const updateAvatarMutation = mutationHandler(uploadAvatar,(data)=>{
 
+    const newUserAvatar= localStorage.setItem('userAvatar',data.data);
+    dispatch({type:"UPDATE_AVATAR",payload:data.data});
+   
+  })
 
 
 

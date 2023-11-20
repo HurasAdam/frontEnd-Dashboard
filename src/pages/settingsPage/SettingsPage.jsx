@@ -9,101 +9,101 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 export const SettingsPage = () => {
   const [toggleSection, setToggleSection] = useState(false);
-  const [data, isLoading, error] = useFetch(
-    "http://127.0.0.1:3000/api/user?settings=user"
-  );
-  const { user } = useContext(AuthContext);
-  const [userData, setUserData] = useState({
-    data: {},
-    userCredentials: {
-      email: {
-        newEmail: "",
-        repeatNewEmail: "",
-        error: "",
-      },
-      password: {
+  // const [data, isLoading, error] = useFetch(
+  //   "http://127.0.0.1:3000/api/user?settings=user"
+  // );
+  // const { user } = useContext(AuthContext);
+  // const [userData, setUserData] = useState({
+  //   data: {},
+  //   userCredentials: {
+  //     email: {
+  //       newEmail: "",
+  //       repeatNewEmail: "",
+  //       error: "",
+  //     },
+  //     password: {
         
-        newPassword: "",
-        repeatNewPassword: "",
-        error: "",
-      },
+  //       newPassword: "",
+  //       repeatNewPassword: "",
+  //       error: "",
+  //     },
      
-    },
-  });
+  //   },
+  // });
 
-  const triggerCredentials = (credential, key, e) => {
-    setUserData({
-      ...userData,
-      userCredentials: {
-        ...userData.userCredentials,
-        [credential]: { ...userData.userCredentials[credential], [key]: e },
-      },
-    });
-  };
+  // const triggerCredentials = (credential, key, e) => {
+  //   setUserData({
+  //     ...userData,
+  //     userCredentials: {
+  //       ...userData.userCredentials,
+  //       [credential]: { ...userData.userCredentials[credential], [key]: e },
+  //     },
+  //   });
+  // };
 
   ///////////////////////////////////////////////////////////
 
-  const fire = async ( credential,newKey,repeatedNewKey,errorKey) => {
+//   const fire = async ( credential,newKey,repeatedNewKey,errorKey) => {
 
-      if (userData.userCredentials[credential][newKey] !==userData.userCredentials[credential][repeatedNewKey]){
-       return  setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],[errorKey]:`${newKey} and ${repeatedNewKey} are not the same !`}}})
-      } 
-let updatedData= {}
+//       if (userData.userCredentials[credential][newKey] !==userData.userCredentials[credential][repeatedNewKey]){
+//        return  setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],[errorKey]:`${newKey} and ${repeatedNewKey} are not the same !`}}})
+//       } 
+// let updatedData= {}
       
-updatedData= userData.userCredentials[credential][newKey]
+// updatedData= userData.userCredentials[credential][newKey]
 
-      const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          [credential ==='password'?'password':credential]:updatedData
-        }),
-      });
+//       const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
+//         method: "PATCH",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${user.token}`,
+//         },
+//         body: JSON.stringify({
+//           [credential ==='password'?'password':credential]:updatedData
+//         }),
+//       });
   
-      const json = await response.json()
-      if(!response.ok){
-        setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],error:json}}})
-      }
+//       const json = await response.json()
+//       if(!response.ok){
+//         setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],error:json}}})
+//       }
     
-      if(response.ok){
-        setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],error:json.message}}})
+//       if(response.ok){
+//         setUserData({...userData,userCredentials:{...userData.userCredentials,[credential]:{...userData.userCredentials[credential],error:json.message}}})
         
-      }
+//       }
  
-  };
+//   };
 
   //////////////////////////////////////
 
-  useEffect(() => {
-    data && setUserData({ ...userData, data: data });
-  }, [data]);
+  // useEffect(() => {
+  //   data && setUserData({ ...userData, data: data });
+  // }, [data]);
 
-  const handleInputUpdate = (prop, e) => {
-    setUserData({ ...userData, data: { ...userData.data, [prop]: e } });
-  };
+  // const handleInputUpdate = (prop, e) => {
+  //   setUserData({ ...userData, data: { ...userData.data, [prop]: e } });
+  // };
 
-  const trigger = async (e) => {
-    e.preventDefault();
+  // const trigger = async (e) => {
+  //   e.preventDefault();
 
-    const newData = {};
-    for (const key in userData.data) {
-      if (userData.data[key] !== data[key]) {
-        newData[key] = userData.data[key];
-      }
-    }
+  //   const newData = {};
+  //   for (const key in userData.data) {
+  //     if (userData.data[key] !== data[key]) {
+  //       newData[key] = userData.data[key];
+  //     }
+  //   }
 
-    const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-      body: JSON.stringify(newData),
-    });
-  };
+  //   const response = await fetch(`http://127.0.0.1:3000/api/user/`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${user.token}`,
+  //     },
+  //     body: JSON.stringify(newData),
+  //   });
+  // };
 
   const toggleForm = () => {
     setToggleSection(!toggleSection);
@@ -127,26 +127,26 @@ updatedData= userData.userCredentials[credential][newKey]
   //   }
   // };
 
-  const uploadUserAvatar = async (e) => {
-    e.preventDefault();
-    const file = new FormData();
-    file.append("file", selectedFile);
+  // const uploadUserAvatar = async (e) => {
+  //   e.preventDefault();
+  //   const file = new FormData();
+  //   file.append("file", selectedFile);
 
-    const response = await fetch(
-      `http://127.0.0.1:3000/api/user/upload?id=${user.userId}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: file,
-      }
-    );
-    if (response.ok) {
-      const json = await response.json();
-      localStorage.setItem("userAvatar", json.data);
-    }
-  };
+  //   const response = await fetch(
+  //     `http://127.0.0.1:3000/api/user/upload?id=${user.userId}`,
+  //     {
+  //       method: "PATCH",
+  //       headers: {
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //       body: file,
+  //     }
+  //   );
+  //   if (response.ok) {
+  //     const json = await response.json();
+  //     localStorage.setItem("userAvatar", json.data);
+  //   }
+  // };
 
   return (
     <div className="settingsPage">
@@ -171,13 +171,13 @@ updatedData= userData.userCredentials[credential][newKey]
       </nav>
       {!toggleSection ? (
         <ProfileSettings
-          trigger={trigger}
-          handleInputUpdate={handleInputUpdate}
-          data={data}
-          uploadUserAvatar={uploadUserAvatar}
+          // trigger={trigger}
+          // handleInputUpdate={handleInputUpdate}
+          // data={data}
+          // uploadUserAvatar={uploadUserAvatar}
         />
       ) : (
-        <AccountSettings triggerCredentials={triggerCredentials} fire={fire} userData={userData} />
+        <AccountSettings   />
       )}
     </div>
   );

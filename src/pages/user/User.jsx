@@ -50,24 +50,7 @@ export const User = ({ isEditLocked }) => {
         })
     }
 
-    // const uploadUserAvatar = async (e) => {
-    //   e.preventDefault()
-    //   const file = new FormData();
-    //   file.append("file", selectedFile);
-  
-    //   const response = await fetch(`http://127.0.0.1:3000/api/user/upload?id=${userId}`, {
-    //     method: "PATCH",
-    //     headers: {
-    //       Authorization: `Bearer ${user.token}`,
-    //     },
-    //     body:
-    //       file
-    //   });
-    //   if(response.ok){
-    //     const json= response.json()
-    //     localStorage.setItem('userAvatar',json.data)
-    //   }
-    // };
+
 
   return (
     <div className="user" id={theme.mode}>
@@ -195,7 +178,7 @@ export const User = ({ isEditLocked }) => {
                       <PublishIcon className="userUpdateIcon" />
                     </label>
                     <input type="file" id="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
-                    <button hidden={!isEditLocked} className="userUpdateButton" onClick={uploadUserAvatar}>
+                    <button hidden={!isEditLocked} className="userUpdateButton">
                       Update
                     </button>
                   </div>

@@ -43,7 +43,7 @@ const loginUser = async (req, res) => {
           accessToken,
           refreshToken,
           role: user.role,
-          userAvatar: user.userAvatar,
+          userAvatar: user.userAvatar.url,
         });
     }
   } catch (Error) {
@@ -100,7 +100,7 @@ const signupUser = async (req, res) => {
         phone: phone || "",
         birthDay: birthDay || "",
         adress: adress || "",
-        createdAt: convertDate(),
+        createdAt: new Date()
       });
       const accessToken = createAccessToken(user._id);
       const refreshToken= createRefreshToken(user._id);

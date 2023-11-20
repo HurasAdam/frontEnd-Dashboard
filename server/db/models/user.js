@@ -29,7 +29,14 @@ const userSchema = new Schema({
     
   },
   userAvatar:{
+   url:{
     type:String,
+    default:""
+   },
+   publicId:{
+    type:String,
+    default:""
+   }
   },
   phone:{
     type:String,

@@ -91,13 +91,7 @@ export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
                   <span>new password</span>
                   <input
                     type={!isPasswordHidden ? "password" : "text"}
-                    onChange={(e) =>
-                      triggerCredentials(
-                        "password",
-                        "newPassword",
-                        e.target.value
-                      )
-                    }
+                
                   />
                   {!isPasswordHidden ? (
                     <VisibilityOutlinedIcon
@@ -125,25 +119,25 @@ export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
                   />
                 </div>
                 <div className="statusMessageContainer">
-                  <span>{userData.userCredentials.password.error}</span>
+                  <span>{}</span>
                 </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
-                    disabled={
-                      userData.userCredentials.password.newPassword === "" ||
-                      userData.userCredentials.email.repeatNewPassword === ""
-                        ? true
-                        : false
-                    }
-                    onClick={(e) => {
-                      e.preventDefault();
-                      fire(
-                        "password",
-                        "newPassword",
-                        "repeatNewPassword",
-                        "error"
-                      );
-                    }}
+                    // disabled={
+                    //   userData.userCredentials.password.newPassword === "" ||
+                    //   userData.userCredentials.email.repeatNewPassword === ""
+                    //     ? true
+                    //     : false
+                    // }
+                    // onClick={(e) => {
+                    //   e.preventDefault();
+                    //   fire(
+                    //     "password",
+                    //     "newPassword",
+                    //     "repeatNewPassword",
+                    //     "error"
+                    //   );
+                    // }}
                   >
                     save
                   </button>
@@ -164,7 +158,7 @@ export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
                     disabled={true}
                     type="email"
                     name="email"
-                    value={userData.data.email}
+                  
                   />
                 </div>
 
@@ -174,9 +168,7 @@ export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
                     type="email"
                     name="email"
                     placeholder="type in new email"
-                    onChange={(e) =>
-                      triggerCredentials("email", "newEmail", e.target.value)
-                    }
+                 
                   />
                 </div>
                 <div className="changePasswordDataWrapper-item">
@@ -185,30 +177,15 @@ export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
                     type="email"
                     name="email"
                     placeholder="repeat new email"
-                    onChange={(e) =>
-                      triggerCredentials(
-                        "email",
-                        "repeatNewEmail",
-                        e.target.value
-                      )
-                    }
+            
                   />
                 </div>
                 <div className="statusMessageContainer">
-                  <span>{userData.userCredentials.email.error}</span>
+                  <span></span>
                 </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
-                    disabled={
-                      userData.userCredentials.email.newEmail === "" ||
-                      userData.userCredentials.email.repeatNewEmail === ""
-                        ? true
-                        : false
-                    }
-                    onClick={(e) => {
-                      e.preventDefault();
-                      fire("email", "newEmail", "repeatNewEmail", "error");
-                    }}
+           
                   >
                     save
                   </button>

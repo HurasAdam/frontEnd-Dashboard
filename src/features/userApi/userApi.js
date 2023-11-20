@@ -34,3 +34,9 @@ export const uploadAvatar= async(file)=>{
   const response = await projectApi.patch('/user/upload',file)
   return response.data
 }
+
+export const removeAvatar= async()=>{
+
+  const reponse = await projectApi.delete('/user/remove-avatar')
+  return reponse.data
+}

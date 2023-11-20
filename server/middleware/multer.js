@@ -75,10 +75,10 @@ const removeAvatar = async(req,res)=>{
       { new: true }
     );
 
+    res.status(200).json({data:updateUserAvatar.userAvatar.url,message:"Avatar has been removed"})
+    }
 
-  }
 
- res.status(200).json("Photo has been removed")
 }
 
 

@@ -4,14 +4,16 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { settLocalStorage } from "../../utils/SettlocalStorage";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Link, Outlet } from "react-router-dom";
-import { useQuery } from "react-query";
-import { getUserProfile } from "../../features/userApi/userApi";
+import { useQuery, useQueryClient } from "react-query";
+import { getUserProfile, removeAvatar } from "../../features/userApi/userApi";
 import { Tooltip } from "react-tooltip";
 import { handleUploadAvatar } from "../../shared/handleUploadAvatar";
 import { mutationHandler } from "../../shared/mutationHandler";
 import { uploadAvatar } from "../../features/userApi/userApi";
+import { handleRemoveAvatar } from "../../shared/handleRemoveAvatar";
 export const ProfileSettings = ({
   updateUserData,
   uploadUserAvatar,
@@ -33,7 +35,7 @@ export const ProfileSettings = ({
 
 
 
-
+const queryClient= useQueryClient()
 
   const [userSettings, setUserSettings] = useState({});
   const [selectedFile, setSelectedFile] = useState();
@@ -46,9 +48,15 @@ export const ProfileSettings = ({
 
     const newUserAvatar= localStorage.setItem('userAvatar',data.data);
     dispatch({type:"UPDATE_AVATAR",payload:data.data});
-   
+    queryClient.invalidateQueries(["userData"])
   })
 
+  const removeAvatarMutation = mutationHandler(removeAvatar,(data)=>{
+    const newUserAvatar= localStorage.setItem('userAvatar',data.data);
+    dispatch({type:"UPDATE_AVATAR",payload:data.data});
+    queryClient.invalidateQueries(["userData"])
+    
+  })
 
 
 
@@ -73,6 +81,8 @@ export const ProfileSettings = ({
           <div className="form-section-details">
             <div className="user-avatar" data-tip={"xd"}>
               <span>{userData?.userProfile.role}</span>
+             
+              <CloseOutlinedIcon className="removeAvatar-button"onClick={(e)=>handleRemoveAvatar(e,removeAvatarMutation)} />
               <img
                 src={
                   userData?.userProfile?.userAvatar?.url

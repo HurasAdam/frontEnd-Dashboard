@@ -44,8 +44,13 @@ const userSchema = new Schema({
   birthDay:{
     type:String
   },
-  adress:{
-    type:String
+  country:{
+    type:String,
+    default:""
+  },
+  city:{
+    type:String,
+    default:""
   },
   createdAt:{
     type: Object

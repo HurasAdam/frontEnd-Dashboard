@@ -41,8 +41,8 @@ export const removeAvatar= async()=>{
   return reponse.data
 }
 
-export const updateUser= async()=>{
+export const updateUser= async(data)=>{
 
-  const response = await projectApi.patch('/user')
+  const response = await projectApi.patch('/user',data)
   return response
 }

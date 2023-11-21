@@ -8,30 +8,20 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Link, Outlet } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
-import { getUserProfile, removeAvatar } from "../../features/userApi/userApi";
+import {removeAvatar, updateUser } from "../../features/userApi/userApi";
 import { Tooltip } from "react-tooltip";
 import { handleUploadAvatar } from "../../shared/handleUploadAvatar";
 import { mutationHandler } from "../../shared/mutationHandler";
 import { uploadAvatar } from "../../features/userApi/userApi";
 import { handleRemoveAvatar } from "../../shared/handleRemoveAvatar";
+import { handleUpdateUser } from "../../shared/handleUpdateUser";
 export const ProfileSettings = ({
-  updateUserData,
-  uploadUserAvatar,
-  data,
-  handleInputUpdate,
-  trigger,
+  userData
 }) => {
 
 
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data: userData,
-  } = useQuery(["userData"], getUserProfile, {
-    onSuccess: (data) => console.log(data),
-  });
+
 
 
 
@@ -55,7 +45,11 @@ const queryClient= useQueryClient()
     const newUserAvatar= localStorage.setItem('userAvatar',data.data);
     dispatch({type:"UPDATE_AVATAR",payload:data.data});
     queryClient.invalidateQueries(["userData"])
-    
+  })
+
+
+  const updateUserMutation=mutationHandler(updateUser,(data)=>{
+    console.log(data)
   })
 
 
@@ -70,11 +64,21 @@ const queryClient= useQueryClient()
         <div className="user-details-form">
      
           <div className="form-section-header">
-           <div className="form-section-header-txt">
+      
+           <div className="form-section-header-content-wrapper">
+           
+           <div className="form-section-header-content">
            <span>User details</span>
             <span>put the user info in</span>
+
            </div>
-       
+     
+     <div className="form-section-header-content-button">
+      <button onClick={(e)=>handleUpdateUser(e,updateUserMutation)}>UPDATE</button>
+     </div>
+            
+           </div>
+          
       
           </div>
 
@@ -82,7 +86,7 @@ const queryClient= useQueryClient()
             <div className="user-avatar" data-tip={"xd"}>
               <span>{userData?.userProfile.role}</span>
              
-              <CloseOutlinedIcon className="removeAvatar-button"onClick={(e)=>handleRemoveAvatar(e,removeAvatarMutation)} />
+              {userData?.userProfile?.userAvatar?.url?<CloseOutlinedIcon className="removeAvatar-button"onClick={(e)=>handleRemoveAvatar(e,removeAvatarMutation)} />:null}
               <img
                 src={
                   userData?.userProfile?.userAvatar?.url

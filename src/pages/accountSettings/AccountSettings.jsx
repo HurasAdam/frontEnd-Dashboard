@@ -6,7 +6,7 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import { useContext, useState } from "react";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
+export const AccountSettings = ({ triggerCredentials,email }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(false);
@@ -20,6 +20,8 @@ export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
     console.log(theme);
   };
 
+
+  console.log(email)
   const toggleSidebarColor = (e, color) => {
     console.log(color);
     themeSwitch({
@@ -158,6 +160,7 @@ export const AccountSettings = ({ triggerCredentials, fire, userData }) => {
                     disabled={true}
                     type="email"
                     name="email"
+                    defaultValue={email}
                   
                   />
                 </div>

@@ -270,7 +270,7 @@ const getUserAccount = async (req, res) => {
   const { _id: userId } = req.user;
 
   const userProfile = await User.find({ _id: userId }).select(
-    "name surname userAvatar phone birthDay gender role"
+    "name surname userAvatar phone birthDay gender role email"
   );
 
   console.log(userProfile[0]);
@@ -280,7 +280,7 @@ const getUserAccount = async (req, res) => {
   }).populate({
     path: "contributors",
     model: "User",
-    select: "name surname userAvatar ",
+    select: "name surname userAvatar",
   });
 
   console.log(userId);

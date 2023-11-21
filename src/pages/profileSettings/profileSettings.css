@@ -51,12 +51,35 @@
   width: 100%;
 }
 
-.form-section-header-txt {
+.form-section-header-content-wrapper {
   display: flex;
-  flex-direction: column;
+justify-content: space-between;
   border-bottom: 1px solid rgb(35, 39, 57);
   width: 100%;
-  padding: 5px 20px;
+  padding: 10px 20px;
+}
+.form-section-header-content-button{
+ 
+  display: flex;
+  padding: 0;
+  height:1.9rem;
+  width: 3.8rem;
+
+}
+.form-section-header-content-button button{
+  width: 100%;
+  height: 100%;
+  background: rgb(59, 140, 117);
+  border:none;
+  border-radius: 3px;
+  font-weight: 600;
+  color: white;
+  font-size: 12px
+
+}
+.form-section-header-content{
+  display: flex;
+  flex-direction: column;
 }
 
 .form-section-header__buttons {

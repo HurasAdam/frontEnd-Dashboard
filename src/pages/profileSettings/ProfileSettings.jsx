@@ -16,7 +16,9 @@ import { uploadAvatar } from "../../features/userApi/userApi";
 import { handleRemoveAvatar } from "../../shared/handleRemoveAvatar";
 import { handleUpdateUser } from "../../shared/handleUpdateUser";
 export const ProfileSettings = ({
-  userData
+  userData,
+  setUserForm,
+  userFrom
 }) => {
 
 
@@ -74,7 +76,7 @@ const queryClient= useQueryClient()
            </div>
      
      <div className="form-section-header-content-button">
-      <button onClick={(e)=>handleUpdateUser(e,updateUserMutation)}>UPDATE</button>
+      <button onClick={(e)=>handleUpdateUser(e,{formData:userFrom,responseData:userData?.userProfile},updateUserMutation)}>UPDATE</button>
      </div>
             
            </div>
@@ -108,12 +110,20 @@ const queryClient= useQueryClient()
             <div className="user-details-right">
               <div className="form-field">
                 <label htmlFor="">First Name</label>
-                <input type="text" value={userData?.userProfile.name} />
+                <input type="text" value={userFrom?.name}
+                onChange={(e)=>setUserForm((prev)=>{
+                  return {...prev,name:e.target.value}
+                })}
+                />
               </div>
 
               <div className="form-field">
                 <label htmlFor="">Last Name</label>
-                <input type="text" value={userData?.userProfile.surname} />
+                <input type="text" value={userFrom?.surname}
+                onChange={(e)=>setUserForm((prev)=>{
+                  return{...prev,surname:e.target.value}
+                })}
+                />
               </div>
             </div>
             <div className="user-details-left">
@@ -123,7 +133,10 @@ const queryClient= useQueryClient()
                 <select
                   name="gender"
                   id="gender"
-                  value={userData?.userProfile.gender}
+                  value={userFrom?.gender}
+                  onChange={(e)=>setUserForm((prev)=>{
+                    return{...prev,gender:e.target.value}
+                  })}
                 >
                   <option value="male">male</option>
                   <option value="female">female</option>
@@ -148,15 +161,22 @@ const queryClient= useQueryClient()
           <div className="relationships-section-details">
             <div className="relationships__form-field">
               <label htmlFor="">Country</label>
-              <input type="text" />
+              <input type="text"
+              value={userFrom?.country}
+              onChange={(e)=>setUserForm((prev)=>{
+                return{...prev,country:e.target.value}
+              })}
+              />
             </div>
             <div className="relationships__form-field">
               <label htmlFor="">City</label>
-              <input type="text" />
+              <input type="text"
+              value={userFrom?.city}
+              />
             </div>
             <div className="relationships__form-field">
               <label htmlFor="">Phone</label>
-              <input type="number" value={userData?.userProfile.phone} />
+              <input type="number" value={userFrom?.phone} />
             </div>
           </div>
         </div>

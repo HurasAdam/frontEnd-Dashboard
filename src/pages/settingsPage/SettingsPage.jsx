@@ -11,6 +11,9 @@ import { useQuery } from "react-query";
 
 export const SettingsPage = () => {
   const [toggleSection, setToggleSection] = useState(false);
+const [userFrom,setUserForm]=useState({})
+
+
 
   const {
     isLoading,
@@ -18,7 +21,8 @@ export const SettingsPage = () => {
     error,
     data: userData,
   } = useQuery(["userData"], getUserProfile, {
-
+onSuccess:({userProfile})=>setUserForm(userProfile),
+refetchOnWindowFocus: false,
   });
 
 
@@ -54,11 +58,13 @@ export const SettingsPage = () => {
       {!toggleSection ? (
         <ProfileSettings
         userData={userData}
+        setUserForm={setUserForm}
+        userFrom={userFrom}
         />
       ) : (
         <AccountSettings 
         email={userData?.userProfile?.email}
-        
+
         />
       )}
     </div>

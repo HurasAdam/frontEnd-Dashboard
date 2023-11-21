@@ -94,9 +94,9 @@ const signupUser = async (req, res) => {
         gender,
         role: role || "user",
 
-        phone: phone || "",
+       
         birthDay: birthDay || "",
-        adress: adress || "",
+      
         createdAt: new Date(),
       });
       const accessToken = createAccessToken(user._id);
@@ -131,10 +131,12 @@ const getUserData = async (req, res) => {
     email: user.email,
     role: user.role,
     phone: user.phone,
-    userAvatar: user.userAvatar,
+    userAvatar: user.userAvatar.url,
     createdAt: user.createdAt,
-    adress: user.adress,
+    country: user.country,
+    city:user.city,
     gender: user.gender,
+    
   };
   res.status(200).json(result);
 };
@@ -198,48 +200,47 @@ const getUserList = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
-  let { name, surname, adress, phone, email, password } = req.body;
+  let { name, surname, gender, phone, country, city } = req.body;
 
   const user = req.user;
-
-  const doesEmailExist = await User.find({ email: email });
+  console.log(name);
 
   const updatedFields = {};
-  try {
-    if (name && !validator.isAlpha(name)) {
-      throw Error("Name should only contain letters");
-    }
-    if (surname && !validator.isAlpha(surname)) {
-      throw Error("Name should only contain letters");
-    }
+  // try {
+  if (name && !validator.isAlpha(name)) {
+    return res.status(400).json("Name should only contain letters");
+  }
+  if (surname && !validator.isAlpha(surname)) {
+    throw Error("Name should only contain letters");
+  }
 
-    if (email && !validator.isEmail(email)) {
-      throw Error("Invalid email format ");
-    }
-    if (email && doesEmailExist.length > 0) {
-      throw Error("Email already in use ");
-    }
-    if (name && !validator.isLength(name, { max: 20 })) {
-      throw Error("Name is to long");
-    }
-    if (surname && !validator.isLength(surname, { max: 20 })) {
-      throw Error("Surname is to long");
-    }
-    if (password && !validator.isStrongPassword(password)) {
-      throw Error("Password is not strong enough");
-    }
+  if (gender && gender !== "male" && gender !== "female") {
+    return res.status(400).json("INCORECT GENDER TYPE");
+  }
+  if (country && !validator.isAlpha(country)) {
+    return res.status(400).json("country should only containt letters");
+  }
+  if (city && !validator.isAlpha(city)) {
+    return res.status(400).json("country should only containt letters");
+  }
 
-    const salt = await bcrypt.genSalt(10);
+  if (name && name !== user.name) updatedFields.name = name;
+  if (surname && surname !== user.surname) updatedFields.surname = surname;
+  if (phone && phone !== user.phone) updatedFields.phone = phone;
+  if (gender && gender !== user.gender) updatedFields.gender = gender;
+  else if (
+    !name &&
+    !surname &&
+    !phone &&
+    !gender &&
+    !phone &&
+    !country &&
+    !city
+  ) {
+    return res.status(400).json("No changes has been made");
+  }
 
-    if (name && name !== user.name) updatedFields.name = name;
-    if (surname && surname !== user.surname) updatedFields.surname = surname;
-    if (phone && phone !== user.phone) updatedFields.phone = phone;
-    if (adress && adress !== user.adress) updatedFields.adress = adress;
-    if (email && email !== user.email) updatedFields.email = email;
-    if (password) {
-      const hashNewPassword = await bcrypt.hash(password, salt);
-      updatedFields.password = hashNewPassword;
-    }
+  else{
 
     const updateUserData = await User.findOneAndUpdate(
       { _id: req.user._id },
@@ -248,12 +249,25 @@ const updateUserData = async (req, res) => {
       },
       { new: true }
     );
-    return res
-      .status(200)
-      .json({ data: updateUserData, message: "updated successfully" });
-  } catch (Error) {
-    return res.status(400).json(Error.message);
   }
+  console.log(updatedFields);
+  res.status(200).json("sucessfull");
+
+
+  //   const updateUserData = await User.findOneAndUpdate(
+  //     { _id: req.user._id },
+  //     {
+  //       $set: updatedFields,
+  //     },
+  //     { new: true }
+  //   );
+  //   return res
+  //     .status(200)
+  //     .json({ data: updateUserData, message: "updated successfully" });
+  // } catch (Error) {
+  //   return res.status(400).json(Error.message);
+  // }
+
 };
 
 const updateUserRole = async (req, res) => {

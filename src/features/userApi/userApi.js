@@ -40,3 +40,9 @@ export const removeAvatar= async()=>{
   const reponse = await projectApi.delete('/user/remove-avatar')
   return reponse.data
 }
+
+export const updateUser= async()=>{
+
+  const response = await projectApi.patch('/user')
+  return response
+}

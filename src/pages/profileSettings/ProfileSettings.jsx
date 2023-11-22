@@ -15,10 +15,15 @@ import { mutationHandler } from "../../shared/mutationHandler";
 import { uploadAvatar } from "../../features/userApi/userApi";
 import { handleRemoveAvatar } from "../../shared/handleRemoveAvatar";
 import { handleUpdateUser } from "../../shared/handleUpdateUser";
+import { MsgPopup } from "../../components/msgPopup/MsgPopup";
+import { handlePopup } from "../../shared/handlePopup";
 export const ProfileSettings = ({
   userData,
+  userProjectList,
   setUserForm,
-  userFrom
+  userFrom,
+  setShowMsgPopup,
+  showMsgPopup
 }) => {
 
 
@@ -52,6 +57,15 @@ const queryClient= useQueryClient()
 
   const updateUserMutation=mutationHandler(updateUser,(data)=>{
     console.log(data)
+    if (data.code) {
+      handlePopup(setShowMsgPopup,data.response.data)
+      setUserForm(userData)
+    } else {
+
+     
+      handlePopup(setShowMsgPopup, data)
+      queryClient.invalidateQueries(["userData"])
+    }
   })
 
 
@@ -76,7 +90,7 @@ const queryClient= useQueryClient()
            </div>
      
      <div className="form-section-header-content-button">
-      <button onClick={(e)=>handleUpdateUser(e,{formData:userFrom,responseData:userData?.userProfile},updateUserMutation)}>UPDATE</button>
+      <button onClick={(e)=>handleUpdateUser(e,{formData:userFrom,responseData:userData},updateUserMutation,setShowMsgPopup)}>UPDATE</button>
      </div>
             
            </div>
@@ -86,13 +100,13 @@ const queryClient= useQueryClient()
 
           <div className="form-section-details">
             <div className="user-avatar" data-tip={"xd"}>
-              <span>{userData?.userProfile.role}</span>
+              <span>{userData?.role}</span>
              
-              {userData?.userProfile?.userAvatar?.url?<CloseOutlinedIcon className="removeAvatar-button"onClick={(e)=>handleRemoveAvatar(e,removeAvatarMutation)} />:null}
+              {userData?.userAvatar?.url?<CloseOutlinedIcon className="removeAvatar-button"onClick={(e)=>handleRemoveAvatar(e,removeAvatarMutation)} />:null}
               <img
                 src={
-                  userData?.userProfile?.userAvatar?.url
-                    ? userData.userProfile.userAvatar.url
+                  userData?.userAvatar?.url
+                    ? userData.userAvatar.url
                     : "/public/img/defaultUserAvatar.png"
                 }
                 alt=""
@@ -110,7 +124,7 @@ const queryClient= useQueryClient()
             <div className="user-details-right">
               <div className="form-field">
                 <label htmlFor="">First Name</label>
-                <input type="text" value={userFrom?.name}
+                <input type="text" value={userFrom&&userFrom?.name}
                 onChange={(e)=>setUserForm((prev)=>{
                   return {...prev,name:e.target.value}
                 })}
@@ -119,7 +133,7 @@ const queryClient= useQueryClient()
 
               <div className="form-field">
                 <label htmlFor="">Last Name</label>
-                <input type="text" value={userFrom?.surname}
+                <input type="text" value={userFrom&&userFrom?.surname}
                 onChange={(e)=>setUserForm((prev)=>{
                   return{...prev,surname:e.target.value}
                 })}
@@ -133,7 +147,7 @@ const queryClient= useQueryClient()
                 <select
                   name="gender"
                   id="gender"
-                  value={userFrom?.gender}
+                  value={userFrom&&userFrom?.gender}
                   onChange={(e)=>setUserForm((prev)=>{
                     return{...prev,gender:e.target.value}
                   })}
@@ -147,7 +161,7 @@ const queryClient= useQueryClient()
                 <input
                   type="date"
                   id="birthDate"
-                  value={userData?.userProfile.birthDay}
+                  value={userFrom&&userFrom?.birthDay}
                 />
               </div>
             </div>
@@ -162,7 +176,7 @@ const queryClient= useQueryClient()
             <div className="relationships__form-field">
               <label htmlFor="">Country</label>
               <input type="text"
-              value={userFrom?.country}
+              value={userFrom&&userFrom?.country}
               onChange={(e)=>setUserForm((prev)=>{
                 return{...prev,country:e.target.value}
               })}
@@ -171,18 +185,26 @@ const queryClient= useQueryClient()
             <div className="relationships__form-field">
               <label htmlFor="">City</label>
               <input type="text"
-              value={userFrom?.city}
+              value={userFrom&&userFrom?.city}
+              onChange={(e)=>setUserForm((prev)=>{
+return {...prev,city:e.target.value}
+
+              })}
               />
             </div>
             <div className="relationships__form-field">
               <label htmlFor="">Phone</label>
-              <input type="number" value={userFrom?.phone} />
+              <input type="number" value={userFrom&&userFrom?.phone}
+              onChange={(e)=>setUserForm((prev)=>{
+                return{...prev,phone:e.target.value}
+              })}
+              />
             </div>
           </div>
         </div>
 
         <div className="user-occupation-assigned">
-          {userData?.projectListAsignedTo.map((project, projectIndex) => {
+          {userProjectList&&userProjectList.map((project, projectIndex) => {
             return (
               <div
                 className={`${
@@ -223,6 +245,11 @@ const queryClient= useQueryClient()
           })}
         </div>
       </form>
+      {showMsgPopup.visible ?
+      <MsgPopup
+      setShowMsgPopup={setShowMsgPopup}
+      showMsgPopup={showMsgPopup}
+      />:null}
     </div>
   );
 };

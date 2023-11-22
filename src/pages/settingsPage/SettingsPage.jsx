@@ -12,7 +12,11 @@ import { useQuery } from "react-query";
 export const SettingsPage = () => {
   const [toggleSection, setToggleSection] = useState(false);
 const [userFrom,setUserForm]=useState({})
-
+const [showMsgPopup, setShowMsgPopup] = useState({
+  visible: false,
+  message: "",
+  success: null,
+});
 
 
   const {
@@ -21,10 +25,10 @@ const [userFrom,setUserForm]=useState({})
     error,
     data: userData,
   } = useQuery(["userData"], getUserProfile, {
-onSuccess:({userProfile})=>setUserForm(userProfile),
-refetchOnWindowFocus: false,
-  });
 
+refetchOnWindowFocus: false,
+onSuccess:({userProfile})=>setUserForm(userProfile)
+  });
 
 
 
@@ -57,9 +61,12 @@ refetchOnWindowFocus: false,
       </nav>
       {!toggleSection ? (
         <ProfileSettings
-        userData={userData}
+        userData={userData?.userProfile}
         setUserForm={setUserForm}
+        userProjectList={userData?.projectListAsignedTo}
         userFrom={userFrom}
+        showMsgPopup={showMsgPopup}
+        setShowMsgPopup={setShowMsgPopup}
         />
       ) : (
         <AccountSettings 

@@ -59,7 +59,7 @@ export const handleUpdateUser = (
       message: "No changes were made. Make some changes to update the data.",
       success: false,
     };
-    alert(errorObj.message);
+    handlePopup(popupSetter,errorObj)
   } else {
     mutation.mutate(updateObj);
   }

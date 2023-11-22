@@ -33,7 +33,7 @@ export const UserList = () => {
       return(<>
       <img 
         className="userListUserImg"
-      src={params?.row.userAvatar} alt="" />
+      src={params?.row.userAvatar.url} alt="" />
       </>)
     } },
     { field: "email", headerName: "Email", width: 300 },

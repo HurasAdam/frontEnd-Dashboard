@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const { convertDate } = require("../utils/dateConvert");
+const { validateFormField } = require("../utils/validateFormField");
 
 const createAccessToken = (id) => {
   const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
@@ -44,7 +45,6 @@ const loginUser = async (req, res) => {
       });
     }
   } catch (Error) {
-    console.log(Error);
     res.status(400).json(Error.message);
   }
 };
@@ -94,9 +94,8 @@ const signupUser = async (req, res) => {
         gender,
         role: role || "user",
 
-       
         birthDay: birthDay || "",
-      
+
         createdAt: new Date(),
       });
       const accessToken = createAccessToken(user._id);
@@ -134,9 +133,8 @@ const getUserData = async (req, res) => {
     userAvatar: user.userAvatar.url,
     createdAt: user.createdAt,
     country: user.country,
-    city:user.city,
+    city: user.city,
     gender: user.gender,
-    
   };
   res.status(200).json(result);
 };
@@ -149,7 +147,7 @@ const getUserList = async (req, res) => {
   if (req.query.project && req.query.contributor === "false") {
     const projectId = req.query.project;
     const project = await Project.find({ _id: projectId });
-    console.log(project);
+
     //get ID of users asigned to the project
     const contributorsListId = project.map((ob) => ob.contributors).flat();
     //get full list of Users
@@ -201,73 +199,35 @@ const getUserList = async (req, res) => {
 
 const updateUserData = async (req, res) => {
   let { name, surname, gender, phone, country, city } = req.body;
-
   const user = req.user;
-  console.log(name);
-
   const updatedFields = {};
-  // try {
-  if (name && !validator.isAlpha(name)) {
-    return res.status(400).json("Name should only contain letters");
-  }
-  if (surname && !validator.isAlpha(surname)) {
-    throw Error("Name should only contain letters");
-  }
-
-  if (gender && gender !== "male" && gender !== "female") {
-    return res.status(400).json("INCORECT GENDER TYPE");
-  }
-  if (country && !validator.isAlpha(country)) {
-    return res.status(400).json("country should only containt letters");
-  }
-  if (city && !validator.isAlpha(city)) {
-    return res.status(400).json("country should only containt letters");
+  const validationErrors = [];
+  Object.keys(req.body).forEach((fieldName) => {
+    const error = validateFormField(fieldName, req.body[fieldName]);
+    if (error) {
+      validationErrors.push(error);
+    }
+  });
+  if (validationErrors.length > 0) {
+    return res.status(400).json({message:validationErrors.join(", "),success:false});
   }
 
   if (name && name !== user.name) updatedFields.name = name;
   if (surname && surname !== user.surname) updatedFields.surname = surname;
-  if (phone && phone !== user.phone) updatedFields.phone = phone;
+  if (phone !== undefined && phone !== user.phone) updatedFields.phone = phone;
   if (gender && gender !== user.gender) updatedFields.gender = gender;
-  else if (
-    !name &&
-    !surname &&
-    !phone &&
-    !gender &&
-    !phone &&
-    !country &&
-    !city
-  ) {
-    return res.status(400).json("No changes has been made");
-  }
-
-  else{
-
-    const updateUserData = await User.findOneAndUpdate(
-      { _id: req.user._id },
-      {
-        $set: updatedFields,
-      },
-      { new: true }
-    );
+  if (country !== undefined && country !== user.country)updatedFields.country = country;
+  if (city !== undefined && city !== user.city) updatedFields.city = city;
+  if (Object.keys(updatedFields).length === 0) {
+    return res.status(400).json({message:"No changes has been made, please make changes before submit data",success:false});
   }
   console.log(updatedFields);
-  res.status(200).json("sucessfull");
-
-
-  //   const updateUserData = await User.findOneAndUpdate(
-  //     { _id: req.user._id },
-  //     {
-  //       $set: updatedFields,
-  //     },
-  //     { new: true }
-  //   );
-  //   return res
-  //     .status(200)
-  //     .json({ data: updateUserData, message: "updated successfully" });
-  // } catch (Error) {
-  //   return res.status(400).json(Error.message);
-  // }
-
+  const updateUserData = await User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: updatedFields },
+    { new: true }
+  );
+  return res.status(200).json({message:"data hase been changed sucessfull",success:true});
 };
 
 const updateUserRole = async (req, res) => {
@@ -284,10 +244,8 @@ const getUserAccount = async (req, res) => {
   const { _id: userId } = req.user;
 
   const userProfile = await User.find({ _id: userId }).select(
-    "name surname userAvatar phone birthDay gender role email"
+    "name surname userAvatar phone birthDay gender country city role email"
   );
-
-  console.log(userProfile[0]);
 
   const projectListAsignedTo = await Project.find({
     contributors: { $in: [userId] },
@@ -297,7 +255,6 @@ const getUserAccount = async (req, res) => {
     select: "name surname userAvatar",
   });
 
-  console.log(userId);
   res.status(200).json({ userProfile: userProfile[0], projectListAsignedTo });
 };
 

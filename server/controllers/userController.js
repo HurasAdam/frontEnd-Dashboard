@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const { convertDate } = require("../utils/dateConvert");
 const { validateFormField } = require("../utils/validateFormField");
+const { validateData } = require("../utils/validateData");
 
 const createAccessToken = (id) => {
   const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
@@ -258,6 +259,33 @@ const getUserAccount = async (req, res) => {
   res.status(200).json({ userProfile: userProfile[0], projectListAsignedTo });
 };
 
+
+
+const updateCredentials=async(req,res)=>{
+const {password,newPassword}=req.body
+const {password:currentPassword,_id:userId}=req.user
+const doesExist=validateData({password,newPassword})
+
+if(doesExist){
+  return res.status(400).json(doesExist)
+}
+
+const isOldPasswordValid = await bcrypt.compare(password, currentPassword);
+if(!isOldPasswordValid){
+return res.status(400).json("Inncorrenct Password")
+}
+
+else{
+  const  newHashedPassword= await bcrypt.hash(newPassword,10)
+  await User.findOneAndUpdate({_id:userId},{
+    $set: { password: newHashedPassword }
+  })
+  res.status(200).json("USER CREDENTIALS")
+}
+}
+
+
+
 module.exports = {
   signupUser,
   loginUser,
@@ -266,4 +294,5 @@ module.exports = {
   updateUserData,
   updateUserRole,
   getUserAccount,
+  updateCredentials
 };

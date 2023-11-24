@@ -210,17 +210,26 @@ const updateUserData = async (req, res) => {
     }
   });
   if (validationErrors.length > 0) {
-    return res.status(400).json({message:validationErrors.join(", "),success:false});
+    return res
+      .status(400)
+      .json({ message: validationErrors.join(", "), success: false });
   }
 
   if (name && name !== user.name) updatedFields.name = name;
   if (surname && surname !== user.surname) updatedFields.surname = surname;
   if (phone !== undefined && phone !== user.phone) updatedFields.phone = phone;
   if (gender && gender !== user.gender) updatedFields.gender = gender;
-  if (country !== undefined && country !== user.country)updatedFields.country = country;
+  if (country !== undefined && country !== user.country)
+    updatedFields.country = country;
   if (city !== undefined && city !== user.city) updatedFields.city = city;
   if (Object.keys(updatedFields).length === 0) {
-    return res.status(400).json({message:"No changes has been made, please make changes before submit data",success:false});
+    return res
+      .status(400)
+      .json({
+        message:
+          "No changes has been made, please make changes before submit data",
+        success: false,
+      });
   }
   console.log(updatedFields);
   const updateUserData = await User.findOneAndUpdate(
@@ -228,7 +237,9 @@ const updateUserData = async (req, res) => {
     { $set: updatedFields },
     { new: true }
   );
-  return res.status(200).json({message:"data hase been changed sucessfull",success:true});
+  return res
+    .status(200)
+    .json({ message: "data hase been changed sucessfull", success: true });
 };
 
 const updateUserRole = async (req, res) => {
@@ -259,31 +270,66 @@ const getUserAccount = async (req, res) => {
   res.status(200).json({ userProfile: userProfile[0], projectListAsignedTo });
 };
 
+const updateCredentials = async (req, res) => {
+  const { password, newPassword } = req.body;
+  const { password: currentPassword, _id: userId } = req.user;
+  const doesExist = validateData({ password, newPassword });
+
+  if (doesExist) {
+    return res.status(400).json(doesExist);
+  }
+
+  const isOldPasswordValid = await bcrypt.compare(password, currentPassword);
+  if (!isOldPasswordValid) {
+    return res
+      .status(400)
+      .json({ message: "Inncorrenct Password", succes: false });
+  } else {
+    if (!validator.isStrongPassword(newPassword)) {
+      return res
+        .status(400)
+        .json({ message: "Password not strong enough", succes: false });
+    } else {
+      const newHashedPassword = await bcrypt.hash(newPassword, 10);
+      await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $set: { password: newHashedPassword },
+        }
+      );
+      res.status(200).json("USER CREDENTIALS");
+    }
+  }
+};
 
 
-const updateCredentials=async(req,res)=>{
-const {password,newPassword}=req.body
-const {password:currentPassword,_id:userId}=req.user
-const doesExist=validateData({password,newPassword})
+const updateUserEmail= async(req,res)=>{
+const {newEmail,confirmNewEmail,password}=req.body;
+const {_id,email,password:userPassword}=req.user;
 
-if(doesExist){
-  return res.status(400).json(doesExist)
+const isError=validateData({newEmail,confirmNewEmail,password})
+
+if(isError){
+  return res.status(400).json(isError)
+}
+const isPasswordValid = await bcrypt.compare(password, userPassword);
+
+if(!isPasswordValid){
+  return res.status(400).json({message:"Inncorect password",succes:false})
+}
+if(newEmail!==confirmNewEmail){
+  return res.status(400).json({message:"new email and confirm new email are different",succes:false})
 }
 
-const isOldPasswordValid = await bcrypt.compare(password, currentPassword);
-if(!isOldPasswordValid){
-return res.status(400).json("Inncorrenct Password")
+const doesEmailExist = await User.find({email:newEmail}).select('email')
+
+if(doesEmailExist.length>0){
+  return res.status(400).json({message:"Email already taken",succes:false})
 }
 
-else{
-  const  newHashedPassword= await bcrypt.hash(newPassword,10)
-  await User.findOneAndUpdate({_id:userId},{
-    $set: { password: newHashedPassword }
-  })
-  res.status(200).json("USER CREDENTIALS")
-}
-}
+res.status(200).json("EMAIL CHANGED")
 
+}
 
 
 module.exports = {
@@ -294,5 +340,6 @@ module.exports = {
   updateUserData,
   updateUserRole,
   getUserAccount,
-  updateCredentials
+  updateCredentials,
+  updateUserEmail
 };

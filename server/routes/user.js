@@ -9,7 +9,8 @@ const {
   updateUserData,
   getUserData,
   getUserAccount,
-  updateCredentials
+  updateCredentials,
+  updateUserEmail
  
 } = require("../controllers/userController");
 const {uploadAvatar,upload,removeAvatar}=require("../middleware/multer")
@@ -33,6 +34,7 @@ router.get('/:id',requireAuth,getUserData)
 
 router.patch("/", requireAuth, authRole("admin",'user'), updateUserData);
 router.patch("/update-credentials",requireAuth,updateCredentials)
+router.patch("/update-email",requireAuth,updateUserEmail)
 router.patch("/manageRole",updateUserRole)
 router.patch('/upload',requireAuth,upload.single('file'),uploadAvatar)
 router.delete('/remove-avatar',requireAuth,removeAvatar)

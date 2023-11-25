@@ -10,6 +10,17 @@ export const AccountSettings = ({ triggerCredentials,email }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(false);
+const [emailForm,setEmailForm]=useState({})
+
+
+
+const handleUpdateUserEmail=(e,emailForm,currentEmail)=>{
+  e.preventDefault()
+console.log(emailForm)
+console.log(currentEmail)
+}
+
+
 
   const toggleTheme = (e, THEME) => {
     themeSwitch({
@@ -125,6 +136,7 @@ export const AccountSettings = ({ triggerCredentials,email }) => {
                 </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
+                 
                     // disabled={
                     //   userData.userCredentials.password.newPassword === "" ||
                     //   userData.userCredentials.email.repeatNewPassword === ""
@@ -171,7 +183,9 @@ export const AccountSettings = ({ triggerCredentials,email }) => {
                     type="email"
                     name="email"
                     placeholder="type in new email"
-                 
+                 onChange={(e)=>setEmailForm((prev)=>{
+                  return {...prev,newEmail:e.target.value}
+                 })}
                   />
                 </div>
                 <div className="changePasswordDataWrapper-item">
@@ -180,6 +194,9 @@ export const AccountSettings = ({ triggerCredentials,email }) => {
                     type="email"
                     name="email"
                     placeholder="repeat new email"
+                    onChange={(e)=>setEmailForm((prev)=>{
+                      return{...prev,repeatNewEmail:e.target.value}
+                    })}
             
                   />
                 </div>
@@ -188,7 +205,7 @@ export const AccountSettings = ({ triggerCredentials,email }) => {
                 </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
-           
+            onClick={(e)=>handleUpdateUserEmail(e,emailForm,email)}
                   >
                     save
                   </button>

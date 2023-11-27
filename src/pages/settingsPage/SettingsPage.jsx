@@ -71,7 +71,8 @@ onSuccess:({userProfile})=>setUserForm(userProfile)
       ) : (
         <AccountSettings 
         email={userData?.userProfile?.email}
-
+        showMsgPopup={showMsgPopup}
+        setShowMsgPopup={setShowMsgPopup}
         />
       )}
     </div>

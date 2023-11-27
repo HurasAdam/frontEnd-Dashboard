@@ -4,21 +4,25 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import AlternateEmailOutlinedIcon from "@mui/icons-material/AlternateEmailOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import { useContext, useState } from "react";
-
 import { ThemeContext } from "../../contexts/ThemeContext";
-export const AccountSettings = ({ triggerCredentials,email }) => {
+import { mutationHandler } from "../../shared/mutationHandler";
+import { updateEmail } from "../../features/userApi/userApi";
+import { handlePopup } from "../../shared/handlePopup";
+import {MsgPopup} from "../../components/msgPopup/MsgPopup"
+import { handleUpdateEmail } from "../../shared/handleUpdateEmail";
+
+export const AccountSettings = ({ triggerCredentials,email,showMsgPopup,setShowMsgPopup }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(false);
-const [emailForm,setEmailForm]=useState({})
+const [newEmailForm,setNewEmailForm]=useState({})
+const [newPasswordForm,setNewPasswordForm]=useState({})
 
 
 
-const handleUpdateUserEmail=(e,emailForm,currentEmail)=>{
-  e.preventDefault()
-console.log(emailForm)
-console.log(currentEmail)
-}
+const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
+  console.log(data)
+})
 
 
 
@@ -168,13 +172,7 @@ console.log(currentEmail)
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>current email</span>
-                  <input
-                    disabled={true}
-                    type="email"
-                    name="email"
-                    defaultValue={email}
-                  
-                  />
+             <span>{email&&email}</span>
                 </div>
 
                 <div className="changePasswordDataWrapper-item">
@@ -183,7 +181,7 @@ console.log(currentEmail)
                     type="email"
                     name="email"
                     placeholder="type in new email"
-                 onChange={(e)=>setEmailForm((prev)=>{
+                 onChange={(e)=>setNewEmailForm((prev)=>{
                   return {...prev,newEmail:e.target.value}
                  })}
                   />
@@ -193,9 +191,21 @@ console.log(currentEmail)
                   <input
                     type="email"
                     name="email"
-                    placeholder="repeat new email"
-                    onChange={(e)=>setEmailForm((prev)=>{
-                      return{...prev,repeatNewEmail:e.target.value}
+                    placeholder="confirm new email"
+                    onChange={(e)=>setNewEmailForm((prev)=>{
+                      return{...prev,confirmNewEmail :e.target.value}
+                    })}
+            
+                  />
+                </div>
+                <div className="changePasswordDataWrapper-item">
+                  <span>password</span>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="put your password here"
+                    onChange={(e)=>setNewEmailForm((prev)=>{
+                      return{...prev,password:e.target.value}
                     })}
             
                   />
@@ -205,7 +215,7 @@ console.log(currentEmail)
                 </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
-            onClick={(e)=>handleUpdateUserEmail(e,emailForm,email)}
+            onClick={(e)=>handleUpdateEmail(e,newEmailForm,updateEmailMutation,setShowMsgPopup)}
                   >
                     save
                   </button>
@@ -419,6 +429,11 @@ console.log(currentEmail)
           </div>
         </div>
       </div>
+      
+    {showMsgPopup?.visible?(<MsgPopup
+      showMsgPopup={showMsgPopup}
+      setShowMsgPopup={setShowMsgPopup}
+      />):null}
     </div>
   );
 };

@@ -305,7 +305,7 @@ const updateCredentials = async (req, res) => {
 
 const updateUserEmail= async(req,res)=>{
 const {newEmail,confirmNewEmail,password}=req.body;
-const {_id,email,password:userPassword}=req.user;
+const {_id:userId,email,password:userPassword}=req.user;
 
 const isError=validateData({newEmail,confirmNewEmail,password})
 
@@ -327,7 +327,18 @@ if(doesEmailExist.length>0){
   return res.status(400).json({message:"Email already taken",succes:false})
 }
 
-res.status(200).json("EMAIL CHANGED")
+if (!validator.isEmail(newEmail)) {
+  return res.status(400).json({message:"Inncorect email type",succes:false})
+}
+
+else{
+  await User.findOneAndUpdate({_id:userId},{
+    $set:{email:newEmail}
+  })
+  res.status(200).json({message:"Email has been changed",succes:true})
+}
+
+
 
 }
 

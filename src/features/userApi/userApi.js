@@ -46,3 +46,11 @@ export const updateUser= async(data)=>{
   const response = await projectApi.patch('/user',data)
   return response.data
 }
+
+
+export const updateEmail= async(data)=>{
+
+const response = await projectApi.patch('/user/update-email',data)
+return response.data
+
+}

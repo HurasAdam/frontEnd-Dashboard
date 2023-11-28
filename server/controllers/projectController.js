@@ -4,6 +4,7 @@ const Note = require("../db/models/note");
 const { ObjectId } = require("mongodb");
 const { convertDate } = require("../utils/dateConvert");
 const { default: mongoose } = require("mongoose");
+const { validateForm } = require("../utils/validateForm");
 
 
 
@@ -131,6 +132,10 @@ const updateProject = async (req, res) => {
   const io = req.app.get("socketio");
 const changes = {}  
 
+const {title:a,contributors:b,description:c}=await Project.findOne({_id:id})
+console.log(a)
+console.log(b)
+console.log(c)
   if(title){
     changes.title=title
   }

@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const { convertDate } = require("../utils/dateConvert");
-const { validateUserData } = require("../utils/validateFormField");
+const { validateForm } = require("../utils/validateForm");
 const { validateData } = require("../utils/validateData");
 
 const createAccessToken = (id) => {
@@ -199,31 +199,34 @@ const getUserList = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
-  const fieldConfig = {
-    name: { required: true },
-    surname: { required: true },
-    gender: { required: true },
-    phone: { required: false },
-    city: { required: false },
-    country: { required: false },
-  };
+  console.log("UPDATE ENDPOINT WORKING")
+const updates = req.update
+//   const fieldConfig = {
+//     name: { required: true },
+//     surname: { required: true },
+//     gender: { required: true },
+//     phone: { required: false },
+//     city: { required: false },
+//     country: { required: false },
+//   };
 
-  let { name, surname, gender, phone, country, city } = req.body;
+//   let { name, surname, gender, phone, country, city } = req.body;
 
-  const user = req.user;
-  const updatedFields = {};
-  const validator = validateUserData({formData:{ name, surname, gender, phone, country, city},userData:req.user},fieldConfig
-  );
+//   const user = req.user;
+//   const updatedFields = {};
+//   const validator = validateForm({formData:{ name, surname, gender, phone, country, city},userData:req.user},fieldConfig
+//   );
 
-  if (!validator.success) {
-    return res.status(400).json(validator);
-  }
+// console.log(validator)
+//   if (!validator.success) {
+//     return res.status(400).json(validator);
+//   }
 
 
  
   const updateUserData = await User.findOneAndUpdate(
     { _id: req.user._id },
-    { $set: validator?.updateObj },
+    { $set: updates },
     { new: true }
   );
   return res

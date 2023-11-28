@@ -15,7 +15,7 @@ const {
 } = require("../controllers/userController");
 const {uploadAvatar,upload,removeAvatar}=require("../middleware/multer")
 const [requireAuth, authRole] = require("../middleware/requireAuth");
-
+const {validateInputData} = require("../middleware/validateInputData")
 const router = express.Router();
 
 // login route
@@ -32,7 +32,7 @@ router.get('/:id',requireAuth,getUserData)
 //filter list
 
 
-router.patch("/", requireAuth, authRole("admin",'user'), updateUserData);
+router.patch("/", requireAuth, authRole("admin",'user'),validateInputData, updateUserData);
 router.patch("/update-credentials",requireAuth,updateCredentials)
 router.patch("/update-email",requireAuth,updateUserEmail)
 router.patch("/manageRole",updateUserRole)

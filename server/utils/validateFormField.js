@@ -1,38 +1,80 @@
 const validator = require("validator");
- 
- const validateFormField = (fieldName, value) => {
-    switch (fieldName) {
-      case "name":
-      case "surname":
-        return !validator.isAlpha(value)
-          ? `${fieldName} should only contain letters`
-          : null;
-      case "gender":
-        const allowedGenders = ["male", "female"];
-        return !allowedGenders.includes(value)
-          ? "Incorrect gender type"
-          : null;
 
-          case "phone":
-            return value!==''&&!validator.isNumeric(value)
-            ?`${fieldName} should be a number`
-            :null;
+const validateUserData = ({ formData, userData }, fieldConfig) => {
 
-            case"country":
-            return value!==""&&!validator.isAlpha(value)
-            ?`${fieldName} should only contain letters`
-            :null;
 
-            case"city":
-            return value!==""&&!validator.isAlpha(value)
-            ?`${fieldName} should only contain letters`
-            :null
-      // Dodaj więcej przypadków dla innych pól
-      default:
-        return null;
+  const result = {
+    success: true,
+    error: {
+      message: [],
+    },
+    updateObj: {},
+  };
+
+  Object.keys(formData).forEach((fieldName) => {
+    const value = formData[fieldName];
+    const config = fieldConfig[fieldName];
+
+    if (
+      config.required &&
+      (value === undefined || value === null || value === "")
+    ) {
+      result.success = false;
+      result.error.message.push(`${fieldName} is required`);
+
+      return;
     }
-  };
+    if (value) {
+      switch (fieldName) {
+        case "name":
+        case "surname":
+          if (!validator.isAlpha(value)) {
+            result.success = false;
+            result.error.message.push(
+              `${fieldName} should only contain letters`
+            );
+          } else if (value !== userData[fieldName]) {
+            result.updateObj[fieldName] = value;
+          }
 
-  module.exports = {
-    validateFormField
-  };
+          break;
+        case "gender":
+          const allowedGenders = ["male", "female"];
+          if (!allowedGenders.includes(value)) {
+            result.success=false
+            result.error.message.push("Incorrect gender type");
+          } else if (value !== userData[fieldName]) {
+            result.updateObj[fieldName] = value;
+           
+          }
+          break;
+        case "phone":
+          if (value !== "" && !validator.isNumeric(value)) {
+            result.error.message.push(`${fieldName} should be a number`);
+          } else if (value !== userData[fieldName]) {
+            result.updateObj[fieldName] = value;
+          }
+          break;
+        case "country":
+        case "city":
+          if (value !== "" && !validator.isAlpha(value)) {
+            result.error.message.push(
+              `${fieldName} should only contain letters`
+            );
+          } else if (value !== userData[fieldName]) {
+            result.updateObj[fieldName] = value;
+          }
+          break;
+
+        default:
+          break;
+      }
+    }
+  });
+
+  return result;
+};
+
+module.exports = {
+  validateUserData,
+};

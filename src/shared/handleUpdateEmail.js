@@ -1,3 +1,4 @@
+import { handlePopup } from "./handlePopup"
 export const handleUpdateEmail=(e,userForm,mutation,popupSetter)=>{
     e.preventDefault()
   const errorObj=[]
@@ -29,8 +30,10 @@ export const handleUpdateEmail=(e,userForm,mutation,popupSetter)=>{
     }
   
   
+  else{
+    mutation.mutate(userForm)
+  }
   
-  
-  mutation.mutate(userForm)
+
   }
   

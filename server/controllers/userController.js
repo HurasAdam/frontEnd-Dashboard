@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const { convertDate } = require("../utils/dateConvert");
-const { validateFormField } = require("../utils/validateFormField");
+const { validateUserData } = require("../utils/validateFormField");
 const { validateData } = require("../utils/validateData");
 
 const createAccessToken = (id) => {
@@ -199,42 +199,31 @@ const getUserList = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
+  const fieldConfig = {
+    name: { required: true },
+    surname: { required: true },
+    gender: { required: true },
+    phone: { required: false },
+    city: { required: false },
+    country: { required: false },
+  };
+
   let { name, surname, gender, phone, country, city } = req.body;
+
   const user = req.user;
   const updatedFields = {};
-  const validationErrors = [];
-  Object.keys(req.body).forEach((fieldName) => {
-    const error = validateFormField(fieldName, req.body[fieldName]);
-    if (error) {
-      validationErrors.push(error);
-    }
-  });
-  if (validationErrors.length > 0) {
-    return res
-      .status(400)
-      .json({ message: validationErrors.join(", "), success: false });
+  const validator = validateUserData({formData:{ name, surname, gender, phone, country, city},userData:req.user},fieldConfig
+  );
+
+  if (!validator.success) {
+    return res.status(400).json(validator);
   }
 
-  if (name && name !== user.name) updatedFields.name = name;
-  if (surname && surname !== user.surname) updatedFields.surname = surname;
-  if (phone !== undefined && phone !== user.phone) updatedFields.phone = phone;
-  if (gender && gender !== user.gender) updatedFields.gender = gender;
-  if (country !== undefined && country !== user.country)
-    updatedFields.country = country;
-  if (city !== undefined && city !== user.city) updatedFields.city = city;
-  if (Object.keys(updatedFields).length === 0) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "No changes has been made, please make changes before submit data",
-        success: false,
-      });
-  }
-  console.log(updatedFields);
+
+ 
   const updateUserData = await User.findOneAndUpdate(
     { _id: req.user._id },
-    { $set: updatedFields },
+    { $set: validator?.updateObj },
     { new: true }
   );
   return res
@@ -302,46 +291,53 @@ const updateCredentials = async (req, res) => {
   }
 };
 
+const updateUserEmail = async (req, res) => {
+  const { newEmail, confirmNewEmail, password } = req.body;
+  const { _id: userId, email, password: userPassword } = req.user;
 
-const updateUserEmail= async(req,res)=>{
-const {newEmail,confirmNewEmail,password}=req.body;
-const {_id:userId,email,password:userPassword}=req.user;
+  const isError = validateData({ newEmail, confirmNewEmail, password });
 
-const isError=validateData({newEmail,confirmNewEmail,password})
+  if (isError) {
+    return res.status(400).json(isError);
+  }
+  const isPasswordValid = await bcrypt.compare(password, userPassword);
 
-if(isError){
-  return res.status(400).json(isError)
-}
-const isPasswordValid = await bcrypt.compare(password, userPassword);
+  if (!isPasswordValid) {
+    return res
+      .status(400)
+      .json({ message: "Inncorect password", succes: false });
+  }
+  if (newEmail !== confirmNewEmail) {
+    return res
+      .status(400)
+      .json({
+        message: "new email and confirm new email are different",
+        succes: false,
+      });
+  }
 
-if(!isPasswordValid){
-  return res.status(400).json({message:"Inncorect password",succes:false})
-}
-if(newEmail!==confirmNewEmail){
-  return res.status(400).json({message:"new email and confirm new email are different",succes:false})
-}
+  const doesEmailExist = await User.find({ email: newEmail }).select("email");
 
-const doesEmailExist = await User.find({email:newEmail}).select('email')
+  if (doesEmailExist.length > 0) {
+    return res
+      .status(400)
+      .json({ message: "Email already taken", succes: false });
+  }
 
-if(doesEmailExist.length>0){
-  return res.status(400).json({message:"Email already taken",succes:false})
-}
-
-if (!validator.isEmail(newEmail)) {
-  return res.status(400).json({message:"Inncorect email type",succes:false})
-}
-
-else{
-  await User.findOneAndUpdate({_id:userId},{
-    $set:{email:newEmail}
-  })
-  res.status(200).json({message:"Email has been changed",succes:true})
-}
-
-
-
-}
-
+  if (!validator.isEmail(newEmail)) {
+    return res
+      .status(400)
+      .json({ message: "Inncorect email type", succes: false });
+  } else {
+    await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        $set: { email: newEmail },
+      }
+    );
+    res.status(200).json({ message: "Email has been changed", succes: true });
+  }
+};
 
 module.exports = {
   signupUser,
@@ -352,5 +348,5 @@ module.exports = {
   updateUserRole,
   getUserAccount,
   updateCredentials,
-  updateUserEmail
+  updateUserEmail,
 };

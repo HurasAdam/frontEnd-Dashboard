@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const { convertDate } = require("../utils/dateConvert");
 const { validateForm } = require("../utils/validateForm");
-const { validateData } = require("../utils/validateData");
+const { validateData, checkForUpdates } = require("../utils/checkForUpdates");
 
 const createAccessToken = (id) => {
   const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
@@ -200,30 +200,16 @@ const getUserList = async (req, res) => {
 
 const updateUserData = async (req, res) => {
   console.log("UPDATE ENDPOINT WORKING")
-const updates = req.update
-//   const fieldConfig = {
-//     name: { required: true },
-//     surname: { required: true },
-//     gender: { required: true },
-//     phone: { required: false },
-//     city: { required: false },
-//     country: { required: false },
-//   };
-
-//   let { name, surname, gender, phone, country, city } = req.body;
-
-//   const user = req.user;
-//   const updatedFields = {};
-//   const validator = validateForm({formData:{ name, surname, gender, phone, country, city},userData:req.user},fieldConfig
-//   );
-
-// console.log(validator)
-//   if (!validator.success) {
-//     return res.status(400).json(validator);
-//   }
-
 
  
+const userData= req.user
+const inputData = req.body
+const updates = checkForUpdates(req.body,req.user)
+
+if(!updates){
+  return res.status(400).json({message:"No updates", succes:false})
+}
+else{
   const updateUserData = await User.findOneAndUpdate(
     { _id: req.user._id },
     { $set: updates },
@@ -232,6 +218,8 @@ const updates = req.update
   return res
     .status(200)
     .json({ message: "data hase been changed sucessfull", success: true });
+}
+
 };
 
 const updateUserRole = async (req, res) => {

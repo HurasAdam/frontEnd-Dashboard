@@ -1,9 +1,6 @@
 const validator = require("validator");
 
 const validateInputData = async (req, res, next) => {
-  const formData = req.body;
-  const userData = req.user;
-
   const fieldConfig = {
     name: { required: true },
     surname: { required: true },
@@ -15,22 +12,26 @@ const validateInputData = async (req, res, next) => {
     description: { required: true },
     contributors: { required: true },
   };
-
+  const formData = req.body;
   const result = {
     success: true,
     error: {
       message: [],
     },
-    updateObj: {},
   };
-
-  req.update = result?.updateObj;
 
   Object.keys(formData).forEach((fieldName) => {
     const value = formData[fieldName];
     const config = fieldConfig[fieldName];
 
+    if (!fieldConfig[fieldName]) {
+      result.success = false;
+      result.error.message.push(`Unexpected field: ${fieldName}`);
+      return;
+    }
+
     if (
+      config &&
       config.required &&
       (value === undefined || value === null || value === "")
     ) {
@@ -43,13 +44,11 @@ const validateInputData = async (req, res, next) => {
       switch (fieldName) {
         case "name":
         case "surname":
-          if (!validator.isAlpha(value)) {
+          if (typeof value !== "string" || !validator.isAlpha(value)) {
             result.success = false;
             result.error.message.push(
               `${fieldName} should only contain letters`
             );
-          } else if (value !== userData[fieldName]) {
-            result.updateObj[fieldName] = value;
           }
 
           break;
@@ -58,55 +57,47 @@ const validateInputData = async (req, res, next) => {
           if (!allowedGenders.includes(value)) {
             result.success = false;
             result.error.message.push("Incorrect gender type");
-          } else if (value !== userData[fieldName]) {
-            result.updateObj[fieldName] = value;
           }
           break;
         case "phone":
           if (value !== "" && !validator.isNumeric(value)) {
             result.success = false;
             result.error.message.push(`${fieldName} should be a number`);
-          } else if (value !== userData[fieldName]) {
-            result.updateObj[fieldName] = value;
           }
           break;
         case "country":
         case "city":
-          if (value !== "" && !validator.isAlpha(value)) {
+          if (typeof value !== "string" || !validator.isAlpha(value)) {
             result.success = false;
             result.error.message.push(
               `${fieldName} should only contain letters`
             );
-          } else if (value !== userData[fieldName]) {
-            result.updateObj[fieldName] = value;
           }
           break;
         case "title":
-          if (!validator.isAlpha(value)) {
+          if (typeof value !== "string" || !validator.isAlpha(value)) {
             result.success = false;
             result.error.message.push(
               `${fieldName} should only contain letters`
             );
-          } else if (value !== userData[fieldName]) {
-            result.updateObj[fieldName] = value;
           }
           break;
-          case"description":
-          if(!validator.isAlpha(value)){
-            result.success=false;
-            result.error.message.push(`${fieldName} should only contain letters`)
+        case "description":
+          if (typeof value !== "string" || !validator.isAlpha(value)) {
+            result.success = false;
+            result.error.message.push(
+              `${fieldName} should only contain letters`
+            );
           }
           break;
-          case "contributors":
-            console.log(Array.isArray(value))
-            if(!Array.isArray(value)){
-                result.success=false;
-                result.error.message.push("inncorect contributor type")
-            }
-            else if(Array.isArray(value)){
-                result.updateObj[fieldName]=value
-            }
-            break;
+        case "contributors":
+        
+          if (!Array.isArray(value)) {
+            result.success = false;
+            result.error.message.push("inncorect contributor type");
+          }
+
+          break;
 
         default:
           break;
@@ -114,11 +105,9 @@ const validateInputData = async (req, res, next) => {
     }
   });
 
-  if (!result.success)
-    return res.status(400).json({ ...result, updateObj: null });
-  else if (Object.keys(result.updateObj).length === 0) {
-    return res.status(400).json("No changes has been made");
-  } else if (result.success) {
+  if (!result.success) return res.status(400).json(result);
+  else {
+    req.formData =formData
     next();
   }
 };

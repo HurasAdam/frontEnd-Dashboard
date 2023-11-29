@@ -11,6 +11,9 @@ const validateInputData = async (req, res, next) => {
     title: { required: true },
     description: { required: true },
     contributors: { required: true },
+    newEmail: { required: true },
+    confirmNewEmail: { required: true },
+    password: { required: true },
   };
   const formData = req.body;
   const result = {
@@ -91,13 +94,24 @@ const validateInputData = async (req, res, next) => {
           }
           break;
         case "contributors":
-        
           if (!Array.isArray(value)) {
             result.success = false;
             result.error.message.push("inncorect contributor type");
           }
 
+        case "newEmail":
+        case "confirmNewEmail":
+          if (typeof value !== "string" || !validator.isEmail(value)) {
+            result.success = false;
+            result.error.message.push("Inncorect email type");
+          }     
           break;
+
+          case"password":
+          if(typeof value !=="string"){
+            result.success=false;
+            result.error.message.push('inncorect type of password')
+          }
 
         default:
           break;
@@ -107,7 +121,7 @@ const validateInputData = async (req, res, next) => {
 
   if (!result.success) return res.status(400).json(result);
   else {
-    req.formData =formData
+    req.formData = formData;
     next();
   }
 };

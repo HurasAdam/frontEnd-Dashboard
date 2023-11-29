@@ -21,7 +21,14 @@ const [newPasswordForm,setNewPasswordForm]=useState({})
 
 
 const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
-  console.log(data)
+ 
+  if(data.code){
+    
+    handlePopup(setShowMsgPopup,data.response.data)
+  }
+  else{
+    handlePopup(setShowMsgPopup,data)
+  }
 })
 
 

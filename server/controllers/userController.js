@@ -252,24 +252,38 @@ const getUserAccount = async (req, res) => {
 };
 
 const updateUserPassword = async (req, res) => {
-  const { password, newPassword } = req.body;
+  const { password, newPassword,confirmNewPassword } = req.body;
   const { password: currentPassword, _id: userId } = req.user;
-  const doesExist = validateData({ password, newPassword });
+  const doesExist = validateData({ password, newPassword,confirmNewPassword });
 
   if (doesExist) {
     return res.status(400).json(doesExist);
   }
+
+  if(newPassword!==confirmNewPassword){
+    return res.status(400).json({message:"new password and confirmed new password are different",succes:false})
+  }
+
 
   const isOldPasswordValid = await bcrypt.compare(password, currentPassword);
   if (!isOldPasswordValid) {
     return res
       .status(400)
       .json({ message: "Inncorrenct Password", succes: false });
-  } else {
+  }
+
+  const isPasswordChanged = !await bcrypt.compare(newPassword, currentPassword);
+
+  if(!isPasswordChanged){
+    return res.status(400).json({message:"new password must be diffrenect than current password",success:false})
+  }
+
+
+ else {
     if (!validator.isStrongPassword(newPassword)) {
       return res
         .status(400)
-        .json({ message: "Password not strong enough", succes: false });
+        .json({ message: "New password not strong enough", success: false });
     } else {
       const newHashedPassword = await bcrypt.hash(newPassword, 10);
       await User.findOneAndUpdate(
@@ -278,7 +292,7 @@ const updateUserPassword = async (req, res) => {
           $set: { password: newHashedPassword },
         }
       );
-      res.status(200).json("USER CREDENTIALS");
+      res.status(200).json({message:"Password has been changed",success:true});
     }
   }
 };

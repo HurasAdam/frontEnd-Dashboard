@@ -6,10 +6,11 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { mutationHandler } from "../../shared/mutationHandler";
-import { updateEmail } from "../../features/userApi/userApi";
+import { updateEmail, updatePassword } from "../../features/userApi/userApi";
 import { handlePopup } from "../../shared/handlePopup";
 import {MsgPopup} from "../../components/msgPopup/MsgPopup"
 import { handleUpdateEmail } from "../../shared/handleUpdateEmail";
+import { handleUpdatePassword } from "../../shared/handleUpdatePassword";
 
 export const AccountSettings = ({ triggerCredentials,email,showMsgPopup,setShowMsgPopup }) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
@@ -22,15 +23,13 @@ const [newPasswordForm,setNewPasswordForm]=useState({})
 
 const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
  
-  if(data.code){
-    
-    handlePopup(setShowMsgPopup,data.response.data)
-  }
-  else{
-    handlePopup(setShowMsgPopup,data)
-  }
+  handlePopup(setShowMsgPopup, data.code ? data.response.data : data);
+  setNewEmailForm(data)
 })
 
+const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
+ handlePopup(setShowMsgPopup,data.code?data.response.data:data);
+})
 
 
   const toggleTheme = (e, THEME) => {
@@ -112,10 +111,12 @@ const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
                 </div>
 
                 <div className="changePasswordDataWrapper-item">
-                  <span>new password</span>
+                  <span> password</span>
                   <input
                     type={!isPasswordHidden ? "password" : "text"}
-                
+                onChange={(e)=>setNewPasswordForm((prev)=>{
+                  return{...prev,password:e.target.value}
+                })}
                   />
                   {!isPasswordHidden ? (
                     <VisibilityOutlinedIcon
@@ -129,17 +130,25 @@ const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
                     />
                   )}
                 </div>
+
+
+                <div className="changePasswordDataWrapper-item">
+                  <span>new password</span>
+                  <input
+                    type={!isPasswordHidden ? "password" : "text"}
+                onChange={(e)=>setNewPasswordForm((prev)=>{
+                  return{...prev,newPassword:e.target.value}
+                })}
+                  />
+         
+                </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new password</span>
                   <input
                     type={!isPasswordHidden ? "password" : "text"}
-                    onChange={(e) =>
-                      triggerCredentials(
-                        "password",
-                        "repeatNewPassword",
-                        e.target.value
-                      )
-                    }
+                    onChange={(e)=>setNewPasswordForm((prev)=>{
+                      return{...prev,confirmNewPassword:e.target.value}
+                    })}
                   />
                 </div>
                 <div className="statusMessageContainer">
@@ -148,6 +157,7 @@ const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
                 <div className="changePasswordButtonsWrapper">
                   <button
                  
+                 onClick={(e)=>handleUpdatePassword(e,newPasswordForm,updatePasswordMutation)}
                     // disabled={
                     //   userData.userCredentials.password.newPassword === "" ||
                     //   userData.userCredentials.email.repeatNewPassword === ""
@@ -187,6 +197,7 @@ const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
                   <input
                     type="email"
                     name="email"
+                    value={newEmailForm&&newEmailForm?.newEmail}
                     placeholder="type in new email"
                  onChange={(e)=>setNewEmailForm((prev)=>{
                   return {...prev,newEmail:e.target.value}
@@ -198,6 +209,7 @@ const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
                   <input
                     type="email"
                     name="email"
+                    value={newEmailForm&&newEmailForm?.confirmNewEmail}
                     placeholder="confirm new email"
                     onChange={(e)=>setNewEmailForm((prev)=>{
                       return{...prev,confirmNewEmail :e.target.value}
@@ -210,6 +222,7 @@ const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
                   <input
                     type="email"
                     name="email"
+                    value={newEmailForm&&newEmailForm?.password}
                     placeholder="put your password here"
                     onChange={(e)=>setNewEmailForm((prev)=>{
                       return{...prev,password:e.target.value}

@@ -54,3 +54,9 @@ const response = await projectApi.patch('/user/update-email',data)
 return response.data
 
 }
+
+export const updatePassword= async(data)=>{
+
+  const response = await projectApi.patch('/user/update-password',data)
+  return response.data
+}

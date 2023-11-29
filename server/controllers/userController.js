@@ -6,7 +6,8 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const { convertDate } = require("../utils/dateConvert");
 const { validateForm } = require("../utils/validateForm");
-const { validateData, checkForUpdates } = require("../utils/checkForUpdates");
+const {checkForUpdates } = require("../utils/checkForUpdates");
+const { validateData } = require("../utils/validateData");
 
 const createAccessToken = (id) => {
   const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "24h" });
@@ -250,7 +251,7 @@ const getUserAccount = async (req, res) => {
   res.status(200).json({ userProfile: userProfile[0], projectListAsignedTo });
 };
 
-const updateCredentials = async (req, res) => {
+const updateUserPassword = async (req, res) => {
   const { password, newPassword } = req.body;
   const { password: currentPassword, _id: userId } = req.user;
   const doesExist = validateData({ password, newPassword });
@@ -286,18 +287,10 @@ const updateUserEmail = async (req, res) => {
   const { newEmail, confirmNewEmail, password } = req.body;
   const { _id: userId, email, password: userPassword } = req.user;
 
-  const isError = validateData({ newEmail, confirmNewEmail, password });
 
-  if (isError) {
-    return res.status(400).json(isError);
-  }
   const isPasswordValid = await bcrypt.compare(password, userPassword);
 
-  if (!isPasswordValid) {
-    return res
-      .status(400)
-      .json({ message: "Inncorect password", succes: false });
-  }
+ 
   if (newEmail !== confirmNewEmail) {
     return res
       .status(400)
@@ -306,6 +299,13 @@ const updateUserEmail = async (req, res) => {
         succes: false,
       });
   }
+  if (!isPasswordValid) {
+    return res
+      .status(400)
+      .json({ message: "Inncorect password", succes: false });
+  }
+
+
 
   const doesEmailExist = await User.find({ email: newEmail }).select("email");
 
@@ -315,19 +315,16 @@ const updateUserEmail = async (req, res) => {
       .json({ message: "Email already taken", succes: false });
   }
 
-  if (!validator.isEmail(newEmail)) {
-    return res
-      .status(400)
-      .json({ message: "Inncorect email type", succes: false });
-  } else {
+
     await User.findOneAndUpdate(
       { _id: userId },
       {
         $set: { email: newEmail },
       }
     );
-    res.status(200).json({ message: "Email has been changed", succes: true });
-  }
+    res.status(200).json({ message: "Email has been changed", success: true });
+  
+
 };
 
 module.exports = {
@@ -338,6 +335,6 @@ module.exports = {
   updateUserData,
   updateUserRole,
   getUserAccount,
-  updateCredentials,
+  updateUserPassword,
   updateUserEmail,
 };

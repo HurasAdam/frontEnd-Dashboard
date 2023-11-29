@@ -9,7 +9,7 @@ const {
   updateUserData,
   getUserData,
   getUserAccount,
-  updateCredentials,
+  updateUserPassword,
   updateUserEmail
  
 } = require("../controllers/userController");
@@ -33,8 +33,8 @@ router.get('/:id',requireAuth,getUserData)
 
 
 router.patch("/", requireAuth, authRole("admin",'user'),validateInputData, updateUserData);
-router.patch("/update-credentials",requireAuth,updateCredentials)
-router.patch("/update-email",requireAuth,updateUserEmail)
+router.patch("/update-password",requireAuth,updateUserPassword)
+router.patch("/update-email",requireAuth,validateInputData,updateUserEmail)
 router.patch("/manageRole",updateUserRole)
 router.patch('/upload',requireAuth,upload.single('file'),uploadAvatar)
 router.delete('/remove-avatar',requireAuth,removeAvatar)

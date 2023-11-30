@@ -2,12 +2,17 @@ const Post = require("../db/models/post");
 const User = require("../db/models/user");
 const Note = require("../db/models/note");
 const Project = require("../db/models/project");
-
+const cloudinary = require("cloudinary").v2;
 //Add Post
 const createPost = async (req, res) => {
-  const { content } = req.body;
+  const post = req.body;
+  const {content}=post
+  const {textContent}=content
   const io = req.app.get("socketio");
   const { ticketId } = req.query;
+
+console.log(req.file)
+
 
   const user = req.user;
 
@@ -19,19 +24,37 @@ const createPost = async (req, res) => {
     user._id.toString()
   );
 
-  if(!content){
+  if(!post){
    return res.status(400).json({message:"Post content cannot be empty. Please provide valid content for the post.",success:false})
   }
 
 try{
 //check if usesr role is admin or is he a member of project
   if (isContributor || user.role === "admin") {
+
+
+
+    // const upload = await cloudinary.uploader.upload(req.file.path, {
+    //   folder: "postUploads",
+    //   resource_type: "auto",
+    // });
+  
+
+
+
     const newPost = await Post.create({
-      content,
+      content:textContent,
       ticketId: currentTicket._id.toString(),
       CreatedBy: user._id.toString(),
-      
+
     });
+
+
+
+
+
+
+
     const eventStreamObject = {id:ticketId._id,status:"update"}
     io.sockets.emit("postCollectionUpdate",eventStreamObject)
     return res.status(200).json({message:"Post has been added successfully",success:true});
@@ -41,7 +64,7 @@ try{
 }
 catch(error){
 
-  return res.status(400).json(error)
+  return res.status(400).json(error.message)
 }
 };
 

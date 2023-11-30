@@ -18,9 +18,9 @@ const validateInputData = async (req, res, next) => {
   const formData = req.body;
   const result = {
     success: true,
-    error: {
+  
       message: [],
-    },
+ 
   };
 
   Object.keys(formData).forEach((fieldName) => {
@@ -29,7 +29,7 @@ const validateInputData = async (req, res, next) => {
 
     if (!fieldConfig[fieldName]) {
       result.success = false;
-      result.error.message.push(`Unexpected field: ${fieldName}`);
+      result.message.push(`Unexpected field: ${fieldName}`);
       return;
     }
 
@@ -39,7 +39,7 @@ const validateInputData = async (req, res, next) => {
       (value === undefined || value === null || value === "")
     ) {
       result.success = false;
-      result.error.message.push(`${fieldName} is required`);
+      result.message.push(`${fieldName} is required`);
 
       return;
     }
@@ -49,7 +49,7 @@ const validateInputData = async (req, res, next) => {
         case "surname":
           if (typeof value !== "string" || !validator.isAlpha(value)) {
             result.success = false;
-            result.error.message.push(
+            result.message.push(
               `${fieldName} should only contain letters`
             );
           }
@@ -59,20 +59,20 @@ const validateInputData = async (req, res, next) => {
           const allowedGenders = ["male", "female"];
           if (!allowedGenders.includes(value)) {
             result.success = false;
-            result.error.message.push("Incorrect gender type");
+            result.message.push("Incorrect gender type");
           }
           break;
         case "phone":
           if (value !== "" && !validator.isNumeric(value)) {
             result.success = false;
-            result.error.message.push(`${fieldName} should be a number`);
+            result.message.push(`${fieldName} should be a number`);
           }
           break;
         case "country":
         case "city":
           if (typeof value !== "string" || !validator.isAlpha(value)) {
             result.success = false;
-            result.error.message.push(
+            result.message.push(
               `${fieldName} should only contain letters`
             );
           }
@@ -80,7 +80,7 @@ const validateInputData = async (req, res, next) => {
         case "title":
           if (typeof value !== "string" || !validator.isAlpha(value)) {
             result.success = false;
-            result.error.message.push(
+            result.message.push(
               `${fieldName} should only contain letters`
             );
           }
@@ -88,7 +88,7 @@ const validateInputData = async (req, res, next) => {
         case "description":
           if (typeof value !== "string" || !validator.isAlpha(value)) {
             result.success = false;
-            result.error.message.push(
+            result.message.push(
               `${fieldName} should only contain letters`
             );
           }
@@ -96,21 +96,21 @@ const validateInputData = async (req, res, next) => {
         case "contributors":
           if (!Array.isArray(value)) {
             result.success = false;
-            result.error.message.push("inncorect contributor type");
+            result.message.push("inncorect contributor type");
           }
 
         case "newEmail":
         case "confirmNewEmail":
           if (typeof value !== "string" || !validator.isEmail(value)) {
             result.success = false;
-            result.error.message.push("Inncorect email type");
+            result.message.push(`${fieldName}:inncorrect email type`);
           }     
           break;
 
           case"password":
           if(typeof value !=="string"){
             result.success=false;
-            result.error.message.push('inncorect type of password')
+            result.message.push('inncorect type of password')
           }
 
         default:

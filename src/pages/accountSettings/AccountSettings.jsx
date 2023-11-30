@@ -8,29 +8,37 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { mutationHandler } from "../../shared/mutationHandler";
 import { updateEmail, updatePassword } from "../../features/userApi/userApi";
 import { handlePopup } from "../../shared/handlePopup";
-import {MsgPopup} from "../../components/msgPopup/MsgPopup"
+import { MsgPopup } from "../../components/msgPopup/MsgPopup";
 import { handleUpdateEmail } from "../../shared/handleUpdateEmail";
 import { handleUpdatePassword } from "../../shared/handleUpdatePassword";
-
-export const AccountSettings = ({ triggerCredentials,email,showMsgPopup,setShowMsgPopup }) => {
+import { useMutation } from "react-query";
+export const AccountSettings = ({
+  triggerCredentials,
+  email,
+  showMsgPopup,
+  setShowMsgPopup,
+}) => {
   const { theme, dispatch: themeSwitch } = useContext(ThemeContext);
   const [toggleTab, setToggleTab] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(false);
-const [newEmailForm,setNewEmailForm]=useState({})
-const [newPasswordForm,setNewPasswordForm]=useState({})
+  const [newEmailForm, setNewEmailForm] = useState({
+    newEmail:'',
+    confirmNewEmail:'',
+    password:''
+  });
+  const [newPasswordForm, setNewPasswordForm] = useState({
+    password:'',
+    newPassword:'',
+    confirmNewPassword:''
+  });
 
+  const updateEmailMutation = mutationHandler(updateEmail, (data) => {
+    handlePopup(setShowMsgPopup, data.code ? data.response.data : data);
+  });
 
-
-const updateEmailMutation = mutationHandler(updateEmail,(data)=>{
- 
-  handlePopup(setShowMsgPopup, data.code ? data.response.data : data);
-  setNewEmailForm(data)
-})
-
-const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
- handlePopup(setShowMsgPopup,data.code?data.response.data:data);
-})
-
+  const updatePasswordMutation = mutationHandler(updatePassword, (data) => {
+    handlePopup(setShowMsgPopup, data.code ? data.response.data : data);
+  });
 
   const toggleTheme = (e, THEME) => {
     themeSwitch({
@@ -41,8 +49,6 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
     console.log(theme);
   };
 
-
-  console.log(email)
   const toggleSidebarColor = (e, color) => {
     console.log(color);
     themeSwitch({
@@ -114,9 +120,11 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
                   <span> password</span>
                   <input
                     type={!isPasswordHidden ? "password" : "text"}
-                onChange={(e)=>setNewPasswordForm((prev)=>{
-                  return{...prev,password:e.target.value}
-                })}
+                    onChange={(e) =>
+                      setNewPasswordForm((prev) => {
+                        return { ...prev, password: e.target.value };
+                      })
+                    }
                   />
                   {!isPasswordHidden ? (
                     <VisibilityOutlinedIcon
@@ -131,24 +139,28 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
                   )}
                 </div>
 
-
                 <div className="changePasswordDataWrapper-item">
                   <span>new password</span>
                   <input
+                    value={newPasswordForm?.newPassword}
                     type={!isPasswordHidden ? "password" : "text"}
-                onChange={(e)=>setNewPasswordForm((prev)=>{
-                  return{...prev,newPassword:e.target.value}
-                })}
+                    onChange={(e) =>
+                      setNewPasswordForm((prev) => {
+                        return { ...prev, newPassword: e.target.value };
+                      })
+                    }
                   />
-         
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>repeat new password</span>
                   <input
+                    value={newPasswordForm?.confirmNewPassword}
                     type={!isPasswordHidden ? "password" : "text"}
-                    onChange={(e)=>setNewPasswordForm((prev)=>{
-                      return{...prev,confirmNewPassword:e.target.value}
-                    })}
+                    onChange={(e) =>
+                      setNewPasswordForm((prev) => {
+                        return { ...prev, confirmNewPassword: e.target.value };
+                      })
+                    }
                   />
                 </div>
                 <div className="statusMessageContainer">
@@ -156,23 +168,13 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
                 </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
-                 
-                 onClick={(e)=>handleUpdatePassword(e,newPasswordForm,updatePasswordMutation)}
-                    // disabled={
-                    //   userData.userCredentials.password.newPassword === "" ||
-                    //   userData.userCredentials.email.repeatNewPassword === ""
-                    //     ? true
-                    //     : false
-                    // }
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   fire(
-                    //     "password",
-                    //     "newPassword",
-                    //     "repeatNewPassword",
-                    //     "error"
-                    //   );
-                    // }}
+                    onClick={(e) =>
+                      handleUpdatePassword(
+                        e,
+                        newPasswordForm,
+                        updatePasswordMutation
+                      )
+                    }
                   >
                     save
                   </button>
@@ -189,7 +191,7 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
                 </div>
                 <div className="changePasswordDataWrapper-item">
                   <span>current email</span>
-             <span>{email&&email}</span>
+                  <span>{email && email}</span>
                 </div>
 
                 <div className="changePasswordDataWrapper-item">
@@ -197,11 +199,13 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
                   <input
                     type="email"
                     name="email"
-                    value={newEmailForm&&newEmailForm?.newEmail}
+                    value={newEmailForm && newEmailForm?.newEmail}
                     placeholder="type in new email"
-                 onChange={(e)=>setNewEmailForm((prev)=>{
-                  return {...prev,newEmail:e.target.value}
-                 })}
+                    onChange={(e) =>
+                      setNewEmailForm((prev) => {
+                        return { ...prev, newEmail: e.target.value };
+                      })
+                    }
                   />
                 </div>
                 <div className="changePasswordDataWrapper-item">
@@ -209,12 +213,13 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
                   <input
                     type="email"
                     name="email"
-                    value={newEmailForm&&newEmailForm?.confirmNewEmail}
+                    value={newEmailForm && newEmailForm?.confirmNewEmail}
                     placeholder="confirm new email"
-                    onChange={(e)=>setNewEmailForm((prev)=>{
-                      return{...prev,confirmNewEmail :e.target.value}
-                    })}
-            
+                    onChange={(e) =>
+                      setNewEmailForm((prev) => {
+                        return { ...prev, confirmNewEmail: e.target.value };
+                      })
+                    }
                   />
                 </div>
                 <div className="changePasswordDataWrapper-item">
@@ -222,20 +227,39 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
                   <input
                     type="email"
                     name="email"
-                    value={newEmailForm&&newEmailForm?.password}
+                    value={newEmailForm && newEmailForm?.password}
                     placeholder="put your password here"
-                    onChange={(e)=>setNewEmailForm((prev)=>{
-                      return{...prev,password:e.target.value}
-                    })}
-            
+                    onChange={(e) =>
+                      setNewEmailForm((prev) => {
+                        return { ...prev, password: e.target.value };
+                      })
+                    }
                   />
+                           {!isPasswordHidden ? (
+                    <VisibilityOutlinedIcon
+                      onClick={(e) => setIsPasswordHidden(true)}
+                      className="unhidePassword"
+                    />
+                  ) : (
+                    <VisibilityOffOutlinedIcon
+                      onClick={(e) => setIsPasswordHidden(false)}
+                      className="unhidePassword"
+                    />
+                  )}
                 </div>
                 <div className="statusMessageContainer">
                   <span></span>
                 </div>
                 <div className="changePasswordButtonsWrapper">
                   <button
-            onClick={(e)=>handleUpdateEmail(e,newEmailForm,updateEmailMutation,setShowMsgPopup)}
+                    onClick={(e) =>
+                      handleUpdateEmail(
+                        e,
+                        newEmailForm,
+                        updateEmailMutation,
+                        setShowMsgPopup
+                      )
+                    }
                   >
                     save
                   </button>
@@ -449,11 +473,13 @@ const updatePasswordMutation = mutationHandler(updatePassword,(data)=>{
           </div>
         </div>
       </div>
-      
-    {showMsgPopup?.visible?(<MsgPopup
-      showMsgPopup={showMsgPopup}
-      setShowMsgPopup={setShowMsgPopup}
-      />):null}
+
+      {showMsgPopup?.visible ? (
+        <MsgPopup
+          showMsgPopup={showMsgPopup}
+          setShowMsgPopup={setShowMsgPopup}
+        />
+      ) : null}
     </div>
   );
 };

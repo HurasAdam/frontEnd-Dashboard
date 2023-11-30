@@ -57,7 +57,10 @@ export const TicketDetails = () => {
     status: [],
   });
 
-  const [postContent, setPostContent] = useState("");
+  const [postContent, setPostContent] = useState({
+    textContent:'',
+    file:null
+  });
   const [editedPost, setEditedPost] = useState(null);
   const [showMsgPopup, setShowMsgPopup] = useState({
     visible: false,

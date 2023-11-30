@@ -1,4 +1,5 @@
 const User = require("../db/models/user");
+const cloudinary = require("cloudinary").v2;
 const Project = require("../db/models/project");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
@@ -261,7 +262,7 @@ const updateUserPassword = async (req, res) => {
   }
 
   if(newPassword!==confirmNewPassword){
-    return res.status(400).json({message:"new password and confirmed new password are different",succes:false})
+    return res.status(400).json({message:["new password and confirmed new password are different"],succes:false})
   }
 
 
@@ -269,13 +270,13 @@ const updateUserPassword = async (req, res) => {
   if (!isOldPasswordValid) {
     return res
       .status(400)
-      .json({ message: "Inncorrenct Password", succes: false });
+      .json({ message: ["Inncorrenct Password"], succes: false });
   }
 
   const isPasswordChanged = !await bcrypt.compare(newPassword, currentPassword);
 
   if(!isPasswordChanged){
-    return res.status(400).json({message:"new password must be diffrenect than current password",success:false})
+    return res.status(400).json({message:["new password must be diffrenect than current password"],success:false})
   }
 
 
@@ -283,7 +284,7 @@ const updateUserPassword = async (req, res) => {
     if (!validator.isStrongPassword(newPassword)) {
       return res
         .status(400)
-        .json({ message: "New password not strong enough", success: false });
+        .json({ message: ["New password not strong enough"], success: false });
     } else {
       const newHashedPassword = await bcrypt.hash(newPassword, 10);
       await User.findOneAndUpdate(
@@ -292,7 +293,7 @@ const updateUserPassword = async (req, res) => {
           $set: { password: newHashedPassword },
         }
       );
-      res.status(200).json({message:"Password has been changed",success:true});
+      res.status(200).json({message:["Password has been changed"],success:true});
     }
   }
 };
@@ -309,14 +310,14 @@ const updateUserEmail = async (req, res) => {
     return res
       .status(400)
       .json({
-        message: "new email and confirm new email are different",
-        succes: false,
+        message: ["new email and confirm new email are different"],
+        success: false,
       });
   }
   if (!isPasswordValid) {
     return res
       .status(400)
-      .json({ message: "Inncorect password", succes: false });
+      .json({ message: ["Inncorect password"], success: false });
   }
 
 
@@ -326,7 +327,7 @@ const updateUserEmail = async (req, res) => {
   if (doesEmailExist.length > 0) {
     return res
       .status(400)
-      .json({ message: "Email already taken", succes: false });
+      .json({ message: ["Email already taken"], success: false });
   }
 
 
@@ -336,10 +337,70 @@ const updateUserEmail = async (req, res) => {
         $set: { email: newEmail },
       }
     );
-    res.status(200).json({ message: "Email has been changed", success: true });
+    res.status(200).json({ message: ["Email has been changed"], success: true });
   
 
 };
+
+
+
+
+
+const uploadAvatar = async (req, res) => {
+
+  console.log(req.file)
+  const {_id:userId}=req.user
+const {userAvatar} = await User.findOne({_id:userId})
+
+if(userAvatar.publicId){
+  await cloudinary.uploader.destroy(userAvatar.publicId);
+}
+
+
+  try {
+    const up = await cloudinary.uploader.upload(req.file.path, {
+      folder: "userAvatars",
+      resource_type: "auto",
+    });
+
+  
+
+    const updateUserAvatar = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { "userAvatar.url": up.secure_url,"userAvatar.publicId": up.public_id  } }
+    );
+
+    res
+      .status(200)
+      .json({ data: up.secure_url, message: "Updated sucessfully" });
+  } catch (err) {
+    res.json({ message: err });
+  }
+};
+
+
+const removeAvatar = async(req,res)=>{
+  const {_id:userId}=req.user
+  const {userAvatar} = await User.findOne({_id:userId})
+  
+  if(userAvatar.publicId){
+    await cloudinary.uploader.destroy(userAvatar.publicId);
+    const updateUserAvatar = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { "userAvatar.url": "","userAvatar.publicId":"" } },
+      { new: true }
+    );
+
+    res.status(200).json({data:updateUserAvatar.userAvatar.url,message:"Avatar has been removed"})
+    }
+
+
+}
+
+
+
+
+
 
 module.exports = {
   signupUser,
@@ -351,4 +412,6 @@ module.exports = {
   getUserAccount,
   updateUserPassword,
   updateUserEmail,
+  uploadAvatar,
+  removeAvatar
 };

@@ -1,8 +1,21 @@
 export const handleCreatePost = (e,content,mutation,id)=>{
 e.preventDefault()
-    console.log(content)
-    console.log(id)
-mutation.mutate({id:id,content:content})
+
+
+console.log(content)
+
+const file = new FormData();
+file.append("file", content.file);
+
+
+
+const modifiedContent = {
+    ...content,
+    file: file,
+  };
+  console.log(modifiedContent)
+
+mutation.mutate({id,content:modifiedContent})
 
 
 }

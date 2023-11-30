@@ -30,7 +30,7 @@ export const handleUpdateEmail = (e, userForm, mutation, popupSetter) => {
       message: errorObj,
       succes: false,
     };
-    handlePopup(popupSetter, errorObject);
+   return handlePopup(popupSetter, errorObject);
   } else {
     mutation.mutate(userForm);
   }

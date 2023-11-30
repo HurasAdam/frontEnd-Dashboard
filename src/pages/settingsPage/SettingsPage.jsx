@@ -14,7 +14,7 @@ export const SettingsPage = () => {
 const [userFrom,setUserForm]=useState({})
 const [showMsgPopup, setShowMsgPopup] = useState({
   visible: false,
-  message: "",
+  message: [],
   success: null,
 });
 

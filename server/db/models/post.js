@@ -19,7 +19,17 @@ CreatedAt:{
 content:{
     type:String,
     required:true,
+},
+
+files:{
+    publicId:{
+        type:String
+    },
+    url:{
+        type:String
+    }
 }
+
 
 
 })

@@ -10,10 +10,12 @@ const {
   getUserData,
   getUserAccount,
   updateUserPassword,
-  updateUserEmail
+  updateUserEmail,
+  uploadAvatar,
+  removeAvatar
  
 } = require("../controllers/userController");
-const {uploadAvatar,upload,removeAvatar}=require("../middleware/multer")
+const {upload}=require("../middleware/multer")
 const [requireAuth, authRole] = require("../middleware/requireAuth");
 const {validateInputData} = require("../middleware/validateInputData")
 const router = express.Router();

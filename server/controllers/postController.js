@@ -5,13 +5,12 @@ const Project = require("../db/models/project");
 const cloudinary = require("cloudinary").v2;
 //Add Post
 const createPost = async (req, res) => {
-  const {textContent} = req.body;
-
+  const { textContent } = req.body;
+  const ifFile = req.file;
   const io = req.app.get("socketio");
   const { ticketId } = req.query;
 
-console.log(req.file)
-
+  console.log(req.file);
 
   const user = req.user;
 
@@ -23,52 +22,47 @@ console.log(req.file)
     user._id.toString()
   );
 
-  if(!textContent){
-   return res.status(400).json({message:"Post content cannot be empty. Please provide valid content for the post.",success:false})
+  if (!textContent) {
+    return res
+      .status(400)
+      .json({
+        message:
+          "Post content cannot be empty. Please provide valid content for the post.",
+        success: false,
+      });
   }
 
-try{
-//check if usesr role is admin or is he a member of project
-  if (isContributor || user.role === "admin") {
+  try {
+    //check if usesr role is admin or is he a member of project
+    if (isContributor || user.role === "admin") {
+      const upload = ifFile
+        ? await cloudinary.uploader.upload(req.file.path, {
+            folder: "postUploads",
+            resource_type: "auto",
+          })
+        : null;
 
+      const newPost = await Post.create({
+        content: textContent,
+        ticketId: currentTicket._id.toString(),
+        CreatedBy: user._id.toString(),
+        files: {
+          publicId: ifFile && upload.public_id,
+          url: ifFile && upload.secure_url,
+        },
+      });
 
-
-    const upload = await cloudinary.uploader.upload(req.file.path, {
-      folder: "postUploads",
-      resource_type: "auto",
-    });
-  
-
-
-
-    const newPost = await Post.create({
-      content:textContent,
-      ticketId: currentTicket._id.toString(),
-      CreatedBy: user._id.toString(),
-      files:{
-        publicId:upload.public_id,
-        url:upload.secure_url
-      }
-
-    });
-
-
-
-
-
-
-
-    const eventStreamObject = {id:ticketId._id,status:"update"}
-    io.sockets.emit("postCollectionUpdate",eventStreamObject)
-    return res.status(200).json({message:"Post has been added successfully",success:true});
-  } else {
-    return res.status(400).json("Forrbiden access");
+      const eventStreamObject = { id: ticketId._id, status: "update" };
+      io.sockets.emit("postCollectionUpdate", eventStreamObject);
+      return res
+        .status(200)
+        .json({ message: "Post has been added successfully", success: true });
+    } else {
+      return res.status(400).json("Forrbiden access");
+    }
+  } catch (error) {
+    return res.status(400).json(error.message);
   }
-}
-catch(error){
-
-  return res.status(400).json(error.message)
-}
 };
 
 //Get PostList
@@ -97,62 +91,66 @@ const getAllPosts = async (req, res) => {
   res.status(200).json(postList);
 };
 
-
-
-
-
-const updatePost=async(req,res)=>{
+const updatePost = async (req, res) => {
   const io = req.app.get("socketio");
-const {id}=req.params
-const {_id}=req.user
-const {content}=req.body
+  const { id } = req.params;
+  const { _id } = req.user;
+  const { content } = req.body;
 
-console.log(content)
-const post = await Post.findOne({_id:id})
-const postOwnerId= post.CreatedBy.toString()
-const userId = _id.toString()
+  console.log(content);
+  const post = await Post.findOne({ _id: id });
+  const postOwnerId = post.CreatedBy.toString();
+  const userId = _id.toString();
 
-try{
-
-  if(postOwnerId!==userId){
-    return res.status(403).json({message:"You don't have permission to edit this post.",success:false})
+  try {
+    if (postOwnerId !== userId) {
+      return res
+        .status(403)
+        .json({
+          message: "You don't have permission to edit this post.",
+          success: false,
+        });
     }
-    
-    if(!content){
-      return res.status(400).json({message:"Content cannot be empty. Please provide valid content for the comment edit.",success:false})
+
+    if (!content) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Content cannot be empty. Please provide valid content for the comment edit.",
+          success: false,
+        });
+    } else {
+      const update = await Post.findOneAndUpdate(
+        { _id: id },
+        { $set: { content: content } }
+      );
+      const eventStreamObject = { id: id, status: "update" };
+      io.sockets.emit("postCollectionUpdate", eventStreamObject);
+
+      return res
+        .status(200)
+        .json({ message: "Post has been updated successfully", success: true });
     }
-    
-    else{
-      const update= await Post.findOneAndUpdate({_id:id},{$set:{content:content}})
-      const eventStreamObject = {id:id,status:"update"}
-      io.sockets.emit("postCollectionUpdate",eventStreamObject)
+  } catch (error) {
+    res.status(403).json(error.message);
+  }
+};
 
-     return res.status(200).json({message:"Post has been updated successfully",success:true})
-    }
-    
-}
-catch(error){
-  res.status(403).json(error.message)
-}
-
-}
-
- const deletePost= async (req,res)=>{
+const deletePost = async (req, res) => {
   const io = req.app.get("socketio");
-const {id}=req.params
-const {_id:userId}=req.user;
-const userIdString = userId.toString()
-const post = await Post.findOne({_id:id})
-const postAuthorId = post.CreatedBy
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const userIdString = userId.toString();
+  const post = await Post.findOne({ _id: id });
+  const postAuthorId = post.CreatedBy;
 
-if(userIdString===postAuthorId){
- const deletePost = await Post.findOneAndDelete({_id:id})
- const eventStreamObject = {id:id,status:"update"}
- io.sockets.emit("postCollectionUpdate",eventStreamObject)
- res.status(200).json("Post has been deleted successfully")
-}
-}
+  if (userIdString === postAuthorId) {
+    const deletePost = await Post.findOneAndDelete({ _id: id });
+    const eventStreamObject = { id: id, status: "update" };
+    io.sockets.emit("postCollectionUpdate", eventStreamObject);
+    res.status(200).json("Post has been deleted successfully");
+  }
+};
 
-
-
-module.exports = [createPost, getAllPosts,updatePost,deletePost];
+module.exports = [createPost, getAllPosts, updatePost, deletePost];

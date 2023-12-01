@@ -6,11 +6,12 @@ const cloudinary = require("cloudinary").v2;
 //Add Post
 const createPost = async (req, res) => {
   const { textContent } = req.body;
-  const ifFile = req.file;
+  const files = req.files;
   const io = req.app.get("socketio");
   const { ticketId } = req.query;
 
-  console.log(req.file);
+  const filesExist = files.length > 0;
+
 
   const user = req.user;
 
@@ -23,33 +24,47 @@ const createPost = async (req, res) => {
   );
 
   if (!textContent) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "Post content cannot be empty. Please provide valid content for the post.",
-        success: false,
-      });
+    return res.status(400).json({
+      message:
+        "Post content cannot be empty. Please provide valid content for the post.",
+      success: false,
+    });
   }
 
   try {
     //check if usesr role is admin or is he a member of project
     if (isContributor || user.role === "admin") {
-      const upload = ifFile
-        ? await cloudinary.uploader.upload(req.file.path, {
-            folder: "postUploads",
-            resource_type: "auto",
-          })
+      // const upload = filesExist
+      //   ? await cloudinary.uploader.upload(req.files[0].path, {
+      //       folder: "postUploads",
+      //       resource_type: "auto",
+      //     })
+      //   : null;
+
+      const uploadPromises = filesExist
+        ?await Promise.all(
+            files.map(async (file) => {
+              return await cloudinary.uploader.upload(file.path, {
+                folder: "postUploads",
+                resource_type: "auto",
+              });
+            })
+          )
         : null;
+
+
+        console.log(uploadPromises)
 
       const newPost = await Post.create({
         content: textContent,
         ticketId: currentTicket._id.toString(),
         CreatedBy: user._id.toString(),
-        files: {
-          publicId: ifFile && upload.public_id,
-          url: ifFile && upload.secure_url,
-        },
+        files: filesExist&&
+         uploadPromises.map((upload) => ({
+            publicId: upload.public_id,
+            url: upload.secure_url,
+          }))
+        
       });
 
       const eventStreamObject = { id: ticketId._id, status: "update" };
@@ -97,29 +112,25 @@ const updatePost = async (req, res) => {
   const { _id } = req.user;
   const { content } = req.body;
 
-  console.log(content);
+
   const post = await Post.findOne({ _id: id });
   const postOwnerId = post.CreatedBy.toString();
   const userId = _id.toString();
 
   try {
     if (postOwnerId !== userId) {
-      return res
-        .status(403)
-        .json({
-          message: "You don't have permission to edit this post.",
-          success: false,
-        });
+      return res.status(403).json({
+        message: "You don't have permission to edit this post.",
+        success: false,
+      });
     }
 
     if (!content) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Content cannot be empty. Please provide valid content for the comment edit.",
-          success: false,
-        });
+      return res.status(400).json({
+        message:
+          "Content cannot be empty. Please provide valid content for the comment edit.",
+        success: false,
+      });
     } else {
       const update = await Post.findOneAndUpdate(
         { _id: id },

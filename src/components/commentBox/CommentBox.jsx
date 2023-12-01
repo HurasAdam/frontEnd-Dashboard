@@ -76,9 +76,10 @@ export const CommentBox = ({
                     {comment.CreatedBy.name} {comment.CreatedBy.surname}
                   </h4>
                   <span>{comment.CreatedBy.role}</span>
-                  {postList&&postList.map((file)=>{
-                    return(<InsertDriveFileIcon/>)
-                  })}
+         
+         {comment&&comment?.files.map((file)=>{
+          return(<InsertDriveFileIcon/>)
+         })}
                 </div>
               </div>
               <div className="comment-actionContainer">
@@ -185,7 +186,7 @@ export const CommentBox = ({
               id="file"
               className="file-input"
               onChange={(e) => setPostContent((prev)=>{
-                return {...prev,file:e.target.files[0]}
+                return {...prev,files:[...prev.files,e.target.files[0]]}
               })}
             />
             <label htmlFor="file" className="file-input-label"></label>

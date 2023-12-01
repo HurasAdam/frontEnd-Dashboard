@@ -59,7 +59,7 @@ export const TicketDetails = () => {
 
   const [postContent, setPostContent] = useState({
     textContent:'',
-    file:null
+    files:[]
   });
   const [editedPost, setEditedPost] = useState(null);
   const [showMsgPopup, setShowMsgPopup] = useState({
@@ -91,7 +91,7 @@ export const TicketDetails = () => {
       },
     }
   );
-console.log(data)
+
   const { data: posts } = useQuery(["posts"], () => getTicketPosts(ticketId), {
     onSuccess: (posts) => {
       setPostList(posts);

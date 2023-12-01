@@ -1,16 +1,15 @@
-export const handleCreatePost = (e,content,mutation,id)=>{
-e.preventDefault()
+export const handleCreatePost = (e, content, mutation, id) => {
+  e.preventDefault();
 
+const files= content.files
 
-console.log(content)
+  const formData = new FormData();
+  // formData.append("file", content.file);
+  files.forEach((file,index)=>{
+    formData.append(`file`,file)
+  })
+  formData.append("textContent", content.textContent);
 
-const formData = new FormData();
-formData.append("file", content.file);
-formData.append("textContent",content.textContent)
-
-
-
-mutation.mutate({id,content:formData})
-
-
-}
+  console.log(formData);
+  mutation.mutate({ id, content: formData });
+};

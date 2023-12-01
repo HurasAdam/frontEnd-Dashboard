@@ -4,18 +4,13 @@ e.preventDefault()
 
 console.log(content)
 
-const file = new FormData();
-file.append("file", content.file);
+const formData = new FormData();
+formData.append("file", content.file);
+formData.append("textContent",content.textContent)
 
 
 
-const modifiedContent = {
-    ...content,
-    file: file,
-  };
-  console.log(modifiedContent)
-
-mutation.mutate({id,content:modifiedContent})
+mutation.mutate({id,content:formData})
 
 
 }

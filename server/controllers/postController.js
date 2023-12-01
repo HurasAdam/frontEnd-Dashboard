@@ -5,9 +5,8 @@ const Project = require("../db/models/project");
 const cloudinary = require("cloudinary").v2;
 //Add Post
 const createPost = async (req, res) => {
-  const post = req.body;
-  const {content}=post
-  const {textContent}=content
+  const {textContent} = req.body;
+
   const io = req.app.get("socketio");
   const { ticketId } = req.query;
 
@@ -24,7 +23,7 @@ console.log(req.file)
     user._id.toString()
   );
 
-  if(!post){
+  if(!textContent){
    return res.status(400).json({message:"Post content cannot be empty. Please provide valid content for the post.",success:false})
   }
 
@@ -34,10 +33,10 @@ try{
 
 
 
-    // const upload = await cloudinary.uploader.upload(req.file.path, {
-    //   folder: "postUploads",
-    //   resource_type: "auto",
-    // });
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: "postUploads",
+      resource_type: "auto",
+    });
   
 
 
@@ -46,6 +45,10 @@ try{
       content:textContent,
       ticketId: currentTicket._id.toString(),
       CreatedBy: user._id.toString(),
+      files:{
+        publicId:upload.public_id,
+        url:upload.secure_url
+      }
 
     });
 

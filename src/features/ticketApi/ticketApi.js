@@ -37,9 +37,10 @@ export const getTicketPosts= async(id)=>{
   return response.data;
 }
 
-export const createTicketPost= async ({id,content})=>{
+export const createTicketPost= async (formData)=>{
 
-  const response = await projectApi.post(`posts?ticketId=${id}`,{content})
+  console.log(formData)
+  const response = await projectApi.post(`posts?ticketId=${formData.id}`,formData.content)
   return response.data
 }
 

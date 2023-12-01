@@ -3,6 +3,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -75,6 +76,9 @@ export const CommentBox = ({
                     {comment.CreatedBy.name} {comment.CreatedBy.surname}
                   </h4>
                   <span>{comment.CreatedBy.role}</span>
+                  {postList&&postList.map((file)=>{
+                    return(<InsertDriveFileIcon/>)
+                  })}
                 </div>
               </div>
               <div className="comment-actionContainer">

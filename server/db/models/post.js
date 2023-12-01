@@ -21,14 +21,14 @@ content:{
     required:true,
 },
 
-files:{
+files:[{
     publicId:{
         type:String
     },
     url:{
         type:String
     }
-}
+}]
 
 
 

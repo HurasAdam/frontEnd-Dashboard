@@ -14,10 +14,13 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.split("/")[0] === "image") {
+  const allowedMimeTypes = ["jpeg","jpg","png","pdf","doc","docx","xls","octet-stream"];
+
+  console.log(file)
+  if (allowedMimeTypes.includes(file.mimetype.split("/")[1]))  {
     cb(null, true);
   } else {
-    cb(new multer.MulterError("LIMIT_UNEXPECTED_FILE"), false);
+    cb(new multer.MulterError("LIMIT_UNEXPECTED_FILE",file.fieldname), false);
   }
 };
 

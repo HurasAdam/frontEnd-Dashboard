@@ -26,7 +26,7 @@ const createPost = async (req, res) => {
   if (!textContent) {
     return res.status(400).json({
       message:
-        "Post content cannot be empty. Please provide valid content for the post.",
+        "Post content can not be empty. Please provide valid content for the post.",
       success: false,
     });
   }
@@ -34,12 +34,7 @@ const createPost = async (req, res) => {
   try {
     //check if usesr role is admin or is he a member of project
     if (isContributor || user.role === "admin") {
-      // const upload = filesExist
-      //   ? await cloudinary.uploader.upload(req.files[0].path, {
-      //       folder: "postUploads",
-      //       resource_type: "auto",
-      //     })
-      //   : null;
+
 
       const uploadPromises = filesExist
         ?await Promise.all(
@@ -53,7 +48,7 @@ const createPost = async (req, res) => {
         : null;
 
 
-        console.log(uploadPromises)
+       console.log(uploadPromises)
 
       const newPost = await Post.create({
         content: textContent,

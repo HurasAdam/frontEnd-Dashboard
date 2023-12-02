@@ -3,7 +3,9 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -33,6 +35,15 @@ export const CommentBox = ({
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
+
+const handleRemoveAttachedFile =(e,index)=>{
+e.preventDefault();
+console.log(postContent?.files)
+
+const updatedFiles=[...postContent?.files]
+updatedFiles.splice(index,1);
+setPostContent({...postContent,files:updatedFiles})
+}
 
   const handleEditClick = (e, postId, value) => {
     e.preventDefault();
@@ -67,7 +78,7 @@ export const CommentBox = ({
               <div className="comment-userInfo">
                 <img
                   className="userImage"
-                  src={comment.CreatedBy.userAvatar}
+                  src={comment.CreatedBy.userAvatar?.url}
                   alt=""
                 />
                 <div className="comment-userInfoData">
@@ -78,7 +89,9 @@ export const CommentBox = ({
                   <span>{comment.CreatedBy.role}</span>
          
          {comment&&comment?.files.map((file)=>{
-          return(<InsertDriveFileIcon/>)
+          return(<InsertDriveFileIcon
+          onClick={(e)=>{console.log(file.url);window.open(file.url)}}
+          />)
          })}
                 </div>
               </div>
@@ -168,7 +181,11 @@ export const CommentBox = ({
           }
         >
           <div className="newCommentContainer">
+            <div className="newComment-headerContainer">
+          
             <label htmlFor="comment">Comment:</label>
+            </div>
+         
             <textarea
               id="comment"
               maxLength={4000}
@@ -179,7 +196,28 @@ export const CommentBox = ({
               value={postContent?.textContent}
             ></textarea>
           </div>
-          <div className="file-input-container">
+     
+          <div className="addNewCommentButtonContainer">
+          <div className="header-attachedFiles">
+            <ul>
+            {postContent?.files.map((file,index)=>{
+              return(
+                <li className={`file${index}`}>
+                  <CloseOutlinedIcon 
+                 
+                  onClick={(e)=>handleRemoveAttachedFile(e,index)}
+                  className="remove-attached-file"/>
+                  <InsertDriveFileIcon/>
+              <span>{file?.name}</span>
+                </li>
+              )
+            })}
+            </ul>
+            </div>
+    
+            <div className="file-input-container">
+      
+      
             <input
               type="file"
               name="file"
@@ -189,10 +227,15 @@ export const CommentBox = ({
                 return {...prev,files:[...prev.files,e.target.files[0]]}
               })}
             />
-            <label htmlFor="file" className="file-input-label"></label>
-          </div>
-          <div className="addNewCommentButtonContainer">
+            <label htmlFor="file" className="file-input-label">
+            <AttachFileIcon
+          className="file-input-label__icon"
+  
+        />
+            </label>
+   
             <button type="submit">Add comment</button>
+            </div>
           </div>
         </form>
       ) : null}

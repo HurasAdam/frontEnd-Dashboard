@@ -27,6 +27,15 @@ files:[{
     },
     url:{
         type:String
+    },
+    original_name:{
+        type:String
+    },
+    file_size:{
+        type:Number
+    },
+    file_type:{
+        type:String
     }
 }]
 

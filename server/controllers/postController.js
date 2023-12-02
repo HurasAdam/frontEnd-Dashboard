@@ -39,11 +39,13 @@ const createPost = async (req, res) => {
       const uploadPromises = filesExist
         ?await Promise.all(
             files.map(async (file) => {
-              return await cloudinary.uploader.upload(file.path, {
+              const responses= await cloudinary.uploader.upload(file.path, {
                 folder: "postUploads",
-                resource_type: "auto",
-              });
-            })
+                resource_type: "auto", })
+              modifiedresponses= {...responses,original_name:file.originalname}
+                return modifiedresponses
+              }),
+            
           )
         : null;
 
@@ -58,6 +60,9 @@ const createPost = async (req, res) => {
          uploadPromises.map((upload) => ({
             publicId: upload.public_id,
             url: upload.secure_url,
+        original_name:upload.original_name,
+        file_size:(upload.bytes/1048576),
+        file_type:upload.format?upload.format:upload.resource_type
           }))
         
       });

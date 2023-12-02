@@ -5,6 +5,11 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import ImageIcon from '@mui/icons-material/Image';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import FolderZipIcon from '@mui/icons-material/FolderZip';
+
+
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
@@ -88,11 +93,7 @@ setPostContent({...postContent,files:updatedFiles})
                   </h4>
                   <span>{comment.CreatedBy.role}</span>
          
-         {comment&&comment?.files.map((file)=>{
-          return(<InsertDriveFileIcon
-          onClick={(e)=>{console.log(file.url);window.open(file.url)}}
-          />)
-         })}
+     
                 </div>
               </div>
               <div className="comment-actionContainer">
@@ -163,6 +164,27 @@ setPostContent({...postContent,files:updatedFiles})
                 {comment.content}
               </p>
             )}
+<div className="attachments-container">
+  {comment &&
+    comment?.files.map((file) => {
+      return (
+        <div className="attachments" key={file.id}>
+          {file.file_type === 'jpg'||file.file_type === 'jpeg'||file.file_type === 'png' ? (
+            <ImageIcon onClick={(e) => { console.log(file.url); window.open(file.url); }} />
+            
+          ) : file.file_type === 'pdf' ? (
+            <PictureAsPdfIcon onClick={(e) => { console.log(file.url); window.open(file.url); }} />
+          ) : 
+          
+          file.file_type==='raw'?(
+            <FolderZipIcon/>
+          ):
+          (<InsertDriveFileIcon onClick={(e) => { console.log(file.url); window.open(file.url); }} />
+          )}
+        </div>
+      );
+    })}
+</div>
           </div>
         ))}
       <div className="toggleNewCommentForm">

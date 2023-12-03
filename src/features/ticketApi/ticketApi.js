@@ -64,3 +64,10 @@ export const getArchiveTicketList= async()=>{
 const reponse = await projectApi.get('/notes/archived')
 return reponse.data
 }
+
+
+export const downloadFile= async(id)=>{
+
+  const response = await projectApi.get(`/download?public_Id=${id}`)
+  return response.data;
+}

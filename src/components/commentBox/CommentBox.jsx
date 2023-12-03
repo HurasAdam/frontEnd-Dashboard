@@ -8,7 +8,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ImageIcon from '@mui/icons-material/Image';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FolderZipIcon from '@mui/icons-material/FolderZip';
-
+import { downloadFile } from "../../features/ticketApi/ticketApi";
 
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import React, { useState, useEffect, useContext } from "react";
@@ -170,16 +170,16 @@ setPostContent({...postContent,files:updatedFiles})
       return (
         <div className="attachments" key={file.id}>
           {file.file_type === 'jpg'||file.file_type === 'jpeg'||file.file_type === 'png' ? (
-            <ImageIcon onClick={(e) => { console.log(file.url); window.open(file.url); }} />
+            <ImageIcon onClick={(e) => { downloadFile(file.publicId)  }} />
             
           ) : file.file_type === 'pdf' ? (
-            <PictureAsPdfIcon onClick={(e) => { console.log(file.url); window.open(file.url); }} />
+            <PictureAsPdfIcon onClick={(e) => { downloadFile(file.publicId)  }} />
           ) : 
           
           file.file_type==='raw'?(
-            <FolderZipIcon/>
+            <FolderZipIcon onClick={(e) => { downloadFile(file.publicId)  }}/>
           ):
-          (<InsertDriveFileIcon onClick={(e) => { console.log(file.url); window.open(file.url); }} />
+          (<InsertDriveFileIcon onClick={(e) => { downloadFile(file.publicId)  }} />
           )}
         </div>
       );

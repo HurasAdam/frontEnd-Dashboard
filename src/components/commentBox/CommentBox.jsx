@@ -3,14 +3,14 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import ImageIcon from '@mui/icons-material/Image';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import FolderZipIcon from '@mui/icons-material/FolderZip';
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import ImageIcon from "@mui/icons-material/Image";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import FolderZipIcon from "@mui/icons-material/FolderZip";
 import { downloadFile } from "../../features/ticketApi/ticketApi";
 
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -29,7 +29,6 @@ export const CommentBox = ({
   postContent,
   setPostContent,
   setShowMsgPopup,
-  fullAccess,
   contributorAccess,
   onEditComment,
   onUpdateComment,
@@ -40,15 +39,14 @@ export const CommentBox = ({
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
 
+  const handleRemoveAttachedFile = (e, index) => {
+    e.preventDefault();
+    console.log(postContent?.files);
 
-const handleRemoveAttachedFile =(e,index)=>{
-e.preventDefault();
-console.log(postContent?.files)
-
-const updatedFiles=[...postContent?.files]
-updatedFiles.splice(index,1);
-setPostContent({...postContent,files:updatedFiles})
-}
+    const updatedFiles = [...postContent?.files];
+    updatedFiles.splice(index, 1);
+    setPostContent({ ...postContent, files: updatedFiles });
+  };
 
   const handleEditClick = (e, postId, value) => {
     e.preventDefault();
@@ -92,8 +90,6 @@ setPostContent({...postContent,files:updatedFiles})
                     {comment.CreatedBy.name} {comment.CreatedBy.surname}
                   </h4>
                   <span>{comment.CreatedBy.role}</span>
-         
-     
                 </div>
               </div>
               <div className="comment-actionContainer">
@@ -143,9 +139,11 @@ setPostContent({...postContent,files:updatedFiles})
             </div>
             {editedPost === comment.id ? (
               <textarea
-                onChange={(e) => setPostContent((prev)=>{
-                  return{...prev,textContent:e.target.value}
-                })}
+                onChange={(e) =>
+                  setPostContent((prev) => {
+                    return { ...prev, textContent: e.target.value };
+                  })
+                }
                 className={`commentBox${
                   editedPost === comment.id ? "__editMode" : ""
                 }`}
@@ -164,27 +162,44 @@ setPostContent({...postContent,files:updatedFiles})
                 {comment.content}
               </p>
             )}
-<div className="attachments-container">
-  {comment &&
-    comment?.files.map((file) => {
-      return (
-        <div className="attachments" key={file.id}>
-          {file.file_type === 'jpg'||file.file_type === 'jpeg'||file.file_type === 'png' ? (
-            <ImageIcon onClick={(e) => { downloadFile(file.publicId)  }} />
-            
-          ) : file.file_type === 'pdf' ? (
-            <PictureAsPdfIcon onClick={(e) => { downloadFile(file.publicId)  }} />
-          ) : 
-          
-          file.file_type==='raw'?(
-            <FolderZipIcon onClick={(e) => { downloadFile(file.publicId)  }}/>
-          ):
-          (<InsertDriveFileIcon onClick={(e) => { downloadFile(file.publicId)  }} />
-          )}
-        </div>
-      );
-    })}
-</div>
+            <div className="attachments-container">
+              {comment &&
+                comment?.files.map((file) => {
+                  return (
+                    <div className="attachments" key={file.id}>
+                      {file.file_type === "jpg" ||
+                      file.file_type === "jpeg" ||
+                      file.file_type === "png" ? (
+                        <ImageIcon
+                          onClick={(e) => {
+                            downloadFile(file.id)
+                          }}
+                        />
+                      ) : file.file_type === "pdf" ? (
+                        <PictureAsPdfIcon
+                          onClick={(e) => {
+                            downloadFile(file.id)
+                          }}
+                        />
+                      ) : file.file_type === "raw" ? (
+                        <FolderZipIcon
+                          onClick={(e) => {
+                            downloadFile(file.id).then((data) =>
+                              window.open(data)
+                            );
+                          }}
+                        />
+                      ) : (
+                        <InsertDriveFileIcon
+                          onClick={(e) => {
+                            downloadFile(file.id)
+                          }}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         ))}
       <div className="toggleNewCommentForm">
@@ -204,59 +219,60 @@ setPostContent({...postContent,files:updatedFiles})
         >
           <div className="newCommentContainer">
             <div className="newComment-headerContainer">
-          
-            <label htmlFor="comment">Comment:</label>
+              <label htmlFor="comment">Comment:</label>
             </div>
-         
+
             <textarea
               id="comment"
               maxLength={4000}
-              onChange={(e) => setPostContent((prev)=>{
-                return {...prev,textContent:e.target.value}
-              })}
+              onChange={(e) =>
+                setPostContent((prev) => {
+                  return { ...prev, textContent: e.target.value };
+                })
+              }
               required={true}
               value={postContent?.textContent}
             ></textarea>
           </div>
-     
+
           <div className="addNewCommentButtonContainer">
-          <div className="header-attachedFiles">
-            <ul>
-            {postContent?.files.map((file,index)=>{
-              return(
-                <li className={`file${index}`}>
-                  <CloseOutlinedIcon 
-                 
-                  onClick={(e)=>handleRemoveAttachedFile(e,index)}
-                  className="remove-attached-file"/>
-                  <InsertDriveFileIcon/>
-              <span>{file?.name}</span>
-                </li>
-              )
-            })}
-            </ul>
+            <div className="header-attachedFiles">
+              <ul>
+                {postContent?.files.map((file, index) => {
+                  return (
+                    <li className={`file${index}`}>
+                      <CloseOutlinedIcon
+                        onClick={(e) => handleRemoveAttachedFile(e, index)}
+                        className="remove-attached-file"
+                      />
+                      <InsertDriveFileIcon />
+                      <span>{file?.name}</span>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-    
+
             <div className="file-input-container">
-      
-      
-            <input
-              type="file"
-              name="file"
-              id="file"
-              className="file-input"
-              onChange={(e) => setPostContent((prev)=>{
-                return {...prev,files:[...prev.files,e.target.files[0]]}
-              })}
-            />
-            <label htmlFor="file" className="file-input-label">
-            <AttachFileIcon
-          className="file-input-label__icon"
-  
-        />
-            </label>
-   
-            <button type="submit">Add comment</button>
+              <input
+                type="file"
+                name="file"
+                id="file"
+                className="file-input"
+                onChange={(e) =>
+                  setPostContent((prev) => {
+                    return {
+                      ...prev,
+                      files: [...prev.files, e.target.files[0]],
+                    };
+                  })
+                }
+              />
+              <label htmlFor="file" className="file-input-label">
+                <AttachFileIcon className="file-input-label__icon" />
+              </label>
+
+              <button type="submit">Add comment</button>
             </div>
           </div>
         </form>

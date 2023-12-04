@@ -203,6 +203,21 @@ z-index: 1;
 transition: all ease-in-out 0.1s;
 }
 
+.attachment-item{
+
+  width: 100%;
+  display: flex;
+  gap:0.5rem;
+  cursor: pointer;
+
+}
+ .attachment-item:hover{
+text-decoration: underline;
+text-decoration-color: rgb(199, 196, 207);
+}
+.attachment-item:hover .attachment-item-icon {
+  color: rgb(233, 227, 198); /* Zmień na pożądany kolor */
+}
 /* NEW COMMENT INPUT FILE  */
 
 .file-input-container {
@@ -334,10 +349,12 @@ transition: all ease-in 0.1s;
   background:var(--dark-primary);
 display: flex;
   border-top: 1px solid #141414;
+flex-direction: column;
 }
 #dark .attachments{
   display: flex;
 }
+
 
 
 /* PURPLE */

@@ -166,35 +166,60 @@ export const CommentBox = ({
               {comment &&
                 comment?.files.map((file) => {
                   return (
-                    <div className="attachments" key={file.id}>
+                    <div className="attachments">
                       {file.file_type === "jpg" ||
                       file.file_type === "jpeg" ||
                       file.file_type === "png" ? (
-                        <ImageIcon
-                          onClick={(e) => {
-                            downloadFile(file.id)
-                          }}
-                        />
+                        <div className="attachment-item"
+                        onClick={(e) => {
+                          downloadFile(file.id);
+                        }}
+                        >
+                          <ImageIcon
+                         className="attachment-item-icon"
+                          />
+                          <span>{file?.original_name}</span>
+                          <span>{`${file?.file_size}Mb`}</span>
+                        </div>
                       ) : file.file_type === "pdf" ? (
-                        <PictureAsPdfIcon
-                          onClick={(e) => {
-                            downloadFile(file.id)
-                          }}
-                        />
+                        <div className="attachment-item"
+                        onClick={(e) => {
+                          console.log(file)
+                          downloadFile(file.id);
+                        }}
+                        >
+                          <PictureAsPdfIcon
+                     className="attachment-item-icon"
+                          />
+                           <span>{file?.original_name}</span>
+                           <span>{`${file?.file_size}Mb`}</span>
+                        </div>
                       ) : file.file_type === "raw" ? (
-                        <FolderZipIcon
-                          onClick={(e) => {
-                            downloadFile(file.id).then((data) =>
-                              window.open(data)
-                            );
-                          }}
-                        />
+                        <div className="attachment-item"
+                        onClick={(e) => {
+                          downloadFile(file.id).then((data) =>
+                            window.open(data)
+                          );
+                        }}
+                        >
+                          <FolderZipIcon
+                             className="attachment-item-icon"
+                          />
+                           <span>{file?.original_name}</span>
+                           <span>{`${file?.file_size}Mb`}</span>
+                        </div>
                       ) : (
-                        <InsertDriveFileIcon
-                          onClick={(e) => {
-                            downloadFile(file.id)
-                          }}
-                        />
+                        <div className="attachment-item"
+                        onClick={(e) => {
+                          downloadFile(file.id);
+                        }}
+                        >
+                          <InsertDriveFileIcon
+                            className="attachment-item-icon"
+                          />
+                           <span>{file?.original_name}</span>
+                           <span>{`${file?.file_size}Mb`}</span>
+                        </div>
                       )}
                     </div>
                   );

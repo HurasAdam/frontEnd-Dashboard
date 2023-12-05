@@ -172,7 +172,7 @@ export const CommentBox = ({
                       file.file_type === "png" ? (
                         <div className="attachment-item"
                         onClick={(e) => {
-                          downloadFile(file.id);
+                          downloadFile(file.id)
                         }}
                         >
                           <ImageIcon
@@ -184,8 +184,8 @@ export const CommentBox = ({
                       ) : file.file_type === "pdf" ? (
                         <div className="attachment-item"
                         onClick={(e) => {
-                          console.log(file)
-                          downloadFile(file.id);
+                      
+                          downloadFile(file.id)
                         }}
                         >
                           <PictureAsPdfIcon
@@ -198,8 +198,8 @@ export const CommentBox = ({
                         <div className="attachment-item"
                         onClick={(e) => {
                           downloadFile(file.id).then((data) =>
-                            window.open(data)
-                          );
+                          window.open(data)
+                        );
                         }}
                         >
                           <FolderZipIcon
@@ -211,7 +211,9 @@ export const CommentBox = ({
                       ) : (
                         <div className="attachment-item"
                         onClick={(e) => {
-                          downloadFile(file.id);
+                          downloadFile(file.id).then((data) =>
+                          window.open(data)
+                        );
                         }}
                         >
                           <InsertDriveFileIcon

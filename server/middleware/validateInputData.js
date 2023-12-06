@@ -14,6 +14,7 @@ const validateInputData = async (req, res, next) => {
     newEmail: { required: true },
     confirmNewEmail: { required: true },
     password: { required: true },
+    leader:{required:true}
   };
   const formData = req.body;
   const result = {

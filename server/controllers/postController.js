@@ -148,16 +148,37 @@ const deletePost = async (req, res) => {
   const io = req.app.get("socketio");
   const { id } = req.params;
   const { _id: userId } = req.user;
+
   const userIdString = userId.toString();
   const post = await Post.findOne({ _id: id });
   const postAuthorId = post.CreatedBy;
 
-  if (userIdString === postAuthorId) {
-    const deletePost = await Post.findOneAndDelete({ _id: id });
-    const eventStreamObject = { id: id, status: "update" };
-    io.sockets.emit("postCollectionUpdate", eventStreamObject);
-    res.status(200).json("Post has been deleted successfully");
+  if (userIdString !== postAuthorId) {
+    return res
+      .status(403)
+      .json({
+        message: "You dont have access to delete this post",
+        success: false,
+      });
   }
+
+  if (userIdString === postAuthorId && post.files.length > 0) {
+    const fileList = post.files;
+    const publicIdList = fileList.map((file) => file.publicId);
+    console.log("CLOUDINARY REQEST");
+
+    const deletePromises = await Promise.all(
+      publicIdList.map(async (publicId) => {
+        const response = await cloudinary.uploader.destroy(publicId);
+        return response;
+      })
+    );
+  }
+
+  const deletePost = await Post.findOneAndDelete({ _id: id });
+  const eventStreamObject = { id: id, status: "update" };
+  io.sockets.emit("postCollectionUpdate", eventStreamObject);
+  res.status(200).json("Post has been deleted successfully");
 };
 
 module.exports = [createPost, getAllPosts, updatePost, deletePost];

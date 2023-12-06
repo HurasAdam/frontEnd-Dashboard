@@ -231,7 +231,7 @@ setLeader({_id:selectedOptionValue,name:selectedOptionLabel})
                     {data && (
                       <img
                         className="projectDataBottomItem-img"
-                        src={data.projectLeader.userAvatar}
+                        src={data.projectLeader.userAvatar.url}
                         alt=""
                       />
                     )}

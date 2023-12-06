@@ -12,7 +12,6 @@ const createPost = async (req, res) => {
 
   const filesExist = files.length > 0;
 
-
   const user = req.user;
 
   const currentTicket = await Note.findOne({ _id: ticketId });
@@ -34,37 +33,35 @@ const createPost = async (req, res) => {
   try {
     //check if usesr role is admin or is he a member of project
     if (isContributor || user.role === "admin") {
-
-
       const uploadPromises = filesExist
-        ?await Promise.all(
+        ? await Promise.all(
             files.map(async (file) => {
-              const responses= await cloudinary.uploader.upload(file.path, {
+              const responses = await cloudinary.uploader.upload(file.path, {
                 folder: "postUploads",
-                resource_type: "auto", })
-              modifiedresponses= {...responses,original_name:file.originalname}
-                return modifiedresponses
-              }),
-            
+                resource_type: "auto",
+              });
+              modified_responses = {
+                ...responses,
+                original_name: file.originalname,
+              };
+              return modified_responses;
+            })
           )
         : null;
-
-
-       console.log(uploadPromises)
 
       const newPost = await Post.create({
         content: textContent,
         ticketId: currentTicket._id.toString(),
         CreatedBy: user._id.toString(),
-        files: filesExist&&
-         uploadPromises.map((upload) => ({
+        ...(filesExist && {
+          files: uploadPromises.map((upload) => ({
             publicId: upload.public_id,
             url: upload.secure_url,
-        original_name:upload.original_name,
-        file_size:(upload.bytes/1048576),
-        file_type:upload.format?upload.format:upload.resource_type
-          }))
-        
+            original_name: upload.original_name,
+            file_size: upload.bytes / 1048576,
+            file_type: upload.format ? upload.format : upload.resource_type,
+          })),
+        }),
       });
 
       const eventStreamObject = { id: ticketId._id, status: "update" };
@@ -111,7 +108,6 @@ const updatePost = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.user;
   const { content } = req.body;
-
 
   const post = await Post.findOne({ _id: id });
   const postOwnerId = post.CreatedBy.toString();

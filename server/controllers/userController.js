@@ -384,7 +384,8 @@ const removeAvatar = async(req,res)=>{
   const {userAvatar} = await User.findOne({_id:userId})
   
   if(userAvatar.publicId){
-    await cloudinary.uploader.destroy(userAvatar.publicId);
+    const response= await cloudinary.uploader.destroy(userAvatar.publicId);
+    if(response.result==='ok'){
     const updateUserAvatar = await User.findOneAndUpdate(
       { _id: userId },
       { $set: { "userAvatar.url": "","userAvatar.publicId":"" } },
@@ -393,7 +394,7 @@ const removeAvatar = async(req,res)=>{
 
     res.status(200).json({data:updateUserAvatar.userAvatar.url,message:"Avatar has been removed"})
     }
-
+  }
 
 }
 

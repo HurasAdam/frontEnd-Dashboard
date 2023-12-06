@@ -204,7 +204,7 @@ transition: all ease-in-out 0.1s;
 }
 
 .attachment-item{
-
+padding: 2px 0px;
   width: 100%;
   display: flex;
   gap:0.5rem;
@@ -212,6 +212,18 @@ transition: all ease-in-out 0.1s;
  color: rgb(202, 201, 196);
  font-size: 14px;
 }
+
+.attachment-item-disabled{
+  padding: 2px 0px;
+  width: 100%;
+  display: flex;
+  gap:0.5rem;
+  cursor: pointer;
+ color: rgb(202, 201, 196);
+ font-size: 14px;
+pointer-events: none;
+}
+
  .attachment-item:hover{
 text-decoration: underline;
 text-decoration-color: rgb(221, 220, 224);

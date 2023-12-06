@@ -15,6 +15,8 @@ import React, { useState, useEffect, useContext } from "react";
 import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { Loader } from "../loader/Loader";
+import { useMutation } from "react-query";
 export const CommentBox = ({
   id,
   postList,
@@ -38,14 +40,37 @@ export const CommentBox = ({
 }) => {
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
-
+  const [downloadingFileList, setDownloadingFileList] = useState([]);
+const [isLinkDisabled,setIsLinkDisabled]=useState(false)
   const handleRemoveAttachedFile = (e, index) => {
     e.preventDefault();
-    console.log(postContent?.files);
 
     const updatedFiles = [...postContent?.files];
     updatedFiles.splice(index, 1);
     setPostContent({ ...postContent, files: updatedFiles });
+  };
+
+  const downloadMutation = useMutation(downloadFile, {
+    onSuccess: ({message,id,url}) => {
+  
+       setDownloadingFileList((prevList) =>
+        prevList.filter((selectedId) => selectedId !== id)
+      )
+  if(url){
+    const link = document.createElement("a");
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  setIsLinkDisabled((prev)=>!prev)
+    },
+  });
+
+  const downloadSelectedFile = (id) => {
+    setDownloadingFileList((prev) => [...prev, id]);
+    downloadMutation.mutate(id);
+    setIsLinkDisabled((prev)=>!prev)
   };
 
   const handleEditClick = (e, postId, value) => {
@@ -55,6 +80,7 @@ export const CommentBox = ({
     console.log(postId);
   };
 
+  console.log(isLinkDisabled);
   const calculateTimeDifference = (date) => {
     const difference = new Date() - new Date(date);
     const units = {
@@ -170,57 +196,67 @@ export const CommentBox = ({
                       {file.file_type === "jpg" ||
                       file.file_type === "jpeg" ||
                       file.file_type === "png" ? (
-                        <div className="attachment-item"
-                        onClick={(e) => {
-                          downloadFile(file.id)
-                        }}
+                        <div
+                    
+                          className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
+                          onClick={(e) => {
+                            downloadSelectedFile(file.id);
+                          }}
                         >
-                          <ImageIcon
-                         className="attachment-item-icon"
-                          />
+                          <ImageIcon className="attachment-item-icon" />
                           <span>{file?.original_name}</span>
                           <span>{`${file?.file_size}Mb`}</span>
+                          {downloadingFileList.includes(file.id) &&
+                          downloadMutation.isLoading ? (
+                            <Loader />
+                          ) : null}
                         </div>
                       ) : file.file_type === "pdf" ? (
-                        <div className="attachment-item"
-                        onClick={(e) => {
-                      
-                          downloadFile(file.id)
-                        }}
+                        <div
+                        className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
+                          onClick={(e) => {
+                            downloadSelectedFile(file.id);
+                          }}
                         >
-                          <PictureAsPdfIcon
-                     className="attachment-item-icon"
-                          />
-                           <span>{file?.original_name}</span>
-                           <span>{`${file?.file_size}Mb`}</span>
+                          <PictureAsPdfIcon className="attachment-item-icon" />
+                          <span>{file?.original_name}</span>
+                          <span>{`${file?.file_size}Mb`}</span>
+                          {downloadingFileList.includes(file.id) &&
+                          downloadMutation.isLoading ? (
+                            <Loader id={file.id} />
+                          ) : null}
                         </div>
                       ) : file.file_type === "raw" ? (
-                        <div className="attachment-item"
-                        onClick={(e) => {
-                          downloadFile(file.id).then((data) =>
-                          window.open(data)
-                        );
-                        }}
+                        <div
+                        className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
+                          onClick={(e) => {
+                            downloadSelectedFile(file.id);
+                          }}
                         >
-                          <FolderZipIcon
-                             className="attachment-item-icon"
-                          />
-                           <span>{file?.original_name}</span>
-                           <span>{`${file?.file_size}Mb`}</span>
+                          <FolderZipIcon className="attachment-item-icon" />
+                          <span>{file?.original_name}</span>
+                          <span>{`${file?.file_size}Mb`}</span>
+                          {downloadingFileList.includes(file.id) &&
+                          downloadMutation.isLoading ? (
+                            <Loader />
+                          ) : null}
                         </div>
                       ) : (
-                        <div className="attachment-item"
-                        onClick={(e) => {
-                          downloadFile(file.id).then((data) =>
-                          window.open(data)
-                        );
-                        }}
+                        <div
+                        className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
+                          onClick={(e) => {
+                            downloadSelectedFile(file.id).then((data) =>
+                              window.open(data)
+                            );
+                          }}
                         >
-                          <InsertDriveFileIcon
-                            className="attachment-item-icon"
-                          />
-                           <span>{file?.original_name}</span>
-                           <span>{`${file?.file_size}Mb`}</span>
+                          <InsertDriveFileIcon className="attachment-item-icon" />
+                          <span>{file?.original_name}</span>
+                          <span>{`${file?.file_size}Mb`}</span>
+                          {downloadingFileList.includes(file.id) &&
+                          downloadMutation.isLoading ? (
+                            <Loader />
+                          ) : null}
                         </div>
                       )}
                     </div>

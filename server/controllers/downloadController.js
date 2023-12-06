@@ -27,7 +27,7 @@ const downloadSelectedFile = async (req, res) => {
         resource_type: "raw",
       });
       console.log("RAR LUB ZIP");
-      return res.status(200).json(response);
+      return res.status(200).json({meessage:"Download succed",id:public_Id,url:response});
     } else {
       const { url, format } = await cloudinary.api.resource(pulbic_id);
 
@@ -50,7 +50,7 @@ const downloadSelectedFile = async (req, res) => {
       readableStream.on('end',()=>{
         writer.end()
         console.log("Stream has been closed")
-        return res.status(200).json("Download succed")
+        return res.status(200).json({message:"Downloading succed",id:public_Id})
       })
     }
   } catch (error) {

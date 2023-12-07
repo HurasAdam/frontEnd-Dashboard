@@ -71,3 +71,8 @@ export const downloadFile= async(id)=>{
   const response = await projectApi.get(`/download?public_Id=${id}`)
   return response.data;
 }
+
+export const deleteFile=async(id)=>{
+  const response = await projectApi.delete(`/download/${id}`)
+  return response.data
+}

@@ -14,9 +14,10 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CommentBox } from "../../components/commentBox/CommentBox";
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { ObjectDateToString } from "../../utils/ObjectDateToString";
 import {
+  deleteFile,
   getSelectOptionList,
   getTicket,
   updateTicket,
@@ -61,7 +62,10 @@ export const TicketDetails = () => {
     textContent:'',
     files:[]
   });
-  const [editedPost, setEditedPost] = useState(null);
+  const [editedPost, setEditedPost] = useState({
+    id:'',
+    content:''
+  });
   const [showMsgPopup, setShowMsgPopup] = useState({
     visible: false,
     message: "",
@@ -131,7 +135,7 @@ export const TicketDetails = () => {
     } else {
       setEditedPost(null);
       handlePopup(setShowMsgPopup, data);
-      setPostContent("");
+      setEditedPost((prev)=>({...prev,id:null,content:''}))
     }
   });
 
@@ -143,6 +147,15 @@ export const TicketDetails = () => {
   const deletePostMutation = mutationHandler(deleteTicketPost, () => {
     console.log("USUNIETO");
   });
+
+  const deleteFileMutation=useMutation(deleteFile,{
+    onSuccess:(data)=>{
+      queryClient.invalidateQueries(["posts"])
+      handlePopup(setShowMsgPopup,data)
+
+    }
+    })
+
 
   const handleEditMode = () => {
     setIsDisabled(false);
@@ -369,6 +382,7 @@ export const TicketDetails = () => {
             createPostMutation={createPostMutation}
             editPostMutation={editPostMutation}
             deletePostMutation={deletePostMutation}
+            deleteFileMutation={deleteFileMutation}
             postContent={postContent}
             setPostContent={setPostContent}
             editedPost={editedPost}

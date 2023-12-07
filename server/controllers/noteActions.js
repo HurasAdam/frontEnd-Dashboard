@@ -1,8 +1,10 @@
 const ObjectId = require("mongodb").ObjectID;
 const { scheduleTicketArchiving } = require("../utils/scheduleTicketArchiving");
 const Note = require("../db/models/note");
+const Post = require("../db/models/post");
 const User = require("../db/models/user");
 const Project = require("../db/models/project");
+const cloudinary = require("cloudinary").v2;
 const { convertDate } = require("../utils/dateConvert");
 
 // scheduleTicketArchiving()
@@ -55,41 +57,34 @@ module.exports = {
   },
 
   async getArchived(req, res) {
-  
-//     const ticketList = await Promise.all(
-//       (
-//         await Note.find({ Archivized: true })
-//           .populate('closedBy') // Dodaj to, aby pobrać dane użytkownika
-//       ).map(async (ticket) => {
-//         // Pobierz dane użytkownika z związku
-//         const user = await User.findOne({_id:ticket.closedBy}).select('name surname email role gender userAvatar')
-    
-//         // Tutaj możesz dodać inne transformacje, jeśli są potrzebne
-    
-//         return {
-//           id: ticket._id,
-//           title: ticket.title,
-//           type: ticket.type,
-//           description: ticket.description,
-//           closedBy: user,
-//         };
-//       })
-//     );
-// console.log(ticketList)
+    //     const ticketList = await Promise.all(
+    //       (
+    //         await Note.find({ Archivized: true })
+    //           .populate('closedBy') // Dodaj to, aby pobrać dane użytkownika
+    //       ).map(async (ticket) => {
+    //         // Pobierz dane użytkownika z związku
+    //         const user = await User.findOne({_id:ticket.closedBy}).select('name surname email role gender userAvatar')
 
-const archived = await Note.find({Archivized:true}).populate({
-  path:'closedBy',
-  model:'User',
-  select:'name surname email userAvatar gender'
-})
+    //         // Tutaj możesz dodać inne transformacje, jeśli są potrzebne
 
+    //         return {
+    //           id: ticket._id,
+    //           title: ticket.title,
+    //           type: ticket.type,
+    //           description: ticket.description,
+    //           closedBy: user,
+    //         };
+    //       })
+    //     );
+    // console.log(ticketList)
 
-res.status(200).json(archived)
+    const archived = await Note.find({ Archivized: true }).populate({
+      path: "closedBy",
+      model: "User",
+      select: "name surname email userAvatar gender",
+    });
 
-
-
-
-
+    res.status(200).json(archived);
 
     // const page = Number(req.query.page);
     // let size = 14;
@@ -119,8 +114,6 @@ res.status(200).json(archived)
     //     };
     //   })
     // );
-
-
 
     //   archiveNotes.map((ticket) => User.findOne({ _id: ticket.closedBy }))
     // );
@@ -169,8 +162,8 @@ res.status(200).json(archived)
     const pLeader = await User.findOne({ _id: projectLeader }).select(
       "name surname role geneder userAvatar"
     );
-  
-console.log("SPRAWDZAM ENDPOINT")
+
+    console.log("SPRAWDZAM ENDPOINT");
     const returnObj = {
       id: note._id,
       title: note.title,
@@ -180,7 +173,7 @@ console.log("SPRAWDZAM ENDPOINT")
       status: note.status,
       author: ticketAuthor,
       createdAt: note.createdAt,
-      Archivized:note.Archivized,
+      Archivized: note.Archivized,
       project: {
         id: _id,
         title: title,
@@ -265,22 +258,18 @@ console.log("SPRAWDZAM ENDPOINT")
       const isAuthor = ticketAuthor.toString() === req.user._id.toString();
 
       if (!isAuthor || req.user.role !== "admin") {
-        return res
-          .status(400)
-          .json({
-            message: "You dont have permissions to edit this ticket",
-            success: false,
-          });
+        return res.status(400).json({
+          message: "You dont have permissions to edit this ticket",
+          success: false,
+        });
       }
 
       if (ticketStatus !== "Open") {
-        return res
-          .status(400)
-          .json({
-            message:
-              "Ticket status is already set as closed, You can not edit closed tickets",
-            success: false,
-          });
+        return res.status(400).json({
+          message:
+            "Ticket status is already set as closed, You can not edit closed tickets",
+          success: false,
+        });
       }
 
       let finalUpdates = { ...updates };
@@ -299,12 +288,10 @@ console.log("SPRAWDZAM ENDPOINT")
       const eventStreamObject = { id: id, status: "update" };
       io.sockets.emit("ticketCollectionUpdate", eventStreamObject);
 
-      return res
-        .status(200)
-        .json({
-          message: "Ticket has been updated successfully",
-          success: true,
-        });
+      return res.status(200).json({
+        message: "Ticket has been updated successfully",
+        success: true,
+      });
     } catch (Error) {
       res.status(400).json(Error.message);
     }
@@ -312,8 +299,32 @@ console.log("SPRAWDZAM ENDPOINT")
 
   //usuwanie notatki
   async deleteNote(req, res) {
-    const id = req.params.id;
-    await Note.deleteOne({ _id: id });
+    const { id } = req.params;
+
+    const ticketPostList = await Post.find({ ticketId: id }).select("_id");
+
+    const arrayOfIds = ticketPostList.map(({ _id }) => {
+      return _id;
+    });
+
+    const deletePromises = await Promise.all(
+      arrayOfIds.map(async (id) => {
+        const post = await Post.findOne({ _id: id });
+        const files = post?.files;
+        if (files.length > 0) {
+          const cloudinaryResponse = files.map(
+            async ({ publicId, file_type }) => {
+              const { result } = await cloudinary.uploader.destroy(publicId, {
+                resource_type: file_type === "raw" ? "raw" : "image",
+              });
+              return result;
+            }
+          );
+          const deletePost = await Post.findOneAndDelete({ _id: id });
+        }
+        const deletePost = await Post.findOneAndDelete({ _id: id });
+      })
+    );
 
     res.status(204).send("status code of 200");
   },

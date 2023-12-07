@@ -132,7 +132,6 @@
 .newCommentForm {
   display: flex;
   flex-direction: column;
-
 }
 
 .newCommentForm textarea {
@@ -150,127 +149,134 @@
 .addNewCommentButtonContainer {
   display: flex;
   justify-content: flex-end;
-
 }
 
-
-.newComment-headerContainer{
-
+.newComment-headerContainer {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
 }
-.newComment-headerContainer label{
-flex-grow: 2;
+.newComment-headerContainer label {
+  flex-grow: 2;
 }
 
-.header-attachedFiles{
-/* border: 2px solid orange; */
+.header-attachedFiles {
+  /* border: 2px solid orange; */
 
   display: flex;
-  justify-content:flex-start;
- 
- flex-grow: 3;
+  justify-content: flex-start;
+
+  flex-grow: 3;
 }
-.header-attachedFiles ul{
-
- display: flex;
- gap:0.7rem;
- list-style-type: none;
- flex-direction: column;
-
-}
-.header-attachedFiles ul li{
-
-position: relative;
-z-index: 100;
-display: flex;
-
-justify-content: flex-start;
-}
-.remove-attached-file{
-scale: 0.9;
-position: absolute;
-top:0px;
-left:104%;
-cursor: pointer;
-}
-.remove-attached-file:hover{
-  background-color: red;
-border-radius: 50%;
-z-index: 1;
-
-transition: all ease-in-out 0.1s;
-}
-
-.attachment-item{
-padding: 2px 0px;
-  width: 100%;
+.header-attachedFiles ul {
   display: flex;
-  gap:0.5rem;
+  gap: 0.7rem;
+  list-style-type: none;
+  flex-direction: column;
+}
+.header-attachedFiles ul li {
+  position: relative;
+  z-index: 100;
+  display: flex;
+
+  justify-content: flex-start;
+}
+.remove-attached-file {
+  scale: 0.9;
+  position: absolute;
+  top: 0px;
+  left: 104%;
   cursor: pointer;
- color: rgb(202, 201, 196);
- font-size: 14px;
+}
+.remove-attached-file:hover {
+  background-color: red;
+  border-radius: 50%;
+  z-index: 1;
+
+  transition: all ease-in-out 0.1s;
 }
 
-.attachment-item-disabled{
+.attachment-itemWrapper {
   padding: 2px 0px;
   width: 100%;
   display: flex;
-  gap:0.5rem;
+  color: rgb(202, 201, 196);
+  font-size: 14px;
+}
+
+.attachment-itemWrapper-disabled {
+  padding: 2px 0px;
+  width: 100%;
+  display: flex;
+
   cursor: pointer;
- color: rgb(202, 201, 196);
- font-size: 14px;
-pointer-events: none;
+  color: rgb(202, 201, 196);
+  font-size: 14px;
+  pointer-events: none;
 }
 
- .attachment-item:hover{
-text-decoration: underline;
-text-decoration-color: rgb(221, 220, 224);
-color: rgb(236, 235, 231)
+.attachment-item:hover {
+  text-decoration: underline;
+  text-decoration-color: rgb(221, 220, 224);
+  color: rgb(236, 235, 231);
 }
 
+.attachment-item {
+  display: flex;
+  padding: 2px 6px;
+  cursor: pointer;
+gap:14px;
+display: flex;
+align-items: center;
+
+}
+
+.download_file-wrapper {
+
+  width: 50px;
+}
+.delete-iconWrapper {
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+.delete-file-icon{
+scale:0.8;
+cursor: pointer;
+}
+.delete-file-icon:hover{
+color:red
+}
 /* NEW COMMENT INPUT FILE  */
 
 .file-input-container {
-
-
-display: flex;
-flex-grow: 1;
-justify-content: flex-end;
-align-items: flex-start;
-gap:20px
-
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .file-input {
   display: none;
-
 }
 
-.file-input-label{
+.file-input-label {
   cursor: pointer;
   display: flex;
-
-
-
 }
-.file-input-label:hover{
-
-transition: all ease-in 0.1s;
+.file-input-label:hover {
+  transition: all ease-in 0.1s;
 }
-
-
-
 
 .addNewCommentButtonContainer {
   margin-top: 20px;
 
- display: flex;
- justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
-
-
 
 .addNewCommentButtonContainer button {
   padding: 6px;
@@ -310,8 +316,7 @@ transition: all ease-in 0.1s;
 #dark .comment p {
   background: var(--dark-primary);
   font-size: 0.85rem;
-  color:rgb(218, 214, 214);
-  
+  color: rgb(218, 214, 214);
 }
 /* #dark .commentFocus-true {
   border: 2px dotted rgb(177, 163, 163);
@@ -328,10 +333,10 @@ transition: all ease-in 0.1s;
   background: var(--dark-third);
 }
 
-#dark .newCommentForm{
+#dark .newCommentForm {
   box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.3);
 
-  padding: 10px 0px
+  padding: 10px 0px;
 }
 
 #dark .newCommentForm textarea {
@@ -357,17 +362,15 @@ transition: all ease-in 0.1s;
   box-shadow: 0px 0px 5px #4b559f;
 }
 
-#dark .attachments-container{
-  background:var(--dark-primary);
-display: flex;
+#dark .attachments-container {
+  background: var(--dark-primary);
+  display: flex;
   border-top: 1px solid #141414;
-flex-direction: column;
+  flex-direction: column;
 }
-#dark .attachments{
+#dark .attachments {
   display: flex;
 }
-
-
 
 /* PURPLE */
 #purple .comment {
@@ -428,7 +431,7 @@ flex-direction: column;
 #purple .file-input-label {
   background: var(--purple-primary-radial);
 }
-.commentBox__editMode{
+.commentBox__editMode {
   background: var(--dark-primary);
   min-height: 300px;
   width: 100%;
@@ -437,13 +440,10 @@ flex-direction: column;
   box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.1); /* Dodaje niestandardowy box-shadow (tylko na dolny, prawy i lewy bok) */
   padding: 8px; /* Dodaje trochę odstępu, aby uniknąć zbyt bliskiego sklejenia tekstu z box-shadow */
   transition: box-shadow 0.3s ease; /* Dodaje płynne przejścia dla efektu box-shadow */
-border-top: 1px dotted rgb(106, 106, 118);
-color:rgb(218, 214, 214);
-padding: 0.8rem 0.6rem;
-font-size: 0.8rem
-
- 
+  border-top: 1px dotted rgb(106, 106, 118);
+  color: rgb(218, 214, 214);
+  padding: 0.8rem 0.6rem;
+  font-size: 0.8rem;
 }
-.commentBox__editMode:focus{
-
+.commentBox__editMode:focus {
 }

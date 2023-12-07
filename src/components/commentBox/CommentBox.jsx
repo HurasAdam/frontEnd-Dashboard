@@ -8,7 +8,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import ImageIcon from "@mui/icons-material/Image";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FolderZipIcon from "@mui/icons-material/FolderZip";
-import { downloadFile } from "../../features/ticketApi/ticketApi";
+import { downloadFile,deleteFile } from "../../features/ticketApi/ticketApi";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import React, { useState, useEffect, useContext } from "react";
@@ -16,7 +16,10 @@ import "../commentBox/commentBox.css";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Loader } from "../loader/Loader";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import { handleDeleteSelectedFile } from "../../shared/handleDeleteSelectedFile";
+import { handlePopup } from "../../shared/handlePopup";
+
 export const CommentBox = ({
   id,
   postList,
@@ -28,6 +31,7 @@ export const CommentBox = ({
   createPostMutation,
   editPostMutation,
   deletePostMutation,
+  deleteFileMutation,
   postContent,
   setPostContent,
   setShowMsgPopup,
@@ -40,8 +44,9 @@ export const CommentBox = ({
 }) => {
   const { user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
+  const queryClient=useQueryClient()
   const [downloadingFileList, setDownloadingFileList] = useState([]);
-const [isLinkDisabled,setIsLinkDisabled]=useState(false)
+  const [isLinkDisabled, setIsLinkDisabled] = useState(false);
   const handleRemoveAttachedFile = (e, index) => {
     e.preventDefault();
 
@@ -51,37 +56,48 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
   };
 
   const downloadMutation = useMutation(downloadFile, {
-    onSuccess: ({message,id,url}) => {
-  
-       setDownloadingFileList((prevList) =>
+    onSuccess: ({ message,success,id, url }) => {
+      setDownloadingFileList((prevList) =>
         prevList.filter((selectedId) => selectedId !== id)
-      )
-  if(url){
-    const link = document.createElement("a");
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-  setIsLinkDisabled((prev)=>!prev)
+      );
+      if (url) {
+        const link = document.createElement("a");
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        handlePopup(setShowMsgPopup,{message,success})
+      }
+      setIsLinkDisabled((prev) => !prev);
+      handlePopup(setShowMsgPopup,{message,success})
     },
+
   });
+
+
+
+
+
+
+
 
   const downloadSelectedFile = (id) => {
     setDownloadingFileList((prev) => [...prev, id]);
     downloadMutation.mutate(id);
-    setIsLinkDisabled((prev)=>!prev)
+    setIsLinkDisabled((prev) => !prev);
   };
 
   const handleEditClick = (e, postId, value) => {
     e.preventDefault();
-    setEditedPost(postId);
-    setPostContent(value);
+    setEditedPost((prev)=>({...prev,id:postId}));
+    setEditedPost((prev)=>({...prev,content:value}));
     console.log(postId);
   };
 
-  console.log(isLinkDisabled);
+  console.log(editedPost);
   const calculateTimeDifference = (date) => {
+
+
     const difference = new Date() - new Date(date);
     const units = {
       day: 24 * 60 * 60 * 1000,
@@ -89,6 +105,9 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
       minute: 60 * 1000,
       second: 1000,
     };
+
+    try {
+
     for (const [unit, value] of Object.entries(units)) {
       const count = Math.floor(difference / value);
       if (count > 0) {
@@ -96,8 +115,12 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
       }
     }
     return "just now";
+  }
+  catch(error){
+    console.log(error)
+  }
   };
-
+console.log(postList)
   return (
     <div className="comment-box" id={theme.mode}>
       {postList &&
@@ -107,7 +130,7 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
               <div className="comment-userInfo">
                 <img
                   className="userImage"
-                  src={comment.CreatedBy.userAvatar?.url}
+                  src={comment.CreatedBy?.userAvatar?.url}
                   alt=""
                 />
                 <div className="comment-userInfoData">
@@ -124,7 +147,7 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
                 </span>
                 {comment.CreatedBy.id === user.userId ? (
                   <span className="comment-actionContainer-Buttons">
-                    {editedPost !== comment.id ? (
+                    {editedPost?.id !== comment.id ? (
                       <>
                         <CreateOutlinedIcon
                           disabled={true}
@@ -146,7 +169,7 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
                           onClick={() =>
                             handleEditPost({
                               postId: comment.id,
-                              newContent: postContent,
+                              newContent: editedPost?.content,
                               mutation: editPostMutation,
                               postList,
                               setShowMsgPopup,
@@ -163,15 +186,15 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
                 ) : null}
               </div>
             </div>
-            {editedPost === comment.id ? (
+            {editedPost?.id === comment.id ? (
               <textarea
                 onChange={(e) =>
-                  setPostContent((prev) => {
-                    return { ...prev, textContent: e.target.value };
+                  setEditedPost((prev) => {
+                    return { ...prev, content: e.target.value };
                   })
                 }
                 className={`commentBox${
-                  editedPost === comment.id ? "__editMode" : ""
+                  editedPost?.id === comment.id ? "__editMode" : ""
                 }`}
               >
                 {comment.content}
@@ -180,16 +203,13 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
               <p
                 className={`commentFocus commentFocus-${comment.contentEditable}`}
                 defaultValue={comment.content}
-                onInput={(e) => {
-                  e.preventDefault();
-                  onEditTextContent(e.target.innerHTML);
-                }}
               >
                 {comment.content}
               </p>
             )}
             <div className="attachments-container">
-              {comment &&
+              {comment?.files &&
+              
                 comment?.files.map((file) => {
                   return (
                     <div className="attachments">
@@ -197,66 +217,139 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
                       file.file_type === "jpeg" ||
                       file.file_type === "png" ? (
                         <div
-                    
-                          className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
+                          key={comment.id}
+                          className={`${
+                            isLinkDisabled
+                              ? "attachment-itemWrapper-disabled"
+                              : "attachment-itemWrapper"
+                          }`}
+                      
+                        >
+                          <div className="attachment-item"
+                          
                           onClick={(e) => {
                             downloadSelectedFile(file.id);
                           }}
-                        >
-                          <ImageIcon className="attachment-item-icon" />
-                          <span>{file?.original_name}</span>
-                          <span>{`${file?.file_size}Mb`}</span>
-                          {downloadingFileList.includes(file.id) &&
-                          downloadMutation.isLoading ? (
-                            <Loader />
+                          >
+                            <ImageIcon className="attachment-item-icon" />
+                            <span>{file?.original_name}</span>
+                            <span>{`${file?.file_size}Mb`}</span>
+                            <div className="download_file-wrapper">
+                            {downloadingFileList.includes(file.id) &&
+                            downloadMutation.isLoading ? (
+                              <Loader />
+                            ) : null}
+                            </div>
+                          </div>
+                       
+                          <div className="delete-iconWrapper">
+                          {editedPost?.id === comment.id ? (
+                            <ClearOutlinedIcon 
+                            onClick={(e)=>handleDeleteSelectedFile(file.id,deleteFileMutation)}
+                            className="delete-file-icon" />
                           ) : null}
+                          </div>
+                      
                         </div>
                       ) : file.file_type === "pdf" ? (
                         <div
-                        className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
-                          onClick={(e) => {
-                            downloadSelectedFile(file.id);
-                          }}
+                          className={`${
+                            isLinkDisabled
+                              ? "attachment-itemWrapper-disabled"
+                              : "attachment-itemWrapper"
+                          }`}
+                        
                         >
-                          <PictureAsPdfIcon className="attachment-item-icon" />
-                          <span>{file?.original_name}</span>
-                          <span>{`${file?.file_size}Mb`}</span>
-                          {downloadingFileList.includes(file.id) &&
-                          downloadMutation.isLoading ? (
-                            <Loader id={file.id} />
+                          <div className="attachment-item"
+                            onClick={(e) => {
+                              downloadSelectedFile(file.id);
+                            }}
+                          >
+                            <PictureAsPdfIcon className="attachment-item-icon" />
+                            <span>{file?.original_name}</span>
+                            <span>{`${file?.file_size}Mb`}</span>
+                          
+                          </div>
+                          <div className="download_file-wrapper">
+                            {downloadingFileList.includes(file.id) &&
+                            downloadMutation.isLoading ? (
+                              <Loader id={file.id} />
+                            ) : null}
+                            </div>
+                          <div className="delete-iconWrapper">
+                          {editedPost?.id === comment.id ? (
+                            <ClearOutlinedIcon className="delete-file-icon" 
+                            onClick={(e)=>deleteFile(file.id)}
+                            />
                           ) : null}
+                          </div>
+                     
                         </div>
                       ) : file.file_type === "raw" ? (
                         <div
-                        className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
-                          onClick={(e) => {
-                            downloadSelectedFile(file.id);
-                          }}
+                          className={`${
+                            isLinkDisabled
+                              ? "attachment-itemWrapper-disabled"
+                              : "attachment-itemWrapper"
+                          }`}
+                    
                         >
-                          <FolderZipIcon className="attachment-item-icon" />
-                          <span>{file?.original_name}</span>
-                          <span>{`${file?.file_size}Mb`}</span>
-                          {downloadingFileList.includes(file.id) &&
-                          downloadMutation.isLoading ? (
-                            <Loader />
+                          <div className="attachment-item"
+                                onClick={(e) => {
+                                  downloadSelectedFile(file.id);
+                                }}
+                          >
+                            <FolderZipIcon className="attachment-item-icon" />
+                            <span>{file?.original_name}</span>
+                            <span>{`${file?.file_size}Mb`}</span>
+                      
+                          </div>
+                          <div className="download_file-wrapper">
+                            {downloadingFileList.includes(file.id) &&
+                            downloadMutation.isLoading ? (
+                              <Loader />
+                            ) : null}
+                            </div>
+                          <div className="delete-iconWrapper">
+                          {editedPost?.id === comment.id ? (
+                            <ClearOutlinedIcon className="delete-file-icon" 
+                            onClick={(e)=>deleteFile(file.id)}
+                            />
                           ) : null}
+                          </div>
+                       
                         </div>
                       ) : (
                         <div
-                        className={`${isLinkDisabled?"attachment-item-disabled":"attachment-item"}`}
+                          className={`${
+                            isLinkDisabled
+                              ? "attachment-itemWrapper-disabled"
+                              : "attachment-itemWrapper"
+                          }`}
                           onClick={(e) => {
                             downloadSelectedFile(file.id).then((data) =>
                               window.open(data)
                             );
                           }}
                         >
-                          <InsertDriveFileIcon className="attachment-item-icon" />
-                          <span>{file?.original_name}</span>
-                          <span>{`${file?.file_size}Mb`}</span>
-                          {downloadingFileList.includes(file.id) &&
-                          downloadMutation.isLoading ? (
-                            <Loader />
-                          ) : null}
+                          <div className="attachment-item">
+                            <InsertDriveFileIcon className="attachment-item-icon" />
+                            <span>{file?.original_name}</span>
+                            <span>{`${file?.file_size}Mb`}</span>
+                         
+                          </div>
+                          <div className="delete-iconWrapper">
+                          {editedPost?.id===comment.id ? 
+                          (<ClearOutlinedIcon className="delete-file-icon" 
+                           onClick={(e)=>deleteFile(file.id)}
+                          />) : null}
+                          </div>
+                          <div className="download_file-wrapper">
+                              {downloadingFileList.includes(file.id) &&
+                              downloadMutation.isLoading ? (
+                                <Loader />
+                              ) : null}
+                            </div>
                         </div>
                       )}
                     </div>
@@ -301,7 +394,7 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
           <div className="addNewCommentButtonContainer">
             <div className="header-attachedFiles">
               <ul>
-                {postContent?.files.map((file, index) => {
+                {postContent?.files&&postContent?.files.map((file, index) => {
                   return (
                     <li className={`file${index}`}>
                       <CloseOutlinedIcon
@@ -326,7 +419,7 @@ const [isLinkDisabled,setIsLinkDisabled]=useState(false)
                   setPostContent((prev) => {
                     return {
                       ...prev,
-                      files: [...prev.files, e.target.files[0]],
+                      files: [...prev?.files, e.target.files[0]],
                     };
                   })
                 }

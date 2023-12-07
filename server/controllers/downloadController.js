@@ -27,7 +27,7 @@ const downloadSelectedFile = async (req, res) => {
         resource_type: "raw",
       });
       console.log("RAR LUB ZIP");
-      return res.status(200).json({meessage:"Download succed",id:public_Id,url:response});
+      return res.status(200).json({meessage:"Download succed",success:true,id:public_Id,url:response});
     } else {
       const { url, format } = await cloudinary.api.resource(pulbic_id);
 
@@ -42,15 +42,11 @@ const downloadSelectedFile = async (req, res) => {
       const filePath = (`${defaultPath}/resource-${Math.random()}.${format}`);
       const writer = fs.createWriteStream(filePath);
 
-
-
-
-
       readableStream.pipe(writer);
       readableStream.on('end',()=>{
         writer.end()
         console.log("Stream has been closed")
-        return res.status(200).json({message:"Downloading succed",id:public_Id})
+        return res.status(200).json({message:"Downloading succed",success:true,id:public_Id})
       })
     }
   } catch (error) {
@@ -58,6 +54,50 @@ const downloadSelectedFile = async (req, res) => {
   }
 };
 
+
+
+const deleteSelectedFile=async(req,res)=>{
+
+const {id}= req.params
+
+
+const selectedFile = await Post.findOne({ "files._id": id},{"files.$":1})
+
+if(!selectedFile){
+  return res.status(404).json({message:"File not found",success:false})
+}
+
+const [fileObject]= selectedFile.files.map((file)=>{
+  return({publicId:file.publicId,file_type:file.file_type})
+
+})
+
+const {publicId,file_type}=fileObject
+const {result}= await cloudinary.uploader.destroy(publicId,{resource_type:'image'});
+
+
+if(result!=='ok'){
+return res.status(404).json({message:"File not found",success:false})
+}
+
+const dbResponse = await Post.updateOne(
+  { "files._id": id },
+  { $pull: { files: { _id: id } } }
+);
+
+
+if(dbResponse.modifiedCount===0){
+return res.status(404).json({message:"File not found",success:false})
+}
+
+if(dbResponse.modifiedCount>0){
+  res.status(200).json({message:"File deleted successfully",success:true})
+}
+
+}
+
+
 module.exports = {
   downloadSelectedFile,
+  deleteSelectedFile
 };

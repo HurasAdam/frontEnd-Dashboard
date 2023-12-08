@@ -303,29 +303,39 @@ module.exports = {
 
     const ticketPostList = await Post.find({ ticketId: id }).select("_id");
 
-    const arrayOfIds = ticketPostList.map(({ _id }) => {
-      return _id;
-    });
+    if (ticketPostList.length > 0) {
+      const arrayOfIds = ticketPostList.map(({ _id }) => {
+        return _id;
+      });
 
-    const deletePromises = await Promise.all(
-      arrayOfIds.map(async (id) => {
-        const post = await Post.findOne({ _id: id });
-        const files = post?.files;
-        if (files.length > 0) {
-          const cloudinaryResponse = files.map(
-            async ({ publicId, file_type }) => {
-              const { result } = await cloudinary.uploader.destroy(publicId, {
-                resource_type: file_type === "raw" ? "raw" : "image",
-              });
-              return result;
-            }
-          );
+      const deletePromises = await Promise.all(
+        arrayOfIds.map(async (id) => {
+          const post = await Post.findOne({ _id: id });
+          const files = post?.files;
+          if (files.length > 0) {
+            const cloudinaryResponse = files.map(
+              async ({ publicId, file_type }) => {
+                const { result } = await cloudinary.uploader.destroy(publicId, {
+                  resource_type: file_type === "raw" ? "raw" : "image",
+                });
+                return result;
+              }
+            );
+            const deletePost = await Post.findOneAndDelete({ _id: id });
+          }
           const deletePost = await Post.findOneAndDelete({ _id: id });
-        }
-        const deletePost = await Post.findOneAndDelete({ _id: id });
-      })
-    );
+        })
+      );
+      console.log("WIEKSZE OD 0");
+      return res
+        .status(200)
+        .json({ message: "Deleted successfully", success: true });
+    }
+    const deleteTicket = await Note.findOneAndDelete({ _id: id });
 
-    res.status(204).send("status code of 200");
+    console.log("BEZ POSTOW");
+    return res
+      .status(200)
+      .json({ message: "Deleted successfully", success: true });
   },
 };

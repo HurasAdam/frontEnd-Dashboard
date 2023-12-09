@@ -8,22 +8,9 @@
   height: calc(100vh - 60px);
 }
 
-.loginPage-form {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  background-color: rgba(255, 255, 255, 0.274);
-  gap: 5px;
-}
-
-
-.loginPage-form label {
-  font-size: 14px;
-}
-.loginPage-form input {
-  width: 100%;
-  height: 32px;
-  margin-bottom: 30px;
+.loginPage-form h1 {
+  color: rgb(96, 11, 96);
+  text-align: center;
 }
 
 .loginPage-form button {
@@ -39,90 +26,64 @@
   cursor: pointer;
 }
 
-
 .topbar-login span {
   color: blueviolet;
 }
 
-
 /* THEMES */
 
-/* DARK */
-#dark .loginPage-form {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    gap: 5px;
-    background-color:var(--dark-primary);
-  }
-  #dark .loginPage-form button {
-    height: 35px;
-    width: max-content;
-    padding: 0 25px;
-    border: none;
-    background-color:var(--dark-third);
-    color: var(--dark-color);
-    font-weight: 600;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  #dark .topbar-login span {
-    color:var(--dark-color)
-  }
+#dark .loginPage-form button {
+  height: 35px;
+  width: max-content;
+  padding: 0 25px;
+  border: none;
+  background-color: var(--dark-third);
+  color: var(--dark-color);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#dark .topbar-login span {
+  color: var(--dark-color);
+}
 
-  /* PURPLE */
-
-  #purple .loginPage-form {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    gap: 5px;
-    background-color:var(--purple-secondary);
-    color:var(--purple-color)
-  }
+/* PURPLE */
 
 
-  #purple .loginPage-form button {
-    height: 35px;
-    width: max-content;
-    padding: 0 25px;
-    border: none;
-    background-color:var(--purple-third);
-    color: var(--purple-color);
-    font-weight: 600;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  #purple .topbar-login span {
-    color:var(--purple-color)
-  }
 
-  /* GREEN */
+#purple .loginPage-form button {
+  height: 35px;
+  width: max-content;
+  padding: 0 25px;
+  border: none;
+  background-color: var(--purple-third);
+  color: var(--purple-color);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#purple .topbar-login span {
+  color: var(--purple-color);
+}
 
-  #green .loginPage-form {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    gap: 5px;
-    background-color:var(--green-primary);
-    color:var(--green-color)
-  }
+/* GREEN */
 
 
-  #green .loginPage-form button {
-    height: 35px;
-    width: max-content;
-    padding: 0 25px;
-    border: none;
-    background-color:var(--green-third);
-    color: var(--green-color);
-    font-weight: 600;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  #green .topbar-login span {
-    color:var(--green-color)
-  }
+
+#green .loginPage-form button {
+  height: 35px;
+  width: max-content;
+  padding: 0 25px;
+  border: none;
+  background-color: var(--green-third);
+  color: var(--green-color);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#green .topbar-login span {
+  color: var(--green-color);
+}

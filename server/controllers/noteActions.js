@@ -327,6 +327,7 @@ module.exports = {
         })
       );
       console.log("WIEKSZE OD 0");
+      const deleteTicket = await Note.findOneAndDelete({ _id: id });
       return res
         .status(200)
         .json({ message: "Deleted successfully", success: true });

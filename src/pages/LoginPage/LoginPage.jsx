@@ -3,8 +3,9 @@ import { useContext, useState, use, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { settLocalStorage } from "../../utils/SettlocalStorage";
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { inputs } from "../../utils/inputs";
+
 import { FormInput } from "../../components/formInput/FormInput";
+import { inputs } from "../../utils/loginFormConfig";
 export const LoginPage = () => {
   const { dispatch, user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
@@ -16,6 +17,8 @@ export const LoginPage = () => {
     email: "",
     password: "",
   });
+
+
 
   const onHandleChange = (e, input) => {
     setValues((prev) => {
@@ -79,22 +82,6 @@ export const LoginPage = () => {
 
   return (
     <div className="loginPage" id={theme.mode}>
-      {/* <form className="loginPage-form" action="">
-        <label htmlFor="">Email</label>
-        <input
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <label htmlFor="">Password</label>
-        <input
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-        <button onClick={handleClick}>Log in</button>
-        {error && <div className="error">{error}</div>}
-      </form> */}
 
       <form className="loginPage-form">
         <h1>Log in</h1>

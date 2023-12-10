@@ -5,7 +5,7 @@ import { settLocalStorage } from "../../utils/SettlocalStorage";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 import { FormInput } from "../../components/formInput/FormInput";
-import { inputs } from "../../utils/loginFormConfig";
+import { loginFormConfig } from "../../utils/loginFormConfig";
 export const LoginPage = () => {
   const { dispatch, user } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
@@ -18,6 +18,7 @@ export const LoginPage = () => {
     password: "",
   });
 
+  const inputs= loginFormConfig()
 
 
   const onHandleChange = (e, input) => {

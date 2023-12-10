@@ -1,8 +1,9 @@
 import { useContext, useState, use, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import "./signupPage.css";
-import { signupForm } from "../../utils/inputs";
 import { FormInput } from "../../components/formInput/FormInput";
+import { settLocalStorage } from "../../utils/SettlocalStorage";
+import { signupFormCofig } from "../../utils/signupFormCofig";
 
 export const SignupPage = () => {
   const { dispatch, user } = useContext(AuthContext);
@@ -15,24 +16,20 @@ export const SignupPage = () => {
   const [error, setError] = useState(null);
 
   const [values, setValues] = useState({
-    email:"",
-    username: "",
-    lastname: "",
-    gender:"",
-    birthday:"",
-    password:"",
-    confirmPassword:""
+    email: "",
+    name: "",
+    surname: "",
+    gender: "",
+    password: "",
+    confirmPassword: "",
   });
-
+  const formCofig= signupFormCofig(values)
+ 
   const onHandleChange = (e, input) => {
     setValues((prev) => {
       return { ...prev, [input.name]: e.target.value };
     });
   };
-
-
-
-  console.log(values);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -40,7 +37,7 @@ export const SignupPage = () => {
     const response = await fetch("http://127.0.0.1:3000/api/user/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, surname, email, password, gender }),
+      body: JSON.stringify(values),
     });
 
     const data = await response.json();
@@ -58,7 +55,7 @@ export const SignupPage = () => {
       setEmail("");
       setPassword("");
       console.log("success");
-      localStorage.setItem("user", JSON.stringify(data));
+      settLocalStorage(data)
       dispatch({ type: "LOGIN", payload: data });
     }
   };
@@ -66,15 +63,13 @@ export const SignupPage = () => {
   return (
     <div className="signupPage">
       <form className="signupPage-form" action="">
-        {signupForm.map((input) => {
+        {formCofig.map((input) => {
           return (
-          
             <FormInput
               key={input.id}
               {...input}
               onHandleChange={onHandleChange}
             />
-          
           );
         })}
         <button onClick={handleClick}>SignUp</button>

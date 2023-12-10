@@ -40,6 +40,8 @@ const loginUser = async (req, res) => {
       const refreshToken = createRefreshToken(user._id);
       res.status(200).json({
         userId: user._id,
+        name:user.name,
+        surname:user.surname,
         email,
         accessToken,
         refreshToken,
@@ -112,8 +114,8 @@ const signupUser = async (req, res) => {
         refreshToken,
         role,
         userAvatar,
-        phone,
-        birthDay,
+        
+        
       });
     }
   } catch (Error) {
@@ -217,9 +219,12 @@ else{
     { $set: updates },
     { new: true }
   );
+
+  console.log(updateUserData)
+
   return res
     .status(200)
-    .json({ message: "data hase been changed sucessfull", success: true });
+    .json({ message: "data hase been changed sucessfull", success: true,});
 }
 
 };

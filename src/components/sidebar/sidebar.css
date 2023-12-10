@@ -82,6 +82,40 @@
   font-size: 13px;
   color: rgb(194, 189, 189);
 }
+
+.sidebar-user-wrapper {
+  padding: 2px 0px 22px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.sidebar-userAvatar-wrapper {
+  height: 68px;
+  width: 68px;
+  margin-bottom: 2px;
+}
+.sidebar-userAvatar-wrapper-name {
+  font-weight: 600;
+  color: white;
+  font-size: 18px;
+}
+.sidebar-userAvatar-wrapper-role {
+  color: rgb(0, 128, 94);
+  font-size: 15px;
+}
+.sidebar-user-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sidebar-userAvatar-default {
+  scale: 3;
+}
+
 #dark.sidebar-title {
   font-size: 13px;
   color: rgb(236, 230, 230);
@@ -434,16 +468,24 @@
   top: 50px;
 }
 #dark.sidebar.dark-two {
-  background-image: linear-gradient(45deg, #0a2c5a, #121212, rgba(18, 18, 18, 0));
+  background-image: linear-gradient(
+    45deg,
+    #0a2c5a,
+    #121212,
+    rgba(18, 18, 18, 0)
+  );
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 #dark.sidebar.dark-three {
   background: rgba(0, 0, 0, 0.5);
-  background-image: linear-gradient(60deg, rgba(77, 182, 172, 0.3), rgba(0, 0, 0, 0.4), rgba(0, 150, 136, 0.6));
-  
-  
+  background-image: linear-gradient(
+    60deg,
+    rgba(77, 182, 172, 0.3),
+    rgba(0, 0, 0, 0.4),
+    rgba(0, 150, 136, 0.6)
+  );
 }
 #dark.sidebar.dark-four {
   background: linear-gradient(

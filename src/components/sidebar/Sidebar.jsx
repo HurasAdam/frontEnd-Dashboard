@@ -1,7 +1,7 @@
 import "./sidebar.css";
 import AppsIcon from "@mui/icons-material/Apps";
 import TimelineIcon from '@mui/icons-material/Timeline';
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -51,12 +51,21 @@ localStorage.setItem('color',mainColor)
     <div className={`sidebar ${isMenuActive} ${theme.sidebar}`}  id={theme.mode}>
      {user? <div className="sidebar-wrapper">
         <div className="sidebar-menu">
+          <div className="sidebar-user-wrapper">
+            <div className="sidebar-userAvatar-wrapper">
+            {user?.userAvatar?(<img src={user?.userAvatar} alt="" />):
+            <AccountCircleIcon className="sidebar-userAvatar-default"/>
+            }
+            </div>
+            <span className="sidebar-userAvatar-wrapper-name" >{user?.name} {user?.surname}</span>
+            <span className="sidebar-userAvatar-wrapper-role">{user?.role}</span>
+            </div>
           <h3 className="sidebar-title" id={theme.mode}>Dashboard</h3>
           <ul className="sidebar-list">
             <Link to='/'className="sidebarLink">
             <li onClick={()=>setIsMenuActive(false)} id={theme.mode} className="sidebar-list-item active" style={{ color:`${theme.color}` }} >
               <AppsIcon  className="sidebarIcon"/>
-              Home
+              Dashboard
             </li>
             </Link >
            <Link className="sidebarLink" to='/projects'> 

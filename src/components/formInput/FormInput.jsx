@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./formInput.css";
 import Select from "react-select";
 export const FormInput = (props) => {
-  const {className,onHandleChange, label, errorMessage, ...inputProps } = props;
+  const {className, onHandleChange, label, errorMessage, ...inputProps } = props;
   const [focused, setFocused] = useState(false);
 
 
@@ -13,12 +13,14 @@ export const FormInput = (props) => {
 
   if (inputProps.type === "textArea") {
     return (
-      <div className="formInput">
+      <div className={className}>
+        <label>{label}</label>
         <textarea
-
+onBlur={(e) => handleFocus(e)}
+focused={focused.toString()}
      {...inputProps}
           cols="30"
-          rows="10"
+          rows="20"
  
         ></textarea>
         <span>{errorMessage}</span>
@@ -28,12 +30,12 @@ export const FormInput = (props) => {
 
   if (inputProps.type === "radio") {
     return (
-      <div className={className}>
-        <div className="formInput-radioWrapper">
+      <div className={className} >
+        <div className={`${className}-radioWrapper`}>
           <label>{label}</label>
-          <div className="formInput-radio">
+          <div className={`${className}-radio`}>
             {inputProps.options.map((option) => (
-              <div className={`formInput-radio-option-${option.label}`}>
+              <div className={`${className}-radio-option-${option.label}`}>
                 <input
                   type="radio"
                   name={inputProps.name}
@@ -60,7 +62,7 @@ export const FormInput = (props) => {
     inputProps.type === "password"
   ) {
     return (
-      <div className={className}>
+      <div className={className} >
         <>
           <label>{label}</label>
           <input
@@ -78,7 +80,7 @@ export const FormInput = (props) => {
 
   if (inputProps.type === "multipleSelect") {
     return (
-      <div className="formInput">
+      <div className={className} >
         <Select
   
           {...inputProps.multiSelectProps}

@@ -1,84 +1,182 @@
-.formInput {
+.loginPage-form {
   display: flex;
   justify-content: center;
 
 }
 
-.formInput {
+.loginPage-form {
   display: flex;
   flex-direction: column;
   width: 280px;
   padding: 10px;
 }
 
-.formInput input {
+.loginPage-form input {
   padding: 12px;
   margin: 10px 0px;
   border-radius: 5px;
   border: 1px solid gray;
 }
-.formInput-radio {
+.loginPage-form-radio {
   display: flex;
   justify-content: space-around;
   padding: 2px;
  
-  /* Dodaj brakujący styl dla opcji zaznaczenia */
-}
-
-.formInput-radioWrapper{
 
 }
-.formInput-radio-option-Male input[type="radio"] {
+
+
+.loginPage-form-radio-option-Male input[type="radio"] {
   display: none;
 }
-.formInput-radio-option-Female input[type="radio"] {
+.loginPage-form-radio-option-Female input[type="radio"] {
   display: none;
 }
-.formInput-radio-option-Male label {
+.loginPage-form-radio-option-Male label {
   border: 2px solid grey;
   padding: 2px 28px;
   cursor: pointer;
   border-radius: 5px;
 }
-.formInput-radio-option-Female label {
+.loginPage-form-radio-option-Female label {
   padding: 2px 28px;
   border: 2px solid grey;
   cursor: pointer;
   border-radius: 5px;
 }
 
-.formInput-radio-option-Male input[type="radio"]:checked + label {
+.loginPage-form-radio-option-Male input[type="radio"]:checked + label {
   color:white;
     background: #719ECE;
     box-shadow: 0 0 5px #6489b2;
 }
 
-.formInput-radio-option-Female input[type="radio"]:checked + label {
+.loginPage-form-radio-option-Female input[type="radio"]:checked + label {
   background: rgb(235, 109, 191);
   box-shadow: 0 0 5px rgb(235, 109, 191);
   color:white;
 }
 
-.formInput label {
+.loginPage-form label {
   font-size: 12px;
   color: gray;
 }
-.formInput span {
+.loginPage-form span {
   font-size: 12px;
   padding: 3px;
   color: red;
   display: none;
 }
-.formInput input:invalid[focused="true"] ~ span {
+.loginPage-form input:invalid[focused="true"] ~ span {
   display: block;
 }
+
+/* SIGNUP PAGE FORM  */
+
+
+.signupPage-form {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  padding: 10px;
+}
+
+.signupPage-form input {
+  padding: 12px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+.signupPage-form-radio {
+  display: flex;
+  justify-content: space-around;
+  padding: 2px;
+ 
+
+}
+
+
+.signupPage-form-radio-option-Male input[type="radio"] {
+  display: none;
+}
+.signupPage-form-radio-option-Female input[type="radio"] {
+  display: none;
+}
+.signupPage-form-radio-option-Male label {
+  border: 2px solid grey;
+  padding: 2px 28px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.signupPage-form-radio-option-Female label {
+  padding: 2px 28px;
+  border: 2px solid grey;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.signupPage-form-radio-option-Male input[type="radio"]:checked + label {
+  color:white;
+    background: #719ECE;
+    box-shadow: 0 0 5px #6489b2;
+}
+
+.signupPage-form-radio-option-Female input[type="radio"]:checked + label {
+  background: rgb(235, 109, 191);
+  box-shadow: 0 0 5px rgb(235, 109, 191);
+  color:white;
+}
+
+.signupPage-form label {
+  font-size: 12px;
+  color: gray;
+
+}
+.signupPage-form span {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+}
+.signupPage-form input:invalid[focused="true"] ~ span {
+  display: block;
+}
+
+
+
+
 
 
 /* NEW PROJECT FORM  */
 
 
-.newProject-form input{
+.newProject-form{
 
-
-  width: 400px;
+padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width:90%;
 }
+.newProject-form input{
+padding: 12px;
+margin: 10px 0px;
+border: 1px solid rgb(47, 46, 46);
+  }
+  .newProject-form textarea{
+    padding: 12px;
+    margin: 10px 0px;
+    border: 1px solid rgb(47, 46, 46);
+      }
+
+  .newProject-form span {
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: none;
+  }
+  .newProject-form input:invalid[focused="true"] ~ span {
+    display: block;
+  }
+  .newProject-form textarea:invalid[focused="true"] ~ span {
+    display: block;
+  }

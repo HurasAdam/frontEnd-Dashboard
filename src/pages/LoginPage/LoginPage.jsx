@@ -84,7 +84,7 @@ export const LoginPage = () => {
   return (
     <div className="loginPage" id={theme.mode}>
 
-      <form className="loginPage-form">
+      <form >
         <h1>Log in</h1>
         {inputs.map((input) => {
           return <FormInput {...input} onHandleChange={onHandleChange} />;

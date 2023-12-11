@@ -9,6 +9,7 @@ export const loginFormConfig =(values)=>{
       label: "Email",
       required: true,
       pattern: " /^[a-zA-Z0-9. _-]+@[a-zA-Z0-9. -]+. [a-zA-Z]{2,4}$/",
+      className:'loginPage-form'
     },
     {
       id: 2,
@@ -20,6 +21,7 @@ export const loginFormConfig =(values)=>{
       required: true,
       pattern:
         "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$",
+        className:'loginPage-form'
     },
   ];
   return inputs

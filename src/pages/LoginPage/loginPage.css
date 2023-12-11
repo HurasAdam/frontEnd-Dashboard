@@ -6,14 +6,20 @@
   justify-content: center;
   align-items: center;
   height: calc(100vh - 60px);
+
 }
 
+.loginPage form{
+  display: flex;
+flex-direction: column;
+align-items: center;
+}
 .loginPage-form h1 {
   color: rgb(96, 11, 96);
   text-align: center;
 }
 
-.loginPage-form button {
+.loginPage form button {
   height: 35px;
   width: max-content;
   padding: 0 25px;

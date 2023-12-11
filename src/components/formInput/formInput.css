@@ -1,6 +1,7 @@
 .formInput {
   display: flex;
   justify-content: center;
+
 }
 
 .formInput {
@@ -70,4 +71,14 @@
 }
 .formInput input:invalid[focused="true"] ~ span {
   display: block;
+}
+
+
+/* NEW PROJECT FORM  */
+
+
+.newProject-form input{
+
+
+  width: 400px;
 }

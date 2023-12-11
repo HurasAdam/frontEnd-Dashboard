@@ -62,13 +62,14 @@ export const SignupPage = () => {
 
   return (
     <div className="signupPage">
-      <form className="signupPage-form" action="">
+      <form action="signupPage">
         {formCofig.map((input) => {
           return (
             <FormInput
               key={input.id}
               {...input}
               onHandleChange={onHandleChange}
+          
             />
           );
         })}

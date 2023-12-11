@@ -11,6 +11,7 @@ export const signupFormCofig = (values)=>{
             label: "Email",
             required: true,
             pattern: " /^[a-zA-Z0-9. _-]+@[a-zA-Z0-9. -]+. [a-zA-Z]{2,4}$/",
+            className:"signupPage-form"
           },
           {
             id: 2,
@@ -21,6 +22,7 @@ export const signupFormCofig = (values)=>{
               "Username should be 3-16 characters and shouldn't include any special character!",
             label: "Username",
             required: true,
+            className:"signupPage-form"
           },
           {
             id: 3,
@@ -31,6 +33,7 @@ export const signupFormCofig = (values)=>{
               "Username should be 3-16 characters and shouldn't include any special character or numbers!",
             label: "Lastname",
             required: true,
+            className:"signupPage-form"
           },
           {
             id: 4,
@@ -44,6 +47,7 @@ export const signupFormCofig = (values)=>{
               { value: "female", label: "Female" },
             ],
             required: true,
+            className:"signupPage-form"
           },
          
           {
@@ -56,6 +60,7 @@ export const signupFormCofig = (values)=>{
           label: "Password",
             pattern:
               "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$",
+              className:"signupPage-form"
           },
           {
             id: 6,
@@ -65,6 +70,7 @@ export const signupFormCofig = (values)=>{
             errorMessage: "Password doesnt match",
             required: true,
             pattern: values.password,
+            className:"signupPage-form"
           },
         ];
       return inputs

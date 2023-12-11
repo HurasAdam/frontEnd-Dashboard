@@ -1,27 +1,26 @@
-@import './index.css';
-.container{
-    display: flex;
-    position:relative;
-
+@import "./index.css";
+.container {
+  display: flex;
+  position: relative;
+  height: 100%;
 }
-
 
 /* THEMES */
-#dark.container{
-    display: flex;
-    background: var(--dark-primary);
- 
- 
+#dark.container {
+  display: flex;
+  background: var(--dark-primary);
+
+  height: 100%;
 }
-#purple.container{
-    display: flex;
-    background: var(--purple-fourth-linear)
+#purple.container {
+  display: flex;
+  background: var(--purple-fourth-linear);
 }
-#green.container{
-    display: flex;
-    background: var(--green-primary)
+#green.container {
+  display: flex;
+  background: var(--green-primary);
 }
 
-#light.container{
-background-color: rgb(243, 243, 248);
+#light.container {
+  background-color: rgb(243, 243, 248);
 }

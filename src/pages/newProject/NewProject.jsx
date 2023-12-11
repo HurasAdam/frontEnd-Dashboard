@@ -12,6 +12,7 @@ import { useMutation, useQuery } from "react-query";
 import { mutationHandler } from "../../shared/mutationHandler";
 import { newProjectFormConfig } from "../../utils/newProjectFormConfig";
 import { FormInput } from "../../components/formInput/FormInput";
+import { MemberList } from "../../components/memberList/MemberList";
 
 export const NewProject = () => {
   const [title, setTitle] = useState("");
@@ -32,7 +33,6 @@ export const NewProject = () => {
     refetch,
   } = useQuery(["people"], () => getUsers(), {
     refetchOnWindowFocus: false,
-    enabled: false,
   });
 
   // const createMutation = useMutation(createProject,{
@@ -66,9 +66,11 @@ export const NewProject = () => {
     }),
   };
 
-
-
-
+  const handleAsignMember = (member) => {
+    setValues((prev) => {
+      return { ...prev, contributors: [...prev.contributors, member] };
+    });
+  };
 
   //select state
   const [selecedtUsers, setSelecedtUsers] = useState([]);
@@ -81,7 +83,7 @@ export const NewProject = () => {
 
   // })
 
-  const inputs = newProjectFormConfig({ users: users, refetch,setValues });
+  const inputs = newProjectFormConfig({ users: users, refetch, setValues });
 
   //Add new project
   const handleAddProject = async () => {
@@ -98,18 +100,56 @@ export const NewProject = () => {
     }
   };
 
+  const removeAsignedMember = (contributor) => {
+    setValues((prev) => {
+      const filteredContributors = prev?.contributors.filter(
+        (user) => user._id !== contributor._id
+      );
+      return { ...prev, contributors: filteredContributors };
+    });
+  };
+
   return (
     <div className="newProject" id={theme.mode}>
-      <div className="newProjectTop">
-        <span>New Project</span>
-      </div>
-   
+      <form>
+        <span className="newProject-title">New Project</span>
 
-      {inputs.map((input) => {
-        return <FormInput {...input}
-        className="newProject-form"
-        />;
-      })}
+        {inputs.map((input) => {
+          return <FormInput {...input} />;
+        })}
+        {values && values?.contributors.length>0 ? 
+         (  <div className="asigned-member-list">
+            {values &&
+              values?.contributors.map((contributor) => {
+                return (
+                  <div className="asigned-member-item">
+                    <span> {`${contributor.name} ${contributor.surname}`}</span>
+                    <span> {contributor.role}</span>
+
+                    <div className="asigned-member-avatar">
+                      <img src={contributor?.userAvatar?.url} alt="" />
+                    </div>
+
+                    <button onClick={(e) => removeAsignedMember(contributor)}>
+                      X
+                    </button>
+                  </div>
+                );
+              })}
+          </div>
+        ) : (
+          <div className="asigned-member-list__placeholder">
+            <span>No members yet...</span>
+           <img src="/public/img/empty.png" alt="" />
+          </div>
+        )}
+      </form>
+      <MemberList
+        values={values}
+        users={users}
+        title={"Sugessted Members"}
+        handleAsignMember={handleAsignMember}
+      />
     </div>
   );
 };

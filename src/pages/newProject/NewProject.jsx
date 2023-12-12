@@ -13,16 +13,21 @@ import { mutationHandler } from "../../shared/mutationHandler";
 import { newProjectFormConfig } from "../../utils/newProjectFormConfig";
 import { FormInput } from "../../components/formInput/FormInput";
 import { MemberList } from "../../components/memberList/MemberList";
+import { handlePopup } from "../../shared/handlePopup";
 
 export const NewProject = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [contributors, setContributors] = useState([]);
+
+  const [showMsgPopup, setShowMsgPopup] = useState({
+    visible: false,
+    message: "",
+    success: null,
+  });
 
   const [values, setValues] = useState({
     title: "",
     description: "",
     contributors: [],
+    files:[]
   });
 
   const {
@@ -41,14 +46,35 @@ export const NewProject = () => {
   //   }
   // })
 
-  const handleCreateProject = (
-    e,
-    { title, description, contributors },
-    mutation
-  ) => {
-    e.preventDefault();
 
-    mutation.mutate({ title, description, contributors });
+
+
+  const handleCreateProject = (e,{ title, description, contributors },mutation,popupSetter) => {
+    e.preventDefault();
+    const isTitleValid = /^[a-zA-Z0-9]{4,20}$/.test(title);
+    const isDescriptionValid=/^.{12,400}$/.test(description);
+    const errorObj={}
+
+
+// if(!isTitleValid){
+//   errorObj.title="title is not valid"
+// }
+// if(!isDescriptionValid){
+//   errorObj.description="description is not valid"
+// }
+   
+// if(Object.keys(errorObj).length===0){
+//   const contributorsId = contributors.map((contributor)=>contributor._id)
+//   mutation.mutate({ title, description, contributors:contributorsId });
+// }
+
+  
+handlePopup(popupSetter,'asb')
+
+
+
+
+
   };
 
   const createProjectMutation = mutationHandler(createProject, (data) => {
@@ -112,13 +138,16 @@ export const NewProject = () => {
   return (
     <div className="newProject" id={theme.mode}>
       <form>
-        <span className="newProject-title">New Project</span>
+        <div className="newProject-header">
+          <span>New Project</span>
+          <button onClick={(e)=>handleCreateProject(e,values,createProjectMutation,setShowMsgPopup)}>Create</button>
+        </div>
 
         {inputs.map((input) => {
           return <FormInput {...input} />;
         })}
-        {values && values?.contributors.length>0 ? 
-         (  <div className="asigned-member-list">
+        {values && values?.contributors.length > 0 ? (
+          <div className="asigned-member-list">
             {values &&
               values?.contributors.map((contributor) => {
                 return (
@@ -140,7 +169,7 @@ export const NewProject = () => {
         ) : (
           <div className="asigned-member-list__placeholder">
             <span>No members yet...</span>
-           <img src="/public/img/empty.png" alt="" />
+            <img src="/public/img/empty.png" alt="" />
           </div>
         )}
       </form>

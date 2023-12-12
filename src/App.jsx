@@ -26,6 +26,7 @@ import { ThemeContext } from "../src/contexts/ThemeContext";
 import { ArchiveList } from "./pages/archiveList/ArchiveList";
 import {SettingsPage} from './pages/settingsPage/SettingsPage'
 import { AccountSettings } from "./pages/AccountSettings/AccountSettings";
+import { ProjectDetailsPage } from "./pages/projectDetailsPage/ProjectDetailsPage";
 function App() {
   const { user } = useContext(AuthContext);
   const [EditTicketData, setEditTicketData] = useState();
@@ -97,6 +98,11 @@ function App() {
             exact
             path="/archive"
             element={user ? <ArchiveList /> : <Navigate to="/login" />}
+          ></Route>
+                <Route
+            exact
+            path="/project/:projectId"
+            element={user ? <ProjectDetailsPage/> : <Navigate to="/login" />}
           ></Route>
           <Route
             exact

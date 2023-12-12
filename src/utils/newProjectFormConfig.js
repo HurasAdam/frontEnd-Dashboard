@@ -4,7 +4,7 @@ export const newProjectFormConfig = ({users,refetch,setValues}) => {
       id: 1,
       name: "title",
       type: "text",
-      placeholder: "Proejct Title",
+      placeholder: "Proejct Title...",
       errorMessage: "Project title must be between 4 and 20 characters long and contain only letters and numbers",
       label: "Project Title",
       required: true,
@@ -56,6 +56,20 @@ export const newProjectFormConfig = ({users,refetch,setValues}) => {
         
     //   },
     // },
+    {id:3,
+    type:"file",
+
+  label:"Attach Files",
+  className:"newProject-form",
+  onChange:(e)=>{
+    setValues((prev)=>{
+      return {
+        ...prev,
+        files: [...prev?.files, e.target.files[0]],
+      }
+    })
+  }
+  }
   ];
 
   return inputs;

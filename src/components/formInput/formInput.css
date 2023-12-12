@@ -152,22 +152,34 @@
 
 .newProject-form{
 
-padding: 10px;
+padding: 15px 18px;
   display: flex;
   flex-direction: column;
-  width:90%;
+ width: 100%;
+ background: var(--dark-secondary);
+  margin-bottom: 8px;
+  border-radius: 5px;
+  /* border: 1px solid rgb(47, 46, 46); */
+  
 }
 .newProject-form input{
 padding: 12px;
 margin: 10px 0px;
 border: 1px solid rgb(47, 46, 46);
-  }
-  .newProject-form textarea{
+
+}
+.newProject-form input::placeholder{
+color: grey;
+}
+
+.newProject-form textarea{
     padding: 12px;
     margin: 10px 0px;
     border: 1px solid rgb(47, 46, 46);
       }
-
+      .newProject-form textarea::placeholder{
+       color: grey; 
+      }
   .newProject-form span {
     font-size: 12px;
     padding: 3px;
@@ -180,3 +192,12 @@ border: 1px solid rgb(47, 46, 46);
   .newProject-form textarea:invalid[focused="true"] ~ span {
     display: block;
   }
+  .newProject-form-file{
+    background: var(--dark-secondary);
+    display: flex;
+    width: 100%;
+    padding: 10px 15px;
+   border-radius: 5px;
+   color: white;
+   gap: 5px;
+  } 

@@ -1,4 +1,4 @@
-export const newProjectFormConfig = ({users,refetch,setValues}) => {
+export const newProjectFormConfig = ({users,refetch,setValues,values}) => {
   const inputs = [
     {
       id: 1,
@@ -14,6 +14,30 @@ export const newProjectFormConfig = ({users,refetch,setValues}) => {
         setValues((prev) => {
           return { ...prev, title: e.target.value }})}
           
+    },
+    {id:3,
+      type:"file",
+  
+    label:"Attach Files",
+    className:"newProject-form",
+    attachedFiles:{
+  files:values.files,
+  onClick:(e, index) => {
+    e.preventDefault();
+  
+    const updatedFiles = [...values?.files];
+    updatedFiles.splice(index, 1);
+    setValues({ ...values, files: updatedFiles });
+  }
+    },
+    onChange:(e)=>{
+      setValues((prev)=>{
+        return {
+          ...prev,
+          files: [...prev?.files, e.target.files[0]],
+        }
+      })
+    }
     },
     
     {
@@ -56,20 +80,7 @@ export const newProjectFormConfig = ({users,refetch,setValues}) => {
         
     //   },
     // },
-    {id:3,
-    type:"file",
 
-  label:"Attach Files",
-  className:"newProject-form",
-  onChange:(e)=>{
-    setValues((prev)=>{
-      return {
-        ...prev,
-        files: [...prev?.files, e.target.files[0]],
-      }
-    })
-  }
-  }
   ];
 
   return inputs;

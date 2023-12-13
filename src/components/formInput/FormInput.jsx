@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./formInput.css";
 import Select from "react-select";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 export const FormInput = (props) => {
   const { className, onHandleChange, label, errorMessage, ...inputProps } =
     props;
@@ -14,6 +16,7 @@ export const FormInput = (props) => {
   if (inputProps.type === "file") {
     return (
       <div className={`${className}-${inputProps.type}`}>
+        <div className={`${className}-${inputProps.type}-action`}>
         <input id="file" className="file-input" type={inputProps.type}
     onChange={inputProps.onChange}
         />
@@ -23,6 +26,20 @@ export const FormInput = (props) => {
         htmlFor="file" className="file-input-label">
           <AttachFileIcon className="file-input-label__icon" />
         </label>
+        </div>
+        <div className="attachedFile-list">
+   { inputProps?.attachedFiles?.files.map((file,index)=>{
+    return (<div className="attachedFile-list__item" >
+      <ul>
+        <li>
+<InsertDriveFileIcon/>
+          <span>{file.name}</span>
+        <CloseOutlinedIcon {...inputProps.attachedFiles}/>
+        </li>
+      </ul>
+    </div>)
+   })}
+   </div>
       </div>
     );
   }

@@ -1,7 +1,6 @@
 .loginPage-form {
   display: flex;
   justify-content: center;
-
 }
 
 .loginPage-form {
@@ -21,10 +20,7 @@
   display: flex;
   justify-content: space-around;
   padding: 2px;
- 
-
 }
-
 
 .loginPage-form-radio-option-Male input[type="radio"] {
   display: none;
@@ -46,15 +42,15 @@
 }
 
 .loginPage-form-radio-option-Male input[type="radio"]:checked + label {
-  color:white;
-    background: #719ECE;
-    box-shadow: 0 0 5px #6489b2;
+  color: white;
+  background: #719ece;
+  box-shadow: 0 0 5px #6489b2;
 }
 
 .loginPage-form-radio-option-Female input[type="radio"]:checked + label {
   background: rgb(235, 109, 191);
   box-shadow: 0 0 5px rgb(235, 109, 191);
-  color:white;
+  color: white;
 }
 
 .loginPage-form label {
@@ -73,7 +69,6 @@
 
 /* SIGNUP PAGE FORM  */
 
-
 .signupPage-form {
   display: flex;
   flex-direction: column;
@@ -91,10 +86,7 @@
   display: flex;
   justify-content: space-around;
   padding: 2px;
- 
-
 }
-
 
 .signupPage-form-radio-option-Male input[type="radio"] {
   display: none;
@@ -116,21 +108,20 @@
 }
 
 .signupPage-form-radio-option-Male input[type="radio"]:checked + label {
-  color:white;
-    background: #719ECE;
-    box-shadow: 0 0 5px #6489b2;
+  color: white;
+  background: #719ece;
+  box-shadow: 0 0 5px #6489b2;
 }
 
 .signupPage-form-radio-option-Female input[type="radio"]:checked + label {
   background: rgb(235, 109, 191);
   box-shadow: 0 0 5px rgb(235, 109, 191);
-  color:white;
+  color: white;
 }
 
 .signupPage-form label {
   font-size: 12px;
   color: gray;
-
 }
 .signupPage-form span {
   font-size: 12px;
@@ -142,62 +133,88 @@
   display: block;
 }
 
-
-
-
-
-
 /* NEW PROJECT FORM  */
 
-
-.newProject-form{
-
-padding: 15px 18px;
+.newProject-form {
+  padding: 15px 18px;
   display: flex;
   flex-direction: column;
- width: 100%;
- background: var(--dark-secondary);
+  width: 100%;
+  /* background: var(--dark-secondary); */
   margin-bottom: 8px;
   border-radius: 5px;
   /* border: 1px solid rgb(47, 46, 46); */
+}
+.newProject-form input {
+  padding: 12px;
+  margin: 10px 0px;
+  border: 1px solid var(--dark-border);
+  background: var(--dark-secondary);
+}
+.newProject-form input::placeholder {
+  color: var(--dark-font-placeholder-color)
+}
+
+.newProject-form textarea {
+  padding: 12px;
+  margin: 10px 0px;
+  border: 1px solid var(--dark-border);
+  min-width: 700px;
+background-color: transparent;
+color: var(--dark-font-color);
+background: var(--dark-secondary);
+}
+
+.newProject-form textarea::placeholder {
+  color: var(--dark-font-placeholder-color);
+}
+.newProject-form span {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+}
+.newProject-form input:invalid[focused="true"] ~ span {
+  display: block;
+}
+.newProject-form textarea:invalid[focused="true"] ~ span {
+  display: block;
+}
+.newProject-form-file {
+  /* background: var(--dark-secondary); */
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid var(--dark-border); */
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 0px 15px;
+  border-radius: 5px;
+  color: white;
+margin-bottom: 0.8rem;
+}
+.newProject-form-file-action {
+  /* background-color: orange; */
+  display: flex;
+  justify-content: flex-start;
+  /* border: 2px solid var(--dark-border); */
+}
+.attachedFile-list {
+  display: flex;
+  border: 1px dashed var(--dark-border);
+  min-height: 80px;
+}
+.attachedFile-list__item {
+}
+.attachedFile-list__item ul {
+  list-style-type: none;
+}
+.attachedFile-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap:15px;
+  justify-content: flex-start;
+  align-items: center;
+
   
 }
-.newProject-form input{
-padding: 12px;
-margin: 10px 0px;
-border: 1px solid rgb(47, 46, 46);
-
-}
-.newProject-form input::placeholder{
-color: grey;
-}
-
-.newProject-form textarea{
-    padding: 12px;
-    margin: 10px 0px;
-    border: 1px solid rgb(47, 46, 46);
-      }
-      .newProject-form textarea::placeholder{
-       color: grey; 
-      }
-  .newProject-form span {
-    font-size: 12px;
-    padding: 3px;
-    color: red;
-    display: none;
-  }
-  .newProject-form input:invalid[focused="true"] ~ span {
-    display: block;
-  }
-  .newProject-form textarea:invalid[focused="true"] ~ span {
-    display: block;
-  }
-  .newProject-form-file{
-    background: var(--dark-secondary);
-    display: flex;
-    width: 100%;
-    padding: 10px 15px;
-   border-radius: 5px;
-   color: white;
-   gap: 5px;
-  } 

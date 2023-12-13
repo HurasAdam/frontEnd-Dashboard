@@ -9,12 +9,14 @@
 --light-secondary:#3c3f5a;
 --light-input:rgb(238, 240, 240);
   /* dark theme */
-  --dark-primary: rgb(21, 25, 41);
-  --dark-secondary: rgb(28, 36, 56);
+  --dark-primary: rgb(15, 17, 26);
+  --dark-secondary:#141824;
   --dark-color: rgb(245, 245, 245);
   --dark-third: #45568e;
   --dark-fourth: rgb(58, 153, 127);
-
+--dark-border:#31374a;
+--dark-font-color:#e3e6ed;
+--dark-font-placeholder-color:rgb(159, 166, 188);
 
   /* purple theme */
   --purple-primary:#393053;

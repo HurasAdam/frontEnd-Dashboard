@@ -7,6 +7,7 @@ import { useContext } from "react";
 import Select from "react-select";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { createProject } from "../../features/projectApi/projectApi";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import { getUsers } from "../../features/userApi/userApi";
 import { useMutation, useQuery } from "react-query";
 import { mutationHandler } from "../../shared/mutationHandler";
@@ -16,7 +17,6 @@ import { MemberList } from "../../components/memberList/MemberList";
 import { handlePopup } from "../../shared/handlePopup";
 
 export const NewProject = () => {
-
   const [showMsgPopup, setShowMsgPopup] = useState({
     visible: false,
     message: "",
@@ -27,7 +27,7 @@ export const NewProject = () => {
     title: "",
     description: "",
     contributors: [],
-    files:[]
+    files: [],
   });
 
   const {
@@ -46,35 +46,30 @@ export const NewProject = () => {
   //   }
   // })
 
-
-
-
-  const handleCreateProject = (e,{ title, description, contributors },mutation,popupSetter) => {
+  const handleCreateProject = (
+    e,
+    { title, description, contributors, files },
+    mutation,
+    popupSetter
+  ) => {
     e.preventDefault();
     const isTitleValid = /^[a-zA-Z0-9]{4,20}$/.test(title);
-    const isDescriptionValid=/^.{12,400}$/.test(description);
-    const errorObj={}
+    const isDescriptionValid = /^.{12,400}$/.test(description);
+    const errorObj = {};
 
+    // if(!isTitleValid){
+    //   errorObj.title="title is not valid"
+    // }
+    // if(!isDescriptionValid){
+    //   errorObj.description="description is not valid"
+    // }
 
-// if(!isTitleValid){
-//   errorObj.title="title is not valid"
-// }
-// if(!isDescriptionValid){
-//   errorObj.description="description is not valid"
-// }
-   
-// if(Object.keys(errorObj).length===0){
-//   const contributorsId = contributors.map((contributor)=>contributor._id)
-//   mutation.mutate({ title, description, contributors:contributorsId });
-// }
-
-  
-handlePopup(popupSetter,'asb')
-
-
-
-
-
+    // if(Object.keys(errorObj).length>0){
+    // return errorObj
+    // }
+    // else{
+    const contributorsId = contributors.map((contributor) => contributor._id);
+    mutation.mutate({ title, description, contributors: contributorsId });
   };
 
   const createProjectMutation = mutationHandler(createProject, (data) => {
@@ -109,7 +104,12 @@ handlePopup(popupSetter,'asb')
 
   // })
 
-  const inputs = newProjectFormConfig({ users: users, refetch, setValues });
+  const inputs = newProjectFormConfig({
+    users: users,
+    refetch,
+    setValues,
+    values,
+  });
 
   //Add new project
   const handleAddProject = async () => {
@@ -140,7 +140,18 @@ handlePopup(popupSetter,'asb')
       <form>
         <div className="newProject-header">
           <span>New Project</span>
-          <button onClick={(e)=>handleCreateProject(e,values,createProjectMutation,setShowMsgPopup)}>Create</button>
+          <button
+            onClick={(e) =>
+              handleCreateProject(
+                e,
+                values,
+                createProjectMutation,
+                setShowMsgPopup
+              )
+            }
+          >
+            Create
+          </button>
         </div>
 
         {inputs.map((input) => {
@@ -152,16 +163,17 @@ handlePopup(popupSetter,'asb')
               values?.contributors.map((contributor) => {
                 return (
                   <div className="asigned-member-item">
-                    <span> {`${contributor.name} ${contributor.surname}`}</span>
-                    <span> {contributor.role}</span>
-
-                    <div className="asigned-member-avatar">
-                      <img src={contributor?.userAvatar?.url} alt="" />
+                    <img src={contributor?.userAvatar?.url} alt="" />
+                    <div className="member-info">
+                      <p>{contributor.name}</p>
+                      <p>{contributor.role}</p>
+                      
+                    <ClearOutlinedIcon
+                      className="remove-asigned-member"
+                      onClick={(e) => removeAsignedMember(contributor)}
+                    />
                     </div>
 
-                    <button onClick={(e) => removeAsignedMember(contributor)}>
-                      X
-                    </button>
                   </div>
                 );
               })}

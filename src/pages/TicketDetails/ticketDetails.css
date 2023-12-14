@@ -380,10 +380,10 @@
 #dark form label {
   color: var(--dark-color);
 }
-#dark select {
+/* #dark select {
   background-color: var(--dark-third);
   color: var(--dark-color);
-}
+} */
 #dark .ticketDataBottomItem-textArea textarea {
   resize: none;
   background-color: var(--dark-third);

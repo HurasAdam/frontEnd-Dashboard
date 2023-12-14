@@ -103,8 +103,8 @@ export const TicketDetails = () => {
   });
 
   const { data: selectOptionList, refetch: fetchPriorityOptionList } = useQuery(
-    ["selectOptionList"],
-    getSelectOptionList,
+    ["selectOptionList"],()=>getSelectOptionList({type:"ticket",option:"priority"})
+    ,
     {
       refetchOnWindowFocus: false,
       enabled: false,

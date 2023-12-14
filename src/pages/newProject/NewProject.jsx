@@ -15,6 +15,7 @@ import { newProjectFormConfig } from "../../utils/newProjectFormConfig";
 import { FormInput } from "../../components/formInput/FormInput";
 import { MemberList } from "../../components/memberList/MemberList";
 import { handlePopup } from "../../shared/handlePopup";
+import { getSelectOptionList } from "../../features/ticketApi/ticketApi";
 
 export const NewProject = () => {
   const [showMsgPopup, setShowMsgPopup] = useState({
@@ -27,6 +28,8 @@ export const NewProject = () => {
     title: "",
     description: "",
     contributors: [],
+    visibility: "",
+    leader: "",
     files: [],
   });
 
@@ -40,6 +43,10 @@ export const NewProject = () => {
     refetchOnWindowFocus: false,
   });
 
+  const { data: visibility_options } = useQuery(["options"], () =>
+    getSelectOptionList("priority")
+  );
+
   // const createMutation = useMutation(createProject,{
   //   onSuccess:(data)=>{
   //     navigate(`/projects`)
@@ -48,28 +55,55 @@ export const NewProject = () => {
 
   const handleCreateProject = (
     e,
-    { title, description, contributors, files },
+    { title, visibility, description, leader, contributors, files },
     mutation,
     popupSetter
   ) => {
     e.preventDefault();
+
     const isTitleValid = /^[a-zA-Z0-9]{4,20}$/.test(title);
     const isDescriptionValid = /^.{12,400}$/.test(description);
     const errorObj = {};
 
-    // if(!isTitleValid){
-    //   errorObj.title="title is not valid"
-    // }
-    // if(!isDescriptionValid){
-    //   errorObj.description="description is not valid"
-    // }
+    if (!isTitleValid) {
+      errorObj.title = "Invalid title";
+    } else if (!isDescriptionValid) {
+      errorObj.description = "Invalid Description";
+    }
+    console.log(errorObj);
+    if (Object.keys(errorObj).length > 0) {
+      return errorObj;
+    }
 
-    // if(Object.keys(errorObj).length>0){
-    // return errorObj
-    // }
-    // else{
-    const contributorsId = contributors.map((contributor) => contributor._id);
-    mutation.mutate({ title, description, contributors: contributorsId });
+    const arrayOfContributorsIds = contributors.map(
+      (contributor) => contributor._id
+    );
+    const formData = new FormData();
+    const obj = {
+      title,
+      visibility,
+      description,
+      leader,
+      files,
+      contributors: arrayOfContributorsIds,
+    };
+
+    Object.entries(obj).forEach(([key, value]) => {
+      if (key === "files" && value !== undefined) {
+        value.forEach((file) => {
+          formData.append("file", file);
+        });
+      } else if (key === "contributors" && value !== undefined) {
+        value.forEach((member, index) => {
+          formData.append(`${key}[${index}]`, member);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+
+    mutation.mutate(formData);
+
   };
 
   const createProjectMutation = mutationHandler(createProject, (data) => {
@@ -105,6 +139,7 @@ export const NewProject = () => {
   // })
 
   const inputs = newProjectFormConfig({
+    visibility_options,
     users: users,
     refetch,
     setValues,
@@ -167,13 +202,12 @@ export const NewProject = () => {
                     <div className="member-info">
                       <p>{contributor.name}</p>
                       <p>{contributor.role}</p>
-                      
-                    <ClearOutlinedIcon
-                      className="remove-asigned-member"
-                      onClick={(e) => removeAsignedMember(contributor)}
-                    />
-                    </div>
 
+                      <ClearOutlinedIcon
+                        className="remove-asigned-member"
+                        onClick={(e) => removeAsignedMember(contributor)}
+                      />
+                    </div>
                   </div>
                 );
               })}

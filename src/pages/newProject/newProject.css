@@ -10,7 +10,7 @@
   gap: 20px;
 }
 .newProject form {
-  padding: 10px 0px;
+  padding: 10px 5px;
   /* background: var(--dark-secondary); */
   border-radius: 7px;
   flex: 5;
@@ -68,8 +68,6 @@
   color: var(--dark-color);
 }
 /* MUI SELECT  */
-
-
 
 #dark .css-art2ul-ValueContainer2 {
   background-color: var(--dark-primary);
@@ -263,7 +261,7 @@
   width: 120px;
   height: 90px;
 
-  border-radius: 10px;
+  border-radius: 0.375rem;
   cursor: pointer;
   overflow: hidden;
   position: relative;

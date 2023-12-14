@@ -161,8 +161,7 @@ color:white;
     display: flex;
     flex-direction: column;
   }
-  .accountSettings-right-item,
-  select {
+  .accountSettings-right-item select {
     width: 100%;
     padding: 10px;
   }

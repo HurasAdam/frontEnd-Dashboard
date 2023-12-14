@@ -34,7 +34,11 @@ export const FormInput = (props) => {
         <li>
 <InsertDriveFileIcon/>
           <span>{file.name}</span>
-        <CloseOutlinedIcon {...inputProps.attachedFiles}/>
+        <CloseOutlinedIcon
+        className="delete-attachedFile"
+        onClick={(e)=>inputProps.attachedFiles.onClick(e,index)}
+        
+        />
         </li>
       </ul>
     </div>)
@@ -109,15 +113,36 @@ export const FormInput = (props) => {
     );
   }
 
-  if (inputProps.type === "multipleSelect") {
+  if (inputProps.type === "Selects-flex") {
     return (
       <div className={className}>
-        <Select
-          {...inputProps.multiSelectProps}
-          getOptionLabel={(option) => `${option.name} ${option.surname}`}
-          getOptionValue={(option) => option._id}
-        ></Select>
+        {inputProps?.selects.map((select) => (
+          <div className="selectWrapper" key={select.id}>
+            <label htmlFor="">{select.label}</label>
+            {select.type==='visibility'?
+            (<select {...select.selectProps}
+            onChange={select.selectProps.onChange}
+            >
+              <option disabled selected value=''>{select.selectProps.placeholder}</option>
+              {select?.selectProps?.options?.map((option,index) => (
+                <option value={option?.value} key={index}>{option?.label}</option>
+              ))}
+            </select>):
+            
+            (   <select {...select.selectProps}
+            onChange={select.selectProps.onChange}
+            >
+               <option disabled selected value=''>{select.selectProps.placeholder}</option>
+              {select?.selectProps?.options?.map((option,index) => (
+                <option value={option?._id} key={index}>{option?.name}</option>
+              ))}
+            </select>)
+            
+            }
+          </div>
+        ))}
       </div>
     );
   }
+  
 };

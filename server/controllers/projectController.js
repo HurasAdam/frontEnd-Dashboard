@@ -5,6 +5,7 @@ const { ObjectId } = require("mongodb");
 const { convertDate } = require("../utils/dateConvert");
 const { default: mongoose } = require("mongoose");
 const { validateForm } = require("../utils/validateForm");
+const cloudinary = require("cloudinary").v2;
 
 
 
@@ -13,11 +14,40 @@ const { validateForm } = require("../utils/validateForm");
 //Create Projet
 const createProject = async (req, res) => {
   const { title, description, contributors, } = req.body;
+const files=req.files
+const filesExist = files.length>0
+console.log(req.body)
 
-  try {
+try {
     if (!title || !description||!contributors) {
       throw Error("All fields have to be filled");
     }
+
+    const uploadPromises = filesExist
+    ? await Promise.all(
+        files.map(async (file) => {
+          const responses = await cloudinary.uploader.upload(file.path, {
+            folder: "projectUploads",
+            resource_type: "auto",
+          });
+          modified_responses = {
+            ...responses,
+            original_name: file.originalname,
+          };
+          return modified_responses;
+        })
+      )
+    : null;
+
+
+
+
+
+
+
+
+
+
 
     //Find contributors in DB
     const projectContributor = (await User.find({ _id: { $in: contributors } }).select("_id"))
@@ -31,6 +61,15 @@ const projectContributorListId= projectContributor.map((contributor)=>contributo
       description,
       contributors: projectContributorListId,
       projectLeader:projectLeaderObjectId,
+      ...(filesExist && {
+        files: uploadPromises.map((upload) => ({
+          publicId: upload.public_id,
+          url: upload.secure_url,
+          original_name: upload.original_name,
+          file_size: upload.bytes / 1048576,
+          file_type: upload.format ? upload.format : upload.resource_type,
+        })),
+      })
     });
 
     res.status(201).json(project);

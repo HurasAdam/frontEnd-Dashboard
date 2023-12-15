@@ -10,25 +10,45 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  contributors: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref:"User",
-    required: true,
-  }],
+  contributors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  ],
 
   projectLeader: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:"User",
+    ref: "User",
     required: false,
   },
+
+  files: [
+    {
+      publicId: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+      original_name: {
+        type: String,
+      },
+      file_size: {
+        type: Number,
+      },
+      file_type: {
+        type: String,
+      },
+    },
+  ],
   createdAt: {
-    type: Date, 
-    default:Date.now()
+    type: Date,
+    default: Date.now(),
   },
 });
 
 const model = mongoose.model("Projects", projectSchema);
-
-
 
 module.exports = model;

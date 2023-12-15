@@ -88,7 +88,7 @@ localStorage.setItem('color',mainColor)
              
             </li>
             </Link>
-            <Link to='/project/65778ed823d786d3008509e5' className="sidebarLink">
+            <Link to='/project/657ba949be85efd49ea2c822' className="sidebarLink">
             <li onClick={()=>setIsMenuActive(false)} className="sidebar-list-item " style={{ color:`${theme.color}` }}>
               <ReceiptLongOutlinedIcon className="sidebarIcon" 
               

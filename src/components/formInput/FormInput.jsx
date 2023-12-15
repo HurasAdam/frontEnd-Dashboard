@@ -57,7 +57,7 @@ export const FormInput = (props) => {
           focused={focused.toString()}
           {...inputProps}
           cols="30"
-          rows="12"
+          rows="6"
         ></textarea>
         <span>{errorMessage}</span>
       </div>

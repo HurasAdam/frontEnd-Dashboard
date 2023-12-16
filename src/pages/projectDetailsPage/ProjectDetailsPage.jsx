@@ -1,6 +1,11 @@
 import { useParams } from "react-router-dom";
 import "./projectDetailsPage.css";
 import { getProject } from "../../features/projectApi/projectApi";
+import PublicIcon from "@mui/icons-material/Public";
+import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import StarsIcon from "@mui/icons-material/Stars";
 import { useQuery, useMutation } from "react-query";
 
 export const ProjectDetailsPage = () => {
@@ -25,32 +30,63 @@ export const ProjectDetailsPage = () => {
       <div className="ProjectDetailsPage-bottom">
         <div className="ProjectDetailsPage-bottom-upperSection">
           <div className="upperSection-left">
-            <div className="left">
-      
+            <div className="upperSection-left__header">
+              <h2>Project Overiew</h2>
             </div>
-            <div className="right">CDE</div>
+            <div className="upperSection-left__content">
+              {data?.description}
+            </div>
           </div>
           <div className="upperSection-right">
             <div>
-            <table>
+              <h3>Project Details</h3>
+              <table>
                 <tbody>
                   <tr>
-                    <td>Status:</td>
-                    <td>Ongoing...</td>
+                    <td>
+                      <div className="status-container">
+                        <BrowseGalleryIcon className="icon" />
+                        Ongoing
+                      </div>
+                    </td>
                   </tr>
                   <tr>
-                    <td>Started:</td>
-                    <td>{data?.createdAt}</td>
+                    <td>
+                      <div className="visibility-container">
+                        <PublicIcon className="icon" />
+                        Public
+                      </div>
+                    </td>
                   </tr>
                   <tr>
-                    <td>Deadline:</td>
-                    <td>02/02/2025</td>
+                    <td>
+                      <div className="contributors-container">
+                        <PeopleAltIcon className="icon" />
+                        Contributors:{data?.contributors.length}
+                      </div>
+                    </td>
                   </tr>
-               
+                </tbody>
+              </table>
+              <table>
+                <tbody>
                   <tr>
-                    <td>Leader:</td>
-                    <td>{data?.projectLeader?.name}</td>
-                    <td>{data?.projectLeader?.surname}</td>
+                    <td>
+                      <div className="started-container">
+                        <CalendarMonthIcon className="icon" />
+                        Started: {data?.createdAt}
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <div className="leader-container">
+                        <StarsIcon className="icon" />
+                        Leader: {data?.projectLeader?.name}{" "}
+                        {data?.projectLeader?.surname}
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -60,23 +96,19 @@ export const ProjectDetailsPage = () => {
         <div className="ProjectDetailsPage-bottom-lowerSection">
           <div className="lowerSection-left"></div>
           <div className="lowerSection-right">
-            {data &&
-              data?.contributors.map((contributor) => {
-                return (
-                  <div className="projectDetails-contributor-tile">
-                    <div className="contributor-tile__img">
+            <div className="header">
+              <h3>Contributors</h3>
+            </div>
+            <div className="content">
+              {data &&
+                data?.contributors.map((contributor) => {
+                  return (
+                    <div className="projectDetails-contributor-tile">
                       <img src={contributor.userAvatar.url} alt="" />
                     </div>
-                    <div className="projectDetails-contributor-tile__details">
-                      <span>{contributor.name}</span>
-                      <span>{contributor.surname}</span>
-                    </div>
-                    <div className="projectDetails-contributor-tile__role">
-                      <span>{contributor.role}</span>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
         </div>
       </div>

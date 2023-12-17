@@ -21,18 +21,15 @@ export const ProjectDetailsPage = () => {
     getProject(projectId)
   );
 
+  const handleConcatTicketArrays = (data) => {
+    if (data) {
+      const concatenatedArray = [].concat(...Object.values(data));
+      return concatenatedArray;
+    }
+  };
+  const xd = handleConcatTicketArrays(data?.tickets);
 
-
-const handleConcatTicketArrays= (data)=>{
-
-  if (data) {
-    const concatenatedArray = [].concat(...Object.values(data));
-    return concatenatedArray
-  }
-
-}
-
-
+  console.log(xd);
   const { theme, dispatch } = useContext(ThemeContext);
 
   const handleChartDataTransform = (data) => {
@@ -129,39 +126,50 @@ const handleConcatTicketArrays= (data)=>{
         </div>
         <div className="ProjectDetailsPage-bottom-lowerSection">
           <div className="lowerSection-left">
-            <div className="files-container">
-            <table>
-              {data?.files.map((file) => {
+           <div className="lowerSection-left__header">
+            <h4>Current Tickets</h4>
+           </div>
+            <div className="tickets-container">
+          
+              {handleConcatTicketArrays(data?.tickets)?.map((ticket) => {
                 return (
-                  <tr>
-                    <td>
-                      <div className="file-item">
-                        <FolderZipIcon />
-                      </div>
-                    </td>
-                    <td>
-                      <div className="file-item">{file.original_name}</div>
-                    </td>
-                    <td>
-                      <div className="file-item">{file.file_size}</div>
-                    </td>
-                    <td>
-                      <div className="file-item">{file.file_type}</div>
-                    </td>
-                  </tr>
+                  <div className="ticket-item">
+                    <div className="ticket-item__title">
+                      <span>{ticket.title}</span>
+                    </div>
+                    <div className="ticket-item__type">
+                      <span className={ticket.type}>{ticket.type}</span>
+                    </div>
+                    <div className="ticket-item__priority">
+                      <span className={ticket.priority}>{ticket.priority}</span>
+                    </div>
+                  </div>
                 );
               })}
-            </table>
             </div>
-            <div className="tickets-container">
-            {handleConcatTicketArrays(data?.tickets).map((ticket) => (
-  <div
-  className="ticket-item"
-   key={ticket.id}>
-    {ticket.title}
-
-  </div>
-))}
+            <div className="files-container">
+              <table>
+                {data?.files.map((file) => {
+                  return (
+                    <tr>
+                      <td>
+                        <div className="file-item">
+                          <FolderZipIcon />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="file-item">{file.original_name}</div>
+                      </td>
+                      <td>
+                        <div className="file-item">{file.file_size}</div>
+                      </td>
+                      <td>
+                        <div className="file-item">{file.file_type}</div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </table>
             </div>
           </div>
           <div className="lowerSection-right">

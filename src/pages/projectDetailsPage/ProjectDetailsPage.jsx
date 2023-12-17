@@ -1,4 +1,7 @@
 import { useParams } from "react-router-dom";
+import ImageIcon from "@mui/icons-material/Image";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import FolderZipIcon from "@mui/icons-material/FolderZip";
 import "./projectDetailsPage.css";
 import { getProject } from "../../features/projectApi/projectApi";
 import PublicIcon from "@mui/icons-material/Public";
@@ -7,6 +10,10 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import StarsIcon from "@mui/icons-material/Stars";
 import { useQuery, useMutation } from "react-query";
+import { CircleChart } from "../../components/circleChart/CircleChart";
+import { Donut } from "../../components/donutChart/Donut";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { useContext, useEffect, useState } from "react";
 
 export const ProjectDetailsPage = () => {
   const { projectId } = useParams();
@@ -14,7 +21,28 @@ export const ProjectDetailsPage = () => {
     getProject(projectId)
   );
 
-  console.log(data && data);
+
+
+const handleConcatTicketArrays= (data)=>{
+
+  if (data) {
+    const concatenatedArray = [].concat(...Object.values(data));
+    return concatenatedArray
+  }
+
+}
+
+
+  const { theme, dispatch } = useContext(ThemeContext);
+
+  const handleChartDataTransform = (data) => {
+    if (data) {
+      const objectKeys = Object.keys(data).map((key) => {
+        return { name: key, value: data[key].length };
+      });
+      return objectKeys;
+    }
+  };
 
   return (
     <div className="ProjectDetailsPage">
@@ -34,7 +62,13 @@ export const ProjectDetailsPage = () => {
               <h2>Project Overiew</h2>
             </div>
             <div className="upperSection-left__content">
-              {data?.description}
+              <div className="content-section">{data?.description}</div>
+              <div className="chart-section">
+                <Donut
+                  theme={theme}
+                  data={handleChartDataTransform(data?.tickets)}
+                />
+              </div>
             </div>
           </div>
           <div className="upperSection-right">
@@ -94,7 +128,42 @@ export const ProjectDetailsPage = () => {
           </div>
         </div>
         <div className="ProjectDetailsPage-bottom-lowerSection">
-          <div className="lowerSection-left"></div>
+          <div className="lowerSection-left">
+            <div className="files-container">
+            <table>
+              {data?.files.map((file) => {
+                return (
+                  <tr>
+                    <td>
+                      <div className="file-item">
+                        <FolderZipIcon />
+                      </div>
+                    </td>
+                    <td>
+                      <div className="file-item">{file.original_name}</div>
+                    </td>
+                    <td>
+                      <div className="file-item">{file.file_size}</div>
+                    </td>
+                    <td>
+                      <div className="file-item">{file.file_type}</div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </table>
+            </div>
+            <div className="tickets-container">
+            {handleConcatTicketArrays(data?.tickets).map((ticket) => (
+  <div
+  className="ticket-item"
+   key={ticket.id}>
+    {ticket.title}
+
+  </div>
+))}
+            </div>
+          </div>
           <div className="lowerSection-right">
             <div className="header">
               <h3>Contributors</h3>

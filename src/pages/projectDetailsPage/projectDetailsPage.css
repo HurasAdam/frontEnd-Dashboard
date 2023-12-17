@@ -65,6 +65,21 @@
 .upperSection-left__header h2{
 font-size: 1.2rem;
 }
+.upperSection-left__content{
+  border: 2px solid red;
+  display: flex;
+flex-wrap: wrap;
+ 
+}
+.upperSection-left__content .chart-section{
+border: 2px solid green;
+flex: 1;
+}
+.upperSection-left__content .content-section{
+  border: 2px solid pink;
+flex: 2;
+}
+
 .upperSection-right {
   border: 1px solid var(--dark-border);
   width: 33%;
@@ -152,6 +167,45 @@ td {
   height: 100%;
   border: 1px solid var(--dark-border);
   display: flex;
+  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+}
+.lowerSection-left .files-container{
+  flex:2;
+  height: max-content;
+
+  display: flex;
+  flex-direction: column;  
+  
+}
+.lowerSection-left table tr {
+  border-bottom: 1px solid var(--dark-border);
+  padding: 5px;
+}
+
+.lowerSection-left .file-item{
+  flex:1;
+  color:white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+
+}
+
+.lowerSection-left .tickets-container{
+  background-color: orange;
+flex:1;
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+gap:5px
+
+}
+.lowerSection-left .tickets-container .ticket-item{
+  border-bottom: 1px solid var(--dark-border);
+padding: 0.4rem;
+
 }
 .lowerSection-right {
     width: 33%;

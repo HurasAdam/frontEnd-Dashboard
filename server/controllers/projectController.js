@@ -135,7 +135,14 @@ const getSingleProject = async (req, res) => {
   const { id } = req.params;
 
   const project = await Project.findOne({ _id: id });
-
+const ticketsAsigned= await Note.find({project:id}).populate({
+  path:'author',
+  select:'name surname'
+})
+console.log(project)
+const ticketsTypeBug=ticketsAsigned.filter((ticket)=>ticket.type==='Bug');
+const ticketsTypeEnhancment=ticketsAsigned.filter((ticket)=>ticket.type==='Enhancement');
+const ticketsTypeQuestion=ticketsAsigned.filter((ticket)=>ticket.type==='Question');
 const contributorList = await Project.findOne({ _id: id }).select("contributors")
 const arrayOfContributors=contributorList.contributors
   const contributors = await User.find({ _id:{$in:arrayOfContributors}}).select('name surname email role gender userAvatar');
@@ -155,6 +162,12 @@ contributors:contributors,
     gender:projectLeader.gender,
     userAvatar:projectLeader.userAvatar,
   },
+  tickets:{
+    bug:ticketsTypeBug,
+    enhancment:ticketsTypeEnhancment,
+    question:ticketsTypeQuestion
+  },
+  files:project.files,
 createdAt:convertDate({date:project.createdAt,includeHrs:true})
 }
 

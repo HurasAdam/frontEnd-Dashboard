@@ -12,9 +12,11 @@ export const AuthContextProvider = ({ children }) => {
     const role = localStorage.getItem('role');
 const userId=localStorage.getItem('userId');
 const userAvatar= localStorage.getItem('userAvatar');
+const name= localStorage.getItem('name');
+const surname= localStorage.getItem('surname');
 
     if (accessToken) {
-      dispatch({ type: "LOGIN", payload: {accessToken,refreshToken ,email:email,role:role,userId,userAvatar} });
+      dispatch({ type: "LOGIN", payload: {accessToken,refreshToken ,email:email,role:role,userId,userAvatar,name,surname} });
     }
 
     

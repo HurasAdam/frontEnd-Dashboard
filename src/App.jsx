@@ -111,7 +111,7 @@ function App() {
           ></Route>
           <Route
             path="/projects/:projectId"
-            element={user ? <ProjectDetails /> : <Navigate to="/login" />}
+            element={user ? <ProjectDetailsPage /> : <Navigate to="/login" />}
           >
             {" "}
           </Route>

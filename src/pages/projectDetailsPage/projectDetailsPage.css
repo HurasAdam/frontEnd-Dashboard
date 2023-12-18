@@ -162,6 +162,7 @@ td {
   flex-wrap: wrap;
   /* flex-wrap: wrap; */
   border-radius: 8px;
+
 }
 .lowerSection-left__header {
   padding: 0.5em;
@@ -173,13 +174,26 @@ td {
 .lowerSection-left .files-container {
   width: 100%;
   height: max-content;
-  border: 2px solid red;
+
   display: flex;
   flex-direction: column;
 }
+.files-container__header{
+  margin-top: 20px;
+
+  padding: 0.5em;
+}
+.files-container__header h4{
+color: var(--dark-font-color);
+}
 .lowerSection-left table {
-  border-bottom: 1px solid var(--dark-border);
+  border: 1px solid var(--dark-border);
   padding: 5px;
+  border-radius: 8px;
+  
+}
+.lowerSection-left table tr  {
+background: var(--d);
 }
 
 .lowerSection-left .file-item {
@@ -190,17 +204,26 @@ td {
   align-items: center;
   justify-content: center;
   margin-right: 10px;
+
+}
+.lowerSection-left .file-item .download-icon {
+color:var(--dark-font-color);
+cursor: pointer;
+}
+.lowerSection-left .file-item .download-icon:hover {
+color:green
 }
 
 .lowerSection-left .tickets-container {
-  flex: 2;
+
   display: flex;
   border: 1px solid var(--dark-border);
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   flex-direction: column;
   height: max-content;
   gap: 5px;
+  justify-content: space-between;
 }
 .lowerSection-left .tickets-container .ticket-item {
   border-bottom: 1px solid var(--dark-border);

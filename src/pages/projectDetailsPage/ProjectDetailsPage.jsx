@@ -2,7 +2,9 @@ import { useParams } from "react-router-dom";
 import ImageIcon from "@mui/icons-material/Image";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FolderZipIcon from "@mui/icons-material/FolderZip";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import "./projectDetailsPage.css";
+import DownloadIcon from "@mui/icons-material/Download";
 import { getProject } from "../../features/projectApi/projectApi";
 import PublicIcon from "@mui/icons-material/Public";
 import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
@@ -16,31 +18,31 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { useContext, useEffect, useState } from "react";
 
 export const ProjectDetailsPage = () => {
+  const [page, setPage] = useState(1);
   const { projectId } = useParams();
   const { isLoading, data } = useQuery(["project"], () =>
-    getProject(projectId)
+    getProject({ projectId, page })
   );
 
-  const handleConcatTicketArrays = (data) => {
-    if (data) {
-      const concatenatedArray = [].concat(...Object.values(data));
-      return concatenatedArray;
-    }
-  };
-  const xd = handleConcatTicketArrays(data?.tickets);
+  // const handleConcatTicketArrays = (data) => {
+  //   if (data) {
+  //     const concatenatedArray = [].concat(...Object.values(data));
+  //     return concatenatedArray;
+  //   }
+  // };
 
-  console.log(xd);
   const { theme, dispatch } = useContext(ThemeContext);
 
   const handleChartDataTransform = (data) => {
     if (data) {
       const objectKeys = Object.keys(data).map((key) => {
-        return { name: key, value: data[key].length };
+        return { name: key, value: data[key] };
       });
       return objectKeys;
     }
   };
 
+ 
   return (
     <div className="ProjectDetailsPage">
       <div className="ProjectDetailsPage-top">
@@ -63,7 +65,7 @@ export const ProjectDetailsPage = () => {
               <div className="chart-section">
                 <Donut
                   theme={theme}
-                  data={handleChartDataTransform(data?.tickets)}
+                  data={ handleChartDataTransform(data?.chartData)}
                 />
               </div>
             </div>
@@ -126,12 +128,11 @@ export const ProjectDetailsPage = () => {
         </div>
         <div className="ProjectDetailsPage-bottom-lowerSection">
           <div className="lowerSection-left">
-           <div className="lowerSection-left__header">
-            <h4>Current Tickets</h4>
-           </div>
+            <div className="lowerSection-left__header">
+              <h4>Current Tickets</h4>
+            </div>
             <div className="tickets-container">
-          
-              {handleConcatTicketArrays(data?.tickets)?.map((ticket) => {
+              {data?.tickets?.map((ticket) => {
                 return (
                   <div className="ticket-item">
                     <div className="ticket-item__title">
@@ -140,14 +141,22 @@ export const ProjectDetailsPage = () => {
                     <div className="ticket-item__type">
                       <span className={ticket.type}>{ticket.type}</span>
                     </div>
+
                     <div className="ticket-item__priority">
                       <span className={ticket.priority}>{ticket.priority}</span>
+                    </div>
+                    <div>
+                      <AttachFileIcon />
+                 
                     </div>
                   </div>
                 );
               })}
             </div>
             <div className="files-container">
+              <div className="files-container__header">
+                <h4>Attached Files</h4>
+              </div>
               <table>
                 {data?.files.map((file) => {
                   return (
@@ -163,8 +172,11 @@ export const ProjectDetailsPage = () => {
                       <td>
                         <div className="file-item">{file.file_size}</div>
                       </td>
+
                       <td>
-                        <div className="file-item">{file.file_type}</div>
+                        <div className="file-item">
+                          <DownloadIcon className="download-icon" />
+                        </div>
                       </td>
                     </tr>
                   );

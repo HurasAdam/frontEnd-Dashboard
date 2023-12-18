@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
-import ImageIcon from "@mui/icons-material/Image";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import FolderZipIcon from "@mui/icons-material/FolderZip";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "./projectDetailsPage.css";
 import DownloadIcon from "@mui/icons-material/Download";
 import { getProject } from "../../features/projectApi/projectApi";
@@ -12,10 +11,10 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import StarsIcon from "@mui/icons-material/Stars";
 import { useQuery, useMutation } from "react-query";
-import { CircleChart } from "../../components/circleChart/CircleChart";
 import { Donut } from "../../components/donutChart/Donut";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useContext, useEffect, useState } from "react";
+import { formatTimestampWithTime } from "../../utils/formatTimestamp";
 
 export const ProjectDetailsPage = () => {
   const [page, setPage] = useState(1);
@@ -42,7 +41,6 @@ export const ProjectDetailsPage = () => {
     }
   };
 
- 
   return (
     <div className="ProjectDetailsPage">
       <div className="ProjectDetailsPage-top">
@@ -65,7 +63,7 @@ export const ProjectDetailsPage = () => {
               <div className="chart-section">
                 <Donut
                   theme={theme}
-                  data={ handleChartDataTransform(data?.chartData)}
+                  data={handleChartDataTransform(data?.chartData)}
                 />
               </div>
             </div>
@@ -138,16 +136,26 @@ export const ProjectDetailsPage = () => {
                     <div className="ticket-item__title">
                       <span>{ticket.title}</span>
                     </div>
-                    <div className="ticket-item__type">
-                      <span className={ticket.type}>{ticket.type}</span>
-                    </div>
+                    <div className="ticket-item__icons-wrapper">
+                      <div className="ticket-item__type">
+                        <span className={ticket.type}>{ticket.type}</span>
+                      </div>
 
-                    <div className="ticket-item__priority">
-                      <span className={ticket.priority}>{ticket.priority}</span>
-                    </div>
-                    <div>
-                      <AttachFileIcon />
-                 
+                      <div className="ticket-item__priority">
+                        <span className={ticket.priority}>
+                          {ticket.priority}
+                        </span>
+                      </div>
+                      <div className="ticket-item__time">
+                        <span>{formatTimestampWithTime(ticket.createdAt)}</span>
+                      </div>
+                      <div className="ticket-item__files-counter">
+                        <AttachFileIcon />
+                      </div>
+                      <div className="ticket-item__post-counter">
+                        <ChatBubbleIcon className="icon" />
+                        <span> {ticket?.posts?.length}</span>
+                      </div>
                     </div>
                   </div>
                 );

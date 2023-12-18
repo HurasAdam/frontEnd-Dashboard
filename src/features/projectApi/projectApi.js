@@ -27,10 +27,10 @@ export const getProjectListByMembership=async()=>{
 }
 
 
-export const getProject = (projectId) => {
+export const getProject = ({projectId,page}) => {
   return new Promise((resolve, reject) => {
     const response = projectApi
-      .get(`projects/${projectId}`)
+      .get(`projects/${projectId}?page=${page}`)
       .then((res) => resolve(res.data))
       .catch((error) => reject(error));
   });

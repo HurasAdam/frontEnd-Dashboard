@@ -27,10 +27,15 @@ export const getProjectListByMembership=async()=>{
 }
 
 
-export const getProject = ({projectId,page}) => {
+export const getProject = ({projectId,query}) => {
+  let url = `projects/${projectId}`
+
+  if(query){
+    url = url+`?${query}`
+  }
   return new Promise((resolve, reject) => {
     const response = projectApi
-      .get(`projects/${projectId}?page=${page}`)
+      .get(url)
       .then((res) => resolve(res.data))
       .catch((error) => reject(error));
   });

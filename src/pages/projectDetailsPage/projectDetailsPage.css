@@ -157,7 +157,7 @@ td {
   width: 100%;
   height: 100%;
   /* border: 1px solid var(--dark-border); */
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   flex-wrap: wrap;
   /* flex-wrap: wrap; */
@@ -165,7 +165,37 @@ td {
 }
 .lowerSection-left__header {
   padding: 0.5em;
+  justify-content: space-between;
+  display: flex;
 }
+.ticket-type-switches {
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  width: max-content;
+}
+.ticket-type-switches ul {
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.ticket-type-switches ul li {
+  margin-right: 10px;
+  padding: 2px 10px;
+  display: flex;
+  align-items: center;
+  color: var(--dark-font-placeholder-color);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+}
+.ticket-type-switches ul li.active {
+  color: rgb(65, 72, 151);
+}
+
 .lowerSection-left__header h4 {
   font-size: 1.2rem;
   color: var(--dark-font-color);
@@ -243,21 +273,33 @@ td {
   height: max-content;
   gap: 5px;
 }
-.lowerSection-left .tickets-container .pagination-navbar{
-
+.lowerSection-left .tickets-container .pagination-navbar {
   display: flex;
   justify-content: flex-end;
 }
-.lowerSection-left .tickets-container .pagination-navbar button{
-padding: 1px 8px;
-margin-top: 12px;
-margin-left: 10px;
-border-radius: 3px;
-border: none;
-font-weight: 600;
-background-color: blueviolet;
-color: var(--dark-font-color);
-cursor: pointer;
+.lowerSection-left .tickets-container .pagination-navbar button {
+  padding: 4px 10px;
+  margin-top: 12px;
+  margin-left: 6px;
+  border-radius: 3px;
+  border: none;
+  font-weight: 600;
+  background-color: #333;
+  color: var(--dark-font-color);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.lowerSection-left .tickets-container .pagination-navbar button.active {
+  background-color: #007bff;
+  color: #fff;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.lowerSection-left .tickets-container .pagination-navbar button.disabled {
+  background-color: #007bff;
+  color: #fff;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 .lowerSection-left .tickets-container .ticket-item {
   border-top: 1px solid var(--dark-border);
@@ -267,6 +309,14 @@ cursor: pointer;
   justify-content: center;
   align-items: center;
   color: var(--dark-font-color);
+  transition: opacity 0.9s ease-in-out;
+}
+.fade-in {
+  opacity: 1 !important;
+}
+
+.fade-out {
+  opacity: 0 !important;
 }
 @media screen and (max-width: 700px) {
   .lowerSection-left .tickets-container .ticket-item {
@@ -336,78 +386,76 @@ cursor: pointer;
   justify-content: center;
 }
 .ticket-item__priority span.High {
-  background-color: rgba(255, 0, 0, 0.613);
-  color: rgba(84, 9, 9, 0.994);
+  background: var(--dark-high-badge-bg);
+  color: var(--dark-high-badge-color);
   font-family: "Roboto", sans-serif;
   font-weight: 600;
-  width: 50px;
+  width: 75px;
   padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
   max-height: max-content;
   border-radius: 5px;
-  font-size: 0.6rem;
-  color: var(--dark-font-color);
+  font-size: var(--badge-font-size);
+  text-transform: uppercase;
 }
 .ticket-item__priority span.Medium {
-  background-color: rgba(234, 162, 6, 0.537);
-  color: rgb(78, 53, 8);
+  background: var(--dark-medium-badge-bg);
+  color: var(--dark-medium-badge-color);
   font-weight: 600;
   font-family: "Roboto", sans-serif;
   max-height: max-content;
-  width: 50px;
+  width: 75px;
   padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  text-transform: uppercase;
   border-radius: 5px;
-  font-size: 0.65rem;
+  font-size: var(--badge-font-size);
   font-size: 0.6rem;
-  color: var(--dark-font-color);
 }
 .ticket-item__type span.Question {
-  background-color: rgb(76, 117, 212);
+  background: var(--dark-question-badge-bg);
   color: rgb(78, 53, 8);
   font-weight: 600;
   font-family: "Roboto", sans-serif;
   max-height: max-content;
-  width: 62px;
+  width: 75px;
   padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  font-size: 0.6rem;
+  font-size: var(--badge-font-size);
   font-weight: 600;
-  color: var(--dark-font-color);
+  color: var(--dark-question-badge-color);
+  text-transform: uppercase;
 }
 .ticket-item__type span.Enhancement {
-  background-color: rgb(179, 180, 138);
-  color: rgb(78, 53, 8);
+  background: var(--dark-enhancement-badge-bg);
+  color: var(--dark-enhancement-badge-color);
   font-weight: 600;
   font-family: "Roboto", sans-serif;
-
   max-height: max-content;
-  width: 62px;
-  padding: 3px;
+  width: 75px;
+  padding: 0px 4px;
   display: flex;
   justify-content: center;
   align-items: center;
-
   border-radius: 5px;
-  font-size: 0.6rem;
+  font-size: var(--badge-font-size);
   font-weight: 600;
-  color: var(--dark-font-color);
+  text-transform: uppercase;
 }
 .ticket-item__priority span.Low {
   background-color: rgba(20, 218, 50, 0.508);
   font-weight: 600;
   color: rgb(13, 59, 4);
-  width: 50px;
-  padding: 3px;
-  font-size: 0.6rem;
+  width: 75px;
+  padding: 0px 4px;
+  font-size: var(--badge-font-size);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -415,22 +463,24 @@ cursor: pointer;
   justify-content: center;
   border-radius: 5px;
   color: var(--dark-font-color);
+  text-transform: uppercase;
 }
 .ticket-item__type span.Bug {
-  background-color: rgb(212, 76, 212);
+  background: var(--dark-bug-badge-bg);
   font-weight: 600;
   font-family: "Roboto", sans-serif;
   color: rgb(13, 59, 4);
-  width: 62px;
-  padding: 3px;
-  font-size: 0.6rem;
+  width: 75px;
+  padding: 0px 4px;
+  font-size: var(--badge-font-size);
   display: flex;
   justify-content: center;
   align-items: center;
   max-height: max-content;
   justify-content: center;
   border-radius: 5px;
-  color: var(--dark-font-color);
+  color: var(--dark-bug-badge-color);
+  text-transform: uppercase;
 }
 
 .lowerSection-right {

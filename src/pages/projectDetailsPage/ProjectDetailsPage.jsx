@@ -1,8 +1,12 @@
 import { useParams } from "react-router-dom";
 import FolderZipIcon from "@mui/icons-material/FolderZip";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import ReportIcon from '@mui/icons-material/Report';
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "./projectDetailsPage.css";
+import FlagIcon from '@mui/icons-material/Flag';
 import DownloadIcon from "@mui/icons-material/Download";
 import { getProject } from "../../features/projectApi/projectApi";
 import PublicIcon from "@mui/icons-material/Public";
@@ -32,6 +36,7 @@ export const ProjectDetailsPage = () => {
       refetchOnWindowFocus: false,
     }
   );
+  console.log(isLoading);
 
   useEffect(() => {
     refetch();
@@ -46,16 +51,11 @@ export const ProjectDetailsPage = () => {
     return queryParams ? `${queryParams}` : "";
   };
 
+  const generatePageNumbers = ({ totalTickets, ticketsPerPage }) => {
+    const totalPages = Math.ceil(totalTickets / ticketsPerPage);
 
-const generatePageNumbers = ({totalTickets,ticketsPerPage})=>{
-
-  const totalPages = Math.ceil(totalTickets / ticketsPerPage);
-
-return Array.from({ length: totalPages }, (_, index) => index + 1);
-
-}
- 
- 
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  };
 
   const { theme, dispatch } = useContext(ThemeContext);
 
@@ -155,8 +155,39 @@ return Array.from({ length: totalPages }, (_, index) => index + 1);
           <div className="lowerSection-left">
             <div className="lowerSection-left__header">
               <h4>Current Tickets</h4>
+              <div className="ticket-type-switches">
+                <ul>
+                  <li
+                       className={`${queryString?.type===''?'active':''}`}
+                       onClick={()=>setQueryString((prev)=>{
+                        return ({...prev,type:''})
+                      })}
+                  ><FlagIcon/>ALL</li>
+                  <li onClick={()=>setQueryString((prev)=>{
+                    return ({...prev,type:'Bug'})
+                  })}
+                  className={`${queryString?.type==='Bug'?'active':''}`}
+                  ><ReportIcon/>BUGS</li>
+                  <li 
+                    className={`${queryString?.type==='Enhancement'?'active':''}`}
+                    onClick={()=>setQueryString((prev)=>{
+                      return ({...prev,type:'Enhancement'})
+                    })}
+                  ><AutoFixNormalIcon/>EHANCEMENTS</li>
+                  <li
+                       className={`${queryString?.type==='Question'?'active':''}`}
+                       onClick={()=>setQueryString((prev)=>{
+                        return ({...prev,type:'Question'})
+                      })}
+                  > <HelpCenterIcon/>QUESTIONS</li>
+                </ul>
+              </div>
             </div>
-            <div className="tickets-container">
+            <div
+              className={`tickets-container ${
+                isLoading ? "fade-out" : "fade-in"
+              }`}
+            >
               {data?.tickets?.map((ticket) => {
                 return (
                   <div className="ticket-item">
@@ -190,9 +221,31 @@ return Array.from({ length: totalPages }, (_, index) => index + 1);
               <div className="pagination-navbar">
                 {/* <button onClick={() => handlePageChange(-1)}>Prev</button>
                 <button onClick={() => handlePageChange(1)}>Next</button> */}
-               {generatePageNumbers({totalTickets:data?.totalTickets,ticketsPerPage:data?.ticketsPerPage}).map((page,index)=>{
-                return (<button onClick={()=>setQueryString((prev)=>({...prev,page:index+1}))}>{index+1}</button>)
-               })}
+                {generatePageNumbers({
+                  totalTickets: data?.totalTickets,
+                  ticketsPerPage: data?.ticketsPerPage,
+                }).map((page, index) => {
+                  return (
+                    <button
+                      className={
+                        index + 1 === queryString?.page
+                          ? "active"
+                          : "" || (index === 0 && queryString?.page === null)
+                          ? "disabled"
+                          : ""
+                      }
+                      disabled={
+                        (index + 1 === 1 && queryString?.page === null) ||
+                        index + 1 === queryString?.page
+                      }
+                      onClick={() =>
+                        setQueryString((prev) => ({ ...prev, page: index + 1 }))
+                      }
+                    >
+                      {index + 1}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 

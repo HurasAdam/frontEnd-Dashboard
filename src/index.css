@@ -18,6 +18,17 @@
 --dark-font-color:#e3e6ed;
 --dark-font-placeholder-color:rgb(159, 166, 188);
 
+--dark-high-badge-bg: #5c1623;
+--dark-high-badge-color: #f4a5b3;
+--dark-question-badge-color:#93defe;
+--dark-question-badge-bg:#0c384c;
+--dark-enhancement-badge-bg:rgb(88, 38, 136);
+--dark-enhancement-badge-color:rgb(206, 159, 224);
+--dark-medium-badge-bg:rgba(234, 162, 6, 0.537);
+--dark-medium-badge-color:rgba(255, 255, 255, 0.753);
+--dark-bug-badge-bg:rgb(212, 76, 212);
+--dark-bug-badge-color:rgb(244, 205, 244);
+--badge-font-size:0.64rem;
   /* purple theme */
   --purple-primary:#393053;
   --purple-secondary:linear-gradient(to bottom, #1d1337 0%, #654ea3 100%);

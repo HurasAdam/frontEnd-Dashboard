@@ -127,20 +127,45 @@ const getProjectList = async (req, res) => {
 const getSingleProject = async (req, res) => {
   
   const { id } = req.params;
-const {page}=req.query
+const {page,type}=req.query
   const defaultPageSize=5;
   const pageNumber = Number(req.query.page);
   const skip = (pageNumber - 1) * defaultPageSize;
 const limit = parseInt(defaultPageSize)
   const project = await Project.findOne({ _id: id });
-  const totalTickets = await Note.countDocuments({ project: id });
-  const ticketsAsigned = await Note.find({ project: id }).skip(skip)
-  .limit(limit).populate({
-    path: "author",
-    select: "name surname",
-  });
 
-console.log(totalTickets)
+
+
+  let ticketsAsigned
+  let totalTickets
+  // const ticketsAsigned = await Note.find({ project: id }).skip(skip)
+  // const ticketsAsignedByType = await Note.find({ project: id,type:type }).skip(skip)
+  // .limit(limit).populate({
+  //   path: "author",
+  //   select: "name surname",
+  // });
+
+
+
+  if (type) {
+    // Jeśli przekazano 'type' w zapytaniu, wyszukaj tickety tylko dla tego typu
+    ticketsAsigned = await Note.find({ project: id, type: type }).skip(skip).limit(limit).populate({
+      path: "author",
+      select: "name surname",
+    });
+    totalTickets = await Note.countDocuments({ project: id, type: type });
+  } else {
+    // W przeciwnym razie wyszukaj wszystkie tickety
+    ticketsAsigned = await Note.find({ project: id }).skip(skip).limit(limit).populate({
+      path: "author",
+      select: "name surname",
+    });
+     totalTickets = await Note.countDocuments({ project: id });
+  }
+
+console.log(ticketsAsigned)
+
+
 
   const ticketIds = ticketsAsigned.map((ticket) => ticket._id);
 

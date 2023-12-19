@@ -15,20 +15,47 @@ import { Donut } from "../../components/donutChart/Donut";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useContext, useEffect, useState } from "react";
 import { formatTimestampWithTime } from "../../utils/formatTimestamp";
+import { formatUnitSize } from "../../utils/formatUnitSize";
+import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
 
 export const ProjectDetailsPage = () => {
-  const [page, setPage] = useState(1);
+  const [queryString, setQueryString] = useState({
+    page: null,
+    priority: "",
+    type: "",
+  });
   const { projectId } = useParams();
-  const { isLoading, data } = useQuery(["project"], () =>
-    getProject({ projectId, page })
+  const { isLoading, data, refetch } = useQuery(
+    ["project"],
+    () => getProject({ projectId, query: buildQueryString(queryString) }),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
-  // const handleConcatTicketArrays = (data) => {
-  //   if (data) {
-  //     const concatenatedArray = [].concat(...Object.values(data));
-  //     return concatenatedArray;
-  //   }
-  // };
+  useEffect(() => {
+    refetch();
+  }, [queryString]);
+
+  const buildQueryString = (queryObject) => {
+    const queryParams = Object.entries(queryObject)
+      .filter(([key, value]) => value !== "" && value !== null)
+      .map(([key, value]) => `${key}=${value}`)
+      .join("&");
+
+    return queryParams ? `${queryParams}` : "";
+  };
+
+
+const generatePageNumbers = ({totalTickets,ticketsPerPage})=>{
+
+  const totalPages = Math.ceil(totalTickets / ticketsPerPage);
+
+return Array.from({ length: totalPages }, (_, index) => index + 1);
+
+}
+ 
+ 
 
   const { theme, dispatch } = useContext(ThemeContext);
 
@@ -160,27 +187,61 @@ export const ProjectDetailsPage = () => {
                   </div>
                 );
               })}
+              <div className="pagination-navbar">
+                {/* <button onClick={() => handlePageChange(-1)}>Prev</button>
+                <button onClick={() => handlePageChange(1)}>Next</button> */}
+               {generatePageNumbers({totalTickets:data?.totalTickets,ticketsPerPage:data?.ticketsPerPage}).map((page,index)=>{
+                return (<button onClick={()=>setQueryString((prev)=>({...prev,page:index+1}))}>{index+1}</button>)
+               })}
+              </div>
             </div>
+
             <div className="files-container">
               <div className="files-container__header">
                 <h4>Attached Files</h4>
               </div>
               <table>
+                <tr className="header-row">
+                  <td>
+                    <div className="file-item">NAME</div>
+                  </td>
+                  <td>
+                    <div className="file-item">
+                      <span>SIZE</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="file-item">
+                      <span>DATE</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="file-item">
+                      <span>ACTION</span>
+                    </div>
+                  </td>
+                </tr>
+
                 {data?.files.map((file) => {
                   return (
                     <tr>
                       <td>
                         <div className="file-item">
                           <FolderZipIcon />
+                          {file.original_name}
+                        </div>
+                      </td>
+
+                      <td>
+                        <div className="file-item">
+                          {formatUnitSize(file.file_size)}
                         </div>
                       </td>
                       <td>
-                        <div className="file-item">{file.original_name}</div>
+                        <div className="file-item">
+                          <span>{formatTimestampWithTime(file.createdAt)}</span>
+                        </div>
                       </td>
-                      <td>
-                        <div className="file-item">{file.file_size}</div>
-                      </td>
-
                       <td>
                         <div className="file-item">
                           <DownloadIcon className="download-icon" />

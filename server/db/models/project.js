@@ -38,9 +38,16 @@ const projectSchema = new Schema({
       file_size: {
         type: Number,
       },
+      file_size_unit: {
+        type: String,
+        default:"mb"
+      },
       file_type: {
         type: String,
       },
+      createdAt:{
+        type:String
+      }
     },
   ],
   createdAt: {

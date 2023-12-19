@@ -40,7 +40,7 @@ const createPost = async (req, res) => {
                 folder: "postUploads",
                 resource_type: "auto",
               });
-              modified_responses = {
+              const modified_responses = {
                 ...responses,
                 original_name: file.originalname,
               };
@@ -58,7 +58,7 @@ const createPost = async (req, res) => {
             publicId: upload.public_id,
             url: upload.secure_url,
             original_name: upload.original_name,
-            file_size: upload.bytes / 1048576,
+            file_size: (upload.bytes / 1048576).toFixed(2),
             file_type: upload.format ? upload.format : upload.resource_type,
           })),
         }),

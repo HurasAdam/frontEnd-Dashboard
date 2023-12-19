@@ -27,15 +27,16 @@ const createProject = async (req, res) => {
               folder: "projectUploads",
               resource_type: "auto",
             });
-            modified_responses = {
+            const modified_responses = {
               ...responses,
               original_name: file.originalname,
+              // file_size_unit:'mb'
             };
             return modified_responses;
           })
         )
       : null;
-
+console.log(uploadPromises)
     //Find contributors in DB
     const projectContributor = await User.find({
       _id: { $in: contributors },
@@ -56,8 +57,10 @@ const createProject = async (req, res) => {
           publicId: upload.public_id,
           url: upload.secure_url,
           original_name: upload.original_name,
-          file_size: upload.bytes / 1048576,
+          file_size: (upload.bytes / 1048576).toFixed(2),
+          // file_size_unit: upload.file_size_unit, // Popraw ta linijkę
           file_type: upload.format ? upload.format : upload.resource_type,
+          createdAt:upload.created_at
         })),
       }),
     });
@@ -122,29 +125,24 @@ const getProjectList = async (req, res) => {
 //Get Sinle Project
 
 const getSingleProject = async (req, res) => {
+  
   const { id } = req.params;
-  const { page } = req.query;
-
+const {page}=req.query
+  const defaultPageSize=5;
+  const pageNumber = Number(req.query.page);
+  const skip = (pageNumber - 1) * defaultPageSize;
+const limit = parseInt(defaultPageSize)
   const project = await Project.findOne({ _id: id });
-  const ticketsAsigned = await Note.find({ project: id }).populate({
+  const totalTickets = await Note.countDocuments({ project: id });
+  const ticketsAsigned = await Note.find({ project: id }).skip(skip)
+  .limit(limit).populate({
     path: "author",
     select: "name surname",
   });
+
+console.log(totalTickets)
+
   const ticketIds = ticketsAsigned.map((ticket) => ticket._id);
-
-  const posts = await Post.find({ ticketId: { $in: ticketIds } });
-
-  const postsWithFiles = posts.map((post) => {
-    const [file] = post.files;
-    return {
-      _id: post._id,
-      ticketId: post.ticketId,
-      CreatedBy: post.CreatedBy,
-      content: post.content,
-      files: file,
-      CreatedAt: post.CreatedAt,
-    };
-  });
 
   const mutatedTicketList = await Promise.all(
     ticketIds.map(async (ticketId) => {
@@ -158,7 +156,7 @@ const getSingleProject = async (req, res) => {
       return ticketMutation;
     })
   );
-  console.log(mutatedTicketList);
+
 
   const ticketsTypeBug = ticketsAsigned.filter(
     (ticket) => ticket.type === "Bug"
@@ -200,6 +198,8 @@ const getSingleProject = async (req, res) => {
       enhancment: ticketsTypeEnhancment.length,
       question: ticketsTypeQuestion.length,
     },
+    totalTickets,
+    ticketsPerPage:limit
   };
 
   res.status(200).json(singleProject);

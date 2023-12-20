@@ -13,7 +13,7 @@ const createProject = async (req, res) => {
   const { title, description, contributors } = req.body;
   const files = req.files;
   const filesExist = files.length > 0;
-  console.log(req.body);
+ 
 
   try {
     if (!title || !description || !contributors) {
@@ -36,17 +36,23 @@ const createProject = async (req, res) => {
           })
         )
       : null;
-console.log(uploadPromises)
+
     //Find contributors in DB
     const projectContributor = await User.find({
       _id: { $in: contributors },
-    }).select("_id");
+    })
+
+
+ 
     const projectLeader = await User.findOne({ email: req.user.email });
     const projectLeaderObjectId = mongoose.Types.ObjectId(projectLeader);
-    const projectContributorListId = projectContributor.map((contributor) =>
-      contributor._id.toString()
+    const projectContributorListId = projectContributor.map((contributor) => {
+      return ({
+       _id:contributor._id.toString(),
+      })
+    },
     );
-
+    console.log(projectContributorListId)
     const project = await Project.create({
       title: title,
       description,
@@ -65,7 +71,7 @@ console.log(uploadPromises)
       }),
     });
 
-    res.status(201).json(project);
+    res.status(201).json("project");
   } catch (Error) {
     console.log(Error.message);
     res.status(400).json(Error.message);

@@ -12,13 +12,14 @@ import WidgetLarge from "../../components/widgetLarge/WidgetLarge";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useContext, useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
-
+import { chartConfig } from "../../utils/chartConfig";
 
 const Home = () => {
-
   const [data, isLoading, Error] = useFetch("http://127.0.0.1:3000/api/stats");
   const [stats, setStats] = useState();
   const { theme, dispatch } = useContext(ThemeContext);
+
+
 
   useEffect(() => {
     if (data) {

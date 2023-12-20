@@ -7,7 +7,7 @@
 .ProjectDetailsPage-top {
   border: 1px solid var(--dark-border);
   padding: 20px;
-  margin-bottom: 25px;
+  margin-bottom: 18px;
 }
 .ProjectDetailsPage-bottom {
   height: 100%;
@@ -47,9 +47,9 @@
 }
 
 .upperSection-left {
-  background: var(--dark-secondary);
+  /* background: var(--dark-secondary); */
   width: 100%;
-  border: 1px solid var(--dark-border);
+  /* border: 1px solid var(--dark-border); */
   display: flex;
   flex-direction: column;
   padding: 1.2rem;
@@ -57,6 +57,7 @@
   font-size: 14px;
   border-radius: 8px;
   margin-bottom: 15px;
+  border: 1px solid var(--dark-border);
 }
 .upperSection-left__header {
   margin-bottom: 1rem;
@@ -69,22 +70,109 @@
   flex-wrap: wrap;
 }
 .upperSection-left__content .chart-section {
-  flex: 1;
+  flex: 2;
+  border: 1px solid var(--dark-border);
+ height: max-content;
+ 
 }
 .upperSection-left__content .content-section {
-  flex: 2;
+  flex: 3;
+
+  display: flex;
+  flex-direction: column;
+}
+.content-section__top {
+  /* border: 1px solid var(--dark-border); */
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+.content-section__top .top-section__item {
+  /* border: 1px solid var(--dark-border); */
+  border-radius: 5px;
+  color: rgb(104, 176, 139);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-section__item .icon {
+  margin-right: 0.2rem;
+}
+.top-section__item span {
+  margin-left: 0.2rem;
+}
+.top-section__item span.title {
+  font-weight: 600;
+}
+.top-section__item span.amount {
+}
+
+.content-section__bottom {
+  min-height: 190px;
+  max-height: max-content;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  /* border: 1px solid var(--dark-border); */
+  border-radius: 5px;
+}
+.bottom-section__description {
+  /* border: 1px solid red; */
 }
 
 .upperSection-right {
   border: 1px solid var(--dark-border);
-  width: 33%;
+  width: 31%;
   background: var(--dark-secondary);
   border-radius: 5px;
   color: white;
   font-weight: 500;
   display: flex;
+  flex-direction: column;
   padding: 1rem;
   font-size: 0.9rem;
+}
+.upperSection-right__header {
+  height: max-content;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.upperSection-right__content {
+  width: 100%;
+  height: 100%;
+}
+
+.upperSection-right__content .content-top {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  align-items: center;
+}
+.upperSection-right__content .content-top .leader-avatar {
+  width: 65px;
+  height: 65px;
+  margin-right: 0.65rem;
+}
+
+.upperSection-right__content .content-top .leader-name {
+  display: flex;
+
+  gap: 4px;
+}
+.upperSection-right__content .content-top .leader-name span {
+  font-weight: 700;
+  color: var(--dark-font-color);
+  font-size: 16px;
+}
+
+.upperSection-right__content .content-top .leader-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
 }
 .upperSection-right h3 {
   font-size: 1.15rem;
@@ -272,6 +360,7 @@ td {
   flex-direction: column;
   height: max-content;
   gap: 5px;
+  min-height: 250px;
 }
 .lowerSection-left .tickets-container .pagination-navbar {
   display: flex;
@@ -346,11 +435,13 @@ td {
 .ticket-item__type {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .ticket-item__priority {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .ticket-item__time {
   display: flex;
@@ -440,7 +531,7 @@ td {
   font-family: "Roboto", sans-serif;
   max-height: max-content;
   width: 75px;
-  padding: 0px 4px;
+  padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -454,7 +545,7 @@ td {
   font-weight: 600;
   color: rgb(13, 59, 4);
   width: 75px;
-  padding: 0px 4px;
+  padding: 3px;
   font-size: var(--badge-font-size);
   display: flex;
   justify-content: center;
@@ -471,7 +562,7 @@ td {
   font-family: "Roboto", sans-serif;
   color: rgb(13, 59, 4);
   width: 75px;
-  padding: 0px 4px;
+  padding: 3px;
   font-size: var(--badge-font-size);
   display: flex;
   justify-content: center;
@@ -484,7 +575,7 @@ td {
 }
 
 .lowerSection-right {
-  width: 33%;
+  width: 31%;
   border: 1px solid var(--dark-border);
   height: 100%;
   padding: 1rem;

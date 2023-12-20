@@ -1,17 +1,22 @@
 import { useParams } from "react-router-dom";
 import FolderZipIcon from "@mui/icons-material/FolderZip";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal';
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
-import ReportIcon from '@mui/icons-material/Report';
+import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
+import HelpCenterIcon from "@mui/icons-material/HelpCenter";
+import FlagCircleIcon from "@mui/icons-material/FlagCircle";
+import EmailIcon from "@mui/icons-material/Email";
+import SensorOccupiedIcon from "@mui/icons-material/SensorOccupied";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ReportIcon from "@mui/icons-material/Report";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "./projectDetailsPage.css";
-import FlagIcon from '@mui/icons-material/Flag';
+import FlagIcon from "@mui/icons-material/Flag";
 import DownloadIcon from "@mui/icons-material/Download";
 import { getProject } from "../../features/projectApi/projectApi";
 import PublicIcon from "@mui/icons-material/Public";
 import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import { Tooltip } from "react-tooltip";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import StarsIcon from "@mui/icons-material/Stars";
 import { useQuery, useMutation } from "react-query";
@@ -21,13 +26,17 @@ import { useContext, useEffect, useState } from "react";
 import { formatTimestampWithTime } from "../../utils/formatTimestamp";
 import { formatUnitSize } from "../../utils/formatUnitSize";
 import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
+import { chartConfig } from "../../utils/chartConfig";
 
 export const ProjectDetailsPage = () => {
+  const { theme, dispatch } = useContext(ThemeContext);
+  const donutChartConfig= chartConfig('donut-dashboard',theme)
   const [queryString, setQueryString] = useState({
     page: null,
     priority: "",
     type: "",
   });
+
   const { projectId } = useParams();
   const { isLoading, data, refetch } = useQuery(
     ["project"],
@@ -36,7 +45,7 @@ export const ProjectDetailsPage = () => {
       refetchOnWindowFocus: false,
     }
   );
-  console.log(isLoading);
+
 
   useEffect(() => {
     refetch();
@@ -57,7 +66,7 @@ export const ProjectDetailsPage = () => {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   };
 
-  const { theme, dispatch } = useContext(ThemeContext);
+  
 
   const handleChartDataTransform = (data) => {
     if (data) {
@@ -82,72 +91,111 @@ export const ProjectDetailsPage = () => {
       <div className="ProjectDetailsPage-bottom">
         <div className="ProjectDetailsPage-bottom-upperSection">
           <div className="upperSection-left">
-            <div className="upperSection-left__header">
-              <h2>Project Overiew</h2>
-            </div>
             <div className="upperSection-left__content">
-              <div className="content-section">{data?.description}</div>
+              <div className="content-section">
+                <div className="content-section__top">
+                  <div className="top-section__item">
+                    <BrowseGalleryIcon className="icon" />
+
+                    <span className="title">Ongoing</span>
+                  </div>
+                  <div className="top-section__item">
+                    {" "}
+                    <PublicIcon className="icon" />
+                    <span className="title">Public</span>
+                  </div>
+                  <div className="top-section__item">
+                    <CalendarMonthIcon className="icon" />
+                    <span className="title">Started:</span>
+
+                    <span className="amount">{data?.createdAt.slice(0,10)}</span>
+                  </div>
+                  <div className="top-section__item">
+                    <PeopleAltIcon className="icon" />
+
+                    <span className="title">Contributors</span>
+                    <span className="amount">{data?.contributors.length}</span>
+                  </div>{" "}
+                  <div className="top-section__item">
+                    <FlagCircleIcon className="icon" />
+                    <span  className="title">Tickets</span>
+                    <span className="amount">{data?.totalTickets}</span>
+                  </div>
+                </div>
+                <div className="content-section__bottom">
+                  <div className="bottom-section__description">
+                    <span>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Sed consequat, odio at consequat hendrerit, felis neque
+                      tincidunt arcu, a efficitur turpis justo id nulla. Proin
+                      id laoreet nisi, in volutpat libero. Vivamus vulputate,
+                      tortor in dignissim luctus, ipsum ligula faucibus ligula,
+                      eu egestas risus lectus id ligula. Suspendisse potenti.
+                      Suspendisse potenti. Fusce commodo libero eu purus
+                      scelerisque, ut aliquam nunc volutpat. Ut ut leo vel orci
+                      convallis bibendum. Integer malesuada, ex vel varius
+                      fermentum, sem mi commodo ex, vel blandit elit arcu vel
+                      tellus. Proin nec sollicitudin neque. Integer aliquam
+                      imperdiet turpis, non pellentesque est. Integer quis
+                      imperdiet ex. Integer non rhoncus quam. Aenean vel felis
+                      sed risus rhoncus feugiat. Fusce eget metus ut urna
+                      malesuada congue.
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div className="chart-section">
+              <div>SPAN</div>
                 <Donut
+           
                   theme={theme}
                   data={handleChartDataTransform(data?.chartData)}
                 />
+               
               </div>
             </div>
           </div>
           <div className="upperSection-right">
-            <div>
-              <h3>Project Details</h3>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div className="status-container">
-                        <BrowseGalleryIcon className="icon" />
-                        Ongoing
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="visibility-container">
-                        <PublicIcon className="icon" />
-                        Public
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="contributors-container">
-                        <PeopleAltIcon className="icon" />
-                        Contributors:{data?.contributors.length}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div className="started-container">
-                        <CalendarMonthIcon className="icon" />
-                        Started: {data?.createdAt}
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div className="leader-container">
-                        <StarsIcon className="icon" />
-                        Leader: {data?.projectLeader?.name}{" "}
-                        {data?.projectLeader?.surname}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="upperSection-right__header">
+              <h3>Project Leader</h3>
+            </div>
+            <div className="upperSection-right__content">
+              <div className="content-top">
+                <div className="leader-avatar">
+                  <img src={`${data?.projectLeader?.userAvatar?.url}`} alt="" />
+                </div>
+                <div className="leader-name">
+                  <span>{data?.projectLeader?.name}</span>
+                  <span>{data?.projectLeader?.surname}</span>
+                </div>
+              </div>
+              <div className="content-bottom">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div className="status-container"><HelpOutlineIcon className="icon"/>Status:Online</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div className="visibility-container">
+                          <EmailIcon className="icon" />Email:
+                          {data?.projectLeader?.email}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div className="contributors-container">
+                          <SensorOccupiedIcon className="icon" />
+                          Role:{data?.projectLeader?.role}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -158,28 +206,54 @@ export const ProjectDetailsPage = () => {
               <div className="ticket-type-switches">
                 <ul>
                   <li
-                       className={`${queryString?.type===''?'active':''}`}
-                       onClick={()=>setQueryString((prev)=>{
-                        return ({...prev,type:''})
-                      })}
-                  ><FlagIcon/>ALL</li>
-                  <li onClick={()=>setQueryString((prev)=>{
-                    return ({...prev,type:'Bug'})
-                  })}
-                  className={`${queryString?.type==='Bug'?'active':''}`}
-                  ><ReportIcon/>BUGS</li>
-                  <li 
-                    className={`${queryString?.type==='Enhancement'?'active':''}`}
-                    onClick={()=>setQueryString((prev)=>{
-                      return ({...prev,type:'Enhancement'})
-                    })}
-                  ><AutoFixNormalIcon/>EHANCEMENTS</li>
+                    className={`${queryString?.type === "" ? "active" : ""}`}
+                    onClick={() =>
+                      setQueryString((prev) => {
+                        return { ...prev, type: "" };
+                      })
+                    }
+                  >
+                    <FlagIcon />
+                    ALL
+                  </li>
                   <li
-                       className={`${queryString?.type==='Question'?'active':''}`}
-                       onClick={()=>setQueryString((prev)=>{
-                        return ({...prev,type:'Question'})
-                      })}
-                  > <HelpCenterIcon/>QUESTIONS</li>
+                    onClick={() =>
+                      setQueryString((prev) => {
+                        return { ...prev, type: "Bug", page: 1 };
+                      })
+                    }
+                    className={`${queryString?.type === "Bug" ? "active" : ""}`}
+                  >
+                    <ReportIcon />
+                    BUGS
+                  </li>
+                  <li
+                    className={`${
+                      queryString?.type === "Enhancement" ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      setQueryString((prev) => {
+                        return { ...prev, type: "Enhancement", page: 1 };
+                      })
+                    }
+                  >
+                    <AutoFixNormalIcon />
+                    EHANCEMENTS
+                  </li>
+                  <li
+                    className={`${
+                      queryString?.type === "Question" ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      setQueryString((prev) => {
+                        return { ...prev, type: "Question", page: 1 };
+                      })
+                    }
+                  >
+                    {" "}
+                    <HelpCenterIcon />
+                    QUESTIONS
+                  </li>
                 </ul>
               </div>
             </div>
@@ -308,17 +382,38 @@ export const ProjectDetailsPage = () => {
           </div>
           <div className="lowerSection-right">
             <div className="header">
-              <h3>Contributors</h3>
+              <h3 data-tip="Tooltip content">Contributors</h3>
             </div>
             <div className="content">
               {data &&
                 data?.contributors.map((contributor) => {
                   return (
-                    <div className="projectDetails-contributor-tile">
-                      <img src={contributor.userAvatar.url} alt="" />
+                    <div
+                      id="contributor"
+                      className="projectDetails-contributor-tile"
+                    >
+                      <img
+                        className="contributor-avatar"
+                        src={contributor.userAvatar.url}
+                        alt=""
+                        data-tooltip-html={data?.contributors
+                          .map((member) => `${member.name} ${member.surname}`)
+                          .join("<br/>")}
+                        data-tooltip-variant="info"
+                        data-tooltip-place="right"
+                        place={"bottom-end"}
+                        opacity={1}
+                        data-tooltip-float={true}
+                      />
                     </div>
                   );
                 })}
+              <Tooltip
+                anchorSelect="contributor-avatar"
+                place="bottom"
+                type="dark"
+                effect="solid"
+              />
             </div>
           </div>
         </div>

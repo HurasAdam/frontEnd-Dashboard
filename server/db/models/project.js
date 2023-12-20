@@ -12,9 +12,15 @@ const projectSchema = new Schema({
   },
   contributors: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      activity: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
 
@@ -40,14 +46,14 @@ const projectSchema = new Schema({
       },
       file_size_unit: {
         type: String,
-        default:"mb"
+        default: "mb",
       },
       file_type: {
         type: String,
       },
-      createdAt:{
-        type:String
-      }
+      createdAt: {
+        type: String,
+      },
     },
   ],
   createdAt: {

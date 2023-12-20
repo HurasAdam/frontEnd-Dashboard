@@ -18,6 +18,8 @@ module.exports = {
       "_id"
     );
 
+    console.log(req.user);
+
     const newNote = new Note({
       project: projectAsignedId,
       title: title,
@@ -28,6 +30,12 @@ module.exports = {
       createdAt: new Date(),
     });
 
+    const incrementAuthorProjectActivity = await Project.findOneAndUpdate(
+      { _id: project, "contributors._id": authorId },
+      { $inc: { "contributors.$.activity": 1 } }
+    );
+
+    // console.log(projectWithContributor)
     await newNote.save();
     res.status(201).json("KAPPA");
   },

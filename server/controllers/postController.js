@@ -64,6 +64,11 @@ const createPost = async (req, res) => {
         }),
       });
 
+      const incrementAuthorProjectActivity = await Project.findOneAndUpdate(
+        { _id: currentProject?._id, "contributors._id": user?._id },
+        { $inc: { "contributors.$.activity": 1 } }
+      );
+
       const eventStreamObject = { id: ticketId._id, status: "update" };
       io.sockets.emit("postCollectionUpdate", eventStreamObject);
       return res
@@ -152,29 +157,30 @@ const deletePost = async (req, res) => {
   const userIdString = userId.toString();
   const post = await Post.findOne({ _id: id });
   const postAuthorId = post.CreatedBy;
-// ------- Check if user is post owner -------------------//
+  // ------- Check if user is post owner -------------------//
   if (userIdString !== postAuthorId) {
-    return res
-      .status(403)
-      .json({
-        message: "You dont have access to delete this post",
-        success: false,
-      });
+    return res.status(403).json({
+      message: "You dont have access to delete this post",
+      success: false,
+    });
   }
-//---------- Check if attachments exist if yes then delete them -------------"
+  //---------- Check if attachments exist if yes then delete them -------------"
   if (userIdString === postAuthorId && post.files.length > 0) {
     const fileList = post.files;
-    const publicIdList = fileList.map((file) =>{
-      return ({publicId:file.publicId,file_type:file.file_type})
+    const publicIdList = fileList.map((file) => {
+      return { publicId: file.publicId, file_type: file.file_type };
     });
 
     const deletePromises = await Promise.all(
-      publicIdList.map(async ({publicId,file_type}) => {
-        const response = await cloudinary.uploader.destroy(publicId,{resource_type:file_type==='raw'?'raw':'image'});
+      publicIdList.map(async ({ publicId, file_type }) => {
+        const response = await cloudinary.uploader.destroy(publicId, {
+          resource_type: file_type === "raw" ? "raw" : "image",
+        });
         return response;
-      }))
-    }
-// ------------ Delete post --------------------
+      })
+    );
+  }
+  // ------------ Delete post --------------------
   const deletePost = await Post.findOneAndDelete({ _id: id });
   const eventStreamObject = { id: id, status: "update" };
   io.sockets.emit("postCollectionUpdate", eventStreamObject);

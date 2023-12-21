@@ -49,6 +49,7 @@ const createProject = async (req, res) => {
     const projectContributorListId = projectContributor.map((contributor) => {
       return ({
        _id:contributor._id.toString(),
+    
       })
     },
     );
@@ -71,7 +72,7 @@ const createProject = async (req, res) => {
       }),
     });
 
-    res.status(201).json("project");
+    res.status(201).json(project);
   } catch (Error) {
     console.log(Error.message);
     res.status(400).json(Error.message);

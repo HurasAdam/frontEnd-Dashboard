@@ -14,14 +14,34 @@ module.exports = {
   async saveNote(req, res) {
     const { project, title, priority, type, description } = req.body;
     const { _id: authorId } = req.user;
-    const projectAsignedId = await Project.findOne({ _id: project }).select(
-      "_id"
-    );
 
-    console.log(req.user);
+
+    const projectt = await Project.findOne({ _id: project });
+
+const contributor = projectt.contributors.find(
+  (contributor) => contributor._id.toString() === authorId.toString()
+);
+
+const today = new Date().setUTCHours(0, 0, 0, 0);
+
+const index = contributor.activity.findIndex(
+  (activity) => activity.date.setUTCHours(0, 0, 0, 0) === today
+);
+
+console.log(index)
+if (index !== -1) {
+  // Znaleziono obiekt z dzisiejszą datą, inkrementuj contributions
+  contributor.activity[index].contributions += 1;
+} else {
+  // Brak obiektu z dzisiejszą datą, dodaj nowy obiekt
+  contributor.activity.push({
+    date: new Date(),
+    contributions: 1,
+  });
+}
 
     const newNote = new Note({
-      project: projectAsignedId,
+      project: projectt?._id,
       title: title,
       priority: priority,
       author: authorId,
@@ -30,13 +50,11 @@ module.exports = {
       createdAt: new Date(),
     });
 
-    const incrementAuthorProjectActivity = await Project.findOneAndUpdate(
-      { _id: project, "contributors._id": authorId },
-      { $inc: { "contributors.$.activity": 1 } }
-    );
+ 
 
-    // console.log(projectWithContributor)
+
     await newNote.save();
+    await projectt.save()
     res.status(201).json("KAPPA");
   },
 

@@ -6,7 +6,7 @@ import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import EmailIcon from "@mui/icons-material/Email";
 import SensorOccupiedIcon from "@mui/icons-material/SensorOccupied";
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ReportIcon from "@mui/icons-material/Report";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "./projectDetailsPage.css";
@@ -30,7 +30,7 @@ import { chartConfig } from "../../utils/chartConfig";
 
 export const ProjectDetailsPage = () => {
   const { theme, dispatch } = useContext(ThemeContext);
-  const donutChartConfig= chartConfig('donut-dashboard',theme)
+  const donutChartConfig = chartConfig("donut-dashboard", theme);
   const [queryString, setQueryString] = useState({
     page: null,
     priority: "",
@@ -45,7 +45,6 @@ export const ProjectDetailsPage = () => {
       refetchOnWindowFocus: false,
     }
   );
-
 
   useEffect(() => {
     refetch();
@@ -65,8 +64,6 @@ export const ProjectDetailsPage = () => {
 
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   };
-
-  
 
   const handleChartDataTransform = (data) => {
     if (data) {
@@ -108,7 +105,9 @@ export const ProjectDetailsPage = () => {
                     <CalendarMonthIcon className="icon" />
                     <span className="title">Started:</span>
 
-                    <span className="amount">{data?.createdAt.slice(0,10)}</span>
+                    <span className="amount">
+                      {data?.createdAt.slice(0, 10)}
+                    </span>
                   </div>
                   <div className="top-section__item">
                     <PeopleAltIcon className="icon" />
@@ -118,12 +117,16 @@ export const ProjectDetailsPage = () => {
                   </div>{" "}
                   <div className="top-section__item">
                     <FlagCircleIcon className="icon" />
-                    <span  className="title">Tickets</span>
+                    <span className="title">Tickets</span>
                     <span className="amount">{data?.totalTickets}</span>
                   </div>
                 </div>
                 <div className="content-section__bottom">
                   <div className="bottom-section__description">
+               <div className="description__header">
+               <h4>Project overview</h4>
+               </div>
+               <div className="description__content">
                     <span>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       Sed consequat, odio at consequat hendrerit, felis neque
@@ -141,17 +144,38 @@ export const ProjectDetailsPage = () => {
                       sed risus rhoncus feugiat. Fusce eget metus ut urna
                       malesuada congue.
                     </span>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="chart-section">
-              <div>SPAN</div>
+                <div className="chart-section__top">
+             <div className="action">
+             <span>Type</span>
+                  <select name="" id="">
+                  <option value="a">A</option>
+                  <option value="a">B</option>
+                  </select>
+               
+             </div>
+                  <Donut
+                    theme={theme}
+                    data={handleChartDataTransform(data?.chartData)}
+                  />
+                </div>
+                <div className="chart-section__bottom">
+                <div className="action">
+                <span>Type</span>
+                <select name="" id="">
+                  <option value="a">A</option>
+                  <option value="a">B</option>
+                  </select>
+                  </div>
                 <Donut
-           
                   theme={theme}
                   data={handleChartDataTransform(data?.chartData)}
                 />
-               
+                </div>
               </div>
             </div>
           </div>
@@ -174,13 +198,17 @@ export const ProjectDetailsPage = () => {
                   <tbody>
                     <tr>
                       <td>
-                        <div className="status-container"><HelpOutlineIcon className="icon"/>Status:Online</div>
+                        <div className="status-container">
+                          <HelpOutlineIcon className="icon" />
+                          Status:Online
+                        </div>
                       </td>
                     </tr>
                     <tr>
                       <td>
                         <div className="visibility-container">
-                          <EmailIcon className="icon" />Email:
+                          <EmailIcon className="icon" />
+                          Email:
                           {data?.projectLeader?.email}
                         </div>
                       </td>

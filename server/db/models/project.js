@@ -17,10 +17,20 @@ const projectSchema = new Schema({
         ref: "User",
         required: true,
       },
-      activity: {
-        type: Number,
-        default: 0,
-      },
+      activity: [
+        {
+          date: {
+            type: Date,
+            default: function () {
+              return new Date();
+            },
+          },
+          contributions: {
+            type: Number,
+            default: 0,
+          },
+        },
+      ],
     },
   ],
 

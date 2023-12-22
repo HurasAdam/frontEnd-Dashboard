@@ -15,30 +15,37 @@ module.exports = {
     const { project, title, priority, type, description } = req.body;
     const { _id: authorId } = req.user;
 
-
     const projectt = await Project.findOne({ _id: project });
 
-const contributor = projectt.contributors.find(
-  (contributor) => contributor._id.toString() === authorId.toString()
-);
+    const contributor = projectt.contributors.find(
+      (contributor) => contributor._id.toString() === authorId.toString()
+    );
 
-const today = new Date().setUTCHours(0, 0, 0, 0);
+ 
 
-const index = contributor.activity.findIndex(
-  (activity) => activity.date.setUTCHours(0, 0, 0, 0) === today
-);
 
-console.log(index)
-if (index !== -1) {
-  // Znaleziono obiekt z dzisiejszą datą, inkrementuj contributions
-  contributor.activity[index].contributions += 1;
-} else {
-  // Brak obiektu z dzisiejszą datą, dodaj nowy obiekt
-  contributor.activity.push({
-    date: new Date(),
-    contributions: 1,
-  });
-}
+const t  = new Date()
+    const today = new Date().toISOString().substring(0,10)
+    const tomorrow = new Date(t)
+    tomorrow.setDate(t.getDate()+1)
+const tomorrowIsoStr= tomorrow.toISOString().substring(0,10)
+console.log(tomorrowIsoStr)
+    const index = contributor.activity.findIndex(
+      (activity) => activity.date.toISOString().substring(0,10) === tomorrowIsoStr
+    );
+
+
+    console.log(index)
+    if (index !== -1) {
+      // Znaleziono obiekt z dzisiejszą datą, inkrementuj contributions
+      contributor.activity[index].contributions += 1;
+    } else {
+      // Brak obiektu z dzisiejszą datą, dodaj nowy obiekt
+      contributor.activity.push({
+        date: new Date(),
+        contributions: 1,
+      });
+    }
 
     const newNote = new Note({
       project: projectt?._id,
@@ -50,11 +57,9 @@ if (index !== -1) {
       createdAt: new Date(),
     });
 
- 
-
-
     await newNote.save();
-    await projectt.save()
+
+    await projectt.save();
     res.status(201).json("KAPPA");
   },
 

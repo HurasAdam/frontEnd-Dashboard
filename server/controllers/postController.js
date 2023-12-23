@@ -22,6 +22,9 @@ const createPost = async (req, res) => {
     user._id.toString()
   );
 
+const contributor = currentProject.contributors.find((contributor)=>contributor._id.toString()===req.user._id.toString())
+
+
   if (!textContent) {
     return res.status(400).json({
       message:
@@ -64,13 +67,11 @@ const createPost = async (req, res) => {
         }),
       });
 
-      const incrementAuthorProjectActivity = await Project.findOneAndUpdate(
-        { _id: currentProject?._id, "contributors._id": user?._id },
-        { $inc: { "contributors.$.activity": 1 } }
-      );
+    
 
       const eventStreamObject = { id: ticketId._id, status: "update" };
       io.sockets.emit("postCollectionUpdate", eventStreamObject);
+      currentProject.addActivity(1,contributor)
       return res
         .status(200)
         .json({ message: "Post has been added successfully", success: true });

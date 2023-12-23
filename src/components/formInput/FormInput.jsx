@@ -13,6 +13,7 @@ export const FormInput = (props) => {
     setFocused(true);
   };
 
+  console.log(inputProps)
   if (inputProps.type === "file") {
     return (
       <div className={`${className}-${inputProps.type}`}>
@@ -103,7 +104,7 @@ export const FormInput = (props) => {
           <input
             {...inputProps}
             onBlur={(e) => handleFocus(e)}
-            // onChange={(e)=>onHandleChange(e,inputProps)}
+            onChange={inputProps.onChange?inputProps.onChange:(e)=>onHandleChange(e,inputProps)}
             focused={focused.toString()}
           />
         </>

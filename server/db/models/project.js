@@ -85,12 +85,13 @@ const projectSchema = new Schema({
   },
 });
 
-projectSchema.methods.addActivity = async function (contributions,contributorId) {
+projectSchema.methods.addActivity = async function (addedContributions,contributor) {
+  console.log(contributor)
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1; // Miesiące są indeksowane od zera
+  const currentMonth = currentDate.getMonth() + 1; 
   const currentYear = currentDate.getFullYear();
+  const currentDay = currentDate.getDate()
 
-  // Sprawdzamy, czy istnieje już obiekt dla bieżącego miesiąca
 const getDaysInMonth = (year,month)=>{
  return  new Date(year, month + 1, 0).getDate()
 }
@@ -101,47 +102,28 @@ const daysObject= Array.from({length:days},(_,index)=>({
   contributions:0
 }))
 
+const contributorAcitivty= contributor?.activity
+const doesMonthExist = contributorAcitivty.some((obj)=>{
+return obj.month===currentMonth
+})
 
 
-const contributorAcitivty= contributorId.activity
-
-
-
-const index = contributorAcitivty.findIndex((obj) => obj.month === currentMonth);
-
-if (index !== -1) {
-
-  console.log("Index obiektu:", index);
-console.log(contributorAcitivty[index])
+if(!doesMonthExist){
+  const monthObj = {
+    month:currentMonth,
+    days:daysObject
+    }
+    contributorAcitivty.push
+    (monthObj)
 }
-
-const monthObj = {
-month:currentMonth,
-days:daysObject
+else{
+  const index = contributorAcitivty.findIndex((obj)=>{
+    return obj.month===currentMonth
+  })
+const incrementContirbutionCounter= contributorAcitivty[index].days[currentDay-1]
+incrementContirbutionCounter.contributions+=addedContributions
+// console.log(incrementContirbutionCounter)
 }
-contributorAcitivty.push
-(monthObj)
-
-
-
-  // if (currentMonthObject) {
-  //   // Jeśli istnieje, zwiększamy istniejącą aktywność
-  //   currentMonthObject.days.forEach((day) => {
-  //     day.contributions += contributions;
-  //   });
-  // } else {
-  //   // Jeśli nie istnieje, tworzymy nowy obiekt miesiąca
-  //   const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
-  //   const newMonthObject = {
-  //     month: currentMonth,
-  //     days: Array.from({ length: daysInMonth }, () => ({
-  //       date: new Date(currentYear, currentMonth - 1, day + 1),
-  //       contributions: contributions,
-  //     })),
-  //   };
-
-  //   this.activity.push(newMonthObject);
-  // }
 
   await this.save();
 };

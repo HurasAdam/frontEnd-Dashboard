@@ -29,7 +29,7 @@ import { formatTimestampWithTime } from "../../utils/formatTimestamp";
 import { formatUnitSize } from "../../utils/formatUnitSize";
 import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
 import { chartConfig } from "../../utils/chartConfig";
-import { HeatMapChart } from "../../components/heatMapChart/HeatMapChat";
+import { HeatMapChart } from "../../components/heatMapChart/HeatMapChart";
 
 export const ProjectDetailsPage = () => {
   const { theme, dispatch } = useContext(ThemeContext);
@@ -39,6 +39,7 @@ export const ProjectDetailsPage = () => {
     priority: "",
     type: "",
   });
+  const [selectedContributor, setSelectedContributor] = useState("");
 
   const { projectId } = useParams();
   const { isLoading, data, refetch } = useQuery(
@@ -76,7 +77,7 @@ export const ProjectDetailsPage = () => {
       return objectKeys;
     }
   };
-
+  console.log(selectedContributor);
   return (
     <div className="ProjectDetailsPage">
       <div className="ProjectDetailsPage-top">
@@ -128,8 +129,36 @@ export const ProjectDetailsPage = () => {
                 </div>
                 <div className="content-section__bottom">
                   <div className="chart-section">
-             
-            
+                    <div className="contirbutor-section">
+                      <select
+                        onChange={(e) => setSelectedContributor(e.target.value)}
+                        name=""
+                        id=""
+                      >
+                        {data?.contributors.map((contributor) => {
+                          return (
+                            <option
+                              key={contributor.id}
+                              value={contributor.id}
+                            >{`${contributor.name} ${contributor.surname}`}</option>
+                          );
+                        })}
+                      </select>
+                      <div className="selectedContributor">
+                      {data?.contributors
+    .filter((contributor) => contributor.id === selectedContributor)
+    .map((selectedContributor) => (
+      <img
+        key={selectedContributor.id}
+        src={selectedContributor.userAvatar.url}
+        alt={`${selectedContributor.name} ${selectedContributor.surname}`}
+      />
+    ))}
+                      </div>
+                    </div>
+                    <div className="heatmap">
+                      <HeatMapChart />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -187,40 +216,38 @@ export const ProjectDetailsPage = () => {
               </div>
             </div>
             <div className="contributors-section">
-              <div className="header">
-                Contributors
+              <div className="header">Contributors</div>
+              <div className="content">
+                {data &&
+                  data?.contributors.map((contributor) => {
+                    return (
+                      <div
+                        id="contributor"
+                        className="projectDetails-contributor-tile"
+                      >
+                        <img
+                          className="contributor-avatar"
+                          src={contributor.userAvatar.url}
+                          alt=""
+                          data-tooltip-html={data?.contributors
+                            .map((member) => `${member.name} ${member.surname}`)
+                            .join("<br/>")}
+                          data-tooltip-variant="info"
+                          data-tooltip-place="right"
+                          place={"bottom-end"}
+                          opacity={1}
+                          data-tooltip-float={true}
+                        />
+                      </div>
+                    );
+                  })}
+                <Tooltip
+                  anchorSelect="contributor-avatar"
+                  place="bottom"
+                  type="dark"
+                  effect="solid"
+                />
               </div>
-            <div className="content">
-              {data &&
-                data?.contributors.map((contributor) => {
-                  return (
-                    <div
-                      id="contributor"
-                      className="projectDetails-contributor-tile"
-                    >
-                      <img
-                        className="contributor-avatar"
-                        src={contributor.userAvatar.url}
-                        alt=""
-                        data-tooltip-html={data?.contributors
-                          .map((member) => `${member.name} ${member.surname}`)
-                          .join("<br/>")}
-                        data-tooltip-variant="info"
-                        data-tooltip-place="right"
-                        place={"bottom-end"}
-                        opacity={1}
-                        data-tooltip-float={true}
-                      />
-                    </div>
-                  );
-                })}
-              <Tooltip
-                anchorSelect="contributor-avatar"
-                place="bottom"
-                type="dark"
-                effect="solid"
-              />
-            </div>
             </div>
           </div>
         </div>
@@ -424,18 +451,18 @@ export const ProjectDetailsPage = () => {
             </div>
           </div>
           <div className="lowerSection-right">
-          
-          <div className="chart-section__bottom">
-                     
-     <div className="header">
-     <span>{`${queryString?.type === '' ? "Total" : queryString?.type}`}</span>
-     </div>
-                  
-                      {/* <Donut
+            <div className="chart-section__bottom">
+              <div className="header">
+                <span>{`${
+                  queryString?.type === "" ? "Total" : queryString?.type
+                }`}</span>
+              </div>
+
+              <Donut
                         theme={theme}
                         data={handleChartDataTransform(data?.chartData)}
-                      /> */}
-                    </div>
+                      />
+            </div>
           </div>
         </div>
       </div>

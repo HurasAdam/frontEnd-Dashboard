@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import FolderZipIcon from "@mui/icons-material/FolderZip";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
+import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import EmailIcon from "@mui/icons-material/Email";
@@ -27,6 +29,7 @@ import { formatTimestampWithTime } from "../../utils/formatTimestamp";
 import { formatUnitSize } from "../../utils/formatUnitSize";
 import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
 import { chartConfig } from "../../utils/chartConfig";
+import { HeatMapChart } from "../../components/heatMapChart/HeatMapChat";
 
 export const ProjectDetailsPage = () => {
   const { theme, dispatch } = useContext(ThemeContext);
@@ -94,141 +97,153 @@ export const ProjectDetailsPage = () => {
                   <div className="top-section__item">
                     <BrowseGalleryIcon className="icon" />
 
-                    <span className="title">Ongoing</span>
+                    <span className="value">Ongoing</span>
+                    <span className="label">Status</span>
                   </div>
                   <div className="top-section__item">
                     {" "}
                     <PublicIcon className="icon" />
-                    <span className="title">Public</span>
+                    <span className="value">Public</span>
+                    <span className="label">Access</span>
                   </div>
                   <div className="top-section__item">
                     <CalendarMonthIcon className="icon" />
-                    <span className="title">Started:</span>
 
-                    <span className="amount">
-                      {data?.createdAt.slice(0, 10)}
+                    <span className="value">
+                      {data?.createdAt.slice(0, 10)}:
                     </span>
+                    <span className="label">Started</span>
                   </div>
                   <div className="top-section__item">
                     <PeopleAltIcon className="icon" />
-
-                    <span className="title">Contributors</span>
-                    <span className="amount">{data?.contributors.length}</span>
+                    <span className="value">{data?.contributors.length}</span>
+                    <span className="label">Contributors</span>
                   </div>{" "}
                   <div className="top-section__item">
                     <FlagCircleIcon className="icon" />
-                    <span className="title">Tickets</span>
-                    <span className="amount">{data?.totalTickets}</span>
+
+                    <span className="value">{data?.totalTickets}</span>
+                    <span className="label">Tickets</span>
                   </div>
                 </div>
                 <div className="content-section__bottom">
-                  <div className="bottom-section__description">
-               <div className="description__header">
-               <h4>Project overview</h4>
-               </div>
-               <div className="description__content">
-                    <span>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed consequat, odio at consequat hendrerit, felis neque
-                      tincidunt arcu, a efficitur turpis justo id nulla. Proin
-                      id laoreet nisi, in volutpat libero. Vivamus vulputate,
-                      tortor in dignissim luctus, ipsum ligula faucibus ligula,
-                      eu egestas risus lectus id ligula. Suspendisse potenti.
-                      Suspendisse potenti. Fusce commodo libero eu purus
-                      scelerisque, ut aliquam nunc volutpat. Ut ut leo vel orci
-                      convallis bibendum. Integer malesuada, ex vel varius
-                      fermentum, sem mi commodo ex, vel blandit elit arcu vel
-                      tellus. Proin nec sollicitudin neque. Integer aliquam
-                      imperdiet turpis, non pellentesque est. Integer quis
-                      imperdiet ex. Integer non rhoncus quam. Aenean vel felis
-                      sed risus rhoncus feugiat. Fusce eget metus ut urna
-                      malesuada congue.
-                    </span>
-                    </div>
+                  <div className="chart-section">
+             
+            
                   </div>
-                </div>
-              </div>
-              <div className="chart-section">
-                <div className="chart-section__top">
-             <div className="action">
-             <span>Type</span>
-                  <select name="" id="">
-                  <option value="a">A</option>
-                  <option value="a">B</option>
-                  </select>
-               
-             </div>
-                  <Donut
-                    theme={theme}
-                    data={handleChartDataTransform(data?.chartData)}
-                  />
-                </div>
-                <div className="chart-section__bottom">
-                <div className="action">
-                <span>Type</span>
-                <select name="" id="">
-                  <option value="a">A</option>
-                  <option value="a">B</option>
-                  </select>
-                  </div>
-                <Donut
-                  theme={theme}
-                  data={handleChartDataTransform(data?.chartData)}
-                />
                 </div>
               </div>
             </div>
           </div>
           <div className="upperSection-right">
-            <div className="upperSection-right__header">
-              <h3>Project Leader</h3>
+            <div className="leader-section">
+              <div className="upperSection-right__header">
+                <h3>Project Leader</h3>
+              </div>
+              <div className="upperSection-right__content">
+                <div className="content-top">
+                  <div className="leader-avatar">
+                    <img
+                      src={`${data?.projectLeader?.userAvatar?.url}`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="leader-name">
+                    <span>{data?.projectLeader?.name}</span>
+                    <span>{data?.projectLeader?.surname}</span>
+                  </div>
+                </div>
+                <div className="content-bottom">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div className="status-container">
+                            <HelpOutlineIcon className="icon" />
+                            Status:Online
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div className="visibility-container">
+                            <EmailIcon className="icon" />
+                            Email:
+                            {data?.projectLeader?.email}
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div className="contributors-container">
+                            <SensorOccupiedIcon className="icon" />
+                            Role:{data?.projectLeader?.role}
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div className="upperSection-right__content">
-              <div className="content-top">
-                <div className="leader-avatar">
-                  <img src={`${data?.projectLeader?.userAvatar?.url}`} alt="" />
-                </div>
-                <div className="leader-name">
-                  <span>{data?.projectLeader?.name}</span>
-                  <span>{data?.projectLeader?.surname}</span>
-                </div>
+            <div className="contributors-section">
+              <div className="header">
+                Contributors
               </div>
-              <div className="content-bottom">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div className="status-container">
-                          <HelpOutlineIcon className="icon" />
-                          Status:Online
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className="visibility-container">
-                          <EmailIcon className="icon" />
-                          Email:
-                          {data?.projectLeader?.email}
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className="contributors-container">
-                          <SensorOccupiedIcon className="icon" />
-                          Role:{data?.projectLeader?.role}
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div className="content">
+              {data &&
+                data?.contributors.map((contributor) => {
+                  return (
+                    <div
+                      id="contributor"
+                      className="projectDetails-contributor-tile"
+                    >
+                      <img
+                        className="contributor-avatar"
+                        src={contributor.userAvatar.url}
+                        alt=""
+                        data-tooltip-html={data?.contributors
+                          .map((member) => `${member.name} ${member.surname}`)
+                          .join("<br/>")}
+                        data-tooltip-variant="info"
+                        data-tooltip-place="right"
+                        place={"bottom-end"}
+                        opacity={1}
+                        data-tooltip-float={true}
+                      />
+                    </div>
+                  );
+                })}
+              <Tooltip
+                anchorSelect="contributor-avatar"
+                place="bottom"
+                type="dark"
+                effect="solid"
+              />
+            </div>
             </div>
           </div>
         </div>
         <div className="ProjectDetailsPage-bottom-lowerSection">
           <div className="lowerSection-left">
+            <div className="description__content">
+              <h4>Project overview</h4>
+              <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                consequat, odio at consequat hendrerit, felis neque tincidunt
+                arcu, a efficitur turpis justo id nulla. Proin id laoreet nisi,
+                in volutpat libero. Vivamus vulputate, tortor in dignissim
+                luctus, ipsum ligula faucibus ligula, eu egestas risus lectus id
+                ligula. Suspendisse potenti. Suspendisse potenti. Fusce commodo
+                libero eu purus scelerisque, ut aliquam nunc volutpat. Ut ut leo
+                vel orci convallis bibendum. Integer malesuada, ex vel varius
+                fermentum, sem mi commodo ex, vel blandit elit arcu vel tellus.
+                Proin nec sollicitudin neque. Integer aliquam imperdiet turpis,
+                non pellentesque est. Integer quis imperdiet ex. Integer non
+                rhoncus quam. Aenean vel felis sed risus rhoncus feugiat. Fusce
+                eget metus ut urna malesuada congue.
+              </span>
+            </div>
             <div className="lowerSection-left__header">
               <h4>Current Tickets</h4>
               <div className="ticket-type-switches">
@@ -409,40 +424,18 @@ export const ProjectDetailsPage = () => {
             </div>
           </div>
           <div className="lowerSection-right">
-            <div className="header">
-              <h3 data-tip="Tooltip content">Contributors</h3>
-            </div>
-            <div className="content">
-              {data &&
-                data?.contributors.map((contributor) => {
-                  return (
-                    <div
-                      id="contributor"
-                      className="projectDetails-contributor-tile"
-                    >
-                      <img
-                        className="contributor-avatar"
-                        src={contributor.userAvatar.url}
-                        alt=""
-                        data-tooltip-html={data?.contributors
-                          .map((member) => `${member.name} ${member.surname}`)
-                          .join("<br/>")}
-                        data-tooltip-variant="info"
-                        data-tooltip-place="right"
-                        place={"bottom-end"}
-                        opacity={1}
-                        data-tooltip-float={true}
-                      />
+          
+          <div className="chart-section__bottom">
+                     
+     <div className="header">
+     <span>{`${queryString?.type === '' ? "Total" : queryString?.type}`}</span>
+     </div>
+                  
+                      {/* <Donut
+                        theme={theme}
+                        data={handleChartDataTransform(data?.chartData)}
+                      /> */}
                     </div>
-                  );
-                })}
-              <Tooltip
-                anchorSelect="contributor-avatar"
-                place="bottom"
-                type="dark"
-                effect="solid"
-              />
-            </div>
           </div>
         </div>
       </div>

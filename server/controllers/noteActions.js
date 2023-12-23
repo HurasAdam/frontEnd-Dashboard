@@ -17,35 +17,13 @@ module.exports = {
 
     const projectt = await Project.findOne({ _id: project });
 
-    const contributor = projectt.contributors.find(
+    const contributor = projectt?.contributors.find(
       (contributor) => contributor._id.toString() === authorId.toString()
     );
 
  
 
 
-const t  = new Date()
-    const today = new Date().toISOString().substring(0,10)
-    const tomorrow = new Date(t)
-    tomorrow.setDate(t.getDate()+1)
-const tomorrowIsoStr= tomorrow.toISOString().substring(0,10)
-console.log(tomorrowIsoStr)
-    const index = contributor.activity.findIndex(
-      (activity) => activity.date.toISOString().substring(0,10) === tomorrowIsoStr
-    );
-
-
-    console.log(index)
-    if (index !== -1) {
-      // Znaleziono obiekt z dzisiejszą datą, inkrementuj contributions
-      contributor.activity[index].contributions += 1;
-    } else {
-      // Brak obiektu z dzisiejszą datą, dodaj nowy obiekt
-      contributor.activity.push({
-        date: new Date(),
-        contributions: 1,
-      });
-    }
 
     const newNote = new Note({
       project: projectt?._id,
@@ -58,8 +36,8 @@ console.log(tomorrowIsoStr)
     });
 
     await newNote.save();
+    projectt.addActivity(1,contributor)
 
-    await projectt.save();
     res.status(201).json("KAPPA");
   },
 

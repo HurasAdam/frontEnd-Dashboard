@@ -38,7 +38,8 @@ module.exports = {
     await newNote.save();
     projectt.addActivity(1,contributor)
 
-    res.status(201).json("KAPPA");
+
+    res.status(201).json({message:"Tickets has been added",succes:true});
   },
 
   //podbieranie noatek

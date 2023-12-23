@@ -22,6 +22,7 @@ const statsRoutes=require('./routes/stats')
 const postsRoutes = require('./routes/posts')
 const optionsRoutes= require('./routes/options')
 const cloudinaryDownloadRoutes= require('./routes/cloudinaryDownload')
+const chartsRoutes = require('./routes/charts')
 app.use('/api/download',cloudinaryDownloadRoutes)
 app.use('/api/notes',apiRouter);
 app.use('/api/user', userRoutes)
@@ -29,7 +30,7 @@ app.use('/api/projects',projectRoutes)
 app.use('/api/stats',statsRoutes)
 app.use('/api/posts',postsRoutes)
 app.use('/api/options',optionsRoutes)
-
+app.use('/api/chartData',chartsRoutes)
 //server
 const server= app.listen(port,function(){
     console.log(`server listen at 127.0.0.1:${port}`);

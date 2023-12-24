@@ -1,40 +1,59 @@
 const mongoose = require("mongoose");
 
+
+
+
 const Schema = mongoose.Schema;
-const daySchema= new Schema({
-  date:{
-    type:Date,
+const daySchema = new Schema({
+  date: {
+    type: Date,
+    default: function () {
+      return new Date();
+    },
+  },
+  contributions: {
+    type: Number,
+    default: 0,
+  },
+  dayOfWeek:{
+    type:String,
     default:function(){
-      return new Date()
+      const weekDays = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      
+      const now = new Date()
+      const dayOfWeek = now.getDay()
+      return weekDays[dayOfWeek === 0 ? 6 : dayOfWeek - 1];
     }
   },
-  contributions:{
-    type:Number,
-    default:0
+  day: {
+    type: Number,
   },
-  day:{
-    type:Number
-  }
-  
-})
+});
 
 const monthSchema = new Schema({
-  month:{
-    type:Number,
-    required:true
+  month: {
+    type: Number,
+    required: true,
   },
-  days:[daySchema]
-})
+  days: [daySchema],
+});
 
 const contributorSchema = new Schema({
-  _id:{
+  _id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  activity:[monthSchema]
-})
-
+  activity: [monthSchema],
+});
 
 const projectSchema = new Schema({
   title: {
@@ -85,51 +104,67 @@ const projectSchema = new Schema({
   },
 });
 
-projectSchema.methods.addActivity = async function (addedContributions,contributor) {
-  console.log(contributor)
+
+
+
+projectSchema.methods.grpBy = async function async(project) {
+  console.log(project);
+};
+
+projectSchema.methods.addActivity = async function (
+  addedContributions,
+  contributor
+) {
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1; 
+  const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
-  const currentDay = currentDate.getDate()
-
-const getDaysInMonth = (year,month)=>{
- return  new Date(year, month + 1, 0).getDate()
-}
-
-const days = getDaysInMonth(currentYear,currentMonth)
-const daysObject= Array.from({length:days},(_,index)=>({
-  day:index+1,
-  contributions:0
-}))
-
-const contributorAcitivty= contributor?.activity
-const doesMonthExist = contributorAcitivty.some((obj)=>{
-return obj.month===currentMonth
-})
+  const currentDay = currentDate.getDate();
 
 
-if(!doesMonthExist){
-  const monthObj = {
-    month:currentMonth,
-    days:daysObject
+  const getDaysInMonth = (year, month) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const days = getDaysInMonth(currentYear, currentMonth);
+  const daysObject = Array.from({ length: days }, (_, index) => ({
+   
+    day: index + 1,
+    contributions: 0,
+  }));
+
+  const contributorAcitivty = contributor?.activity;
+  const doesMonthExist = contributorAcitivty.some((obj) => {
+    return obj.month === currentMonth;
+  });
+
+  const dailyContributions = daysObject.map((day) => {
+    if (day.day === currentDay) {
+      return { ...day, contributions: day.contributions + 1 };
+    } else {
+      return { ...day };
     }
-    contributorAcitivty.push
-    (monthObj)
-}
-else{
-  const index = contributorAcitivty.findIndex((obj)=>{
-    return obj.month===currentMonth
-  })
-const incrementContirbutionCounter= contributorAcitivty[index].days[currentDay-1]
-incrementContirbutionCounter.contributions+=addedContributions
-// console.log(incrementContirbutionCounter)
-}
+  });
+
+  console.log(dailyContributions);
+
+  if (!doesMonthExist) {
+    const monthObj = {
+      month: currentMonth,
+      days: dailyContributions,
+    };
+    contributorAcitivty.push(monthObj);
+  } else {
+    const index = contributorAcitivty.findIndex((obj) => {
+      return obj.month === currentMonth;
+    });
+    const incrementContirbutionCounter =
+      contributorAcitivty[index].days[currentDay - 1];
+    incrementContirbutionCounter.contributions += addedContributions;
+    // console.log(incrementContirbutionCounter)
+  }
 
   await this.save();
 };
-
-
-
 
 const model = mongoose.model("Projects", projectSchema);
 

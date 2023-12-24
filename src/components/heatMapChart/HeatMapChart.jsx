@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./heatMapChart.css"
 import ReactApexChart from "react-apexcharts";
 export const HeatMapChart = () => {
   const [month, setMonth] = useState("");
@@ -61,7 +62,7 @@ export const HeatMapChart = () => {
   }
   const checkDays = generateHeatmapData(month);
 
-  console.log(checkDays);
+
 
   const [state, setState] = useState({
     series: [
@@ -69,146 +70,152 @@ export const HeatMapChart = () => {
         name: "Monday",
         data: [
           {
-            x: "0",
+            x: "Week 1",
+            y:3
            
           },
           {
-            x: "1",
-           
+            x: "Week 2",
+            y: 2,
           },
           {
-            x: "1",
-       
+            x: "Week 3",
+            y: 2,
           },
           {
-            x: "1",
+            x: "Week 4",
+            y: 5,
+          },
+          {x: "Week 1",
+          y: 2
+        },
+        ],
+      },
+      {
+        name: "Tuesday",
+        data: [
+          {
+            x: "Week 1",
+            y: 2,
+          },
+          {
+            x: "Week 1",
+            y: 3,
+          },
+          {
+            x: "Week 1",
+            y: 5,
+          },
+          {
+            x: "Week 1",
+            y: 6,
+          },
+        ],
+      },
+      {
+        name: "Wednesday ",
+        data: [
+          {
+            x: "Week 1",
+            y: "2",
+          },
+          {
+            x: "Week 1",
+            y: "2",
+          },
+          {
+            x: "Week 1",
+            y: "2",
+          },
+          {
+            x: "Week 1",
             y: "2",
           },
         ],
       },
       {
-        name: "Monday",
+        name: "Thursday ",
         data: [
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
         ],
       },
       {
-        name: "Monday",
+        name: "Friday ",
         data: [
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
         ],
       },
       {
-        name: "Monday",
+        name: "Saturday ",
         data: [
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
+          
+        
         ],
       },
       {
-        name: "Monday",
+        name: "Sunday ",
         data: [
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
           {
-            x: "1",
-            y: "2",
-          },
-        ],
-      },
-      {
-        name: "Monday",
-        data: [
-          {
-            x: "1",
-            y: "2",
-          },
-          {
-            x: "1",
-            y: "2",
-          },
-          {
-            x: "1",
-            y: "2",
-          },
-          {
-            x: "1",
-            y: "2",
-          },
-        ],
-      },
-      {
-        name: "Monday",
-        data: [
-          {
-            x: "1",
-            y: "2",
-          },
-          {
-            x: "1",
-            y: "2",
-          },
-          {
-            x: "1",
-            y: "2",
-          },
-          {
-            x: "1",
-            y: "2",
+            x: "Week 1",
+            y: 2,
           },
         ],
       },
@@ -216,7 +223,8 @@ export const HeatMapChart = () => {
     ],
     options: {
       chart: {
-        height: 350,
+        height: 150,
+        width:200,
         type: "heatmap",
       },
       dataLabels: {
@@ -233,7 +241,7 @@ export const HeatMapChart = () => {
   });
 
   return (
-    <div id="chart">
+    <div className="heatMapChart" id="chart">
       <ReactApexChart
         options={state.options}
         series={state?.series}

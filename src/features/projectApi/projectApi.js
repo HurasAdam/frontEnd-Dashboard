@@ -52,8 +52,16 @@ console.log(update)
 };
 
 
-export const getProjectActivity= async(projectId)=>{
-  const response = await projectApi.get(`chartData/${projectId}`)
+export const getProjectActivity= async(projectId,query)=>{
+
+
+let url = `chartData/${projectId}`
+
+if(query){
+  url = url+`?${query}`
+}
+
+  const response = await projectApi.get(url)
   return response.data
 }
 export const deleteProject = async(id) => {

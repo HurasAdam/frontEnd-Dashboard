@@ -51,6 +51,11 @@ console.log(update)
   });
 };
 
+
+export const getProjectActivity= async(projectId)=>{
+  const response = await projectApi.get(`chartData/${projectId}`)
+  return response.data
+}
 export const deleteProject = async(id) => {
 
   const response = await projectApi.delete(`projects/${id}`)

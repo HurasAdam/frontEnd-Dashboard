@@ -4,56 +4,6 @@ const mongoose = require("mongoose");
 
 
 const Schema = mongoose.Schema;
-const daySchema = new Schema({
-  date: {
-    type: Date,
-    default: function () {
-      return new Date();
-    },
-  },
-  contributions: {
-    type: Number,
-    default: 0,
-  },
-  dayOfWeek:{
-    type:String,
-    default:function(){
-      const weekDays = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-      
-      const now = new Date()
-      const dayOfWeek = now.getDay()
-      return weekDays[dayOfWeek === 0 ? 6 : dayOfWeek - 1];
-    }
-  },
-  day: {
-    type: Number,
-  },
-});
-
-const monthSchema = new Schema({
-  month: {
-    type: Number,
-    required: true,
-  },
-  days: [daySchema],
-});
-
-const contributorSchema = new Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  activity: [monthSchema],
-});
 
 const projectSchema = new Schema({
   title: {
@@ -64,7 +14,7 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  contributors: [contributorSchema],
+  contributors: [],
 
   projectLeader: {
     type: mongoose.Schema.Types.ObjectId,
@@ -107,64 +57,64 @@ const projectSchema = new Schema({
 
 
 
-projectSchema.methods.grpBy = async function async(project) {
-  console.log(project);
-};
+// projectSchema.methods.grpBy = async function async(project) {
+//   console.log(project);
+// };
 
-projectSchema.methods.addActivity = async function (
-  addedContributions,
-  contributor
-) {
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
-  const currentYear = currentDate.getFullYear();
-  const currentDay = currentDate.getDate();
+// projectSchema.methods.addActivity = async function (
+//   addedContributions,
+//   contributor
+// ) {
+//   const currentDate = new Date();
+//   const currentMonth = currentDate.getMonth() + 1;
+//   const currentYear = currentDate.getFullYear();
+//   const currentDay = currentDate.getDate();
 
 
-  const getDaysInMonth = (year, month) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
+//   const getDaysInMonth = (year, month) => {
+//     return new Date(year, month + 1, 0).getDate();
+//   };
 
-  const days = getDaysInMonth(currentYear, currentMonth);
-  const daysObject = Array.from({ length: days }, (_, index) => ({
+//   const days = getDaysInMonth(currentYear, currentMonth);
+//   const daysObject = Array.from({ length: days }, (_, index) => ({
    
-    day: index + 1,
-    contributions: 0,
-  }));
+//     day: index + 1,
+//     contributions: 0,
+//   }));
 
-  const contributorAcitivty = contributor?.activity;
-  const doesMonthExist = contributorAcitivty.some((obj) => {
-    return obj.month === currentMonth;
-  });
+//   const contributorAcitivty = contributor?.activity;
+//   const doesMonthExist = contributorAcitivty.some((obj) => {
+//     return obj.month === currentMonth;
+//   });
 
-  const dailyContributions = daysObject.map((day) => {
-    if (day.day === currentDay) {
-      return { ...day, contributions: day.contributions + 1 };
-    } else {
-      return { ...day };
-    }
-  });
+//   const dailyContributions = daysObject.map((day) => {
+//     if (day.day === currentDay) {
+//       return { ...day, contributions: day.contributions + 1 };
+//     } else {
+//       return { ...day };
+//     }
+//   });
 
-  console.log(dailyContributions);
+//   console.log(dailyContributions);
 
-  if (!doesMonthExist) {
-    const monthObj = {
-      month: currentMonth,
-      days: dailyContributions,
-    };
-    contributorAcitivty.push(monthObj);
-  } else {
-    const index = contributorAcitivty.findIndex((obj) => {
-      return obj.month === currentMonth;
-    });
-    const incrementContirbutionCounter =
-      contributorAcitivty[index].days[currentDay - 1];
-    incrementContirbutionCounter.contributions += addedContributions;
-    // console.log(incrementContirbutionCounter)
-  }
+//   if (!doesMonthExist) {
+//     const monthObj = {
+//       month: currentMonth,
+//       days: dailyContributions,
+//     };
+//     contributorAcitivty.push(monthObj);
+//   } else {
+//     const index = contributorAcitivty.findIndex((obj) => {
+//       return obj.month === currentMonth;
+//     });
+//     const incrementContirbutionCounter =
+//       contributorAcitivty[index].days[currentDay - 1];
+//     incrementContirbutionCounter.contributions += addedContributions;
+//     // console.log(incrementContirbutionCounter)
+//   }
 
-  await this.save();
-};
+//   await this.save();
+// };
 
 const model = mongoose.model("Projects", projectSchema);
 

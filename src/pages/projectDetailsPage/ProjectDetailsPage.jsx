@@ -14,7 +14,7 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "./projectDetailsPage.css";
 import FlagIcon from "@mui/icons-material/Flag";
 import DownloadIcon from "@mui/icons-material/Download";
-import { getProject } from "../../features/projectApi/projectApi";
+import { getProject, getProjectActivity } from "../../features/projectApi/projectApi";
 import PublicIcon from "@mui/icons-material/Public";
 import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -39,9 +39,13 @@ export const ProjectDetailsPage = () => {
     priority: "",
     type: "",
   });
-  const [selectedContributor, setSelectedContributor] = useState("");
+  const [selectedContributor, setSelectedContributor] = useState({
+    contributor:""
+  });
 
   const { projectId } = useParams();
+
+
   const { isLoading, data, refetch } = useQuery(
     ["project"],
     () => getProject({ projectId, query: buildQueryString(queryString) }),
@@ -50,9 +54,37 @@ export const ProjectDetailsPage = () => {
     }
   );
 
+  const {data:projectActivity,refetch:refetchActivity}=useQuery(['projectActivity'],()=>getProjectActivity(projectId,buildQueryString(selectedContributor)),{
+    refetchOnWindowFocus:false
+  })
+
+const transformDataForHeatmap=(fetchData)=>{
+  const transformedData = {}
+
+  if(fetchData){
+    fetchData.forEach((obj)=>{
+      const date = new Date(obj?.date)
+const weekDay = date.getDay()
+const month = date.getMonth();
+const year = date.getYear();
+console.log(date)
+console.log(weekDay)
+
+    })
+  }
+ 
+
+}
+ 
+const test = transformDataForHeatmap(projectActivity)
+console.log(test)
   useEffect(() => {
     refetch();
   }, [queryString]);
+
+  useEffect(()=>{
+    refetchActivity();
+  },[selectedContributor])
 
   const buildQueryString = (queryObject) => {
     const queryParams = Object.entries(queryObject)
@@ -77,7 +109,7 @@ export const ProjectDetailsPage = () => {
       return objectKeys;
     }
   };
-  console.log(selectedContributor);
+
   return (
     <div className="ProjectDetailsPage">
       <div className="ProjectDetailsPage-top">
@@ -131,10 +163,13 @@ export const ProjectDetailsPage = () => {
                   <div className="chart-section">
                     <div className="contirbutor-section">
                       <select
-                        onChange={(e) => setSelectedContributor(e.target.value)}
+                        onChange={(e) => setSelectedContributor((prev)=>{
+                          return {...prev,contributor:e.target.value}
+                        })}
                         name=""
                         id=""
                       >
+                      <option defaultValue={true} value="">Overall</option>
                         {data?.contributors.map((contributor) => {
                           return (
                             <option

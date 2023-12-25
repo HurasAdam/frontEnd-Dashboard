@@ -3,6 +3,7 @@ const { scheduleTicketArchiving } = require("../utils/scheduleTicketArchiving");
 const Note = require("../db/models/note");
 const Post = require("../db/models/post");
 const User = require("../db/models/user");
+const UserProjectActivity = require("../db/models/userProjectActivity")
 const Project = require("../db/models/project");
 const cloudinary = require("cloudinary").v2;
 const { convertDate } = require("../utils/dateConvert");
@@ -15,9 +16,9 @@ module.exports = {
     const { project, title, priority, type, description } = req.body;
     const { _id: authorId } = req.user;
 
-    const projectt = await Project.findOne({ _id: project });
+    const currentProject = await Project.findOne({ _id: project });
 
-    const contributor = projectt?.contributors.find(
+    const contributor = currentProject?.contributors.find(
       (contributor) => contributor._id.toString() === authorId.toString()
     );
 
@@ -26,7 +27,7 @@ module.exports = {
 
 
     const newNote = new Note({
-      project: projectt?._id,
+      project: currentProject?._id,
       title: title,
       priority: priority,
       author: authorId,
@@ -36,7 +37,13 @@ module.exports = {
     });
 
     await newNote.save();
-    projectt.addActivity(1,contributor)
+    const userProjectActivityInstance = new UserProjectActivity();
+    userProjectActivityInstance.addActivity({
+      userId:req.user._id,
+      projectId:currentProject?._id,
+      activityType:"ticket",
+      
+    })
 
 
     res.status(201).json({message:"Tickets has been added",succes:true});

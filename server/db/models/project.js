@@ -8,10 +8,14 @@ const Schema = mongoose.Schema;
 const projectSchema = new Schema({
   title: {
     type: String,
+    minLength:5,
+    maxLength:50,
     required: true,
   },
   description: {
     type: String,
+    minLength:15,
+    maxLength:1000,
     required: true,
   },
   contributors: [],

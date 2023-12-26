@@ -4,17 +4,28 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    minLength:[3,`name is too short, it should contain atleast 3 characters`],
+    maxLength:50,
+    required: [true," Name is required"],
+    validate:{
+      validator:v=>v==='string',
+      message:props=>`${props.value} is not and string`
+    }
+
   },
 
   surname: {
     type: String,
-    required: true,
+    maxLength:50,
+    minLength:[3,`surname is too short, it should contain atleast 3 characters`],
+    required: [true," Surname is required"],
   },
   email: {
     type: String,
-    require: true,
+    maxLength:320,
+    require: [true, "Email is required"],
     unique: true,
+    lowercase:true,
   },
   password: {
     type: String,
@@ -52,12 +63,18 @@ const userSchema = new Schema({
     type:String,
     default:""
   },
-  createdAt:{
-    type: Object
-  },
   theme:{
     type:String,
     default:'LIGHT'
+  },
+  createdAt:{
+    type:Date,
+    immutable:true,
+    default:()=>Date.now()
+  },
+  updatedAt:{
+    type:Date,
+    default:()=>Date.now()
   }
 });
 

@@ -14,7 +14,10 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import "./projectDetailsPage.css";
 import FlagIcon from "@mui/icons-material/Flag";
 import DownloadIcon from "@mui/icons-material/Download";
-import { getProject, getProjectActivity } from "../../features/projectApi/projectApi";
+import {
+  getProject,
+  getProjectActivity,
+} from "../../features/projectApi/projectApi";
 import PublicIcon from "@mui/icons-material/Public";
 import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -39,12 +42,12 @@ export const ProjectDetailsPage = () => {
     priority: "",
     type: "",
   });
-  const [selectedContributor, setSelectedContributor] = useState({
-    contributor:""
+  const [selectionOptions, setSelectionOptions] = useState({
+    contributor: "",
+    month: "",
   });
 
   const { projectId } = useParams();
-
 
   const { isLoading, data, refetch } = useQuery(
     ["project"],
@@ -54,37 +57,73 @@ export const ProjectDetailsPage = () => {
     }
   );
 
-  const {data:projectActivity,refetch:refetchActivity}=useQuery(['projectActivity'],()=>getProjectActivity(projectId,buildQueryString(selectedContributor)),{
-    refetchOnWindowFocus:false
-  })
+  const { data: projectActivity, refetch: refetchActivity } = useQuery(
+    ["projectActivity"],
+    () => getProjectActivity(projectId, buildQueryString(selectionOptions)),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
-const transformDataForHeatmap=(fetchData)=>{
-  const transformedData = {}
+  Date.prototype.getWeekOfMonth = function () {
+    var firstDay = new Date(this.getFullYear(), this.getMonth(), 1).getDay();
+    var offset = this.getDate() + firstDay - 1;
+    return Math.ceil(offset / 7);
+  };
 
-  if(fetchData){
-    fetchData.forEach((obj)=>{
-      const date = new Date(obj?.date)
-const weekDay = date.getDay()
-const month = date.getMonth();
-const year = date.getYear();
-console.log(date)
-console.log(weekDay)
+  const handleDataTransform = (responseObjects) => {
+    const weekDayName = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+  
+    if (responseObjects) {
+      const array = responseObjects.map((obj) => {
+        const date = new Date(obj?.date);
+        const month = date.getMonth();
+        const dayOfWeek = date.getDay();
+        const dayNumber = date.getDate();
+        const object = {
+          month,
+          dayName: weekDayName[dayOfWeek],
+          day: dayNumber
+        };
+  
+        return object;
+      });
+  
+      const groupedObjects = array.reduce((acc, obj) => {
+        const existingGroup = acc.find((group) => group[0]?.day === obj.day);
+  
+        if (existingGroup) {
+          existingGroup.push(obj);
+        } else {
+          acc.push([obj]);
+        }
+  
+        return acc;
+      }, []);
+  
+      console.log(groupedObjects);
+      return groupedObjects;
+    }
+  };
 
-    })
-  }
- 
+  const result = handleDataTransform(projectActivity && projectActivity);
+  console.log(result);
 
-}
- 
-const test = transformDataForHeatmap(projectActivity)
-console.log(test)
   useEffect(() => {
     refetch();
   }, [queryString]);
 
-  useEffect(()=>{
+  useEffect(() => {
     refetchActivity();
-  },[selectedContributor])
+  }, [selectionOptions]);
 
   const buildQueryString = (queryObject) => {
     const queryParams = Object.entries(queryObject)
@@ -163,13 +202,17 @@ console.log(test)
                   <div className="chart-section">
                     <div className="contirbutor-section">
                       <select
-                        onChange={(e) => setSelectedContributor((prev)=>{
-                          return {...prev,contributor:e.target.value}
-                        })}
+                        onChange={(e) =>
+                          setSelectionOptions((prev) => {
+                            return { ...prev, contributor: e.target.value };
+                          })
+                        }
                         name=""
                         id=""
                       >
-                      <option defaultValue={true} value="">Overall</option>
+                        <option defaultValue={true} value="">
+                          Overall
+                        </option>
                         {data?.contributors.map((contributor) => {
                           return (
                             <option
@@ -180,19 +223,22 @@ console.log(test)
                         })}
                       </select>
                       <div className="selectedContributor">
-                      {data?.contributors
-    .filter((contributor) => contributor.id === selectedContributor)
-    .map((selectedContributor) => (
-      <img
-        key={selectedContributor.id}
-        src={selectedContributor.userAvatar.url}
-        alt={`${selectedContributor.name} ${selectedContributor.surname}`}
-      />
-    ))}
+                        {data?.contributors
+                          .filter(
+                            (contributor) =>
+                              contributor.id === selectionOptions?.contributor
+                          )
+                          .map((selectedContributor) => (
+                            <img
+                              key={selectedContributor?.id}
+                              src={selectedContributor?.userAvatar.url}
+                              alt={`${selectedContributor?.name} ${selectedContributor?.surname}`}
+                            />
+                          ))}
                       </div>
                     </div>
                     <div className="heatmap">
-                      <HeatMapChart />
+                      <HeatMapChart setSelectionOptions={setSelectionOptions} />
                     </div>
                   </div>
                 </div>
@@ -494,9 +540,9 @@ console.log(test)
               </div>
 
               <Donut
-                        theme={theme}
-                        data={handleChartDataTransform(data?.chartData)}
-                      />
+                theme={theme}
+                data={handleChartDataTransform(data?.chartData)}
+              />
             </div>
           </div>
         </div>

@@ -1,160 +1,13 @@
 import { useState } from "react";
 import "./heatMapChart.css";
 import ReactApexChart from "react-apexcharts";
-export const HeatMapChart = ({ setSelectionOptions,result }) => {
-  const [month, setMonth] = useState("");
 
+export const HeatMapChart = ({ setSelectionOptions, result }) => {
+  const [month, setMonth] = useState("");
 
   const [state, setState] = useState({
     series: [
-      {
-        name: "Monday",
-        data: [
-          {
-            x: "Week 1",
-            y: 3,
-          },
-          {
-            x: "Week 2",
-            y: 2,
-          },
-          {
-            x: "Week 3",
-            y: 2,
-          },
-          {
-            x: "Week 4",
-            y: 5,
-          },
-          { x: "Week 1", y: 2 },
-        ],
-      },
-      {
-        name: "Tuesday",
-        data: [
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 3,
-          },
-          {
-            x: "Week 1",
-            y: 5,
-          },
-          {
-            x: "Week 1",
-            y: 6,
-          },
-        ],
-      },
-      {
-        name: "Wednesday ",
-        data: [
-          {
-            x: "Week 1",
-            y: "2",
-          },
-          {
-            x: "Week 1",
-            y: "2",
-          },
-          {
-            x: "Week 1",
-            y: "2",
-          },
-          {
-            x: "Week 1",
-            y: "2",
-          },
-        ],
-      },
-      {
-        name: "Thursday ",
-        data: [
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-        ],
-      },
-      {
-        name: "Friday ",
-        data: [
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-        ],
-      },
-      {
-        name: "Saturday ",
-        data: [
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-        ],
-      },
-      {
-        name: "Sunday ",
-        data: [
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-          {
-            x: "Week 1",
-            y: 2,
-          },
-        ],
-      },
+      // ... Twoje dane series
     ],
     options: {
       chart: {
@@ -168,9 +21,46 @@ export const HeatMapChart = ({ setSelectionOptions,result }) => {
       xaxis: {
         type: "category",
       },
-      colors: ["#008FFB"],
       title: {
-        text: "HeatMap Chart (Single color)",
+        text: `${month&&month} contribtions`,
+      },
+      plotOptions: {
+        heatmap: {
+          colorScale: {
+            ranges: [
+              {
+                from: 0,
+                to: 0,
+                name: "zero",
+                color: "#000000", // Kolor dla y równego 0 (rgb(13, 17, 23))
+              },
+              {
+                from: 1,
+                to: 2,
+                name: "low",
+                color: "#196127", // Kolor dla niskich wartości
+              },
+              {
+                from: 3,
+                to: 4,
+                name: "medium",
+                color: "#7bc96f", // Kolor dla średnich wartości
+              },
+              {
+                from: 5,
+                to: 6,
+                name: "high",
+                color: "#239a3b", // Kolor dla wysokich wartości
+              },
+              {
+                from: 7,
+                to: 8,
+                name: "very-high",
+                color: "#196127", // Kolor dla bardzo wysokich wartości
+              },
+            ],
+          },
+        },
       },
     },
   });
@@ -179,7 +69,7 @@ export const HeatMapChart = ({ setSelectionOptions,result }) => {
     <div className="heatMapChart" id="chart">
       <ReactApexChart
         options={state.options}
-        series={result&&result}
+        series={result && result}
         type="heatmap"
         height={350}
       />
@@ -193,13 +83,13 @@ export const HeatMapChart = ({ setSelectionOptions,result }) => {
             })
           }
         >
-          <option value="January">Januray</option>
+          <option value="January">January</option>
           <option value="February">February</option>
           <option value="March">March</option>
           <option value="April">April</option>
           <option value="May">May</option>
-          <option value="June">July</option>
-          <option value="July">June</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
           <option value="August">August</option>
           <option value="September">September</option>
           <option value="October">October</option>

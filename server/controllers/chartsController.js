@@ -32,6 +32,7 @@ if(month){
     console.log(endDate)
  
     activity = await userProjectActivity.find({
+      userId:contributor,
       date: {
         $gte: startDate,
         $lt: endDate,

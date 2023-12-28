@@ -71,50 +71,78 @@ export const ProjectDetailsPage = () => {
     return Math.ceil(offset / 7);
   };
 
-  const handleDataTransform = (responseObjects) => {
-    const weekDayName = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ];
-  
+  const transformDataForChart = (responseObjects) => {
     if (responseObjects) {
-      const array = responseObjects.map((obj) => {
-        const date = new Date(obj?.date);
-        const month = date.getMonth();
+      const weekDayName = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+  
+      // Grupuj aktywności według dnia tygodnia i numeru tygodnia
+      const groupedData = responseObjects.reduce((acc, obj) => {
+        const date = new Date(obj.date);
+        const selectedMonth = date.getMonth(); // Pobierz miesiąc z daty
+        const selectedYear = date.getFullYear(); // Pobierz rok z daty
+        console.log("Date:", date, "Selected Month:", selectedMonth, "Selected Year:", selectedYear);
+  
         const dayOfWeek = date.getDay();
-        const dayNumber = date.getDate();
-        const object = {
-          month,
-          dayName: weekDayName[dayOfWeek],
-          day: dayNumber
-        };
-  
-        return object;
-      });
-  
-      const groupedObjects = array.reduce((acc, obj) => {
-        const existingGroup = acc.find((group) => group[0]?.day === obj.day);
+        const weekNumber = getWeekNumber(date);
+        console.log("Day of week:", dayOfWeek, "Week number:", weekNumber);
+        const existingGroup = acc.find(
+          (group) => group.dayOfWeek === dayOfWeek && group.weekNumber === weekNumber && group.selectedMonth === selectedMonth && group.selectedYear === selectedYear
+        );
   
         if (existingGroup) {
-          existingGroup.push(obj);
+          existingGroup.count += 1;
         } else {
-          acc.push([obj]);
+          acc.push({
+            dayOfWeek,
+            weekNumber,
+            selectedMonth,
+            selectedYear,
+            count: 1,
+          });
         }
   
         return acc;
       }, []);
   
-      console.log(groupedObjects);
-      return groupedObjects;
+      // Mapuj dane do struktury akceptowanej przez wykres
+      const chartData = weekDayName.map((dayName, index) => {
+        const dayData = groupedData
+          .filter((group) => group.dayOfWeek === index)
+          .sort((a, b) => a.weekNumber - b.weekNumber);
+  
+        return {
+          name: dayName,
+          data: dayData.map((group) => ({
+            x: `Week ${group.weekNumber}`,
+            y: group.count,
+          })),
+        };
+      });
+  
+      return chartData;
     }
+  
+    return [];
   };
+  
+  // Funkcja do pobierania numeru tygodnia z uwzględnieniem strefy czasowej
+  const getWeekNumber = (date) => {
+    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const days = date.getDate() - startOfMonth.getDate() + 1;
+    const weekNumber = Math.ceil(days / 7);
+    return weekNumber;
+  };
+  
 
-  const result = handleDataTransform(projectActivity && projectActivity);
+  const result = transformDataForChart(projectActivity && projectActivity);
   console.log(result);
 
   useEffect(() => {
@@ -238,7 +266,7 @@ export const ProjectDetailsPage = () => {
                       </div>
                     </div>
                     <div className="heatmap">
-                      <HeatMapChart setSelectionOptions={setSelectionOptions} />
+                      <HeatMapChart setSelectionOptions={setSelectionOptions} result={result} />
                     </div>
                   </div>
                 </div>

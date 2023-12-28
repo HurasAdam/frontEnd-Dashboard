@@ -94,7 +94,11 @@ export const ProjectDetailsPage = () => {
         const weekNumber = getWeekNumber(date);
         console.log("Day of week:", dayOfWeek, "Week number:", weekNumber);
         const existingGroup = acc.find(
-          (group) => group.dayOfWeek === dayOfWeek && group.weekNumber === weekNumber && group.selectedMonth === selectedMonth && group.selectedYear === selectedYear
+          (group) =>
+            group.dayOfWeek === dayOfWeek &&
+            group.weekNumber === weekNumber &&
+            group.selectedMonth === selectedMonth &&
+            group.selectedYear === selectedYear
         );
   
         if (existingGroup) {
@@ -118,12 +122,20 @@ export const ProjectDetailsPage = () => {
           .filter((group) => group.dayOfWeek === index)
           .sort((a, b) => a.weekNumber - b.weekNumber);
   
+        // Utwórz tablicę z danymi dla danego dnia, dodając brakujące punkty z y: 0
+        const weekData = Array.from({ length: 4 }, (_, i) => {
+          const dataForWeek = dayData.find((data) => data.weekNumber === i + 1);
+  
+          return {
+            x: `Week ${i + 1}`,
+            y: dataForWeek ? dataForWeek.count : 0,
+            date: dataForWeek ? new Date(dataForWeek.selectedYear, dataForWeek.selectedMonth, i + 1) : null,
+          };
+        });
+  
         return {
           name: dayName,
-          data: dayData.map((group) => ({
-            x: `Week ${group.weekNumber}`,
-            y: group.count,
-          })),
+          data: weekData,
         };
       });
   
@@ -132,6 +144,7 @@ export const ProjectDetailsPage = () => {
   
     return [];
   };
+  
   
   // Funkcja do pobierania numeru tygodnia z uwzględnieniem strefy czasowej
   const getWeekNumber = (date) => {

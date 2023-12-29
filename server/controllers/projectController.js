@@ -53,7 +53,7 @@ const createProject = async (req, res) => {
       })
     },
     );
-    console.log(projectContributorListId)
+
     const project = await Project.create({
       title: title,
       description,
@@ -88,7 +88,7 @@ const getProjectList = async (req, res) => {
   // const defaultPageSize = 10;
   let size = pageSize;
 
-  console.log(size);
+
 
   if (page) {
     const pageNumber = Number(req.query.page);
@@ -121,7 +121,7 @@ const getProjectList = async (req, res) => {
   }
 
   if (membership) {
-    console.log(membership);
+   
     const filteredProjectList = await Project.find({
       contributors: userId,
     }).select("id title");
@@ -170,7 +170,7 @@ const limit = parseInt(defaultPageSize)
      totalTickets = await Note.countDocuments({ project: id });
   }
 
-console.log(ticketsAsigned)
+
 
 
 
@@ -266,7 +266,7 @@ const updateProject = async (req, res) => {
     const projectContributors = await User.find({
       _id: { $in: contributorId },
     }).select("id");
-    console.log(projectContributors);
+
     changes.contributors = projectContributors;
   }
 
@@ -288,7 +288,7 @@ const deleteProject = async (req, res) => {
 
   const result = tickets.filter((ticket) => ticket.project.toString() === id);
 
-  console.log(result.length);
+
   try {
     if (result.length > 0) {
       return res.status(400).json({

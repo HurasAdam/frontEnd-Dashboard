@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./heatMapChart.css";
 import ReactApexChart from "react-apexcharts";
+import { handleCurrentMonth } from "../../utils/handleCurrentMonth";
+export const HeatMapChart = ({
+  selectionOptions,
+  setSelectionOptions,
+  result,
+}) => {
+  const { monthList, currentMonthName } = handleCurrentMonth();
 
-export const HeatMapChart = ({ setSelectionOptions, result }) => {
-  const [month, setMonth] = useState("");
+  const chartTitleRef = useRef();
+  console.log(currentMonthName);
 
   const [state, setState] = useState({
     series: [
@@ -11,8 +18,8 @@ export const HeatMapChart = ({ setSelectionOptions, result }) => {
     ],
     options: {
       chart: {
-        height: 150,
-        width: 200,
+        height: 200,
+        width: 150,
         type: "heatmap",
       },
       dataLabels: {
@@ -22,16 +29,24 @@ export const HeatMapChart = ({ setSelectionOptions, result }) => {
         type: "category",
       },
       title: {
-        text: `${month&&month} contribtions`,
+        text: `${selectionOptions?.month} contribtions`,
+        style: {
+          fontSize: "18px", // Zmiana rozmiaru czcionki
+          color: "white", // Zmiana koloru czcionki
+        },
       },
       plotOptions: {
         heatmap: {
+          radius: 2,
+          enableShades: true,
+          shadeIntensity: 0.8,
+
           colorScale: {
             ranges: [
               {
                 from: 0,
                 to: 0,
-                name: "zero",
+                name: "-",
                 color: "#000000", // Kolor dla y równego 0 (rgb(13, 17, 23))
               },
               {
@@ -65,15 +80,21 @@ export const HeatMapChart = ({ setSelectionOptions, result }) => {
     },
   });
 
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      options: {
+        ...prevState.options,
+        title: {
+          text: `${selectionOptions?.month} contributions`,
+        },
+      },
+    }));
+  }, [selectionOptions]);
+
   return (
     <div className="heatMapChart" id="chart">
-      <ReactApexChart
-        options={state.options}
-        series={result && result}
-        type="heatmap"
-        height={350}
-      />
-      <div>
+            <div>
         <select
           name=""
           id=""
@@ -83,20 +104,27 @@ export const HeatMapChart = ({ setSelectionOptions, result }) => {
             })
           }
         >
-          <option value="January">January</option>
-          <option value="February">February</option>
-          <option value="March">March</option>
-          <option value="April">April</option>
-          <option value="May">May</option>
-          <option value="June">June</option>
-          <option value="July">July</option>
-          <option value="August">August</option>
-          <option value="September">September</option>
-          <option value="October">October</option>
-          <option value="November">November</option>
-          <option value="December">December</option>
+          {monthList &&
+            monthList.map((option, index) => {
+              return (
+                <option
+                  selected={option === currentMonthName}
+                  value={option}
+                  key={index}
+                >
+                  {option}
+                </option>
+              );
+            })}
         </select>
       </div>
+      <ReactApexChart
+        options={state.options}
+        series={result && result}
+        type="heatmap"
+        height={350}
+      />
+
     </div>
   );
 };

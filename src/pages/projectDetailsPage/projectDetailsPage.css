@@ -46,7 +46,6 @@
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
-
 }
 
 .upperSection-left {
@@ -81,28 +80,79 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-.upperSection-left__content .chart-section .contirbutor-section{
-  border: 1px solid green;
-  flex:1;
+.upperSection-left__content .chart-section .contirbutor-section {
+  /* border: 1px solid green; */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contirbutor-section select {
+  margin-bottom: 50px;
 }
 
-.upperSection-left__content .chart-section .heatmap{
-
-flex:1;
+.upperSection-left__content .chart-section .heatmap {
+  flex: 2;
 }
-.upperSection-left__content .chart-section .selectedContributor{
- 
-  width: 95px;
-  height: 95px;
 
+.upperSection-left__content .chart-section .selectedContributor-card {
+  border: 1px solid var(--dark-border);
+  border-radius: 10px;
+  padding: 10px;
+  width: 86%;
+  aspect-ratio: 74 /80;
+  display: flex;
+  justify-content: center;
+}
+
+.upperSection-left__content
+  .chart-section
+  .selectedContributor-item
+  .selectedContributor-details {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 5px;
+
+}
+.selectedContributor-details .details-top {
+
+display: flex;
+justify-content: center;
+
+}
+.selectedContributor-details .details-top span {
+  font-weight: 800;
+  color: var(--dark-medium-badge-color);
+}
+.selectedContributor-details .details-bottom  {
+display: flex;
+justify-content: center;
+
+}
+.selectedContributor-details .details-bottom span  {
+  font-weight: 400;
+  color: rgb(104, 176, 139);
+}
+.selectedContributor-item .selectedContributor-details span {
+  margin-left: 5px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.selectedContributor-avatar {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 30px;
   
 }
-.upperSection-left__content .chart-section .selectedContributor img{
+.upperSection-left__content .chart-section .selectedContributor-avatar img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
 }
-  .upperSection-left__content .chart-section .action {
+.upperSection-left__content .chart-section .action {
   display: flex;
   justify-content: space-between;
 }
@@ -149,7 +199,6 @@ flex:1;
   margin-top: 0.5rem;
 }
 
-
 .content-section__bottom {
   min-height: 190px;
   max-height: max-content;
@@ -184,7 +233,6 @@ flex:1;
 }
 
 .upperSection-right {
-
   flex: 1;
 
   border-radius: 5px;
@@ -192,9 +240,8 @@ flex:1;
   font-weight: 500;
   display: flex;
   flex-direction: column;
-gap:12px;
+  gap: 12px;
   font-size: 0.9rem;
- 
 }
 .upperSection-right .leader-section {
   background: var(--dark-secondary);
@@ -274,7 +321,6 @@ gap:12px;
   background: var(--dark-primary);
   align-items: center;
   flex-wrap: wrap;
-  
 }
 .upperSection-right .started-container {
   border: 1px solid var(--dark-border);
@@ -301,16 +347,15 @@ gap:12px;
 }
 
 .upperSection-right .contributors-section {
- border: 1px solid var(--dark-border);
- background: var(--dark-secondary);
- border-radius: 5px;
+  border: 1px solid var(--dark-border);
+  background: var(--dark-secondary);
+  border-radius: 5px;
   flex: 1;
-  padding:10px;
+  padding: 10px;
 }
-.upperSection-right .contributors-section .header{
-
-margin-bottom: 10px;
-font-weight: 600;
+.upperSection-right .contributors-section .header {
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 .upperSection-right .contributors-section .content {
   display: flex;
@@ -677,20 +722,19 @@ td {
   min-height: 100%;
   max-height: max-content;
   display: flex;
- 
+
   justify-content: center;
   flex-wrap: wrap;
   flex: 1;
 }
-.lowerSection-right .chart-section__bottom .header span{
-
-width: 100%;
-margin-bottom: 20px;
-margin-top: 40px;
-font-weight: 600;
-color:var(--dark-font-color);
-font-size: 20px;
-text-align: center;
+.lowerSection-right .chart-section__bottom .header span {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  font-weight: 600;
+  color: var(--dark-font-color);
+  font-size: 20px;
+  text-align: center;
 }
 .lowerSection-right .header {
   display: flex;

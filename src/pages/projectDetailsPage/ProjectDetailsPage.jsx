@@ -33,6 +33,7 @@ import { formatUnitSize } from "../../utils/formatUnitSize";
 import { PaginationNavbar } from "../../components/PaginationNavBar/PaginationNavbar";
 import { chartConfig } from "../../utils/chartConfig";
 import { HeatMapChart } from "../../components/heatMapChart/HeatMapChart";
+import { handleCurrentMonth } from "../../utils/handleCurrentMonth";
 
 export const ProjectDetailsPage = () => {
   const { theme, dispatch } = useContext(ThemeContext);
@@ -65,12 +66,6 @@ export const ProjectDetailsPage = () => {
     }
   );
 
-  Date.prototype.getWeekOfMonth = function () {
-    var firstDay = new Date(this.getFullYear(), this.getMonth(), 1).getDay();
-    var offset = this.getDate() + firstDay - 1;
-    return Math.ceil(offset / 7);
-  };
-
   const transformDataForChart = (responseObjects) => {
     if (responseObjects) {
       const weekDayName = [
@@ -82,14 +77,21 @@ export const ProjectDetailsPage = () => {
         "Friday",
         "Saturday",
       ];
-  
+
       // Grupuj aktywności według dnia tygodnia i numeru tygodnia
       const groupedData = responseObjects.reduce((acc, obj) => {
         const date = new Date(obj.date);
         const selectedMonth = date.getMonth(); // Pobierz miesiąc z daty
         const selectedYear = date.getFullYear(); // Pobierz rok z daty
-        console.log("Date:", date, "Selected Month:", selectedMonth, "Selected Year:", selectedYear);
-  
+        console.log(
+          "Date:",
+          date,
+          "Selected Month:",
+          selectedMonth,
+          "Selected Year:",
+          selectedYear
+        );
+
         const dayOfWeek = date.getDay();
         const weekNumber = getWeekNumber(date);
         console.log("Day of week:", dayOfWeek, "Week number:", weekNumber);
@@ -100,7 +102,7 @@ export const ProjectDetailsPage = () => {
             group.selectedMonth === selectedMonth &&
             group.selectedYear === selectedYear
         );
-  
+
         if (existingGroup) {
           existingGroup.count += 1;
         } else {
@@ -112,40 +114,45 @@ export const ProjectDetailsPage = () => {
             count: 1,
           });
         }
-  
+
         return acc;
       }, []);
-  
+
       // Mapuj dane do struktury akceptowanej przez wykres
       const chartData = weekDayName.map((dayName, index) => {
         const dayData = groupedData
           .filter((group) => group.dayOfWeek === index)
           .sort((a, b) => a.weekNumber - b.weekNumber);
-  
+
         // Utwórz tablicę z danymi dla danego dnia, dodając brakujące punkty z y: 0
-        const weekData = Array.from({ length: 4 }, (_, i) => {
+        const weekData = Array.from({ length: 5 }, (_, i) => {
           const dataForWeek = dayData.find((data) => data.weekNumber === i + 1);
-  
+
           return {
             x: `Week ${i + 1}`,
             y: dataForWeek ? dataForWeek.count : 0,
-            date: dataForWeek ? new Date(dataForWeek.selectedYear, dataForWeek.selectedMonth, i + 1) : null,
+            date: dataForWeek
+              ? new Date(
+                  dataForWeek.selectedYear,
+                  dataForWeek.selectedMonth,
+                  i + 1
+                )
+              : null,
           };
         });
-  
+
         return {
           name: dayName,
           data: weekData,
         };
       });
-  
+
       return chartData;
     }
-  
+
     return [];
   };
-  
-  
+
   // Funkcja do pobierania numeru tygodnia z uwzględnieniem strefy czasowej
   const getWeekNumber = (date) => {
     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -153,10 +160,8 @@ export const ProjectDetailsPage = () => {
     const weekNumber = Math.ceil(days / 7);
     return weekNumber;
   };
-  
 
   const result = transformDataForChart(projectActivity && projectActivity);
-  console.log(result);
 
   useEffect(() => {
     refetch();
@@ -167,6 +172,11 @@ export const ProjectDetailsPage = () => {
   }, [selectionOptions]);
 
   const buildQueryString = (queryObject) => {
+    if (!queryObject.month) {
+      const { currentMonthName } = handleCurrentMonth();
+      queryObject.month = currentMonthName;
+    }
+
     const queryParams = Object.entries(queryObject)
       .filter(([key, value]) => value !== "" && value !== null)
       .map(([key, value]) => `${key}=${value}`)
@@ -263,23 +273,40 @@ export const ProjectDetailsPage = () => {
                           );
                         })}
                       </select>
-                      <div className="selectedContributor">
+                      <div className="selectedContributor-card">
                         {data?.contributors
                           .filter(
                             (contributor) =>
                               contributor.id === selectionOptions?.contributor
                           )
                           .map((selectedContributor) => (
-                            <img
-                              key={selectedContributor?.id}
-                              src={selectedContributor?.userAvatar.url}
-                              alt={`${selectedContributor?.name} ${selectedContributor?.surname}`}
-                            />
+                            <div className="selectedContributor-item">
+                              <div className="selectedContributor-avatar">
+                                <img
+                                  key={selectedContributor?.id}
+                                  src={selectedContributor?.userAvatar.url}
+                                  alt={`${selectedContributor?.name} ${selectedContributor?.surname}`}
+                                />
+                              </div>
+                              <div className="selectedContributor-details">
+                                <div className="details-top">
+                                  <span>{selectedContributor?.name}</span>
+                                  <span>{selectedContributor?.surname}</span>
+                                </div>
+                                <div className="details-bottom">
+                                  <span>{selectedContributor?.role}</span>
+                                </div>
+                              </div>
+                            </div>
                           ))}
                       </div>
                     </div>
                     <div className="heatmap">
-                      <HeatMapChart setSelectionOptions={setSelectionOptions} result={result} />
+                      <HeatMapChart
+                        selectionOptions={selectionOptions}
+                        setSelectionOptions={setSelectionOptions}
+                        result={result}
+                      />
                     </div>
                   </div>
                 </div>
